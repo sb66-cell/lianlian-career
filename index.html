@@ -1,0 +1,3061 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>连连看 · 职业连连看</title>
+<!-- Self-contained confetti (no CDN dependency) -->
+<script>
+(function() {
+  window.confetti = function(opts) {
+    var defaults = { particleCount: 80, spread: 50, origin: { x: 0.5, y: 0.5 },
+      colors: ['#FF6B6B','#FFB347','#4ECDC4','#6BCB77','#9B59B6','#FF69B4'] };
+    var o = Object.assign({}, defaults, opts || {});
+    var container = document.createElement('div');
+    container.style.cssText = 'position:fixed;inset:0;pointer-events:none;z-index:9999;overflow:hidden;';
+    document.body.appendChild(container);
+    var cx = (o.origin.x || 0.5) * window.innerWidth;
+    var cy = (o.origin.y || 0.5) * window.innerHeight;
+    for (var i = 0; i < o.particleCount; i++) {
+      var p = document.createElement('div');
+      var angle = Math.random() * Math.PI * 2;
+      var distance = (0.3 + Math.random() * 0.7) * (o.spread || 50) * 10;
+      var dx = Math.cos(angle) * distance;
+      var dy = Math.sin(angle) * distance - Math.random() * 400;
+      var size = Math.random() * 10 + 4;
+      var duration = 1 + Math.random() * 2;
+      var delay = Math.random() * 0.4;
+      var color = o.colors[Math.floor(Math.random() * o.colors.length)];
+      var shape = Math.random() > 0.5 ? '50%' : '2px';
+      p.style.cssText = [
+        'position:absolute',
+        'left:' + cx + 'px',
+        'top:' + cy + 'px',
+        'width:' + size + 'px',
+        'height:' + (Math.random() > 0.5 ? size : size * 0.5) + 'px',
+        'background:' + color,
+        'border-radius:' + shape,
+        'opacity:0',
+        'animation:cfBurst ' + duration + 's ease-out ' + delay + 's forwards',
+        '--cf-dx:' + dx + 'px',
+        '--cf-dy:' + dy + 'px',
+        '--cf-rot:' + (Math.random() - 0.5) * 720 + 'deg'
+      ].join(';');
+      container.appendChild(p);
+    }
+    setTimeout(function() { container.remove(); }, 3500);
+  };
+})();
+</script>
+<style>
+@keyframes cfBurst {
+  0% { opacity: 1; transform: translate(0, 0) rotate(0deg); }
+  100% { opacity: 0; transform: translate(var(--cf-dx, 50px), var(--cf-dy, -200px)) rotate(var(--cf-rot, 360deg)); }
+}
+</style>
+<style>
+/* ============================================================
+   CSS DESIGN SYSTEM — 明快·活泼·温暖·积极向上
+   ============================================================ */
+
+/* --- CSS Custom Properties --- */
+:root {
+  /* Primary palette — warm & refined */
+  --color-primary: #F8716B;
+  --color-primary-hover: #EF5A5A;
+  --color-primary-light: #FFF0EE;
+  --color-primary-glow: rgba(248,113,107,0.18);
+
+  /* Secondary accents */
+  --color-amber: #F59E4B;
+  --color-amber-light: #FFF7ED;
+  --color-teal: #14B8A6;
+  --color-teal-light: #F0FDFA;
+  --color-violet: #8B5CF6;
+  --color-violet-light: #F5F3FF;
+  --color-blue: #3B82F6;
+  --color-blue-light: #EFF6FF;
+
+  /* Surfaces & Backgrounds */
+  --color-bg: #FFFBF7;
+  --color-bg-alt: #FFF7ED;
+  --color-card: #FFFFFF;
+  --color-card-hover: #FFFAF5;
+  --color-border: #F0EAE0;
+  --color-border-active: #F8716B;
+
+  /* Text hierarchy */
+  --color-text: #1E293B;
+  --color-text-secondary: #64748B;
+  --color-text-muted: #94A3B8;
+  --color-text-on-primary: #FFFFFF;
+
+  /* Shadows — softer, warmer */
+  --shadow-sm: 0 1px 3px rgba(30,41,59,0.04);
+  --shadow-card: 0 2px 16px rgba(30,41,59,0.06);
+  --shadow-card-hover: 0 8px 30px rgba(30,41,59,0.10);
+  --shadow-button: 0 4px 14px rgba(248,113,107,0.28);
+  --shadow-lg: 0 16px 48px rgba(30,41,59,0.10);
+
+  /* Border radius */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --radius-2xl: 24px;
+  --radius-full: 999px;
+
+  /* Transitions */
+  --ease-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-fast: 0.15s;
+  --transition-normal: 0.3s;
+  --transition-slow: 0.5s;
+}
+
+/* --- Reset & Base --- */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', 'PingFang SC', 'Microsoft YaHei', 'Noto Sans SC', -apple-system, sans-serif;
+  background: linear-gradient(180deg, #FFFBF7 0%, #FFF7ED 40%, #FFF3E5 100%);
+  color: var(--color-text);
+  line-height: 1.7;
+  min-height: 100vh;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* --- Typography --- */
+h1, h2, h3, h4 {
+  font-family: 'Quicksand', 'PingFang SC', 'Noto Sans SC', sans-serif;
+  font-weight: 700;
+  line-height: 1.3;
+}
+h1 { font-size: 2rem; }
+h2 { font-size: 1.5rem; }
+h3 { font-size: 1.2rem; }
+h4 { font-size: 1rem; }
+
+p { margin-bottom: 0.6em; }
+.text-secondary { color: var(--color-text-secondary); font-size: 0.875rem; }
+
+/* --- App Shell --- */
+.app-container {
+  max-width: 720px;
+  margin: 0 auto;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* --- Header / Nav --- */
+.app-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(255,251,247,0.85); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: 12px 20px;
+  border-bottom: 1px solid rgba(44,62,80,0.06);
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Quicksand', 'PingFang SC', sans-serif;
+  font-weight: 700;
+  font-size: 1.25rem;
+  color: var(--color-primary);
+}
+.logo-icon {
+  width: 36px; height: 36px;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-amber));
+  border-radius: var(--radius-md);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.2rem;
+  box-shadow: 0 2px 8px rgba(255,107,107,0.25);
+}
+
+/* --- Phase Indicator --- */
+.phase-indicator {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.phase-dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: #E0D8CC;
+  transition: all var(--transition-normal) var(--ease-bounce);
+}
+.phase-dot.active {
+  background: var(--color-primary);
+  box-shadow: 0 0 8px rgba(255,107,107,0.5);
+  transform: scale(1.3);
+}
+.phase-dot.done {
+  background: var(--color-teal);
+}
+.phase-line {
+  width: 20px; height: 2px;
+  background: #E0D8CC;
+  border-radius: 1px;
+}
+.phase-line.done {
+  background: var(--color-teal);
+}
+
+/* Coin counter */
+.coin-counter {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--color-amber);
+}
+.coin-counter .coin-icon {
+  font-size: 1.2rem;
+  animation: coinBounce 0.5s var(--ease-bounce);
+}
+@keyframes coinBounce {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.5) rotateY(180deg); }
+  100% { transform: scale(1) rotateY(360deg); }
+}
+
+/* --- Main Content --- */
+.main-content {
+  flex: 1;
+  padding: 24px 20px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* --- Cards --- */
+.card {
+  background: var(--color-card);
+  border-radius: var(--radius-xl);
+  padding: 24px;
+  box-shadow: var(--shadow-card);
+  transition: all var(--transition-normal) var(--ease-smooth);
+  animation: cardSlideUp 0.5s var(--ease-bounce);
+  border: 1px solid var(--color-border);
+}
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-card-hover);
+}
+.card.color-top {
+  border-top: 4px solid var(--color-primary);
+  padding-top: 20px;
+}
+.card.color-top.green { border-top-color: var(--color-teal); }
+.card.color-top.blue { border-top-color: var(--color-teal); }
+.card.color-top.purple { border-top-color: var(--color-violet); }
+.card.color-top.yellow { border-top-color: var(--color-amber); }
+
+@keyframes cardSlideUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes cardPopIn {
+  0% { opacity: 0; transform: scale(0.8); }
+  70% { transform: scale(1.04); }
+  100% { opacity: 1; transform: scale(1); }
+}
+.card-pop { animation: cardPopIn 0.6s var(--ease-bounce); }
+
+/* --- Chat Bubbles --- */
+.chat-bubble {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  animation: cardSlideUp 0.4s var(--ease-bounce);
+}
+.chat-bubble.coach { justify-content: flex-start; }
+.chat-bubble.user { justify-content: flex-end; }
+
+.bubble-avatar {
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.3rem;
+}
+.coach .bubble-avatar {
+  background: linear-gradient(135deg, var(--color-primary-light), #FFE0D0);
+}
+.user .bubble-avatar {
+  background: linear-gradient(135deg, var(--color-teal-light), #D4F5F2);
+  order: 2;
+}
+
+.bubble-content {
+  max-width: 85%;
+  padding: 14px 18px;
+  border-radius: var(--radius-xl);
+  line-height: 1.6;
+  font-size: 0.95rem;
+  position: relative;
+}
+.coach .bubble-content {
+  background: var(--color-card);
+  box-shadow: var(--shadow-card);
+  border-bottom-left-radius: var(--radius-sm);
+}
+.user .bubble-content {
+  background: linear-gradient(135deg, var(--color-teal-light), #D4F5F2);
+  border-bottom-right-radius: var(--radius-sm);
+}
+
+/* --- Question Card --- */
+.question-card {
+  background: var(--color-card);
+  border-radius: var(--radius-xl);
+  padding: 28px 24px;
+  box-shadow: var(--shadow-card);
+  border: 1px solid rgba(44,62,80,0.04);
+  animation: cardSlideUp 0.5s var(--ease-bounce);
+}
+.question-number {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 12px;
+  border-radius: var(--radius-full);
+  background: var(--color-primary-light);
+  color: var(--color-primary);
+  font-size: 0.8rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+}
+.question-text {
+  font-size: 1.15rem;
+  font-weight: 600;
+  margin-bottom: 20px;
+  color: var(--color-text);
+  line-height: 1.5;
+}
+
+/* --- Option Cards (big clickable) --- */
+.option-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.option-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 18px;
+  border: 2px solid #EDE8E0;
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  transition: all var(--transition-fast) var(--ease-bounce);
+  background: var(--color-card);
+  font-size: 0.95rem;
+}
+.option-card:hover {
+  border-color: var(--color-primary);
+  background: #FFF5F0;
+  transform: scale(1.02);
+}
+.option-card.selected {
+  border-color: var(--color-primary);
+  background: var(--color-primary-light);
+  box-shadow: 0 0 0 3px rgba(255,107,107,0.12);
+  animation: optionSelect 0.3s var(--ease-bounce);
+}
+@keyframes optionSelect {
+  0% { transform: scale(1); }
+  40% { transform: scale(0.96); }
+  100% { transform: scale(1); }
+}
+.option-card .option-icon {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+.option-card .check-mark {
+  margin-left: auto;
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  border: 2px solid #D0C8C0;
+  display: flex; align-items: center; justify-content: center;
+  transition: all var(--transition-fast) var(--ease-bounce);
+  font-size: 0.7rem;
+  color: transparent;
+}
+.option-card.selected .check-mark {
+  background: var(--color-teal);
+  border-color: var(--color-teal);
+  color: white;
+}
+
+/* Multi-select option (tag style for values question) */
+.tag-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.tag-option {
+  padding: 10px 18px;
+  border: 2px solid #EDE8E0;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all var(--transition-fast) var(--ease-bounce);
+  background: var(--color-card);
+  user-select: none;
+}
+.tag-option:hover {
+  border-color: var(--color-violet);
+  background: var(--color-violet-light);
+}
+.tag-option.selected {
+  background: var(--color-violet);
+  color: white;
+  border-color: var(--color-violet);
+  box-shadow: 0 2px 8px rgba(155,89,182,0.3);
+}
+.tag-option.tag-rec {
+  border-color: var(--color-amber);
+  background: #FFFBF0;
+  border-style: dashed;
+}
+.tag-option.tag-rec:hover {
+  border-color: var(--color-primary);
+  background: var(--color-primary-light);
+}
+
+/* --- Text Input --- */
+.text-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.text-input {
+  width: 100%;
+  padding: 14px 18px;
+  border: 2px solid #EDE8E0;
+  border-radius: var(--radius-md);
+  font-size: 0.95rem;
+  font-family: inherit;
+  resize: vertical;
+  min-height: 80px;
+  background: var(--color-card);
+  color: var(--color-text);
+  transition: all var(--transition-fast) var(--ease-smooth);
+  outline: none;
+}
+.text-input:focus {
+  border-color: var(--color-teal);
+  box-shadow: 0 0 0 4px rgba(78,205,196,0.12);
+}
+.text-input-single {
+  min-height: auto;
+  resize: none;
+}
+
+/* --- Buttons --- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 12px 28px;
+  border-radius: var(--radius-2xl);
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: all var(--transition-fast) var(--ease-bounce);
+  text-decoration: none;
+  user-select: none;
+  white-space: nowrap;
+}
+.btn:hover { transform: scale(1.05); }
+.btn:active { transform: scale(0.95); }
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--color-primary), var(--color-amber));
+  color: white;
+  box-shadow: var(--shadow-button);
+}
+.btn-primary:hover {
+  box-shadow: 0 6px 20px rgba(255,107,107,0.4);
+}
+.btn-outline {
+  background: transparent;
+  border: 2px solid var(--color-primary);
+  color: var(--color-primary);
+}
+.btn-outline:hover {
+  background: var(--color-primary-light);
+}
+.btn-ghost {
+  background: transparent;
+  color: var(--color-text-secondary);
+}
+.btn-ghost:hover {
+  background: #F5F0EA;
+}
+.btn-small {
+  padding: 8px 18px;
+  font-size: 0.85rem;
+}
+
+/* --- Progress Bar --- */
+.progress-bar-wrapper {
+  width: 100%;
+  height: 8px;
+  background: #EDE8E0;
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+.progress-bar-fill {
+  height: 100%;
+  border-radius: var(--radius-full);
+  background: linear-gradient(90deg, var(--color-primary), var(--color-amber), var(--color-violet));
+  background-size: 200% 100%;
+  animation: progressShimmer 2s linear infinite;
+  transition: width 0.5s var(--ease-bounce);
+}
+@keyframes progressShimmer {
+  0% { background-position: 100% 0; }
+  100% { background-position: -100% 0; }
+}
+
+/* --- Flash Card (Phase 1 result) --- */
+.flash-card {
+  background: linear-gradient(135deg, #FFFFFF, #FFF8F0);
+  border: 2px solid var(--color-amber);
+  border-radius: var(--radius-xl);
+  padding: 28px 24px;
+  box-shadow: 0 8px 32px rgba(255,107,107,0.12);
+  animation: cardPopIn 0.7s var(--ease-bounce);
+  position: relative;
+  overflow: hidden;
+}
+.flash-card::before {
+  content: '';
+  position: absolute;
+  top: -40px; right: -40px;
+  width: 120px; height: 120px;
+  background: radial-gradient(circle, rgba(255,179,71,0.2), transparent);
+  border-radius: 50%;
+}
+.flash-card h3 {
+  color: var(--color-primary);
+  margin-bottom: 16px;
+  font-size: 1.3rem;
+}
+.flash-section {
+  margin-bottom: 12px;
+  padding-left: 8px;
+}
+.flash-section .label {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+}
+.flash-section .tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.flash-tag {
+  padding: 4px 12px;
+  border-radius: var(--radius-full);
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+.flash-tag.ability { background: #E0F7E3; color: #2E7D32; }
+.flash-tag.passion { background: #FFF0E0; color: #E65100; }
+.flash-tag.style { background: #D4F5F2; color: #00695C; }
+.flash-tag.drive { background: #F0E4F6; color: #6A1B9A; }
+
+/* --- Venn Diagram (Phase 2) --- */
+.venn-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  padding: 8px 0;
+}
+.venn-svg {
+  width: 100%;
+  max-width: 420px;
+  height: auto;
+}
+.venn-circle {
+  transition: all 0.6s var(--ease-bounce);
+}
+
+/* Ratio Sliders */
+.ratio-slider-group {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  width: 100%;
+}
+.ratio-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.ratio-label {
+  width: 100px;
+  font-weight: 700;
+  font-size: 0.85rem;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.ratio-slider {
+  flex: 1;
+  -webkit-appearance: none;
+  height: 8px;
+  border-radius: var(--radius-full);
+  background: #EDE8E0;
+  outline: none;
+}
+.ratio-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  transition: transform 0.2s var(--ease-bounce);
+}
+.ratio-slider::-webkit-slider-thumb:hover { transform: scale(1.2); }
+.ratio-slider.want::-webkit-slider-thumb { background: var(--color-teal); }
+.ratio-slider.good::-webkit-slider-thumb { background: var(--color-teal); }
+.ratio-slider.money::-webkit-slider-thumb { background: var(--color-amber); }
+.ratio-value {
+  width: 44px;
+  text-align: center;
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+/* Preset cards */
+.preset-group {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 10px;
+}
+.preset-card {
+  padding: 16px;
+  border-radius: var(--radius-lg);
+  border: 2px solid #EDE8E0;
+  cursor: pointer;
+  transition: all var(--transition-fast) var(--ease-bounce);
+  text-align: center;
+  background: var(--color-card);
+}
+.preset-card:hover {
+  border-color: var(--color-violet);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-card);
+}
+.preset-card.selected {
+  border-color: var(--color-violet);
+  background: var(--color-violet-light);
+  box-shadow: 0 0 0 3px rgba(155,89,182,0.12);
+}
+.preset-name {
+  font-weight: 700;
+  font-size: 1rem;
+  margin-bottom: 4px;
+}
+.preset-ratio {
+  font-size: 0.85rem;
+  color: var(--color-text-secondary);
+}
+
+/* --- Job Connect Card (Phase 3) --- */
+.job-card {
+  background: var(--color-card);
+  border-radius: var(--radius-xl);
+  padding: 24px;
+  box-shadow: var(--shadow-card);
+  border: 1px solid rgba(44,62,80,0.05);
+  animation: cardSlideUp 0.5s var(--ease-bounce);
+  position: relative;
+  overflow: hidden;
+}
+.job-card .connect-line {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+  font-size: 0.85rem;
+  color: var(--color-text-secondary);
+}
+.connect-line .ability-tag {
+  background: var(--color-blue-light);
+  color: #2E7D32;
+  padding: 2px 10px;
+  border-radius: var(--radius-full);
+  font-weight: 600;
+}
+.connect-line .arrow {
+  color: var(--color-primary);
+  font-weight: 700;
+  animation: arrowPulse 1.5s infinite;
+}
+@keyframes arrowPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+.connect-line .job-name {
+  background: var(--color-primary-light);
+  color: var(--color-primary);
+  padding: 2px 10px;
+  border-radius: var(--radius-full);
+  font-weight: 700;
+}
+
+/* Job card sections */
+.job-section {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid #F0EBE0;
+}
+.job-section-title {
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: var(--color-text-secondary);
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Tag system for job cards */
+.tag-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 4px;
+}
+.tag-pill {
+  padding: 5px 12px;
+  border-radius: var(--radius-full);
+  font-size: 0.8rem;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+}
+.tag-trend { background: #FFE0D0; color: #D84315; }
+.tag-city { background: #D4F5F2; color: #00695C; }
+.tag-special { background: #E8E0F0; color: #4A148C; }
+.tag-beginner { background: #E0F7E3; color: #2E7D32; }
+.tag-skill { background: #FFF9C4; color: #F57F17; }
+.tag-mode { background: #F5F0FF; color: #6A1B9A; }
+.tag-warning { background: #FFECEC; color: #C62828; }
+
+/* Star rating */
+.star-rating {
+  display: inline-flex;
+  gap: 2px;
+  font-size: 1.1rem;
+}
+.star-rating .star-filled { color: var(--color-amber); }
+.star-rating .star-empty { color: #E0D8CC; }
+
+/* --- Timeline (14-day plan) --- */
+.timeline {
+  position: relative;
+  padding-left: 28px;
+}
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 10px;
+  top: 8px;
+  bottom: 8px;
+  width: 3px;
+  background: linear-gradient(to bottom, var(--color-primary), var(--color-teal));
+  border-radius: 2px;
+}
+.timeline-item {
+  position: relative;
+  margin-bottom: 20px;
+  padding-left: 12px;
+}
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  left: -22px;
+  top: 6px;
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  border: 3px solid var(--color-primary);
+  background: white;
+  transition: all var(--transition-fast) var(--ease-bounce);
+}
+.timeline-item.done::before {
+  background: var(--color-teal);
+  border-color: var(--color-teal);
+}
+.timeline-period {
+  font-weight: 700;
+  color: var(--color-primary);
+  font-size: 0.85rem;
+  margin-bottom: 2px;
+}
+
+/* --- Comparison Table --- */
+.compare-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 0.85rem;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+}
+.compare-table th {
+  background: #FFF5F0;
+  padding: 10px 12px;
+  text-align: left;
+  font-weight: 700;
+  font-size: 0.8rem;
+  color: var(--color-text-secondary);
+}
+.compare-table td {
+  padding: 10px 12px;
+  border-top: 1px solid #F0EBE0;
+  background: white;
+}
+.compare-table tr:hover td {
+  background: #FFFBF5;
+}
+
+/* --- Celebration Overlay --- */
+.celebration-toast {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  background: white;
+  border-radius: var(--radius-xl);
+  padding: 32px 40px;
+  text-align: center;
+  box-shadow: 0 16px 48px rgba(44,62,80,0.2);
+  z-index: 1000;
+  animation: toastPopIn 0.5s var(--ease-bounce) forwards;
+  pointer-events: none;
+}
+@keyframes toastPopIn {
+  0% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
+  70% { transform: translate(-50%, -50%) scale(1.08); opacity: 1; }
+  100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+}
+.celebration-toast.dismiss {
+  animation: toastPopOut 0.4s var(--ease-smooth) forwards;
+}
+@keyframes toastPopOut {
+  to { transform: translate(-50%, -50%) scale(0); opacity: 0; }
+}
+.celebration-emoji {
+  font-size: 3rem;
+  margin-bottom: 12px;
+  animation: coinBounce 0.8s var(--ease-bounce) infinite;
+}
+.celebration-text {
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--color-text);
+}
+
+/* --- Utility --- */
+.text-center { text-align: center; }
+.mt-8 { margin-top: 8px; }
+.mt-12 { margin-top: 12px; }
+.mt-16 { margin-top: 16px; }
+.mt-20 { margin-top: 20px; }
+.mt-24 { margin-top: 24px; }
+.mb-8 { margin-bottom: 8px; }
+.mb-16 { margin-bottom: 16px; }
+.gap-8 { gap: 8px; }
+.flex-center { display: flex; align-items: center; justify-content: center; }
+.flex-between { display: flex; align-items: center; justify-content: space-between; }
+.flex-wrap { flex-wrap: wrap; }
+.hidden { display: none !important; }
+
+/* --- Responsive --- */
+@media (max-width: 600px) {
+  .app-container { max-width: 100%; }
+  .main-content { padding: 16px 12px 24px; }
+  .card, .question-card, .job-card { padding: 18px 16px; border-radius: var(--radius-lg); }
+  .flash-card { padding: 20px 16px; }
+  h1 { font-size: 1.5rem; }
+  h2 { font-size: 1.25rem; }
+  .preset-group { grid-template-columns: 1fr; }
+  .bubble-content { max-width: 90%; font-size: 0.9rem; }
+  .option-card { padding: 12px 14px; font-size: 0.88rem; }
+  .tag-option { padding: 8px 14px; font-size: 0.82rem; }
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #D0C8C0; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #B0A8A0; }
+
+
+/* --- v2 Components --- */
+.stepped-progress{display:flex;align-items:center;justify-content:center;gap:0;max-width:540px;margin:8px auto 0;padding:0 8px}
+.step-node{display:flex;flex-direction:column;align-items:center;gap:3px}
+.step-dot{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700;background:#F0EAE0;color:var(--color-text-muted);transition:all var(--transition-normal) var(--ease-bounce);z-index:2}
+.step-dot.active{background:var(--color-primary);color:#fff;box-shadow:0 0 0 4px var(--color-primary-glow);transform:scale(1.1)}
+.step-dot.done{background:var(--color-teal);color:#fff}
+.step-label{font-size:.62rem;font-weight:600;color:var(--color-text-muted);white-space:nowrap;transition:color var(--transition-normal)}
+.step-label.active{color:var(--color-primary);font-weight:700}
+.step-label.done{color:var(--color-teal)}
+.step-connector{flex:0 1 36px;height:3px;background:#F0EAE0;margin:0 1px 17px;border-radius:2px;transition:background var(--transition-normal);min-width:12px}
+.step-connector.done{background:var(--color-teal)}
+.step-connector.active{background:linear-gradient(90deg,var(--color-teal),var(--color-primary))}
+.progress-bar-wrapper{width:100%;max-width:540px;margin:4px auto 0;height:3px;background:#F0EAE0;border-radius:var(--radius-full);overflow:hidden}
+.progress-bar-fill{height:100%;border-radius:var(--radius-full);background:linear-gradient(90deg,var(--color-primary),var(--color-amber),var(--color-violet));background-size:200% 100%;animation:progressShimmer 2.5s linear infinite;transition:width .6s var(--ease-bounce)}
+@keyframes progressShimmer{0%{background-position:100% 0}100%{background-position:-100% 0}}
+.phase-indicator{display:none}
+.industry-tree{display:flex;flex-direction:column;gap:6px}
+.tree-category{border:1px solid var(--color-border);border-radius:var(--radius-lg);overflow:hidden;transition:all var(--transition-fast);background:var(--color-card)}
+.tree-category.expanded{border-color:var(--color-primary);box-shadow:var(--shadow-sm)}
+.tree-cat-header{display:flex;align-items:center;gap:10px;padding:12px 16px;cursor:pointer;user-select:none}
+.tree-cat-header:hover{background:var(--color-bg-alt)}
+.tree-cat-icon{font-size:1.3rem;flex-shrink:0}
+.tree-cat-name{font-weight:700;font-size:.95rem;flex:1}
+.tree-cat-count{font-size:.75rem;color:var(--color-text-muted)}
+.tree-cat-arrow{transition:transform var(--transition-normal);font-size:.7rem;color:var(--color-text-muted)}
+.tree-category.expanded .tree-cat-arrow{transform:rotate(180deg)}
+.tree-sub-list{display:none;padding:4px 12px 12px 44px;flex-wrap:wrap;gap:6px}
+.tree-category.expanded .tree-sub-list{display:flex}
+.tree-sub-tag{padding:6px 14px;border:1.5px solid var(--color-border);border-radius:var(--radius-full);font-size:.82rem;cursor:pointer;transition:all var(--transition-fast) var(--ease-bounce);background:var(--color-card);user-select:none}
+.tree-sub-tag:hover{border-color:var(--color-primary);background:var(--color-primary-light)}
+.tree-sub-tag.selected{background:var(--color-primary);color:#fff;border-color:var(--color-primary);box-shadow:0 2px 8px var(--color-primary-glow)}
+.tag-option.tag-rec{border-color:var(--color-amber);background:#FFFBF0;border-style:dashed}
+.score-stars{display:inline-flex;gap:2px;cursor:pointer}
+.score-stars .star{font-size:1.3rem;transition:transform var(--transition-fast) var(--ease-bounce);color:#E0D8CC}
+.score-stars .star.active{color:var(--color-amber)}
+.score-stars .star:hover{transform:scale(1.2)}
+.deep-dive{margin-top:16px;border:2px dashed var(--color-border);border-radius:var(--radius-lg);overflow:hidden;animation:cardSlideUp .4s var(--ease-bounce);background:var(--color-bg-alt)}
+.deep-dive-header{padding:14px 18px;background:linear-gradient(135deg,var(--color-primary-light),var(--color-amber-light));font-weight:700;font-size:.9rem;display:flex;align-items:center;gap:6px}
+.deep-dive-body{padding:16px 18px;display:flex;flex-direction:column;gap:14px}
+.dd-section-title{font-weight:700;font-size:.82rem;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;display:flex;align-items:center;gap:4px}
+.dd-table{width:100%;border-collapse:collapse;font-size:.8rem;border-radius:var(--radius-md);overflow:hidden;box-shadow:var(--shadow-sm)}
+.dd-table th{background:var(--color-bg-alt);padding:8px 10px;text-align:left;font-weight:700;font-size:.75rem;color:var(--color-text-secondary)}
+.dd-table td{padding:8px 10px;border-top:1px solid var(--color-border);background:var(--color-card)}
+.dd-table tr:hover td{background:var(--color-bg-alt)}
+.dd-cert-tag{padding:5px 10px;border-radius:var(--radius-full);font-size:.78rem;font-weight:600}
+.dd-cert-tag.must{background:#FEF3C7;color:#92400E}
+.dd-cert-tag.optional{background:#F0FDFA;color:#0F766E}
+.dd-path-step{display:flex;align-items:flex-start;gap:10px;padding:8px 0}
+.dd-path-num{width:26px;height:26px;border-radius:50%;background:var(--color-primary);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.78rem;flex-shrink:0}
+.star-rating{display:inline-flex;gap:2px;font-size:1.1rem}
+.star-rating .star-filled{color:var(--color-amber)}
+.star-rating .star-empty{color:#E0D8CC}
+.compare-modal-overlay{display:none;position:fixed;inset:0;background:rgba(30,41,59,.5);z-index:1000;align-items:center;justify-content:center;padding:20px}
+.compare-modal-overlay.show{display:flex}
+.compare-modal{background:var(--color-card);border-radius:var(--radius-2xl);max-width:900px;width:100%;max-height:85vh;overflow-y:auto;padding:28px 24px;box-shadow:var(--shadow-lg);animation:cardPopIn .4s var(--ease-bounce)}
+.compare-table-wide{width:100%;border-collapse:collapse;font-size:.82rem}
+.compare-table-wide th{background:var(--color-bg-alt);padding:10px 12px;text-align:left;font-weight:700;font-size:.78rem;color:var(--color-text-secondary);position:sticky;top:0}
+.compare-table-wide td{padding:10px 12px;border-top:1px solid var(--color-border);vertical-align:top}
+.compare-table-wide tr:hover td{background:var(--color-bg-alt)}
+.compare-checkbox{display:inline-flex;align-items:center;gap:4px;padding:6px 12px;border-radius:var(--radius-full);border:2px solid var(--color-border);cursor:pointer;font-size:.82rem;transition:all var(--transition-fast) var(--ease-bounce)}
+.compare-checkbox.checked{border-color:var(--color-violet);background:var(--color-violet-light);color:var(--color-violet);font-weight:600}
+.odyssey-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
+.odyssey-card{padding:20px 16px;border-radius:var(--radius-xl);text-align:center;transition:transform var(--transition-fast) var(--ease-bounce);border:2px solid var(--color-border)}
+.odyssey-card:hover{transform:translateY(-3px)}
+.odyssey-card.path-a{border-color:var(--color-primary);background:var(--color-primary-light)}
+.odyssey-card.path-b{border-color:var(--color-teal);background:var(--color-teal-light)}
+.odyssey-card.path-c{border-color:var(--color-violet);background:var(--color-violet-light)}
+@media print{body{background:#fff!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}.app-header,.btn,.score-stars,.deep-dive,.celebration-toast,.progress-bar-wrapper,.stepped-progress{display:none!important}.main-content{padding:0!important}.card,.job-card,.flash-card{box-shadow:none!important;border:1px solid #ddd!important;break-inside:avoid}.flash-card{border-color:#F8716B!important}h3{font-size:1.1rem!important}.tag-pill,.flash-tag{border:1px solid #ddd!important}}
+</style>
+</head>
+<body>
+
+<div class="app-container">
+  <!-- Header -->
+  <header class="app-header">
+    <div class="header-inner">
+      <div class="logo">
+        <div class="logo-icon">🔗</div>
+        <span>连连看</span>
+      </div>
+      <div class="stepped-progress" id="steppedProgress"><div class="step-node" data-step="1"><div class="step-dot active">1</div><div class="step-label active">✨ 闪光挖掘</div></div><div class="step-connector"></div><div class="step-node" data-step="2"><div class="step-dot">2</div><div class="step-label">🌳 行业探索</div></div><div class="step-connector"></div><div class="step-node" data-step="3"><div class="step-dot">3</div><div class="step-label">⚗️ 三圈配方</div></div><div class="step-connector"></div><div class="step-node" data-step="4"><div class="step-dot">4</div><div class="step-label">🔗 连连看</div></div></div>
+    <div style="max-width:540px;margin:6px auto 0;position:relative;">
+      <div class="progress-bar-wrapper" style="margin:0;"><div class="progress-bar-fill" id="globalProgress" style="width:0%"></div></div>
+      <span id="progressMascot" style="position:absolute;top:-18px;font-size:1.1rem;transition:left 0.6s var(--ease-bounce);left:0%;">🦊</span>
+      <span id="progressPct" style="display:block;text-align:right;font-size:0.7rem;font-weight:700;color:var(--color-primary);margin-top:2px;">0%</span>
+    </div>
+    <div class="phase-indicator" id="phaseIndicator" style="display:none;">
+      <div class="coin-counter">
+        <span>🪙</span>
+        <span id="coinCount">0</span>
+      </div>
+    </div>
+    </header>
+
+  <!-- Main Content -->
+  <main class="main-content" id="mainContent">
+    <!-- Dynamically rendered -->
+  </main>
+</div>
+
+<!-- Celebration Toast -->
+<div class="celebration-toast hidden" id="celebrationToast">
+  <div class="celebration-emoji" id="toastEmoji">🎉</div>
+  <div class="celebration-text" id="toastText"></div>
+</div>
+
+<div class="compare-modal-overlay" id="compareModalOverlay" onclick="closeCompareModal(event)"><div class="compare-modal" id="compareModal" onclick="event.stopPropagation()"><div class="flex-between mb-16"><h3>🔍 岗位对比</h3><button class="btn btn-small btn-ghost" onclick="closeCompareModal()">✕ 关闭</button></div><div id="compareModalBody"></div></div></div>
+
+<script>
+// ============================================================
+//  连连看 · 职业连连看 — JAVASCRIPT APPLICATION
+// ============================================================
+
+// ============ STATE MANAGEMENT ============
+const state = {
+  phase: 'welcome',       // welcome | phase1 | phase1_flash | phase2 | phase2_result | phase3 | final
+  questionIndex: 0,        // 0-7 for Phase 1
+  phase2Step: 'fill',      // fill | ratio | result
+  phase3Step: 'intro',     // intro | cards | table | timeline
+  coins: 0,
+};
+
+const profile = {
+  // Phase 1
+  flowMoment: '',
+  energyTendency: [],
+  values: [],
+  strengthSignal: '',
+  achievementSnapshot: '',
+  personalityIE: '',
+  personalityTF: '',
+  idealWorkday: '',
+  major: '',
+  workYears: '',
+  currentCity: '',
+  targetCity: '',
+
+  // Phase 1 output
+  flashCard: null,
+
+  // Phase 2
+  wantToDo: '',
+  goodAt: '',
+  moneyDirections: [],
+  ratioPreset: '',
+  ratioCustom: { want: 0, good: 0, money: 0 },
+
+  // Phase 3
+  recommendedJobs: [],
+};
+
+// ============ CONSTANTS ============
+const PHASE1_QUESTIONS = [
+  {
+    id: 'flowMoment',
+    type: 'text',
+    number: 1,
+    emoji: '🕒',
+    title: '过去一个月里，做什么事情的时候你最投入、完全注意不到时间？',
+    subtitle: '哪怕只是一件很小的事，比如组装家具、写日记、研究某个话题...',
+    placeholder: '说说你的心流时刻吧～',
+    coinLabel: '心流金币',
+  },
+  {
+    id: 'energyTendency',
+    type: 'multiChoice',
+    number: 2,
+    emoji: '🧭',
+    title: '如果必须选，你更享受哪种类型的活动？（可多选）',
+    subtitle: '选最让你有能量的，不用想太多～',
+    options: [
+      { value: 'A', icon: '💬', label: '与人深度交流', desc: '倾听、共情、深度对话' },
+      { value: 'B', icon: '🧩', label: '独自分析复杂信息', desc: '研究、逻辑推理、数据挖掘' },
+      { value: 'C', icon: '🔧', label: '动手创造或制作', desc: '搭建、编程、手作实物' },
+      { value: 'D', icon: '📋', label: '策划统筹活动', desc: '组织、协调、推进项目落地' },
+      { value: 'E', icon: '🎨', label: '自由艺术表达', desc: '写作、绘画、设计、音乐' },
+    ],
+    coinLabel: '能量金币',
+  },
+  {
+    id: 'values',
+    type: 'tags',
+    number: 3,
+    emoji: '💎',
+    title: '目前对你最重要的三个价值观是什么？',
+    subtitle: '请选出你内心最看重的 3 个',
+    maxSelect: 3,
+    options: [
+      '自主独立', '经济回报', '社会影响', '人际关系',
+      '学习成长', '稳定安全', '创新创造', '工作生活平衡',
+    ],
+    coinLabel: '价值观金币',
+  },
+  {
+    id: 'strengthSignal',
+    type: 'text',
+    number: 4,
+    emoji: '🌟',
+    title: '别人经常夸你什么？或者总向你请教哪类问题？',
+    subtitle: '有时候我们自己看不到的优势，别人看得最清楚～',
+    placeholder: '比如：朋友总找你帮忙分析感情问题、同事常请教你PPT技巧...',
+    coinLabel: '优势金币',
+  },
+  {
+    id: 'achievementSnapshot',
+    type: 'text',
+    number: 5,
+    emoji: '🏆',
+    title: '用三句话讲一个你过去的小成就',
+    subtitle: '你做了什么？克服了什么困难？结果怎样？不用很大，真实就好～',
+    placeholder: '比如：大学时我发起了读书打卡群，从最初的3个人发展到50人，坚持了100天...',
+    coinLabel: '成就金币',
+  },
+  {
+    id: 'personality',
+    type: 'dualChoice',
+    number: 6,
+    emoji: '🧩',
+    title: '快速性格倾向——更接近哪一种？',
+    subtitle: '凭第一感觉选就好，这不是科学测试，只是帮连连更了解你～',
+    questionA: '你在哪种状态下更容易恢复精力？',
+    optionsA: [
+      { value: 'I', icon: '🏠', label: '独处时充电', desc: '一个人看书、散步、思考' },
+      { value: 'E', icon: '🎉', label: '社交时充电', desc: '和朋友聚会、聊天、热闹场合' },
+    ],
+    questionB: '做重要决定时，你更依赖什么？',
+    optionsB: [
+      { value: 'T', icon: '🧠', label: '逻辑分析', desc: '数据、利弊、客观推理' },
+      { value: 'F', icon: '💛', label: '人的感受', desc: '价值观、人际关系、和谐度' },
+    ],
+    coinLabel: '性格金币',
+  },
+  {
+    id: 'idealWorkday',
+    type: 'text',
+    number: 7,
+    emoji: '🖼',
+    title: '你理想的工作日是怎样的画面？',
+    subtitle: '闭上眼睛想象一下：在哪里、和谁、在做什么？',
+    placeholder: '比如：在明亮的窗边独立专注地写作，偶尔和团队远程交流创意...',
+    coinLabel: '理想日金币',
+  },
+  {
+    id: 'background',
+    type: 'backgroundForm',
+    number: 8,
+    emoji: '📋',
+    title: '最后，让连连了解一下你的背景～',
+    subtitle: '这些信息帮我更精准地为你连线',
+    fields: ['major', 'workYears', 'currentCity', 'targetCity'],
+    coinLabel: '背景金币',
+  },
+];
+
+const VALUE_LABEL_MAP = {
+  '自主独立': { icon: '🕊️', color: '#4ECDC4' },
+  '经济回报': { icon: '💰', color: '#FFB347' },
+  '社会影响': { icon: '🌍', color: '#9B59B6' },
+  '人际关系': { icon: '🤝', color: '#FF6B6B' },
+  '学习成长': { icon: '📚', color: '#6BCB77' },
+  '稳定安全': { icon: '🏰', color: '#5DADE2' },
+  '创新创造': { icon: '💡', color: '#FFB347' },
+  '工作生活平衡': { icon: '⚖️', color: '#4ECDC4' },
+};
+
+const RATIO_PRESETS = [
+  {
+    id: 'passion',
+    name: '🔷 热情探索型',
+    desc: '强调做真正心动的事',
+    ratio: { want: 50, good: 20, money: 30 },
+    color: '#6BCB77',
+  },
+  {
+    id: 'advantage',
+    name: '🔶 优势变现型',
+    desc: '最大化利用现有技能快速获得经济回报',
+    ratio: { want: 20, good: 50, money: 30 },
+    color: '#4ECDC4',
+  },
+  {
+    id: 'balanced',
+    name: '🔷 均衡发展型',
+    desc: '三者兼顾，稳步向前',
+    ratio: { want: 33, good: 34, money: 33 },
+    color: '#9B59B6',
+  },
+  {
+    id: 'practical',
+    name: '🟣 务实起步型',
+    desc: '优先考虑市场需求和收入，积累资本后再追热情',
+    ratio: { want: 10, good: 30, money: 60 },
+    color: '#FFB347',
+  },
+];
+
+// ============ CAREER DATABASE ============
+const CAREER_DB = [
+  {
+    id: 'ai_product',
+    name: 'AI 产品经理',
+    aliases: ['人工智能产品经理', 'AIGC产品', '智能产品经理'],
+    matchAbilities: ['逻辑分析', '用户洞察', '结构化思维', '跨部门沟通'],
+    matchInterests: ['科技', '创造', '解决问题'],
+    matchValues: ['创新创造', '学习成长', '经济回报'],
+    workContent: [
+      '定义AI产品的核心功能与用户场景，撰写PRD',
+      '协调算法、工程、设计团队推进产品迭代',
+      '跟踪AI行业趋势与竞品动态，制定产品策略',
+    ],
+    salary: '应届15-25K·14薪，初级25-40K（一线城市），基础+绩效+期权',
+    skillGap: '需要补充基础AI/ML知识、数据分析（SQL/Python）、原型设计工具。建议路径：Coursera AI产品课程 → 动手做一个小AI工具原型',
+    // Tags
+    trend: '⭐ 时代风口 · 人工智能+列入十五五规划核心方向，头部VC近两年AI应用层投资密集',
+    cities: '北京（中关村/望京）⭐ | 深圳（南山/前海）| 杭州（未来科技城）',
+    special: '部分AI应用层企业为"专精特新"认定，享受人才落户加分',
+    community: '👍 成长快、接触前沿技术 | ⚠️ 节奏极快，需持续学习否则易被淘汰。脉脉/牛客高频评价："适合想快速积累经验的人"',
+    beginnerStars: 3,
+    beginnerNote: '对AI产品有一定理解门槛，但有系统培训的公司逐渐增多',
+    skillTransferStars: 4,
+    skillTransferNote: '如果已有产品思维、用户研究、数据分析基础，可直接复用核心框架',
+    prototype: '本周内在即刻/小红书搜索3位AI产品经理，看他们分享的日常工作；用ChatGPT体验一个AI产品，拆解它的核心功能逻辑',
+  },
+  {
+    id: 'ux_designer',
+    name: '用户体验设计师（UX/UI）',
+    aliases: ['交互设计师', '体验设计师', '产品设计师'],
+    matchAbilities: ['共情能力', '视觉审美', '逻辑思维', '用户洞察'],
+    matchInterests: ['设计', '心理学', '创造', '美学'],
+    matchValues: ['创新创造', '人际关系', '学习成长'],
+    workContent: [
+      '通过用户研究与数据分析，洞察用户痛点与需求',
+      '设计产品交互流程与界面视觉方案，输出高保真原型',
+      '与产品和工程团队协作，推动体验方案落地并追踪效果',
+    ],
+    salary: '应届12-20K·14薪，初级18-28K（一线城市），基础+绩效',
+    skillGap: '需掌握Figma/Sketch、用户研究方法论、基础交互原则。路径：Coursera Google UX证书 → 完成3个Redesign练习项目',
+    trend: '⭐ 数字经济核心岗位，十五五规划推动产业数字化，UX需求持续增长',
+    cities: '深圳（南山设计集群）⭐ | 杭州（电商/互联网设计中心）| 上海（外企/品牌设计）',
+    special: '工业设计/数字设计类企业有"专精特新"认定',
+    community: '👍 创意发挥空间大，作品集驱动求职 | ⚠️ 初级岗位竞争激烈，需有差异化作品。小红书/站酷高频："作品集是关键"',
+    beginnerStars: 4,
+    beginnerNote: '有完善的设计培训体系和海量在线资源，转行路径成熟',
+    skillTransferStars: 4,
+    skillTransferNote: '审美能力、共情力、逻辑思考可直接迁移到UX设计流程中',
+    prototype: '选择一款你常用的APP，用纸笔重新设计它的一个页面交互流程；查阅Google UX证书第一课（免费试听）',
+  },
+  {
+    id: 'content_creator',
+    name: '内容策划 / 新媒体运营',
+    aliases: ['内容运营', '新媒体主编', '品牌内容经理', '短视频策划'],
+    matchAbilities: ['文字表达', '创意策划', '网感', '共情能力'],
+    matchInterests: ['表达', '社交', '创意', '热点追踪'],
+    matchValues: ['创新创造', '人际关系', '社会影响'],
+    workContent: [
+      '策划并撰写品牌/个人IP在各平台的内容选题与脚本',
+      '分析内容数据（阅读量/互动/转化），优化内容策略',
+      '研究平台算法变化与内容趋势，持续迭代表达方式',
+    ],
+    salary: '应届8-15K，初级15-25K（一线城市），基础+绩效+爆款奖金',
+    skillGap: '需掌握短视频拍剪基础、各平台运营规则、数据分析思维。路径：运营一个自己的小红书/抖音号3个月 → 做出1000粉作为作品集',
+    trend: '⭐ 数字经济/文化出海列入十五五规划支持领域，内容产业持续扩大',
+    cities: '杭州（直播/内容之都）⭐ | 成都（生活成本低+内容生态好）| 广州（跨境电商内容）',
+    special: '部分文化出海/MCN企业为"专精特新"',
+    community: '👍 入行门槛低、创意空间大、可发展个人IP | ⚠️ 工作强度大、热点压力、薪资天花板需突破。脉脉高频："做好个人IP才是护城河"',
+    beginnerStars: 5,
+    beginnerNote: '几乎零门槛入行，有账号实操经验即可求职，大量初级岗位',
+    skillTransferStars: 5,
+    skillTransferNote: '文字能力、审美、网感、共情力都是内容岗核心能力，高度可复用',
+    prototype: '选一个你感兴趣的话题，写一篇小红书笔记发布，观察24小时数据反馈',
+  },
+  {
+    id: 'data_analyst',
+    name: '数据分析师',
+    aliases: ['商业分析师', 'BI分析师', '数据产品分析师'],
+    matchAbilities: ['逻辑推理', '结构化思维', '好奇心', '问题拆解'],
+    matchInterests: ['数据', '洞察', '商业', '解决难题'],
+    matchValues: ['学习成长', '经济回报', '自主独立'],
+    workContent: [
+      '从业务问题出发，设计数据分析框架与指标体系',
+      '使用SQL/Python/BI工具提取、清洗和可视化数据',
+      '输出分析报告，为业务决策提供数据依据',
+    ],
+    salary: '应届12-18K·14薪，初级20-35K（一线城市），基础+绩效',
+    skillGap: '需掌握SQL、Python基础、Tableau/PowerBI。路径：数据Camp SQL基础课 → Kaggle完成3个入门项目 → 做一个行业分析报告',
+    trend: '⭐ 数据要素市场建设纳入十五五规划，各行业数字化带来持续需求',
+    cities: '北京（互联网/金融总部）⭐ | 深圳（科技企业密集）| 上海（外企/金融）',
+    special: '大数据/BI类企业有"专精特新"认定',
+    community: '👍 技能通用性强、跨行业跳槽容易 | ⚠️ 需持续学习新工具、部分工作重复性高。牛客高频："打好SQL基础是关键"',
+    beginnerStars: 3,
+    beginnerNote: '有技术门槛，但培训资源丰富，理工科转行友好',
+    skillTransferStars: 4,
+    skillTransferNote: '逻辑分析、问题拆解能力是数据分析的核心底层能力',
+    prototype: '用Google Sheets做一个你感兴趣的领域的数据小报告（比如B站热门视频分析），发在知乎/即刻上看看反馈',
+  },
+  {
+    id: 'esg_analyst',
+    name: 'ESG/可持续发展分析师',
+    aliases: ['ESG研究员', '碳中和咨询顾问', '可持续发展专员'],
+    matchAbilities: ['研究分析', '报告撰写', '跨学科整合', '沟通协调'],
+    matchInterests: ['环保', '社会责任', '宏观趋势', '研究'],
+    matchValues: ['社会影响', '学习成长', '人际关系'],
+    workContent: [
+      '研究企业ESG表现，撰写评级报告与改进建议',
+      '跟踪国内外ESG政策法规与评级标准变化',
+      '协助企业制定碳中和路径与可持续发展战略',
+    ],
+    salary: '应届10-18K，初级18-30K（一线城市），基础+绩效，外企有补贴',
+    skillGap: '需了解ESG框架（GRI/SASB/TCFD）、基础财务知识、数据分析。路径：CFA ESG投资证书 → 关注3家头部咨询公司ESG报告',
+    trend: '⭐⭐ 双碳目标写入十五五规划，绿色金融/ESG为国务院重点推动方向，头部VC积极布局碳中和赛道',
+    cities: '北京（政策/央企总部）⭐ | 上海（外企/金融ESG中心）| 深圳（绿色金融创新）',
+    special: '绿色科技/碳中和服务企业获"专精特新"认定加速',
+    community: '👍 赛道新、人才稀缺、职业前景好 | ⚠️ 标准仍在演进中、部分岗位偏报告撰写。脉脉高频："朝阳行业，早期入局者红利"',
+    beginnerStars: 2,
+    beginnerNote: '需一定专业知识积累，但高校近年已开设相关方向，培训资源增多',
+    skillTransferStars: 3,
+    skillTransferNote: '研究分析、报告撰写、跨学科整合能力可直接迁移',
+    prototype: '选一家你熟悉的上市公司，查阅它最新发布的ESG报告（官网投资者关系页面可找），记录你最关注的3个发现',
+  },
+  {
+    id: 'tech_sales',
+    name: '科技行业解决方案顾问（售前）',
+    aliases: ['解决方案架构师', '售前顾问', 'SA', '企业服务客户经理'],
+    matchAbilities: ['沟通表达', '逻辑思维', '共情能力', '快速学习'],
+    matchInterests: ['科技', '商业', '与人交流', '解决问题'],
+    matchValues: ['经济回报', '学习成长', '人际关系'],
+    workContent: [
+      '理解客户行业痛点，设计并演示定制化的技术解决方案',
+      '协调产品、技术、商务团队，推动项目落地',
+      '跟踪行业动态与竞品方案，持续优化方案库',
+    ],
+    salary: '应届12-20K，初级20-40K（一线城市），基础+高绩效+年终分红',
+    skillGap: '需了解行业基础知识（云计算/SaaS/AI）、商务沟通技巧、方案演示能力。路径：AWS/阿里云基础认证 → 跟一位售前前辈做影子学习',
+    trend: '⭐ 企业数字化转型/云服务/人工智能+均获十五五规划支持，企业服务赛道VC持续加注',
+    cities: '北京（企业服务总部）⭐ | 深圳（科技企业密集）| 上海（外企/金融客户）',
+    special: '部分企服/SaaS公司为"专精特新小巨人"',
+    community: '👍 收入天花板高、接触行业高层、成长极快 | ⚠️ 业绩压力大、应酬多、频繁出差。脉脉高频："是最容易从技术转向商业的路径"',
+    beginnerStars: 3,
+    beginnerNote: '有基础产品/技术理解的应届生可进入管培体系',
+    skillTransferStars: 4,
+    skillTransferNote: '沟通表达、共情、快速学习、逻辑思维是售前核心能力',
+    prototype: '搜索3家你感兴趣的科技公司（如飞书/钉钉/企业微信），研究他们的解决方案页面，尝试理解一个客户案例中的核心价值主张',
+  },
+  {
+    id: 'hr_od',
+    name: 'HR 组织发展 / 人才发展专员（OD/TD）',
+    aliases: ['组织发展', '人才发展', 'HRBP', '学习发展'],
+    matchAbilities: ['共情沟通', '系统思维', '项目管理', '数据分析'],
+    matchInterests: ['心理学', '教育', '企业运作', '帮助成长'],
+    matchValues: ['人际关系', '社会影响', '学习成长'],
+    workContent: [
+      '诊断组织效能与人才发展需求，设计培训与人才梯队方案',
+      '推动企业文化落地与员工敬业度提升项目',
+      '设计绩效管理体系与人才盘点流程',
+    ],
+    salary: '应届8-15K，初级15-28K（一线城市），基础+绩效+年终',
+    skillGap: '需了解OD方法论、人才测评工具、基础数据分析。路径：CSTD/ATD认证课程 → 主导一次内部员工调研项目',
+    trend: '⭐ 人才强国战略下企业组织能力建设受政策引导，大中型企业持续投入',
+    cities: '北京（央企/互联网总部）⭐ | 深圳（科技企业）| 上海（外企）',
+    special: '人力资源科技类企业有"专精特新"认定',
+    community: '👍 与人深度互动、成就感来自帮助他人成长 | ⚠️ 晋升路径受组织规模限制、需跨部门协调。脉脉高频："真正懂业务的HR最值钱"',
+    beginnerStars: 4,
+    beginnerNote: '大企业HR体系完善，有系统的管培生培训计划',
+    skillTransferStars: 4,
+    skillTransferNote: '共情、沟通、系统思维、项目管理能力在HR领域高度适用',
+    prototype: '在LinkedIn/脉脉上联系一位做HR OD的从业者，做一个15分钟的信息访谈，了解他们的真实一天',
+  },
+  {
+    id: 'bio_medical',
+    name: '生物医药 / 医疗器械 产品专员',
+    aliases: ['医药产品经理', '医疗器械产品专员', '临床研究协调员'],
+    matchAbilities: ['研究分析', '细致认真', '沟通协调', '学习能力'],
+    matchInterests: ['生命科学', '医疗健康', '研究', '帮助他人'],
+    matchValues: ['社会影响', '学习成长', '稳定安全'],
+    workContent: [
+      '研究疾病领域与治疗路径，制定产品定位与推广策略',
+      '与医学专家合作，组织学术会议与临床研究项目',
+      '监测产品市场份额与竞品动态，支持销售团队',
+    ],
+    salary: '应届10-18K·13薪，初级18-30K（一线城市），基础+绩效+项目奖金',
+    skillGap: '需补充基础医学知识、市场营销框架、合规要求。路径：了解一个疾病领域的基础知识 → 跟一次销售拜访了解客户',
+    trend: '⭐⭐ 生物制造/创新药/医疗器械明确列入十五五规划重点产业，为国务院常务会议高频提及方向',
+    cities: '苏州（BioBAY生物医药集群）⭐ | 上海（张江药谷）| 深圳（医疗器械之都）',
+    special: '大量生物医药/医疗器械企业为"专精特新小巨人""制造业单项冠军"',
+    community: '👍 行业稳定、社会价值高、人才稀缺 | ⚠️ 专业知识门槛高、行业周期长。脉脉高频："长坡厚雪，适合长期主义者"',
+    beginnerStars: 2,
+    beginnerNote: '医学/生物背景优先，非相关专业需额外补课',
+    skillTransferStars: 3,
+    skillTransferNote: '研究分析、沟通协调、学习能力为基础能力，但需补充专业知识',
+    prototype: '关注"医药魔方"或"动脉网"公众号，选一个生物医药细分赛道，了解头部3家公司的核心产品',
+  },
+  {
+    id: 'finance_analyst',
+    name: '金融分析师 / 投资顾问',
+    aliases: ['行业研究员', '投资分析师', '财富顾问', 'PE/VC分析师'],
+    matchAbilities: ['逻辑分析', '数据敏感', '结构化思维', '快速学习'],
+    matchInterests: ['金融', '商业', '宏观趋势', '研究'],
+    matchValues: ['经济回报', '学习成长', '自主独立'],
+    workContent: [
+      '研究行业趋势与公司基本面，撰写深度研究报告',
+      '搭建财务模型，进行估值分析与投资建议',
+      '跟踪宏观经济政策与市场动态，及时调整投资策略',
+    ],
+    salary: '应届12-22K·15薪，初级20-40K（一线城市），基础+绩效+年终奖（可达6-12个月）',
+    skillGap: '需补充财务分析、估值方法（DCF/可比公司）、行业研究框架。路径：CFA一级备考 → 撰写一份行业深度报告作为求职作品',
+    trend: '⭐ 金融强国战略写入十五五规划，资本市场改革持续深化，注册制下研究员需求增加',
+    cities: '上海（陆家嘴金融中心）⭐ | 北京（金融街/政策中心）| 深圳（深交所/创投集群）',
+    special: '部分金融科技/量化企业为"专精特新"认定',
+    community: '👍 薪资天花板高、平台资源丰富、职业路径清晰 | ⚠️ 工作强度极大（年报季通宵常见）、竞争激烈。脉脉高频："适合想快速积累财富和行业认知的人"',
+    beginnerStars: 3,
+    beginnerNote: '头部机构偏好名校+相关专业，但腰部机构机会多，CFA考证是重要敲门砖',
+    skillTransferStars: 3,
+    skillTransferNote: '逻辑分析、快速学习、数据敏感是核心能力，财务知识需针对性补课',
+    prototype: '选一家你感兴趣的上市公司（如茅台/腾讯/比亚迪），找3份券商研报阅读，尝试理解分析师的核心逻辑框架',
+  },
+  {
+    id: 'game_designer',
+    name: '游戏策划 / 制作人助理',
+    aliases: ['游戏系统策划', '关卡策划', '叙事设计师', '游戏产品经理'],
+    matchAbilities: ['创意能力', '逻辑思维', '共情能力', '系统设计'],
+    matchInterests: ['游戏', '创意', '叙事', '技术'],
+    matchValues: ['创新创造', '人际关系', '学习成长'],
+    workContent: [
+      '设计游戏核心玩法、数值体系与关卡流程',
+      '撰写策划文档，与美术、程序团队协作推进开发',
+      '分析玩家数据与反馈，持续优化游戏体验',
+    ],
+    salary: '应届10-18K·14薪，初级18-30K（一线城市），基础+绩效+项目分红',
+    skillGap: '需了解游戏引擎基础（Unity/Unreal）、数值设计原理、玩家心理学。路径：用Unity做一个Demo → 拆解3款热门游戏的系统设计',
+    trend: '⭐ 数字文化出口列入十五五规划支持，游戏出海为国务院文化强国重点方向',
+    cities: '上海（米哈游/莉莉丝等"游戏四小龙"）⭐ | 广州（网易/三七互娱）| 成都（天美工作室群/低成本生活）',
+    special: '部分游戏引擎/技术美术类企业获"专精特新"认定',
+    community: '👍 创意空间大、做热爱的事、项目制成就感强 | ⚠️ 加班文化普遍、项目上线压力大、行业政策波动。脉脉高频："热爱游戏才能坚持"',
+    beginnerStars: 3,
+    beginnerNote: '有游戏Demo或拆解报告的应届生有显著竞争优势，大厂有系统校招体系',
+    skillTransferStars: 4,
+    skillTransferNote: '创意策划、逻辑设计、用户心理分析等核心能力可直接迁移',
+    prototype: '选一款你喜欢的游戏，写一份"如果我是策划，会怎么改"的设计文档（2-3个具体改动+理由）',
+  },
+  {
+    id: 'crossborder_ecom',
+    name: '跨境电商运营 / 品牌出海经理',
+    aliases: ['亚马逊运营', 'TikTok电商运营', '品牌出海', '独立站运营'],
+    matchAbilities: ['数据分析', '营销策划', '快速学习', '跨文化沟通'],
+    matchInterests: ['商业', '全球化', '品牌', '快节奏'],
+    matchValues: ['经济回报', '学习成长', '自主独立'],
+    workContent: [
+      '管理跨境电商平台（Amazon/TikTok Shop/Temu等）店铺运营与广告投放',
+      '分析海外市场消费者趋势，制定选品与定价策略',
+      '协调供应链、物流、内容团队，推动品牌海外市场增长',
+    ],
+    salary: '应届8-15K+提成，初级15-30K+提成（深圳/广州），基础+绩效+爆款分红',
+    skillGap: '需了解跨境电商平台规则、基础外语（CET-6以上）、数据分析。路径：运营一个跨境店铺（可虚拟）→ 学习亚马逊/TikTok广告系统',
+    trend: '⭐⭐ 跨境电商/品牌出海为国务院常务会议高频提及方向，十五五规划明确推动数字贸易',
+    cities: '深圳（跨境电商之都/坂田）⭐ | 广州（Shein/Temu总部）| 杭州（阿里巴巴国际站）',
+    special: '跨境物流/支付/ERP等配套企业大量获"专精特新"认定',
+    community: '👍 成长极快、中国供应链红利、收入上限高 | ⚠️ 竞争白热化、平台规则频繁变化、时差工作。小红书高频："个人创业者也能起步的赛道"',
+    beginnerStars: 5,
+    beginnerNote: '几乎零门槛，大量中小卖家招人，有店铺实操经验即可求职',
+    skillTransferStars: 4,
+    skillTransferNote: '数据分析、营销策划、快速学习为高度可迁移的底层能力',
+    prototype: '在Amazon/Temu上选一个品类，研究前10个热卖产品的定价、评价和差异化空间，写一页选品分析报告',
+  },
+  {
+    id: 'consultant',
+    name: '管理咨询顾问',
+    aliases: ['战略咨询顾问', '商业分析师', '数字化转型顾问'],
+    matchAbilities: ['逻辑分析', '沟通表达', '结构化思维', '快速学习'],
+    matchInterests: ['商业', '解决问题', '跨行业', '影响力'],
+    matchValues: ['学习成长', '经济回报', '创新创造'],
+    workContent: [
+      '诊断企业战略、运营或组织问题，设计解决方案框架',
+      '通过访谈、数据分析、行业对标等方法收集洞察',
+      '撰写交付报告并向客户高层汇报，推动方案落地',
+    ],
+    salary: '应届15-25K·15薪，初级25-45K（一线城市Tier1-2咨询），基础+绩效+签字费',
+    skillGap: '需补充商业分析框架（金字塔原理/MECE）、PPT与Excel高级技能、案例面试能力。路径：练习30个Case Interview → 参加一次商赛',
+    trend: '⭐ 企业数字化转型/十五五产业升级推动咨询服务需求，AI+咨询为新兴交叉方向',
+    cities: '上海（MBB+四大咨询总部）⭐ | 北京（政策咨询/央企智库）| 深圳（科技/数字化咨询）',
+    special: '部分精品咨询公司获"专精特新"认定',
+    community: '👍 跨行业视野、能力成长极快、职业出口宽广 | ⚠️ 出差极频繁（周一到周四在客户现场）、工作时长惊人。脉脉高频："两年咨询，一生受益"',
+    beginnerStars: 2,
+    beginnerNote: 'Tier1-2咨询校招竞争激烈，建议先从精品咨询或四大咨询切入',
+    skillTransferStars: 5,
+    skillTransferNote: '逻辑分析、沟通表达、快速学习、结构化思维完美匹配咨询核心能力',
+    prototype: '找一个你熟悉的品牌（如瑞幸/蜜雪冰城），模拟回答：如果它要进入东南亚市场，应该优先选择哪个国家？为什么？（尝试用MECE框架分析）',
+  },
+  {
+    id: 'brand_marketing',
+    name: '品牌经理 / 市场营销专家',
+    aliases: ['品牌营销经理', '整合营销', '消费者洞察', '数字营销'],
+    matchAbilities: ['创意策划', '共情能力', '数据分析', '跨部门协调'],
+    matchInterests: ['消费', '品牌', '创意', '心理学'],
+    matchValues: ['创新创造', '人际关系', '学习成长'],
+    workContent: [
+      '制定品牌定位与年度营销策略，管理品牌资产',
+      '策划并执行整合营销Campaign（内容/社交/KOL/事件），追踪ROI',
+      '通过消费者调研与数据洞察，持续优化品牌沟通与产品创新方向',
+    ],
+    salary: '应届10-18K·14薪，初级18-30K（一线城市快消/互联网），基础+绩效+年终',
+    skillGap: '需了解品牌管理框架、消费者调研方法、数据分析与Campaign设计。路径：宝洁/联合利华线上公开课 → 为一个小品牌做一套完整的营销方案',
+    trend: '⭐ 国货崛起/品牌强国为十五五文化发展主线，消费品与科技消费品牌持续涌现',
+    cities: '上海（快消/奢侈品总部）⭐ | 广州（宝洁/立白等日化集群）| 杭州（新消费/电商品牌）',
+    special: '部分品牌咨询/数字营销公司为"专精特新"认定',
+    community: '👍 创意+商业结合、锻炼全面的商业嗅觉、可发展个人IP | ⚠️ 预算压力大、效果难量化、传统快消晋升慢。小红书高频："会做Branding的人永远稀缺"',
+    beginnerStars: 4,
+    beginnerNote: '快消管培生体系成熟，互联网营销岗对新手友好，转行路径清晰',
+    skillTransferStars: 5,
+    skillTransferNote: '创意策划、共情洞察、数据分析、项目管理均为品牌营销核心能力',
+    prototype: '选2个你喜欢的品牌（同品类），从包装、社交媒体、用户口碑三个维度做一页竞品分析',
+  },
+  {
+    id: 'psychologist',
+    name: '心理咨询师 / 心理健康教育',
+    aliases: ['心理咨询师', '学校心理老师', 'EAP心理咨询师', '心理科普作者'],
+    matchAbilities: ['共情沟通', '倾听能力', '系统学习', '情绪稳定'],
+    matchInterests: ['心理学', '助人', '深度关系', '自我成长'],
+    matchValues: ['社会影响', '人际关系', '自主独立'],
+    workContent: [
+      '为来访者提供专业的心理咨询与辅导服务',
+      '设计并开展心理健康教育课程与团体辅导活动',
+      '持续接受督导与个人体验，保持专业成长',
+    ],
+    salary: '新手咨询师 6-12K（按小时计费），成熟咨询师 15-30K+，资深咨询师 30K+（一线城市），独立执业上限高',
+    skillGap: '需系统学习心理学理论（CBT/精分/人本等）、完成规定小时数的督导实习、获取资质认证。路径：心理学硕士/系统培训项目 → 完成100+小时付费咨询实习 → 申请注册心理师',
+    trend: '⭐ 社会心理服务体系建设写入健康中国2030与十五五规划，学校/企业/社区心理服务需求激增',
+    cities: '北京（高校/研究机构集中）⭐ | 上海（商业化心理咨询机构密集）| 成都（生活成本低+心理服务需求旺盛）',
+    special: '部分数字心理健康/心理AI企业获"专精特新"认定',
+    community: '👍 深度助人、职业意义感极强、独立执业自由度高 | ⚠️ 前期投入大（培训+督导费高）、收入成长周期长、情绪消耗大。知乎高频："最需要终身学习和自我照顾的职业"',
+    beginnerStars: 2,
+    beginnerNote: '正规执业的培训周期较长（2-3年），但可从学校心理老师/EAP等岗位切入',
+    skillTransferStars: 4,
+    skillTransferNote: '共情倾听、情绪稳定、助人动机是心理咨询核心素质，可直接迁移',
+    prototype: '选一本经典心理学入门书（如《也许你该找个人聊聊》），读完后记录3个最触动你的观点；搜索"简单心理"或"壹心理"了解行业生态',
+  },
+  {
+    id: 'new_energy_ve',
+    name: '新能源汽车行业 产品/项目专员',
+    aliases: ['智能汽车产品经理', '三电系统工程师', '充电网络规划', '智能座舱体验'],
+    matchAbilities: ['系统思维', '跨部门协调', '快速学习', '逻辑分析'],
+    matchInterests: ['汽车', '新能源', '科技硬件', '可持续发展'],
+    matchValues: ['创新创造', '学习成长', '社会影响'],
+    workContent: [
+      '参与新能源汽车产品的定义、规划和生命周期管理',
+      '协调研发、供应链、制造、销售等团队推进车型项目',
+      '跟踪新能源技术路线与竞品动态，支持产品迭代决策',
+    ],
+    salary: '应届12-20K·14薪，初级20-35K（一线/新一线城市），基础+绩效+项目奖金+购车福利',
+    skillGap: '需了解新能源汽车三电系统基础、产品管理框架、汽车行业法规。路径：关注"电动星球""42号车库"等媒体 → 试驾5款新能源车型并撰写对比体验报告',
+    trend: '⭐⭐ 新能源汽车为十五五规划最高优先级产业之一，国务院"新能源汽车产业发展规划"明确2025-2035长期目标',
+    cities: '上海（特斯拉/蔚来/理想总部）⭐ | 深圳（比亚迪总部）| 合肥（蔚来制造基地/大众安徽）',
+    special: '大量三电/智能驾驶供应链企业为"专精特新小巨人""制造业单项冠军"',
+    community: '👍 朝阳产业、国家战略支撑、技术迭代快、薪资竞争力强 | ⚠️ 行业竞争激烈（价格战频繁）、工作强度大。脉脉高频："汽车行业百年变革，入局正当时"',
+    beginnerStars: 3,
+    beginnerNote: '汽车/机械/电子/计算机专业优先，但产品/项目岗对非工科背景逐步开放',
+    skillTransferStars: 3,
+    skillTransferNote: '系统思维、跨部门协调、快速学习为通用能力，但行业知识需专门投入',
+    prototype: '选择一个新能源品牌（如蔚来/理想/小米汽车），去线下门店体验一次试驾，记录你对产品体验的3个"惊艳点"和3个"可改进点"',
+  },
+  {
+    id: 'semiconductor',
+    name: '半导体行业 应用工程师 / 产品工程师',
+    aliases: ['芯片应用工程师', 'FAE现场应用', '半导体产品工程师', '测试工程师'],
+    matchAbilities: ['逻辑分析', '问题解决', '技术沟通', '细致认真'],
+    matchInterests: ['硬件', '技术', '制造', '精密系统'],
+    matchValues: ['学习成长', '稳定安全', '自主独立'],
+    workContent: [
+      '为客户提供芯片产品的技术选型指导与应用方案设计',
+      '协调研发与客户之间的技术对接，解决应用中的技术问题',
+      '跟踪半导体技术路线与市场需求，为产品迭代提供输入',
+    ],
+    salary: '应届12-22K·15薪，初级20-40K（上海/深圳/北京），基础+绩效+项目奖金+股票期权',
+    skillGap: '需了解半导体基础知识（数字/模拟电路）、芯片设计流程、EDA工具基础用法。路径：Coursera半导体入门课程 → 关注"半导体行业观察"等媒体 → 学习一款EDA工具基础操作',
+    trend: '⭐⭐ 集成电路/半导体为十五五规划"科技自立自强"核心方向，国家大基金三期持续投入，全产业链国产化加速',
+    cities: '上海（张江"中国硅谷"）⭐ | 深圳（华为海思/设计企业集群）| 北京（中芯国际/北方华创）',
+    special: '半导体全产业链企业大量入选"专精特新小巨人""制造业单项冠军"，享税收及人才政策优惠',
+    community: '👍 国家战略级赛道、技术壁垒高（不可替代性强）、行业长期景气 | ⚠️ 技术门槛高、知识更新快、部分岗位有洁净间工作环境要求。脉脉高频："选对赛道，十年无忧"',
+    beginnerStars: 2,
+    beginnerNote: 'EE/微电子/物理等专业优先，但应用/FAE岗对技术沟通能力强的非科班也有机会',
+    skillTransferStars: 2,
+    skillTransferNote: '逻辑分析、问题解决为通用能力，但半导体专业知识壁垒高，需系统投入学习',
+    prototype: '搜索"半导体行业观察"或"芯东西"公众号，选一个你感兴趣的芯片方向（如AI芯片/汽车芯片/存储芯片），了解该方向中国前3家企业及其核心产品',
+  },
+  { id:'c_pm', name:'C端产品经理', aliases:['用户产品经理','移动端PM','消费者PM'], matchAbilities:['用户洞察','数据分析','逻辑思维','共情能力'], matchInterests:['用户体验','消费心理','数据驱动','创造'], matchValues:['创新创造','人际关系','学习成长'], workContent:['通过用户研究与数据分析发现产品机会','设计产品功能与交互流程，撰写PRD','推动设计、研发、测试团队完成产品迭代并追踪效果'], salary:'应届12-22K·14薪，初级18-35K，高级30-60K（一线互联网）', skillGap:'需掌握用户研究方法论、原型设计(Figma)、数据分析(SQL)。路径：摹客/墨刀原型练习→拆解3个热门APP的核心功能逻辑→写一份产品体验报告', trend:'⭐ 互联网核心岗位，全行业数字化转型带来持续需求，AI+产品为新增长方向', cities:'北京(字节/快手)⭐|深圳(腾讯) |杭州(阿里/网易)', special:'部分AI应用层企业获专精特新', community:'👍 用户导向思维培养好、转创业/VC路径成熟|⚠️ 竞争激烈(应届生海投)、天花板看公司。牛客:作品集+产品sense>一切', beginnerStars:4, beginnerNote:'大厂校招体系成熟，产品助理/专员入门', skillTransferStars:5, skillTransferNote:'用户洞察、数据分析、项目管理能力高度通用', prototype:'选1个你常用的APP，写一份产品体验报告：它解决的核心问题是什么？你觉得它最该优化的1个功能是什么？' },
+  { id:'b_pm', name:'B端产品经理 / SaaS PM', aliases:['企业产品经理','SaaS产品经理','后台PM'], matchAbilities:['逻辑思维','系统设计','业务理解','沟通协调'], matchInterests:['企业效率','商业模式','系统架构','解决问题'], matchValues:['学习成长','经济回报','创新创造'], workContent:['深入理解企业客户的业务场景与痛点','设计后台管理系统/SaaS产品的功能架构与交互逻辑','协调技术团队推进产品交付，管理客户需求与版本迭代'], salary:'应届14-25K·14薪，初级20-40K，高级35-70K（一线城市）', skillGap:'需了解SaaS商业模式、B端交互规范、基础技术架构。路径：学习Salesforce/飞书等标杆产品→参与一个内部工具项目→学习SQL+基础API理解', trend:'⭐ 企业数字化转型/十五五数字经济推动SaaS市场增长，B端PM人才缺口大', cities:'北京(企业服务总部)⭐|深圳(SaaS/工具) |上海(外企SaaS)', special:'大量垂直SaaS企业为专精特新小巨人', community:'👍 薪资天花板高、跳甲方/咨询/VC路径广|⚠️ 产品反馈周期长、客户需求复杂。脉脉:B端PM是越老越值钱的典型', beginnerStars:3, beginnerNote:'对业务理解力要求较高，建议从产品助理或CSM岗切入', skillTransferStars:5, skillTransferNote:'系统设计、业务抽象、项目管理能力跨行业通用', prototype:'选飞书/钉钉/企业微信任一产品，研究它最新上线的1个B端功能，分析它解决的客户场景和商业逻辑' },
+  { id:'growth_pm', name:'增长产品经理', aliases:['增长黑客','Growth PM','用户增长'], matchAbilities:['数据分析','实验设计','用户心理','快速迭代'], matchInterests:['增长','数据','实验','心理学'], matchValues:['经济回报','创新创造','学习成长'], workContent:['通过数据分析与A/B实验驱动用户增长(拉新/激活/留存)','设计增长策略与增长模型，协调跨职能团队落地','搭建增长指标体系与实验平台'], salary:'应届15-25K·14薪，初级20-40K，高级35-70K+项目奖金', skillGap:'需掌握A/B测试方法论、SQL、用户行为分析工具。路径：学习增长黑客经典书籍→自己做一个增长实验(哪怕是个人公众号)→用数据复盘', trend:'⭐ 互联网精细化运营时代标配，增长能力是产品/运营/市场通用底层能力', cities:'北京(字节/快手)⭐|深圳(腾讯/Shopee) |上海(拼多多)', special:'—', community:'👍 数据+创意结合、结果立竿见影|⚠️ KPI压力大、实验频繁失败是常态。脉脉:最好的增长PM都是半个数据科学家', beginnerStars:3, beginnerNote:'需较强数据分析能力，适合有数据分析/运营背景者转行', skillTransferStars:5, skillTransferNote:'数据分析、实验设计、用户心理洞察为全行业通用能力', prototype:'选一个你常用的APP，分析它的新用户注册-激活流程，找出你认为最影响转化率的1个环节，提出改进方案' },
+  { id:'frontend_dev', name:'前端开发工程师', aliases:['Web前端','前端工程师','React/Vue开发'], matchAbilities:['逻辑思维','视觉敏感','问题解决','持续学习'], matchInterests:['编程','交互','视觉','技术'], matchValues:['学习成长','经济回报','创新创造'], workContent:['将UI设计稿转化为高质量的前端代码','优化页面性能与用户体验(加载速度/交互流畅度)','与后端工程师协作完成接口联调与功能实现'], salary:'应届12-22K·14薪，初级18-35K，高级30-60K（一线互联网）', skillGap:'需掌握HTML/CSS/JavaScript基础→React或Vue框架→Node.js基础。路径：freeCodeCamp前端课程→做3个完整项目(个人网站+Todo App+复杂项目)→LeetCode刷题', trend:'⭐ 全行业数字化前端需求稳定，Web3/可视化/AI前端为新增长点', cities:'北京/深圳/杭州(互联网集中)⭐|成都(生活成本低+技术氛围好)', special:'—', community:'👍 入行门槛清晰、远程工作机会多|⚠️ 技术更新快需持续学习、AI编程工具对初级岗冲击大。牛客:打好JS基础的框架只是工具', beginnerStars:4, beginnerNote:'培训资源海量，3-6个月可系统入门，但找到好工作需要项目深度', skillTransferStars:4, skillTransferNote:'编程思维、问题拆解、工程化能力可迁移到后端/全栈/技术管理', prototype:'用HTML/CSS/JS做一个个人主页(含响应式设计)，部署到GitHub Pages，作为你的第一个在线作品集' },
+  { id:'backend_dev', name:'后端开发工程师', aliases:['服务端开发','后端工程师','Java/Go/Python开发'], matchAbilities:['逻辑思维','系统设计','抽象能力','问题解决'], matchInterests:['系统架构','算法','数据处理','技术深度'], matchValues:['学习成长','经济回报','稳定安全'], workContent:['设计并实现服务端API接口与业务逻辑','管理数据库设计与性能优化','保障系统稳定性、安全性及高并发下的服务质量'], salary:'应届14-25K·14薪，初级20-40K，高级35-80K（一线互联网）', skillGap:'需掌握一门后端语言(Java/Go/Python选一)→数据库(MySQL+Redis)→系统设计基础。路径：选一门语言做3个CRUD项目→学习分布式基础→LeetCode刷题', trend:'⭐ AI/大数据/云原生推动后端技术持续演进，全行业数字化转型带来稳定需求', cities:'北京/深圳/杭州(互联网)⭐|上海(金融IT) |成都(研发中心)', special:'—', community:'👍 技术壁垒高(越老越值钱)、薪资天花板高|⚠️ on-call压力、技术快速迭代。脉脉:好的后端工程师是稀缺资源', beginnerStars:3, beginnerNote:'学习曲线比前端陡峭，但系统学习6-12个月可达到初级水平', skillTransferStars:5, skillTransferNote:'系统设计、抽象建模、工程化能力为技术领域最具迁移性的能力', prototype:'用你选择的语言搭建一个RESTful API服务(如一个简单的博客系统后端)，学习基本的CRUD操作和数据库设计' },
+  { id:'qa_engineer', name:'软件测试工程师 / QA', aliases:['测试开发','质量保障','自动化测试'], matchAbilities:['细致认真','逻辑思维','问题定位','文档能力'], matchInterests:['质量','细节','技术','系统思维'], matchValues:['稳定安全','学习成长','人际关系'], workContent:['设计测试用例并执行功能/性能/安全测试','开发自动化测试框架与脚本提升测试效率','与开发团队协作定位缺陷，建立质量保障流程'], salary:'应届10-18K·14薪，初级15-28K，测开20-40K（一线互联网）', skillGap:'需掌握测试方法论、至少一门脚本语言(Python优先)、自动化测试工具(Selenium/Appium)。路径：ISTQB基础认证→学习Python→做一个自动化测试项目', trend:'⭐ 质量保障为软件工程核心环节，AI辅助测试/DevOps一体化推动测开需求增长', cities:'北京/深圳/杭州(互联网)⭐|成都/武汉(二线研发中心)', special:'—', community:'👍 工作节奏比研发稍好、转开发/PM/技术管理路径清晰|⚠️ 传统手工测试天花板低、需主动转型测开。脉脉:只会点点的QA没有未来', beginnerStars:5, beginnerNote:'入门门槛最低的技术岗，培训2-3个月即可找初级岗', skillTransferStars:3, skillTransferNote:'问题定位、系统理解、质量意识可迁移，但需主动补充开发能力', prototype:'选一个你常用的APP，为它的登录功能设计一套完整的测试用例(正常+异常+边界)，用Excel或脑图整理' },
+  { id:'devops_sre', name:'DevOps / SRE 工程师', aliases:['运维开发','站点可靠性工程师','云原生工程师'], matchAbilities:['系统思维','问题定位','自动化意识','抗压能力'], matchInterests:['系统','自动化','稳定性','技术深度'], matchValues:['学习成长','经济回报','稳定安全'], workContent:['设计并维护CI/CD流水线与基础设施即代码','监控系统稳定性，快速响应并解决线上故障','推动容器化、微服务化等云原生架构落地'], salary:'应届14-25K·14薪，初级20-40K，高级35-80K（一线互联网）', skillGap:'需掌握Linux系统管理、Docker/K8s、至少一门脚本语言、CI/CD工具链。路径：AWS/Azure基础认证→搭建个人K8s集群→参与开源项目', trend:'⭐ 云原生/微服务为十五五数字基础设施重点，DevOps/SRE全球人才缺口Top5', cities:'北京/深圳/杭州(互联网)⭐|上海(金融云) |成都/西安(研发中心)', special:'云原生/DevOps工具类企业大量为专精特新', community:'👍 技术壁垒极高(极度稀缺)、远程工作友好|⚠️ on-call压力大(半夜被叫醒)。知乎:SRE是技术界特种兵', beginnerStars:2, beginnerNote:'需要较全面的技术基础，建议从运维/后端转岗，纯新手难度大', skillTransferStars:4, skillTransferNote:'系统架构、自动化思维、故障处理经验对架构师/技术管理极具价值', prototype:'在AWS/阿里云上免费创建一台云服务器，学习基本的Linux命令和Docker操作，部署一个简单的Web应用' },
+  { id:'tpm', name:'技术项目经理 / TPM', aliases:['TPM','研发项目经理','技术PMO'], matchAbilities:['技术理解','沟通协调','风险管理','组织能力'], matchInterests:['技术','管理','交付','效率'], matchValues:['学习成长','人际关系','经济回报'], workContent:['管理技术项目的范围、进度、资源与风险','协调工程、产品、设计等多团队推进项目交付','建立并优化研发流程(敏捷/Scrum)与项目管理体系'], salary:'应届15-25K·14薪，初级22-40K，高级35-70K（一线互联网）', skillGap:'需了解软件开发流程、敏捷/Scrum方法、Jira等工具。路径：PMP/CAPM认证→学习敏捷→在当前岗位主动承担项目协调角色', trend:'⭐ 技术团队规模化后TPM为刚需，AI项目管理为新兴方向', cities:'北京/深圳/杭州(互联网)⭐|上海(外企) |成都(研发中心)', special:'—', community:'👍 技术+管理复合型(稀缺)、职业出口广(转PM/技术管理/咨询)|⚠️ 夹在产品和技术中间压力大。脉脉:好的TPM是团队润滑剂+加速器', beginnerStars:3, beginnerNote:'有技术背景最好，但优秀的项目管理者可跨行业迁移', skillTransferStars:5, skillTransferNote:'项目管理、跨团队协调、流程优化为所有行业通用管理能力', prototype:'为你参与过的任何一个团队项目(哪怕是学校小组作业)用甘特图/看板做一次复盘，分析哪个环节最影响进度' },
+];
+
+// ============ INDUSTRY TREE (GB/T 4754-2017 + 十五五新兴产业 + 招聘平台标签) ============
+const INDUSTRY_TREE = [{"id":"internet","name":"互联网 / 信息技术","icon":"🌐","subs":["互联网平台 / 社交","企业服务 / SaaS","云计算 / 大数据","人工智能 / 机器学习","信息安全","物联网 / IoT","开源社区 / 开发者工具","IT外包 / 技术服务"]},{"id":"finance","name":"金融 / 保险 / 投资","icon":"💰","subs":["商业银行 / 零售金融","投资银行 / 证券","私募股权 / 风险投资","保险 / 再保险","金融科技 / 数字支付","资产管理 / 财富管理","量化交易 / 对冲基金","消费金融 / 小额信贷"]},{"id":"semiconductor_hw","name":"半导体 / 电子 / 硬件","icon":"🔬","subs":["芯片设计 / EDA工具","晶圆制造 / 封测","消费电子 / 智能硬件","通信设备 / 5G","汽车电子 / 车规芯片","工业电子 / 电力电子","光电子 / 传感器","嵌入式系统 / IoT硬件"]},{"id":"new_energy","name":"新能源 / 节能环保","icon":"🌱","subs":["光伏 / 太阳能","风能 / 储能","动力电池 / 固态电池","氢能 / 燃料电池","碳管理 / 碳交易","环保工程 / 水处理","新型电力系统 / 智能电网","循环经济 / 再生资源"]},{"id":"biomed","name":"生物医药 / 医疗健康","icon":"💊","subs":["创新药研发","医疗器械 / 体外诊断","基因技术 / 细胞治疗","医疗服务 / 医院管理","数字健康 / 互联网医疗","中医药 / 大健康","CRO / CDMO外包服务","医美 / 消费医疗"]},{"id":"auto_mobility","name":"汽车 / 交通出行","icon":"🚗","subs":["新能源汽车整车","智能驾驶 / 自动驾驶","汽车零部件 / 供应链","出行平台 / 共享出行","航空航天 / 低空经济","轨道交通 / 高铁","船舶 / 海洋工程","智慧交通 / 车路协同"]},{"id":"edu_research","name":"教育 / 培训 / 科研","icon":"📚","subs":["高等教育 / 职业教育","K12教育 / 素质教育","在线教育 / 知识付费","企业培训 / 人才发展","科研院所 / 实验室","留学服务 / 国际教育","职业技能培训","教育科技 / EdTech"]},{"id":"media_entertain","name":"文化传媒 / 娱乐","icon":"🎬","subs":["影视制作 / 发行","短视频 / 直播","音乐 / 音频","出版 / 数字阅读","广告 / 营销服务","体育产业 / 电子竞技","动漫 / 二次元","MCN / 网红经纪"]},{"id":"consumer_retail","name":"消费品 / 零售 / 电商","icon":"🛒","subs":["电商平台 / 直播电商","跨境电商 / DTC品牌","快消品 / 日化","食品饮料 / 餐饮连锁","时尚 / 奢侈品","母婴 / 宠物","新零售 / 社区团购","供应链 / 物流"]},{"id":"realestate","name":"房地产 / 建筑 / 城市更新","icon":"🏗️","subs":["房地产开发","商业地产 / 产业园区","物业管理 / 城市服务","建筑工程 / EPC总包","建筑设计 / 室内设计","城市更新 / 旧改","智能家居 / 智慧楼宇","不动产基金 / REITs"]},{"id":"manufacturing","name":"先进制造 / 工业","icon":"⚙️","subs":["工业自动化 / 工业互联网","机器人 / 协作机器人","3D打印 / 增材制造","新材料 / 化工","精密仪器 / 科学仪器","航空航天制造","工程机械 / 重型装备","质量检测 / 认证认可"]},{"id":"agri_food","name":"农业 / 食品科技","icon":"🌾","subs":["智慧农业 / 精准农业","种子 / 生物育种","食品加工 / 中央厨房","预制菜 / 方便食品","功能性食品 / 保健品","宠物食品 / 用品","农业无人机 / 农机","垂直农业 / 植物工厂"]},{"id":"energy_chem","name":"能源 / 化工 / 材料","icon":"⛽","subs":["石油 / 天然气","石化 / 煤化工","精细化工 / 特种化学品","储能材料 / 电池材料","半导体材料 / 电子化学品","可降解塑料 / 生物材料","稀土 / 关键矿产","核能 / 核技术应用"]},{"id":"logistics","name":"物流 / 供应链 / 贸易","icon":"🚚","subs":["快递 / 即时配送","货运 / 海运 / 空运","仓储 / 智能仓储","供应链管理 / 采购","国际贸易 / 大宗商品","冷链物流","跨境物流 / 海外仓","物流科技 / 无人配送"]},{"id":"gov_public","name":"政府 / 公共事业 / NGO","icon":"🏛️","subs":["公务员 / 选调生","事业单位 / 科研院所","公共政策 / 智库","国际组织 / 驻华机构","公益组织 / 社会企业","社区治理 / 社会工作","国防 / 军工","消防救援 / 应急管理"]},{"id":"legal_consult","name":"法律 / 咨询 / 专业服务","icon":"⚖️","subs":["律师事务所","管理咨询 / 战略咨询","会计师事务所 / 审计","人力资源服务 / 猎头","知识产权 / 专利代理","市场研究 / 用户调研","翻译 / 本地化","评估 / 评级 / 认证"]},{"id":"game_meta","name":"游戏 / 元宇宙 / Web3","icon":"🎮","subs":["游戏开发 / 发行","电子竞技 / 赛事运营","元宇宙 / 虚拟现实","区块链 / 加密货币","NFT / 数字藏品","AI生成内容 / AIGC","虚拟人 / 数字孪生","体感交互 / 脑机接口"]},{"id":"tourism_hotel","name":"旅游 / 酒店 / 餐饮","icon":"✈️","subs":["在线旅游 / OTA平台","酒店 / 民宿","主题乐园 / 文旅地产","餐饮连锁 / 新茶饮","会展 / 活动策划","户外运动 / 营地教育","免税 / 旅游零售","银发旅游 / 康养度假"]},{"id":"design_creative","name":"设计 / 艺术 / 创意","icon":"🎨","subs":["平面设计 / 品牌设计","UI / UX / 交互设计","建筑设计 / 室内设计","工业设计 / 产品设计","时尚设计 / 服装设计","艺术创作 / 策展","摄影 / 视频制作","创意文案 / 广告创意"]},{"id":"telecom","name":"电信 / 网络 / 新基建","icon":"📡","subs":["电信运营商","数据中心 / IDC","算力服务 / GPU云","卫星互联网 / 商业航天","光纤光缆 / 光通信","边缘计算 / CDN","网络安全服务","量子计算 / 量子通信"]},{"id":"livestream_mcn","name":"直播 / MCN / 短视频","icon":"📱","subs":["直播带货 / 电商直播","团播 / 秀场直播","MCN机构 / 达人经纪","短视频编导 / 策划","直播运营 / 场控","短视频拍摄 / 剪辑","虚拟主播 / AI直播","本地生活直播","跨境直播","知识直播 / 付费直播"]},{"id":"performing_arts","name":"表演艺术 / 现场演出","icon":"🎭","subs":["脱口秀 / 单口喜剧","话剧 / 舞台剧","音乐剧 / 歌剧","Livehouse / 音乐演出","相声 / 曲艺","综艺节目 / 真人秀","沉浸式戏剧 / 剧本杀","街头艺术 / 行为艺术","魔术 / 杂技"]},{"id":"film_tv","name":"影视 / 编剧 / 导演","icon":"🎥","subs":["电影导演 / 编剧","电视剧编剧 / 文学策划","纪录片制作","综艺导演 / 制片","影视摄影 / 灯光","影视后期 / 特效 / 调色","选角导演 / casting","影视配乐 / 声音设计","微短剧 / 小程序剧"]},{"id":"sports_fitness","name":"体育 / 健身 / 户外","icon":"⚽","subs":["职业体育俱乐部","体育经纪 / 运动员管理","健身教练 / 私教","瑜伽 / 普拉提","户外运动 / 营地教育","体育赛事运营","运动康复 / 物理治疗","马拉松 / 铁人三项运营","滑雪 / 冲浪 / 攀岩"]},{"id":"pet_economy","name":"宠物经济","icon":"🐾","subs":["宠物食品 / 营养","宠物医疗 / 兽医","宠物美容 / 洗护","宠物寄养 / 酒店","宠物殡葬 / 纪念","宠物社交 / 社区","宠物保险","工作犬 / 治疗犬训练"]},{"id":"elderly_care","name":"银发经济 / 养老服务","icon":"👴","subs":["养老社区 / CCRC","居家养老 / 上门照护","老年康复 / 护理","老年旅游 / 旅居","老年教育 / 老年大学","适老化改造 / 辅具","老年社交 / 陪伴服务","认知症照护","安宁疗护 / 临终关怀"]},{"id":"esg_green","name":"碳中和 / 绿色经济","icon":"🌍","subs":["碳交易 / 碳管理","CCUS / 碳捕集","ESG咨询 / 评级","绿色建筑 / 零碳建筑","塑料回收 / 再生","新能源电池回收","海绵城市 / 雨水管理","生物多样性保护","环境修复 / 土壤治理"]}];
+
+// ============ JOB PERSONA + CORE COMPETENCIES ============
+const JOB_PERSONA = {
+  ai_product: {
+    persona: { trait:"好奇心驱动+逻辑严密+商业敏感", workStyle:"跨部门协作型，60%沟通对齐+40%深度思考", bg:"计算机/设计/商科/心理学等多元背景，无硬性专业门槛", strengths:"定义问题 > 解决问题；能快速判断AI能力边界；善于管理多方预期", ideal:"如果你经常自发地研究新APP/AI工具的原理和商业逻辑，你可能就是天生的AI PM" },
+    coreSkills: ["需求分析与问题定义","跨角色沟通与共识构建","数据驱动决策","技术可行性判断","产品战略与路线图规划","用户研究","原型设计与快速验证","OKR/KPI体系搭建"],
+    certifications: [{n:"NPDP产品经理国际认证",t:"rec",c:"约5000元",time:"3-6个月",d:"PDMA颁发，国内产品岗认可度高"},{n:"PMP项目管理认证",t:"rec",c:"约3900元",time:"3个月",d:"AI PM协调多方资源必备"},{n:"AWS/阿里云云从业者认证",t:"opt",c:"约700元(基础级)",time:"2-4周",d:"了解云服务基础概念"},{n:"Coursera AI产品管理专项",t:"opt",c:"约$49/月",time:"2-3个月",d:"Duke大学出品系统课程"}]
+  },
+  ux_designer: {
+    persona: { trait:"共情力强+视觉敏感+逻辑清晰", workStyle:"独立深度工作+评审协作结合，设计探索占50%时间", bg:"设计/心理学/计算机/建筑等背景，作品集>学历>专业", strengths:"用户视角思考；视觉与交互的平衡感；能清晰表达设计决策的why", ideal:"如果你经常对APP的交互细节有'如果是我会这样设计'的想法，你可能天生适合UX" },
+    coreSkills: ["用户研究与可用性测试","信息架构与交互流程设计","视觉设计与设计系统搭建","原型制作(Figma/Sketch)","设计思维与设计策略","A/B测试与数据验证","跨职能协作(PM+工程)","无障碍设计"],
+    certifications: [{n:"Google UX Design证书",t:"rec",c:"约$49/月(Coursera)",time:"6个月(业余)",d:"零基础入门首选，含3个作品集项目"},{n:"Nielsen Norman UX认证",t:"opt",c:"约$1000+/门",time:"按课程",d:"行业权威认证，适合进阶提升"},{n:"Figma专家认证",t:"opt",c:"免费",time:"自学+考试",d:"证明工具熟练度"}]
+  },
+  content_creator: {
+    persona: { trait:"表达欲强+网感好+持续输出力", workStyle:"创作+数据复盘双循环，高频迭代", bg:"新闻/中文/市场营销/任何专业均可，作品>学历", strengths:"选题直觉；用户情绪捕捉；将复杂信息转化为易懂内容；持续创作的纪律性", ideal:"如果你刷手机时会自然分析'这条为什么会火'，你可能天生适合内容创作" },
+    coreSkills: ["内容策略与选题策划","文案撰写与多形式创作","平台算法理解与运营","数据分析与内容优化","用户心理与传播规律","视频脚本与基础拍摄剪辑","社群运营与粉丝维护","品牌调性把控"],
+    certifications: [{n:"全媒体运营师(人社部认证)",t:"rec",c:"约2000-4000元",time:"1-2个月",d:"新职业认证，政策补贴可用"},{n:"抖音/小红书官方营销认证",t:"opt",c:"免费-数千元",time:"按平台课程",d:"平台官方认证，增加可信度"},{n:"Google Analytics认证",t:"opt",c:"免费",time:"1-2周",d:"免费实用，证明数据分析思维"}]
+  },
+  data_analyst: {
+    persona: { trait:"逻辑严密+好奇心强+细节控", workStyle:"独立分析为主，阶段性汇报对齐", bg:"数学/统计/计算机/经济/商科，理工科占多数但非绝对", strengths:"在无序数据中发现pattern；将分析结果翻译为业务语言；对数字背后'为什么'的追问", ideal:"如果你看到一个数据异常会忍不住想'为什么会这样'并动手查，你可能天生适合数据分析" },
+    coreSkills: ["SQL数据查询与处理","数据可视化(Tableau/PowerBI)","Python/R统计分析","业务指标体系建设","A/B测试设计与分析","数据 storytelling","基础机器学习理解","Excel高级建模"],
+    certifications: [{n:"Google Data Analytics证书",t:"rec",c:"约$49/月(Coursera)",time:"6个月(业余)",d:"零基础入门首选，含SQL/R/Tableau实战"},{n:"Microsoft PL-300(Power BI)",t:"opt",c:"约700元",time:"1-2个月",d:"BI方向实用认证"},{n:"Tableau Desktop Specialist",t:"opt",c:"约$100",time:"2-4周",d:"数据可视化工具认证"},{n:"CDA数据分析师认证",t:"opt",c:"约1200-3000元",time:"1-3个月",d:"国内认可，分3级"}]
+  },
+  accountant: {
+    persona: { trait:"严谨细致+规则意识+抗压稳定", workStyle:"周期性忙碌(月/季/年末)+日常持续输出", bg:"会计/财务/审计/税务，专业对口性高", strengths:"规则理解与合规判断；数字精确性的执着；在多任务压力下保持准确", ideal:"如果你对数字的错误有'生理性不适'且喜欢把事情做得井井有条，你可能天生适合财务" },
+    coreSkills: ["会计准则应用与报表编制","税务申报与筹划","成本核算与管理会计","财务软件与ERP系统","内控与风险管理","审计流程与方法","财务分析与经营建议","资金管理与预算编制"],
+    certifications: [{n:"CPA中国注册会计师",t:"must",c:"约500元/科(6科+综合)",time:"2-3年(在职)",d:"财务领域含金量最高证书"},{n:"中级会计职称",t:"rec",c:"约200元",time:"3-6个月",d:"企业财务晋升必备"},{n:"CMA美国注册管理会计师",t:"opt",c:"约$1000-1500",time:"6-12个月",d:"管理会计方向，外企认可"},{n:"ACCA特许公认会计师",t:"opt",c:"约£2000-3000",time:"2-3年",d:"英联邦体系，外企首选"},{n:"税务师",t:"opt",c:"约500元",time:"1-2年",d:"税务筹划方向"}]
+  },
+  project_manager: {
+    persona: { trait:"统筹能力强+沟通清晰+风险敏感", workStyle:"会议+计划+追踪，驱动型工作节奏", bg:"工程/商科/IT/任何专业，PMP认证比专业重要", strengths:"化混乱为有序；提前识别风险而非事后救火；让不同角色的人朝同一目标前进", ideal:"如果你组织朋友聚会时会自然做行程表+分工+deadline，你可能天生适合项目管理" },
+    coreSkills: ["项目计划与WBS分解","敏捷/Scrum/PMBOK方法论","风险管理与问题解决","干系人沟通与管理","项目预算与资源分配","Jira/MS Project等工具","合同与采购管理基础","团队激励与冲突调解"],
+    certifications: [{n:"PMP项目管理专业认证",t:"must",c:"约3900元(考试费)",time:"3-6个月",d:"全球最权威PM认证，行业标配"},{n:"CSM/CSPO敏捷认证",t:"rec",c:"约$1000-1500(含培训)",time:"2天培训+考试",d:"互联网/科技PM必备"},{n:"PRINCE2认证",t:"opt",c:"约£500-1000",time:"1-2个月",d:"英联邦/欧洲/政府项目首选"},{n:"六西格玛绿带/黑带",t:"opt",c:"约3000-10000元",time:"1-3个月",d:"制造业PM加分"}]
+  },
+  operations: {
+    persona: { trait:"执行力强+数据驱动+用户视角", workStyle:"快速试错+数据复盘+跨部门联动", bg:"任何专业均可，互联网运营是最'专业不限'的岗位之一", strengths:"快速实验与迭代；从数据中发现机会；协调多方资源落地执行", ideal:"如果你做过任何'从0到1'的事情(哪怕是组织读书会)，你可能天生适合运营" },
+    coreSkills: ["用户生命周期管理","数据分析与SQL","活动策划与执行","社群运营与用户沟通","内容策划与传播","A/B实验设计与优化","项目管理与跨部门协作","商业敏感度与ROI思维"],
+    certifications: [{n:"Google Analytics 4认证",t:"rec",c:"免费",time:"1-2周",d:"数据驱动运营底层能力"},{n:"SQL能力证明(HackerRank/LeetCode)",t:"rec",c:"免费",time:"2-4周",d:"面试必考SQL场景题"},{n:"抖音电商/小红书官方运营认证",t:"opt",c:"免费-数千元",time:"按平台课程",d:"电商/内容运营直接加分"},{n:"增长黑客在线课程(Reforge/CXL)",t:"opt",c:"$0-49/月",time:"1-2个月",d:"国际认可的增长方法论"}]
+  },
+  finance_analyst: {
+    persona: { trait:"数字敏感+快速学习+独立判断", workStyle:"深度研究+报告撰写+客户/内部沟通", bg:"金融/经济/会计/数学，名校+证书是重要敲门砖", strengths:"独立研究框架；财报穿透分析；在信息不完整时做出合理假设", ideal:"如果你看财经新闻时习惯性地想'这会对XX公司股价产生什么影响'，你可能天生适合金融分析" },
+    coreSkills: ["财务分析与估值建模","行业与公司深度研究","Excel/Python数据分析","报告撰写与路演呈现","宏观经济与政策解读","公司治理与战略分析","风险管理基础","Bloomberg/Wind等终端使用"],
+    certifications: [{n:"CFA特许金融分析师(L1-3)",t:"rec",c:"约$900-1200/级",time:"每级6个月",d:"全球投资领域最权威认证"},{n:"证券从业资格证",t:"must",c:"约200元",time:"1-2个月",d:"入行必备基础证书"},{n:"CPA中国注册会计师",t:"rec",c:"约500元/科",time:"2-3年",d:"财务/投行方向核心证书"},{n:"FRM金融风险管理师",t:"opt",c:"约$1000-1500",time:"每级3-4个月",d:"银行/风控方向首选"}]
+  },
+  c_pm:{persona:{trait:"用户视角+数据驱动+好奇心强",workStyle:"调研→假设→验证→迭代循环，跨团队协作密集",bg:"不限专业，心理学/社会学/计算机/设计背景各占一角",strengths:"用户共情与洞察；数据验证直觉；在模糊需求中找到核心问题",ideal:"如果你总是不自觉地分析APP的交互细节并想'为什么这样设计'，你可能天生适合C端PM"},coreSkills:["用户研究与需求挖掘","产品路线图规划","PRD撰写与原型设计","A/B实验与数据分析","跨职能团队协作","竞品分析与市场洞察","优先级判断与资源分配","用户故事与场景建模"],certifications:[{n:"NPDP产品经理认证",t:"rec",c:"约5000元",time:"3-6个月",d:"产品方法论系统认证"},{n:"Google Analytics认证",t:"opt",c:"免费",time:"1-2周",d:"数据驱动基本功"}]},
+  b_pm:{persona:{trait:"逻辑严密+业务洞察+抽象建模",workStyle:"深度理解客户场景→抽象为产品方案→迭代交付",bg:"计算机/商科/工业工程/行业背景均可",strengths:"将复杂业务抽象为简洁系统；平衡客户定制与产品化；ROI思维",ideal:"如果你喜欢把混乱的业务流程梳理成清晰的系统，你可能天生适合B端PM"},coreSkills:["业务抽象与领域建模","B端交互与信息架构","客户需求管理与优先级","SaaS商业模式理解","API与系统集成思维","产品文档与培训","销售与CSM协同","数据驱动的产品决策"],certifications:[{n:"PMP项目管理认证",t:"rec",c:"约3900元",time:"3个月",d:"大项目管理能力证明"},{n:"AWS/阿里云从业者认证",t:"opt",c:"约700元",time:"2-4周",d:"理解技术基础设施"}]},
+  growth_pm:{persona:{trait:"数据痴迷+实验精神+快速学习",workStyle:"假设→实验→分析→规模化，快速迭代",bg:"数学/统计/计算机/经济/市场营销",strengths:"从数据中发现增长杠杆；设计干净实验；接受高频失败",ideal:"如果你看到一个转化漏斗就想'哪里可以优化'并马上想跑实验验证，你可能天生适合增长PM"},coreSkills:["A/B测试设计与分析","用户行为数据分析","增长模型搭建","转化率优化(CRO)","病毒传播与推荐机制","广告投放与ROI分析","用户生命周期管理","实验平台与指标体系"],certifications:[{n:"Google Analytics 4认证",t:"rec",c:"免费",time:"1-2周",d:"增长数据基础设施"},{n:"SQL中高级能力",t:"rec",c:"免费(自学)",time:"2-4周",d:"增长PM面试必考SQL场景题"}]},
+  frontend_dev:{persona:{trait:"视觉敏感+逻辑思维+持续学习",workStyle:"独立编码+代码评审+技术方案讨论",bg:"计算机/软件/EE/或自学转行(极常见)",strengths:"将设计稿精准还原为代码；性能优化直觉；快速学习新框架",ideal:"如果你喜欢'写出漂亮的界面'并享受用户看到你作品的那一刻，你可能天生适合前端"},coreSkills:["HTML/CSS/JavaScript","React/Vue/Angular框架","前端工程化(Webpack/Vite)","性能优化与监控","响应式设计与适配","浏览器原理与Debug","Node.js基础","前端安全与最佳实践"],certifications:[{n:"freeCodeCamp前端证书",t:"rec",c:"免费",time:"3-6个月(业余)",d:"零基础入门首选"},{n:"AWS/GCP云从业者",t:"opt",c:"约$100",time:"2-4周",d:"了解部署环境"}]},
+  backend_dev:{persona:{trait:"系统思维+抽象能力+深度钻研",workStyle:"需求分析→系统设计→编码实现→Code Review",bg:"计算机/软件/数学/EE，专业相关度高",strengths:"设计可扩展的系统架构；性能瓶颈定位；抽象复用的工程思维",ideal:"如果你对'一个请求从点击到返回数据经历了什么'有持续好奇，你可能天生适合后端"},coreSkills:["Java/Go/Python至少精通一门","数据库设计与优化(MySQL/Redis)","系统设计与分布式基础","API设计与RESTful规范","Linux系统与Shell","消息队列与微服务","性能调优与故障排查","CI/CD与容器化"],certifications:[{n:"AWS Solutions Architect",t:"rec",c:"约$150",time:"2-3个月",d:"系统设计能力证明"},{n:"CKAD Kubernetes认证",t:"opt",c:"约$300",time:"2-3个月",d:"云原生方向加分"}]},
+};
+
+// ============ DOM REFS ============
+const mainContent = document.getElementById('mainContent');
+const coinCount = document.getElementById('coinCount');
+const globalProgress = document.getElementById('globalProgress');
+const phaseIndicator = document.getElementById('phaseIndicator');
+const celebrationToast = document.getElementById('celebrationToast');
+const toastEmoji = document.getElementById('toastEmoji');
+const toastText = document.getElementById('toastText');
+
+// ============ RENDER ENGINE ============
+function render() {
+  switch (state.phase) {
+    case 'welcome': renderWelcome(); break;
+    case 'phase1': renderPhase1Question(); break;
+    case 'phase1_flash': renderFlashCard(); break;
+    case 'phase2': renderPhase2(); break;
+    case 'phase2_result': renderPhase2Result(); break;
+    case 'phase3': renderPhase3(); break;
+    case 'final': renderFinal(); break;
+  }
+  updateProgress();
+  // Smooth scroll to latest content
+  setTimeout(() => {
+    mainContent.scrollTop = mainContent.scrollHeight;
+    if (mainContent.lastElementChild) {
+      mainContent.lastElementChild.scrollIntoView({ behavior: 'smooth', block: 'end' });
+    }
+  }, 100);
+}
+
+function updateProgress() {
+  var pct = 0, activeStep = 1;
+  if (state.phase === 'phase1') { pct = (state.questionIndex / 8) * 20; activeStep = 1; }
+  else if (state.phase === 'phase1_flash') { pct = 20; activeStep = 1; }
+  else if (state.phase === 'phase2') {
+    if (state.phase2Step === 'tree') { pct = 24; activeStep = 2; }
+    else if (state.phase2Step === 'fill') { pct = 30; activeStep = 2; }
+    else if (state.phase2Step === 'ratio') { pct = 44; activeStep = 3; }
+  } else if (state.phase === 'phase2_result') { pct = 50; activeStep = 3; }
+  else if (state.phase === 'phase3') {
+    if (state.phase3Step === 'intro') pct = 55;
+    else if (state.phase3Step === 'cards') pct = 72;
+    else if (state.phase3Step === 'table') pct = 85;
+    else if (state.phase3Step === 'timeline') pct = 95;
+    activeStep = 4;
+  } else if (state.phase === 'final') { pct = 100; activeStep = 4; }
+  globalProgress.style.width = pct + '%';
+  // Update mascot + percentage
+  var mascot = document.getElementById('progressMascot');
+  var pctEl = document.getElementById('progressPct');
+  if (mascot) { mascot.style.left = Math.min(pct, 95) + '%'; }
+  if (pctEl) { pctEl.textContent = pct + '%'; }
+  // Change mascot based on phase
+  var mascots = {1:'🦊', 2:'🌳', 3:'⚗️', 4:'🔗', 100:'🎊'};
+  if (mascot) {
+    if (pct >= 100) mascot.textContent = '🎊';
+    else if (pct >= 50) mascot.textContent = '🔗';
+    else if (pct >= 25) mascot.textContent = '⚗️';
+    else mascot.textContent = '🦊';
+  }
+
+  // Update stepped progress
+  var nodes = document.querySelectorAll('.step-node');
+  var conns = document.querySelectorAll('.step-connector');
+  for (var i = 0; i < nodes.length; i++) {
+    var n = i + 1, dot = nodes[i].querySelector('.step-dot'), lbl = nodes[i].querySelector('.step-label');
+    dot.classList.remove('active','done'); lbl.classList.remove('active','done');
+    if (n < activeStep) { dot.classList.add('done'); lbl.classList.add('done'); dot.textContent = '✓'; }
+    else if (n === activeStep) { dot.classList.add('active'); lbl.classList.add('active'); dot.textContent = n; }
+    else { dot.textContent = n; }
+  }
+  for (var j = 0; j < conns.length; j++) {
+    conns[j].classList.remove('active','done');
+    if (j + 1 < activeStep) conns[j].classList.add('done');
+    else if (j + 1 === activeStep) conns[j].classList.add('active');
+  }
+  coinCount.textContent = state.coins;
+}
+
+// ============ CELEBRATION ============
+function showToast(emoji, text, duration = 2500) {
+  toastEmoji.textContent = emoji;
+  toastText.textContent = text;
+  celebrationToast.classList.remove('hidden', 'dismiss');
+  celebrationToast.style.animation = 'none';
+  celebrationToast.offsetHeight;
+  celebrationToast.style.animation = 'toastPopIn 0.5s cubic-bezier(0.68,-0.55,0.265,1.55) forwards';
+  setTimeout(() => {
+    celebrationToast.classList.add('dismiss');
+    setTimeout(() => celebrationToast.classList.add('hidden'), 400);
+  }, duration);
+}
+
+function celebrate(emoji = '🎉', text = '') {
+  showToast(emoji, text);
+  if (typeof confetti !== 'undefined') {
+    confetti({
+      particleCount: 100,
+      spread: 70,
+      origin: { y: 0.6 },
+      colors: ['#FF6B6B', '#FFB347', '#4ECDC4', '#6BCB77', '#9B59B6', '#FF69B4'],
+    });
+  }
+}
+
+function addCoins(n) {
+  state.coins += n;
+  coinCount.textContent = state.coins;
+  // Animate coin icon
+  const icon = coinCount.previousElementSibling;
+  icon.style.animation = 'none';
+  icon.offsetHeight;
+  icon.style.animation = 'coinBounce 0.5s cubic-bezier(0.68,-0.55,0.265,1.55)';
+}
+
+// ============ PHASE: WELCOME ============
+function renderWelcome() {
+  mainContent.innerHTML = `
+    <div class="chat-bubble coach">
+      <div class="bubble-avatar">🦊</div>
+      <div class="bubble-content">
+        <p>嗨，我是<strong>连连</strong>，一个帮你把闪光点连向理想工作的可爱教练 ✨</p>
+        <p>我们的旅程超轻松：</p>
+        <p>1️⃣ 用几个精准问题发现你的<strong>闪光金币</strong></p>
+        <p>2️⃣ 自己调配<strong>三圈比重</strong>，定制专属职业配方</p>
+        <p>3️⃣ 像玩连连看一样，连接具体岗位和超级标签，获得<strong>14天行动地图</strong></p>
+        <p style="color:var(--color-primary);font-weight:700;">全程有彩蛋掉落哦！准备好了吗？🪙</p>
+      </div>
+    </div>
+    <button class="btn btn-primary mt-16" onclick="startPhase1()" style="align-self:flex-start;">
+      ✨ 开始探索 →
+    </button>
+  `;
+}
+
+function startPhase1() {
+  state.phase = 'phase1';
+  state.questionIndex = 0;
+  render();
+}
+
+// ============ PHASE 1: FLASH POINT DISCOVERY ============
+function renderPhase1Question() {
+  const q = PHASE1_QUESTIONS[state.questionIndex];
+  if (!q) { finishPhase1(); return; }
+
+  let inputHTML = '';
+  switch (q.type) {
+    case 'text':
+      inputHTML = `
+        <div class="text-input-group">
+          <textarea class="text-input" id="textAnswer" placeholder="${q.placeholder}" rows="3"></textarea>
+          <button class="btn btn-primary" onclick="submitTextAnswer('${q.id}')" id="submitBtn">
+            继续 → 🪙
+          </button>
+        </div>`;
+      break;
+
+    case 'multiChoice':
+      inputHTML = `
+        <div class="option-group" id="multiOptions">
+          ${q.options.map(o => `
+            <div class="option-card" data-value="${o.value}" onclick="toggleMultiOption(this, '${q.id}')">
+              <span class="option-icon">${o.icon}</span>
+              <div>
+                <strong>${o.label}</strong>
+                <div class="text-secondary">${o.desc}</div>
+              </div>
+              <div class="check-mark">✓</div>
+            </div>
+          `).join('')}
+        </div>
+        <button class="btn btn-primary mt-16" onclick="submitMultiChoice('${q.id}')" disabled id="multiSubmit">
+          选好了 → 🪙
+        </button>`;
+
+      // Store temp multi-select state
+      state._multiTemp = [];
+      break;
+
+    case 'tags':
+      inputHTML = `
+        <div class="tag-group" id="tagOptions">
+          ${q.options.map(t => `
+            <div class="tag-option" data-value="${t}" onclick="toggleTag(this, '${q.id}', ${q.maxSelect})">
+              ${t}
+            </div>
+          `).join('')}
+        </div>
+        <div class="text-secondary mt-8" id="tagHint">已选 0 / ${q.maxSelect} 个</div>
+        <button class="btn btn-primary mt-16" onclick="submitTags('${q.id}', ${q.maxSelect})" disabled id="tagSubmit">
+          选好了 → 🪙
+        </button>`;
+      state._tagTemp = [];
+      break;
+
+    case 'dualChoice':
+      state._dualTemp = { ie: null, tf: null };
+      inputHTML = `
+        <div class="mb-16">
+          <p style="font-weight:600;margin-bottom:8px;color:var(--color-text-secondary);">${q.questionA}</p>
+          <div class="option-group" id="dualA">
+            ${q.optionsA.map(o => `
+              <div class="option-card" data-value="${o.value}" data-group="ie" onclick="selectDual(this, 'ie')">
+                <span class="option-icon">${o.icon}</span>
+                <div><strong>${o.label}</strong><div class="text-secondary">${o.desc}</div></div>
+                <div class="check-mark">✓</div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+        <div>
+          <p style="font-weight:600;margin-bottom:8px;color:var(--color-text-secondary);">${q.questionB}</p>
+          <div class="option-group" id="dualB">
+            ${q.optionsB.map(o => `
+              <div class="option-card" data-value="${o.value}" data-group="tf" onclick="selectDual(this, 'tf')">
+                <span class="option-icon">${o.icon}</span>
+                <div><strong>${o.label}</strong><div class="text-secondary">${o.desc}</div></div>
+                <div class="check-mark">✓</div>
+              </div>
+            `).join('')}
+          </div>
+        </div>
+        <button class="btn btn-primary mt-16" onclick="submitDual('${q.id}')" disabled id="dualSubmit">
+          选好了 → 🪙
+        </button>`;
+      break;
+
+    case 'backgroundForm':
+      inputHTML = `
+        <div class="text-input-group">
+          <input class="text-input text-input-single" id="bgMajor" placeholder="专业 / 在读或毕业">
+          <input class="text-input text-input-single" id="bgWorkYears" placeholder="工作年限（如：应届 / 1年）">
+          <input class="text-input text-input-single" id="bgCurrentCity" placeholder="当前城市">
+          <input class="text-input text-input-single" id="bgTargetCity" placeholder="意向城市（可选）">
+          <button class="btn btn-primary" onclick="submitBackground('${q.id}')">
+            完成 → 🪙
+          </button>
+        </div>`;
+      break;
+  }
+
+  mainContent.innerHTML = `
+    <div class="question-card">
+      <div class="question-number">${q.emoji} 第 ${q.number} / 8 题 · ${q.coinLabel || '金币'}</div>
+      <div class="question-text">${q.title}</div>
+      ${q.subtitle ? `<p class="text-secondary mb-16">${q.subtitle}</p>` : ''}
+      ${inputHTML}
+    </div>
+  `;
+}
+
+// ---- Phase 1 Handlers ----
+function submitTextAnswer(id) {
+  const el = document.getElementById('textAnswer');
+  const val = el.value.trim();
+  if (!val) { el.focus(); el.style.borderColor = 'var(--color-primary)'; return; }
+  profile[id] = val;
+  advanceQuestion();
+}
+
+function toggleMultiOption(el, id) {
+  el.classList.toggle('selected');
+  const val = el.dataset.value;
+  if (el.classList.contains('selected')) {
+    if (!state._multiTemp.includes(val)) state._multiTemp.push(val);
+  } else {
+    state._multiTemp = state._multiTemp.filter(v => v !== val);
+  }
+  document.getElementById('multiSubmit').disabled = state._multiTemp.length === 0;
+}
+
+function submitMultiChoice(id) {
+  profile[id] = [...state._multiTemp];
+  advanceQuestion();
+}
+
+function toggleTag(el, id, max) {
+  const val = el.dataset.value;
+  if (el.classList.contains('selected')) {
+    el.classList.remove('selected');
+    state._tagTemp = state._tagTemp.filter(v => v !== val);
+  } else {
+    if (state._tagTemp.length >= max) return;
+    el.classList.add('selected');
+    state._tagTemp.push(val);
+  }
+  document.getElementById('tagHint').textContent = `已选 ${state._tagTemp.length} / ${max} 个`;
+  document.getElementById('tagSubmit').disabled = state._tagTemp.length === 0;
+}
+
+function submitTags(id, max) {
+  profile[id] = [...state._tagTemp];
+  advanceQuestion();
+}
+
+function selectDual(el, group) {
+  // Deselect siblings
+  const parent = group === 'ie' ? document.getElementById('dualA') : document.getElementById('dualB');
+  parent.querySelectorAll('.option-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  if (group === 'ie') state._dualTemp.ie = el.dataset.value;
+  else state._dualTemp.tf = el.dataset.value;
+  document.getElementById('dualSubmit').disabled = !state._dualTemp.ie || !state._dualTemp.tf;
+}
+
+function submitDual(id) {
+  profile.personalityIE = state._dualTemp.ie;
+  profile.personalityTF = state._dualTemp.tf;
+  advanceQuestion();
+}
+
+function submitBackground(id) {
+  profile.major = document.getElementById('bgMajor').value.trim();
+  profile.workYears = document.getElementById('bgWorkYears').value.trim();
+  profile.currentCity = document.getElementById('bgCurrentCity').value.trim();
+  profile.targetCity = document.getElementById('bgTargetCity').value.trim() || profile.currentCity;
+  advanceQuestion();
+}
+
+function advanceQuestion() {
+  addCoins(1);
+  state.questionIndex++;
+  if (state.questionIndex >= PHASE1_QUESTIONS.length) {
+    finishPhase1();
+  } else {
+    render();
+  }
+}
+
+function finishPhase1() {
+  // Generate flash card
+  const abilities = [];
+  const passions = [];
+
+  // From energy tendency
+  const energyMap = {
+    'A': '共情沟通', 'B': '逻辑分析', 'C': '动手创造', 'D': '策划统筹', 'E': '艺术表达'
+  };
+  (profile.energyTendency || []).forEach(e => {
+    abilities.push(energyMap[e] || e);
+  });
+
+  // From strength signal
+  if (profile.strengthSignal) {
+    // Extract key phrases
+    const strengthLower = profile.strengthSignal.toLowerCase();
+    if (/沟通|交流|聊|说|协调|谈/.test(strengthLower)) abilities.push('沟通表达');
+    if (/分析|逻辑|推理|研究|数据/.test(strengthLower)) abilities.push('分析思维');
+    if (/创意|创造|想法|灵感|设计/.test(strengthLower)) abilities.push('创意能力');
+    if (/组织|策划|安排|统筹|管理/.test(strengthLower)) abilities.push('组织管理');
+    if (/写|文案|文字|内容/.test(strengthLower)) abilities.push('文字表达');
+    if (/审美|好看|美|设计|视觉/.test(strengthLower)) abilities.push('视觉审美');
+    if (/耐心|细心|仔细|认真/.test(strengthLower)) abilities.push('细致认真');
+    if (/帮|助人|倾听|理解|共情/.test(strengthLower)) abilities.push('共情助人');
+  }
+
+  // From flow moment
+  if (profile.flowMoment) {
+    const flowLower = profile.flowMoment.toLowerCase();
+    if (/创造|写|画|设计|做|搭建/.test(flowLower)) passions.push('创造与表达');
+    if (/帮|教|分享|解答|引导/.test(flowLower)) passions.push('助人成长');
+    if (/研究|分析|解谜|探索|学/.test(flowLower)) passions.push('探索求知');
+    if (/组织|策划|活动|聚会|协调/.test(flowLower)) passions.push('组织策划');
+    if (/运动|跑步|健身|户外/.test(flowLower)) passions.push('身心活跃');
+  }
+
+  // From values
+  if (profile.values.includes('创新创造')) passions.push('创新领域');
+  if (profile.values.includes('社会影响')) passions.push('社会价值');
+  if (profile.values.includes('人际关系')) passions.push('与人连接');
+
+  // Determine work style
+  let workStyle = '';
+  const ie = profile.personalityIE;
+  const tf = profile.personalityTF;
+  const energyTags = (profile.energyTendency || []).map(e => e);
+  const hasSocial = energyTags.includes('A') || energyTags.includes('D');
+  const hasSolo = energyTags.includes('B') || energyTags.includes('C') || energyTags.includes('E');
+
+  if (ie === 'I' && hasSolo) workStyle = '独立深耕 + 深度专注';
+  else if (ie === 'E' && hasSocial) workStyle = '团队协作 + 能量互动';
+  else if (ie === 'I') workStyle = '独立深耕 + 灵活协作';
+  else workStyle = '以人为中心 + 弹性节奏';
+
+  // Deduplicate
+  const unique = (arr) => [...new Set(arr)];
+  const finalAbilities = unique(abilities).slice(0, 5);
+  const finalPassions = unique(passions).slice(0, 5);
+
+  // Core drive
+  let coreDrive = '';
+  if (profile.values.includes('社会影响') || profile.values.includes('人际关系')) {
+    coreDrive = '通过创造与连接，对他人产生积极影响';
+  } else if (profile.values.includes('创新创造') || profile.values.includes('学习成长')) {
+    coreDrive = '持续探索未知、创造新事物的内在热情';
+  } else if (profile.values.includes('经济回报') || profile.values.includes('自主独立')) {
+    coreDrive = '用能力获取自由，掌控自己的人生节奏';
+  } else {
+    coreDrive = '在适合自己的节奏中，持续成长和贡献';
+  }
+
+  profile.flashCard = {
+    abilities: finalAbilities,
+    passions: finalPassions,
+    workStyle,
+    coreDrive,
+  };
+
+  state.phase = 'phase1_flash';
+  state.coins = 8;
+  render();
+  setTimeout(() => celebrate('🎉', '恭喜！你的专属闪光金币已铸造完成！接下来我们用它去调配你的职业配方～'), 600);
+}
+
+function renderFlashCard() {
+  const fc = profile.flashCard;
+  mainContent.innerHTML = `
+    <div class="flash-card">
+      <div style="position:relative;z-index:1;">
+        <h3>✨ 我的闪光点卡 ✨</h3>
+        <div class="flash-section">
+          <div class="label">🔮 能力标签</div>
+          <div class="tags">
+            ${fc.abilities.map(a => `<span class="flash-tag ability">${a}</span>`).join('')}
+          </div>
+        </div>
+        <div class="flash-section">
+          <div class="label">💖 热情领域</div>
+          <div class="tags">
+            ${fc.passions.map(p => `<span class="flash-tag passion">${p}</span>`).join('')}
+          </div>
+        </div>
+        <div class="flash-section">
+          <div class="label">🧘 工作风格</div>
+          <div class="tags">
+            <span class="flash-tag style">${fc.workStyle}</span>
+          </div>
+        </div>
+        <div class="flash-section">
+          <div class="label">❤️‍🔥 核心驱动力</div>
+          <div class="tags">
+            <span class="flash-tag drive">${fc.coreDrive}</span>
+          </div>
+        </div>
+        <div style="margin-top:20px;padding:16px;background:var(--color-bg-alt);border-radius:var(--radius-md);" id="flashFeedbackBox">
+          <p style="font-weight:700;font-size:0.9rem;margin-bottom:6px;">💬 这张闪光点卡准不准？</p>
+          <p style="font-size:0.78rem;color:var(--color-text-secondary);margin-bottom:8px;">点击上方任意标签修改它，或在下方补充连连漏掉的优势～</p>
+          <textarea class="text-input" id="flashFeedbackInput" placeholder="比如：我觉得你还漏掉了"快速学习新工具"这个优势..." rows="2" style="font-size:0.85rem;min-height:50px;"></textarea>
+          <button class="btn btn-small btn-outline mt-8" onclick="submitFlashFeedback()">💾 更新闪光点</button>
+          <span style="font-size:0.78rem;color:var(--color-teal);margin-left:8px;display:none;" id="feedbackSaved">✅ 已记录！</span>
+        </div>
+      </div>
+    </div>
+    <button class="btn btn-primary mt-16" onclick="startPhase2()">
+      继续调配职业配方 → 🌟
+    </button>
+  `;
+  // Make tags clickable
+  setTimeout(function() {
+    document.querySelectorAll('.flash-tag').forEach(function(tag) {
+      tag.style.cursor = 'pointer'; tag.title = '点击修改或删除';
+      tag.addEventListener('click', function() {
+        var v = prompt('修改（留空删除）：', tag.textContent.trim());
+        if (v === null) return;
+        if (v === '') { tag.style.opacity = '0.4'; tag.style.textDecoration = 'line-through'; tag.title = '已标记删除'; }
+        else { tag.textContent = v; tag.style.border = '1.5px dashed var(--color-amber)'; tag.style.background = '#FFF7ED'; }
+      });
+    });
+  }, 300);
+}
+
+function submitFlashFeedback() {
+  var input = document.getElementById('flashFeedbackInput');
+  var fb = input.value.trim();
+  if (fb) {
+    var words = fb.split(/[，,。、；;]/);
+    words.forEach(function(w) { w = w.trim(); if (w && w.length >= 2 && profile.flashCard.abilities.indexOf(w) === -1) profile.flashCard.abilities.push(w); });
+    if (profile.flashCard.abilities.length > 8) profile.flashCard.abilities = profile.flashCard.abilities.slice(-8);
+    input.value = '';
+    document.getElementById('feedbackSaved').style.display = 'inline';
+    // Re-render flash tags
+    var fc = profile.flashCard;
+    document.querySelectorAll('.flash-section .tags')[0].innerHTML = fc.abilities.map(function(a) { return '<span class="flash-tag ability">' + a + '</span>'; }).join('');
+  }
+}
+
+function startPhase2() {
+  state.phase = 'phase2';
+  state.phase2Step = 'tree';
+  profile.selectedIndustries = [];
+  render();
+}
+
+// ============ PHASE 2: THREE CIRCLES ============
+function renderPhase2() {
+  if (state.phase2Step === 'tree') { renderIndustryTree(); }
+  else if (state.phase2Step === 'fill') { renderPhase2Fill(); }
+  else if (state.phase2Step === 'ratio') { renderPhase2Ratio(); }
+}
+
+// === Industry Tree UI ===
+function renderIndustryTree() {
+  var h = '<div class="card color-top" style="border-top-color:var(--color-teal);"><h3>🌳 选择你感兴趣的行业</h3><p class="text-secondary mt-8">行行出状元！先勾选你感兴趣的细分行业（建议选 3-8 个），连连会在这些行业里帮你连线好岗位～</p><div class="industry-tree mt-16" id="industryTree">';
+  for (var i = 0; i < INDUSTRY_TREE.length; i++) {
+    var cat = INDUSTRY_TREE[i];
+    h += '<div class="tree-category" data-cat="' + cat.id + '"><div class="tree-cat-header" onclick="toggleTreeCat(\'' + cat.id + '\')"><span class="tree-cat-icon">' + cat.icon + '</span><span class="tree-cat-name">' + cat.name + '</span><span class="tree-cat-count">' + cat.subs.length + '个方向</span><span class="tree-cat-arrow">▼</span></div><div class="tree-sub-list" id="subList_' + cat.id + '">';
+    for (var j = 0; j < cat.subs.length; j++) {
+      h += '<div class="tree-sub-tag" data-cat="' + cat.id + '" data-sub="' + cat.subs[j] + '" onclick="toggleSubTag(this);event.stopPropagation();">' + cat.subs[j] + '</div>';
+    }
+    h += '</div></div>';
+  }
+  h += '</div><div class="mt-16 flex-between flex-wrap gap-8"><span class="text-secondary" style="font-size:0.85rem;" id="industryCount">已选 0 个细分行业</span><button class="btn btn-primary" onclick="submitIndustries()" id="industrySubmit" disabled>确认行业选择 →</button></div></div>';
+  mainContent.innerHTML = h;
+}
+function toggleTreeCat(id) { document.querySelector('.tree-category[data-cat="' + id + '"]').classList.toggle('expanded'); }
+function toggleSubTag(el) {
+  el.classList.toggle('selected');
+  var sub = el.dataset.sub, catId = el.dataset.cat;
+  if (el.classList.contains('selected')) {
+    if (!profile.selectedIndustries.find(function(s) { return s.sub === sub; })) profile.selectedIndustries.push({cat: catId, sub: sub});
+  } else {
+    profile.selectedIndustries = profile.selectedIndustries.filter(function(s) { return s.sub !== sub; });
+  }
+  var c = profile.selectedIndustries.length;
+  document.getElementById('industryCount').textContent = '已选 ' + c + ' 个细分行业';
+  document.getElementById('industrySubmit').disabled = c === 0;
+}
+function submitIndustries() { state.phase2Step = 'fill'; render(); }
+
+function renderPhase2Fill() {
+  mainContent.innerHTML = `
+    <div class="card color-top">
+      <h3>⚗️ 三圈配方实验室</h3>
+      <p class="text-secondary mt-8">基于你的闪光点，我们来填充职业三圈的配方～</p>
+
+      <div style="display:flex;justify-content:center;margin:12px 0;">
+        <svg width="280" height="200" viewBox="0 0 280 200" class="venn-svg">
+          <circle cx="105" cy="100" r="72" fill="rgba(107,203,119,0.25)" stroke="#6BCB77" stroke-width="2.5" stroke-dasharray="6,3"/>
+          <text x="105" y="50" text-anchor="middle" font-size="12" font-weight="700" fill="#2E7D32">💚 想做的事</text>
+          <circle cx="175" cy="100" r="72" fill="rgba(78,205,196,0.25)" stroke="#4ECDC4" stroke-width="2.5" stroke-dasharray="6,3"/>
+          <text x="175" y="50" text-anchor="middle" font-size="12" font-weight="700" fill="#00695C">💙 擅长的事</text>
+          <circle cx="140" cy="145" r="72" fill="rgba(255,179,71,0.25)" stroke="#FFB347" stroke-width="2.5" stroke-dasharray="6,3"/>
+          <text x="140" y="192" text-anchor="middle" font-size="12" font-weight="700" fill="#E65100">💛 能赚钱的事</text>
+        </svg>
+      </div>
+
+      <div class="mt-16">
+        <label style="font-weight:700;">💚 你想做什么？</label>
+        <textarea class="text-input mt-8" id="wantToDo" placeholder="源于你的热情领域与价值观，比如：帮助他人心理健康、创造美的产品..." rows="2"></textarea>
+      </div>
+      <div class="mt-12">
+        <label style="font-weight:700;">💙 你擅长什么？</label>
+        <textarea class="text-input mt-8" id="goodAt" placeholder="源于你的能力标签与成就事件，比如：共情沟通、结构化思维..." rows="2"></textarea>
+      </div>
+      <div class="mt-12">
+        <label style="font-weight:700;">💛 感兴趣的变现方向（勾选你感兴趣的，多多益善～）</label>
+        <p class="text-secondary" style="font-size:0.8rem;" id="moneyHint">基于你的闪光点，连连标记了 ✨推荐 方向，当然你也可以自由选择任何感兴趣的～</p>
+        <div class="tag-group mt-8" id="moneyTags">
+          ${(() => {
+            const allDirs = [
+              'AI / 科技产品', '内容创作 / 自媒体', '用户体验设计', '数据分析 / 商业智能',
+              '教育培训 / 知识付费', 'ESG / 碳中和', '医疗健康 / 生物医药', '人力资源 / 组织发展',
+              '销售 / 商务拓展', '创业 / 自由职业', '金融科技 / 投资分析', '新能源汽车 / 智能制造',
+              '半导体 / 电子硬件', '游戏 / 互动娱乐', '电商 / 跨境电商', '法律 / 合规 / 风控',
+              '心理咨询 / 社会工作', '文化传媒 / 影视制作', '管理咨询 / 商业策略', '低空经济 / 无人机',
+              '机器人 / 自动化', '快消 / 品牌管理', '公务员 / 公共事业', '旅游 / 酒店管理',
+              '区块链 / Web3',
+            ];
+            // Figure out recommended tags based on flash card
+            const fc = profile.flashCard || {};
+            const abs = (fc.abilities || []).join(' ');
+            const pas = (fc.passions || []).join(' ');
+            const profile2 = abs + pas;
+            const recMap = {
+              '内容创作 / 自媒体': /表达|创造|写|审美|创意|艺术/i,
+              'AI / 科技产品': /逻辑|分析|技术|科技|创造/i,
+              '用户体验设计': /审美|设计|共情|用户|创造|洞察/i,
+              '数据分析 / 商业智能': /逻辑|分析|数据|思维|推理/i,
+              '教育培训 / 知识付费': /沟通|表达|帮|教|助人|共情/i,
+              'ESG / 碳中和': /社会|影响|环境|可持续|研究/i,
+              '人力资源 / 组织发展': /沟通|共情|助人|组织|协调/i,
+              '心理咨询 / 社会工作': /共情|助人|倾听|帮|沟通/i,
+              '金融科技 / 投资分析': /分析|逻辑|数据|研究|思维/i,
+              '管理咨询 / 商业策略': /分析|逻辑|沟通|思维|表达/i,
+              '游戏 / 互动娱乐': /创造|创意|设计|艺术|表达/i,
+              '品牌管理': /创意|审美|表达|策划|沟通/i,
+              '医疗健康 / 生物医药': /研究|分析|助人|帮|社会/i,
+              '新能源汽车 / 智能制造': /系统|逻辑|分析|创造|协调/i,
+            };
+            const recommended = [];
+            const normal = [];
+            allDirs.forEach(d => {
+              const dirKey = d.replace(/ .*/, '').trim();
+              let matched = false;
+              for (const [key, regex] of Object.entries(recMap)) {
+                if (d === key && regex.test(profile2)) {
+                  recommended.push(d);
+                  matched = true;
+                  break;
+                }
+              }
+              if (!matched) normal.push(d);
+            });
+            // Sort: recommended first, but keep variety
+            const sorted = [...recommended.slice(0, 6), ...normal];
+            return sorted.map(d => {
+              const isRec = recommended.includes(d);
+              return '<div class="tag-option' + (isRec ? ' tag-rec' : '') + '" data-value="' + d + '" onclick="toggleMoneyTag(this)">' + (isRec ? '✨ ' : '') + d + '</div>';
+            }).join('');
+          })()}
+        </div>
+      </div>
+      <button class="btn btn-primary mt-20" onclick="submitPhase2Fill()">
+        填充完成，继续调配比重 →
+      </button>
+    </div>
+  `;
+  state._moneyTemp = [];
+}
+
+function toggleMoneyTag(el) {
+  el.classList.toggle('selected');
+  const v = el.dataset.value;
+  if (el.classList.contains('selected')) {
+    if (!state._moneyTemp.includes(v)) state._moneyTemp.push(v);
+  } else {
+    state._moneyTemp = state._moneyTemp.filter(x => x !== v);
+  }
+}
+
+function submitPhase2Fill() {
+  profile.wantToDo = document.getElementById('wantToDo').value.trim();
+  profile.goodAt = document.getElementById('goodAt').value.trim();
+  profile.moneyDirections = [...state._moneyTemp];
+  state.phase2Step = 'ratio';
+  render();
+}
+
+function renderPhase2Ratio() {
+  // Default ratio
+  if (!profile.ratioCustom.want) profile.ratioCustom = { want: 33, good: 34, money: 33 };
+  const r = profile.ratioCustom;
+
+  mainContent.innerHTML = `
+    <div class="card color-top purple">
+      <h3>⚖️ 确定你的三圈比重</h3>
+      <p class="text-secondary mt-8">告诉连连你目前最看重哪个维度，或者从预设方案中选一个最接近的～</p>
+
+      <div class="preset-group mt-16" id="presetGroup">
+        ${RATIO_PRESETS.map(p => `
+          <div class="preset-card ${profile.ratioPreset === p.id ? 'selected' : ''}" data-preset="${p.id}" onclick="selectPreset('${p.id}')">
+            <div class="preset-name">${p.name}</div>
+            <div class="preset-ratio">💚${p.ratio.want}% · 💙${p.ratio.good}% · 💛${p.ratio.money}%</div>
+            <div class="text-secondary" style="font-size:0.78rem;">${p.desc}</div>
+          </div>
+        `).join('')}
+      </div>
+
+      <div style="text-align:center;margin:12px 0;color:var(--color-text-secondary);font-size:0.85rem;">—— 或者自定义比例（总和需为100%）——</div>
+
+      <div class="ratio-slider-group">
+        <div class="ratio-row">
+          <span class="ratio-label">💚 想做的事</span>
+          <input type="range" class="ratio-slider want" id="sliderWant" min="0" max="100" value="${r.want}" oninput="updateRatioSlider()">
+          <span class="ratio-value" id="valWant">${r.want}%</span>
+        </div>
+        <div class="ratio-row">
+          <span class="ratio-label">💙 擅长的事</span>
+          <input type="range" class="ratio-slider good" id="sliderGood" min="0" max="100" value="${r.good}" oninput="updateRatioSlider()">
+          <span class="ratio-value" id="valGood">${r.good}%</span>
+        </div>
+        <div class="ratio-row">
+          <span class="ratio-label">💛 能赚钱的事</span>
+          <input type="range" class="ratio-slider money" id="sliderMoney" min="0" max="100" value="${r.money}" oninput="updateRatioSlider()">
+          <span class="ratio-value" id="valMoney">${r.money}%</span>
+        </div>
+      </div>
+      <div id="ratioWarning" class="text-secondary mt-8" style="color:var(--color-primary);font-weight:600;display:none;">
+        ⚠️ 三个比例加起来需要等于100%哦～
+      </div>
+
+      <!-- SVG preview -->
+      <div style="display:flex;justify-content:center;margin:16px 0;">
+        <svg width="240" height="180" viewBox="0 0 240 180" id="ratioPreview">
+          <circle cx="85" cy="90" r="${30 + (r.want / 100) * 50}" fill="rgba(107,203,119,0.3)" stroke="#6BCB77" stroke-width="2"/>
+          <text x="85" y="20" text-anchor="middle" font-size="11" font-weight="700" fill="#2E7D32">💚 ${r.want}%</text>
+          <circle cx="155" cy="90" r="${30 + (r.good / 100) * 50}" fill="rgba(78,205,196,0.3)" stroke="#4ECDC4" stroke-width="2"/>
+          <text x="155" y="20" text-anchor="middle" font-size="11" font-weight="700" fill="#00695C">💙 ${r.good}%</text>
+          <circle cx="120" cy="135" r="${30 + (r.money / 100) * 50}" fill="rgba(255,179,71,0.3)" stroke="#FFB347" stroke-width="2"/>
+          <text x="120" y="172" text-anchor="middle" font-size="11" font-weight="700" fill="#E65100">💛 ${r.money}%</text>
+        </svg>
+      </div>
+
+      <button class="btn btn-primary mt-16" onclick="submitPhase2Ratio()">
+        🔬 生成我的职业配方 →
+      </button>
+    </div>
+  `;
+}
+
+function updateRatioSlider(fromPreset = false) {
+  const w = parseInt(document.getElementById('sliderWant').value);
+  const g = parseInt(document.getElementById('sliderGood').value);
+  const m = parseInt(document.getElementById('sliderMoney').value);
+
+  document.getElementById('valWant').textContent = w + '%';
+  document.getElementById('valGood').textContent = g + '%';
+  document.getElementById('valMoney').textContent = m + '%';
+
+  const total = w + g + m;
+  const warning = document.getElementById('ratioWarning');
+  if (total !== 100) {
+    warning.style.display = 'block';
+  } else {
+    warning.style.display = 'none';
+  }
+
+  // If user manually dragged (not from preset), clear preset selection
+  if (!fromPreset) {
+    profile.ratioPreset = '';
+    document.querySelectorAll('.preset-card').forEach(c => c.classList.remove('selected'));
+  }
+
+  // Update SVG circles
+  const svg = document.getElementById('ratioPreview');
+  if (svg) {
+    const circles = svg.querySelectorAll('circle');
+    circles[0].setAttribute('r', 30 + (w / 100) * 50);
+    circles[1].setAttribute('r', 30 + (g / 100) * 50);
+    circles[2].setAttribute('r', 30 + (m / 100) * 50);
+    svg.querySelectorAll('text')[0].textContent = `💚 ${w}%`;
+    svg.querySelectorAll('text')[1].textContent = `💙 ${g}%`;
+    svg.querySelectorAll('text')[2].textContent = `💛 ${m}%`;
+  }
+
+  profile.ratioCustom = { want: w, good: g, money: m };
+}
+
+function selectPreset(id) {
+  const preset = RATIO_PRESETS.find(p => p.id === id);
+  profile.ratioPreset = id;
+  profile.ratioCustom = { ...preset.ratio };
+
+  document.querySelectorAll('.preset-card').forEach(c => c.classList.remove('selected'));
+  document.querySelector(`.preset-card[data-preset="${id}"]`).classList.add('selected');
+
+  document.getElementById('sliderWant').value = preset.ratio.want;
+  document.getElementById('sliderGood').value = preset.ratio.good;
+  document.getElementById('sliderMoney').value = preset.ratio.money;
+  updateRatioSlider(true);
+}
+
+function submitPhase2Ratio() {
+  const r = profile.ratioCustom;
+  if (r.want + r.good + r.money !== 100) {
+    document.getElementById('ratioWarning').style.display = 'block';
+    return;
+  }
+  state.phase2Step = 'result';
+  state.phase = 'phase2_result';
+  render();
+  setTimeout(() => celebrate('🌟', '专属职业配方已调配完成！接下来我们驾驶"连连看"号，驶向具体岗位星球！'), 500);
+}
+
+function renderPhase2Result() {
+  const r = profile.ratioCustom;
+  // Generate description
+  let desc = '';
+  if (r.want >= 40) {
+    desc = '你的职业方向偏向于<strong>热情驱动型</strong>：在有强烈热情和意义的领域深耕，收入能支撑你所追求的生活方式即可。典型的路径可能是创意表达类、社会价值类或自主创业方向。';
+  } else if (r.good >= 40) {
+    desc = '你的职业方向偏向于<strong>优势变现型</strong>：最大化利用现有技能快速获得经济回报，在擅长领域建立专业壁垒。典型的路径可能是专业技术岗、专家路线或咨询顾问方向。';
+  } else if (r.money >= 50) {
+    desc = '你的职业方向偏向于<strong>务实起步型</strong>：优先市场需求和收入，快速积累资本后灵活转向热情领域。典型的路径可能是高薪技术岗、金融/商务方向。';
+  } else {
+    desc = '你的职业方向偏向于<strong>均衡发展型</strong>：在热情、能力和收入之间寻找动态平衡，稳步构建职业生涯。典型的路径可能是产品经理、项目管理或复合型岗位。';
+  }
+
+  mainContent.innerHTML = `
+    <div class="flash-card" style="border-color:var(--color-violet);">
+      <div style="position:relative;z-index:1;">
+        <h3 style="color:var(--color-violet);">🌟 专属职业配方</h3>
+        <div style="display:flex;align-items:center;gap:10px;margin:16px 0;flex-wrap:wrap;">
+          <div style="flex:1;min-width:60px;text-align:center;">
+            <div style="font-size:2rem;">💚</div>
+            <div style="font-weight:700;">${r.want}%</div>
+            <div style="font-size:0.75rem;color:var(--color-text-secondary);">想做的事</div>
+          </div>
+          <div style="font-size:1.5rem;color:var(--color-text-muted);">+</div>
+          <div style="flex:1;min-width:60px;text-align:center;">
+            <div style="font-size:2rem;">💙</div>
+            <div style="font-weight:700;">${r.good}%</div>
+            <div style="font-size:0.75rem;color:var(--color-text-secondary);">擅长的事</div>
+          </div>
+          <div style="font-size:1.5rem;color:var(--color-text-muted);">+</div>
+          <div style="flex:1;min-width:60px;text-align:center;">
+            <div style="font-size:2rem;">💛</div>
+            <div style="font-weight:700;">${r.money}%</div>
+            <div style="font-size:0.75rem;color:var(--color-text-secondary);">能赚钱的事</div>
+          </div>
+        </div>
+        <div style="padding:16px;background:var(--color-violet-light);border-radius:var(--radius-md);margin-top:12px;font-size:0.95rem;line-height:1.7;">
+          <p>${desc}</p>
+        </div>
+        <div class="text-secondary mt-12" style="font-size:0.8rem;">
+          配方模式：${profile.ratioPreset ? RATIO_PRESETS.find(p => p.id === profile.ratioPreset).name : '🎨 自定义配方'}
+        </div>
+      </div>
+    </div>
+    <button class="btn btn-primary mt-16" onclick="startPhase3()">
+      🔗 开始连连看匹配 →
+    </button>
+  `;
+}
+
+function startPhase3() {
+  state.phase = 'phase3';
+  state.phase3Step = 'intro';
+  // Match careers
+  matchCareers();
+  render();
+}
+
+// ============ PHASE 3: MATCHING ============
+function matchCareers() {
+  // Score each career against user profile
+  const scored = CAREER_DB.map(career => {
+    let score = 0;
+
+    // Ability match
+    const userAbilities = profile.flashCard?.abilities || [];
+    career.matchAbilities.forEach(a => {
+      if (userAbilities.some(ua => a.includes(ua) || ua.includes(a))) score += 3;
+    });
+
+    // Value match
+    if (profile.values) {
+      career.matchValues.forEach(v => {
+        if (profile.values.includes(v)) score += 3;
+      });
+    }
+
+    // Interest match (from passions)
+    const userPassions = profile.flashCard?.passions || [];
+    career.matchInterests.forEach(i => {
+      if (userPassions.some(up => up.includes(i) || i.includes(up))) score += 2;
+    });
+
+    // Money direction match
+    const moneyDirs = profile.moneyDirections || [];
+    const careerKeywords = [career.name, ...career.aliases].join(' ');
+    moneyDirs.forEach(d => {
+      if (careerKeywords.includes(d.split('/')[0]) || d.includes(careerKeywords.split(' ')[0])) {
+        score += 4;
+      }
+    });
+
+    // Industry match (user's selected industries → boost related careers)
+    const userInds = (profile.selectedIndustries || []).map(function(s) { return s.sub + s.cat; }).join(' ');
+    const careerText = [career.name].concat(career.aliases||[]).join(' ') + ' ' + career.trend + ' ' + career.cities;
+    if (userInds) {
+      var indWords = userInds.split(/[\/ 、，]+/);
+      indWords.forEach(function(w) { if (w.length >= 2 && careerText.indexOf(w) >= 0) score += 3; });
+    }
+
+    // Ratio alignment — directly scales the score based on user's priority
+    var r = profile.ratioCustom || {want:33,good:34,money:33};
+    var highMoney = ['tech_sales','data_analyst','finance_analyst','consultant','semiconductor','crossborder_ecom','backend_dev','devops_sre','b_pm'];
+    var highWant = ['content_creator','esg_analyst','ux_designer','psychologist','game_designer','brand_marketing','c_pm','frontend_dev'];
+    var highGood = ['ai_product','data_analyst','consultant','new_energy_ve','bio_medical','backend_dev','growth_pm','tpm','accountant'];
+    var versatile = ['hr_od','brand_marketing','crossborder_ecom','ai_product','project_manager','operations','qa_engineer'];
+
+    if (r.money >= 45 && highMoney.indexOf(career.id) >= 0) score += Math.round(r.money / 20);
+    if (r.want >= 40 && highWant.indexOf(career.id) >= 0) score += Math.round(r.want / 20);
+    if (r.good >= 40 && highGood.indexOf(career.id) >= 0) score += Math.round(r.good / 20);
+    if (r.want >= 25 && r.good >= 25 && r.money >= 25 && versatile.indexOf(career.id) >= 0) score += 2;
+
+    return { ...career, score };
+  });
+
+  scored.sort(function(a, b) { return b.score - a.score; });
+  profile.recommendedJobs = scored.slice(0, 6);
+}
+
+function renderPhase3() {
+  if (state.phase3Step === 'intro') renderPhase3Intro();
+  else if (state.phase3Step === 'cards') renderPhase3Cards();
+  else if (state.phase3Step === 'table') renderPhase3Table();
+  else if (state.phase3Step === 'timeline') renderPhase3Timeline();
+}
+
+function renderPhase3Intro() {
+  const jobs = profile.recommendedJobs;
+  mainContent.innerHTML = `
+    <div class="chat-bubble coach">
+      <div class="bubble-avatar">🦊</div>
+      <div class="bubble-content">
+        <p>连连正在把你的闪光点和三圈配方进行"连连看"匹配……🔍</p>
+        <p>我扫描了你的<strong>能力标签</strong>、<strong>热情领域</strong>、<strong>价值观</strong>和<strong>市场趋势</strong>，为你找到了 <strong>${jobs.length}</strong> 个高度适配的岗位方向！</p>
+        <p>每一个岗位都配有完整的<strong>连连卡</strong>——包含时代风口、城市友好、社群口碑、新手友好度等超级标签 🏷️</p>
+      </div>
+    </div>
+    <button class="btn btn-primary mt-12" onclick="state.phase3Step='cards';render();">
+      📌 查看我的连连卡 →
+    </button>
+  `;
+}
+
+function renderPhase3Cards() {
+  const jobs = profile.recommendedJobs;
+  const userAbilities = profile.flashCard?.abilities || [];
+  const topAbility = userAbilities[0] || '你的核心优势';
+
+  let html = '<h3 style="margin-bottom:8px;">🔗 你的职业连连卡</h3>';
+  html += `<p class="text-secondary mb-16">连连把 ${jobs.length} 个岗位和你的闪光点连在一起了～ 点击卡片看详情</p>`;
+
+  jobs.forEach((job, idx) => {
+    html += `
+    <div class="job-card mt-16" style="animation-delay:${idx * 0.12}s;">
+      <div class="connect-line">
+        <span class="ability-tag">${topAbility}</span>
+        <span class="arrow">→→→</span>
+        <span class="job-name">${job.name}</span>
+      </div>
+      <h4>📌 ${job.name} <span style="font-weight:400;font-size:0.85rem;color:var(--color-text-secondary);">${job.aliases.join(' / ')}</span></h4>
+
+      <div class="job-section">
+        <div class="job-section-title">🔗 适配理由</div>
+        <p style="font-size:0.9rem;">因为你的<strong>${topAbility}</strong>，而这个岗位恰需要<strong>${job.matchAbilities.slice(0,2).join('、')}</strong>，所以连在一起。</p>
+      </div>
+
+      <div class="job-section">
+        <div class="job-section-title">📋 工作内容</div>
+        <ul style="padding-left:18px;font-size:0.9rem;">
+          ${job.workContent.map(w => `<li>${w}</li>`).join('')}
+        </ul>
+      </div>
+
+      <div class="job-section">
+        <div class="job-section-title">💰 薪资结构</div>
+        <p style="font-size:0.85rem;">${job.salary}</p>
+        <p class="text-secondary" style="font-size:0.75rem;">⚠️ 基于公开数据及典型情况，请以实时官方渠道核实为准</p>
+      </div>
+
+      <div class="job-section">
+        <div class="job-section-title">🛠 技能要求与补充路径</div>
+        <p style="font-size:0.85rem;">${job.skillGap}</p>
+      </div>
+
+      <!-- Tags -->
+      <div class="job-section">
+        <div class="job-section-title">🏷 必备标签</div>
+        <div class="tag-row">
+          <span class="tag-pill tag-trend" title="${job.trend}">📈 ${job.trend.substring(0,40)}...</span>
+          <span class="tag-pill tag-city">🏙 ${job.cities}</span>
+          ${job.special ? `<span class="tag-pill tag-special">🛡️ ${job.special.substring(0,25)}...</span>` : ''}
+        </div>
+      </div>
+      <div class="tag-row mt-8">
+        <span class="tag-pill tag-beginner">🌱 新手友好 ${renderStars(job.beginnerStars)} ${job.beginnerNote.substring(0,20)}...</span>
+        <span class="tag-pill tag-skill">🧩 技能迁移 ${renderStars(job.skillTransferStars)} ${job.skillTransferNote.substring(0,20)}...</span>
+      </div>
+
+      <div class="job-section">
+        <div class="job-section-title">💬 社群口碑速读</div>
+        <p style="font-size:0.85rem;">${job.community}</p>
+      </div>
+
+      <div class="job-section" style="background:var(--color-bg-alt);border-radius:var(--radius-md);padding:14px;margin-top:14px;">
+        <div class="job-section-title">🧪 原型体验行动（本周即可执行）</div>
+        <p style="font-size:0.85rem;">${job.prototype}</p>
+      </div>
+
+      <!-- Talent Persona Card -->
+      ${renderPersonaCard(job)}
+
+      <!-- Core Transferable Competencies -->
+      ${renderCoreSkillsCard(job)}
+
+      ${renderJobQA(job)}
+    </div>`;
+  });
+
+  html += '<button class="btn btn-outline mt-16" onclick="state.phase3Step=\'table\';render();">📊 查看备选方向对照表 →</button>';
+
+  mainContent.innerHTML = html;
+}
+
+// ============ SCORING + DEEP DIVE ============
+
+
+// ============ JOB-SPECIFIC Q&A (社群热议问题，每岗位3个独特问题) ============
+var JOB_QADATA = {
+  ai_product: [
+    {q:"非技术背景能做AI产品经理吗？",a:"<b>可以，很多优秀AI PM并非技术出身。</b>核心能力是问题定义和商业判断而非写代码。你需培养技术理解力——能看懂AI能力边界、能和工程师有效对话。花2-3个月系统学习AI基础概念+用Coze/Dify搭一个AI应用Demo，面试中展示技术翻译能力。脉脉真实分享：文科背景AI PM花3个月补课后带AI客服产品线，团队工程师反而觉得他问对了问题。"},
+    {q:"AI PM和传统PM的核心区别是什么？",a:"<b>核心在于不确定性管理。</b>传统PM面对成熟产品范式；AI PM面对技术边界模糊、用户预期不明确的环境。需要：1)更强实验思维(A/B测试、渐进交付)；2)理解AI能不能做vs值不值得做；3)管理用户对AI的魔法预期。知乎高赞：传统PM在已知地图修路，AI PM在探索地图边界。"},
+    {q:"现在入行AI产品会不会太晚？",a:"<b>远没有晚，但入行姿势变了。</b>2023-24是红利期；2025-26进入需要真本事的成熟期。正确姿势：从AI+某行业交叉点切入(AI+医疗/金融/教育)而非直接竞争AI PM title。关注Agent/Copilot/具身智能等新范式。牛客上一位AI PM说：AI不是一阵风，是底层基础设施变革。"}
+  ],
+  ux_designer: [
+    {q:"UX设计师会被AI替代吗？",a:"<b>执行层画图工在被替代，但体验策略层反而更稀缺。</b>AI能生成UI稿但无法理解用户在场景中的情感需求。建议：1)学AI设计工具当效率利器；2)从画好看的界面升级到定义产品体验策略；3)扩展用户研究、服务设计等AI难替代领域。站酷热评：区分你价值的不是Figma用多好，而是能不能说出设计决策的why。"},
+    {q:"没有美术基础能做UX吗？",a:"<b>可以，UX≠视觉设计。</b>UX核心是逻辑和信息架构。很多优秀UX设计师来自心理学、计算机等非艺术背景。你需要：用户研究能力+信息架构能力+基本视觉素养(可后天学)。Google UX证书完全面向零基础。但如果想做纯视觉设计(偏UI)，确实需要审美训练。"},
+    {q:"UX在哪个行业发展最好？",a:"据脉脉/猎聘2024-25数据：<b>1)AI/大模型产品</b>(设计AI交互范式，稀缺+高薪)；<b>2)新能源汽车</b>(车机HMI/座舱体验，人才缺口大)；<b>3)出海SaaS</b>(国际化产品设计)；<b>4)金融科技</b>(复杂流程体验优化)。建议选复杂信息+高频交互特征的行业，最需UX系统性能力。"}
+  ],
+  content_creator: [
+    {q:"做内容一定要露脸吗？社恐能做吗？",a:"<b>完全不需要！</b>不露脸形式：图文/信息图、音频/播客、AI数字人出镜、幕后型创作(剪辑/策划/编剧)。小红书有大量不露脸博主，B站有只出声不露脸的知识UP主。内容创作核心不是脸，而是你能不能持续提供有价值/有趣/有用的内容。"},
+    {q:"内容运营薪资天花板在哪？怎么突破？",a:"三层：<b>1-3年执行型</b>(写稿/拍视频)10-18K；<b>3-5年策略型</b>(定策略/管团队/操盘IP)18-35K；<b>5年+商业型</b>(内容驱动增长/品牌总负责人或成IP)30-60K+。突破核心：从会做内容升级到会用内容解决商业问题。第2年就要关注ROI而不仅是阅读量。"},
+    {q:"小红书/抖音/视频号/B站选哪个？",a:"<b>小红书</b>——最适合新手，图文门槛低；<b>抖音</b>——流量最大但竞争最激烈；<b>视频号</b>——微信生态增长快，适合私域+知识付费；<b>B站</b>——适合深度/长内容，粉丝粘性高但涨粉慢。建议先在小红书发10篇测试方向，根据数据再扩展。"}
+  ],
+  data_analyst: [
+    {q:"数据分析师会被AI替代吗？",a:"<b>取数型在被替代，分析型/策略型反而更值钱。</b>AI能写SQL画图表但无法替代：1)定义什么问题值得分析(业务sense)；2)在模糊数据中发现异常pattern(好奇心+经验)；3)把分析结果翻译成业务听得懂的建议(storytelling)。会用AI的分析师效率3倍，但不会问对问题的直接被替代。"},
+    {q:"SQL学到什么程度才能找工作？",a:"至少：1)基础查询滚瓜烂熟(SELECT/WHERE/JOIN/GROUP BY)；2)窗口函数必须掌握(ROW_NUMBER/RANK/LAG/LEAD——面试最爱考)；3)子查询和CTE能写结构清晰的多层查询。刷题：LeetCode SQL中等难度全部通过+牛客SQL实战全部完成。全职2-3周，在职1-2个月。"},
+    {q:"DA vs DS vs DE怎么选？",a:"<b>DA</b>=回答发生了什么、为什么(SQL+BI，门槛最低)；<b>DS</b>=回答将会发生什么(Python+统计+ML，需数理基础)；<b>DE</b>=搭建数据基础设施(Spark/Airflow，偏软件工程)。建议：大多数人从DA切入(门槛低+岗位多)，1-2年后根据兴趣往DS或DE深入。"}
+  ],
+  accountant: [
+    {q:"不做审计不进事务所，会计还有高薪出路吗？",a:"<b>当然有。</b>高薪方向：1)<b>财务BP</b>——深入业务做经营分析+预算管控，互联网大厂15-30K；2)<b>税务筹划</b>——资深税务专家年薪50-100W+；3)<b>IPO/资本市场财务</b>——辅助上市全流程，单项目奖金6-12个月工资；4)<b>FP&A</b>——外企标配管理会计方向。关键转型思维：从做账的变成用数据帮业务做决策的。"},
+    {q:"CPA值不值得花2-3年考？",a:"<b>值得但看职业目标。</b>进事务所→CPA必须；进大厂财务→CPA强烈推荐(简历筛选巨大加分)；进银行/国企→CPA是职称晋升硬通货；创业/小企业→性价比不高。在职备考确实需2-3年非常辛苦——但获得的是终身有效、全行业认可的能力身份证。暂不想投入2-3年可先考中级会计职称(3-6个月)。"},
+    {q:"会计专业出路太窄，感觉只会做账？",a:"<b>会计核心能力(数据敏感+逻辑严谨+合规意识)其实是很多高薪岗位的底层能力。</b>可走方向：财务分析/FP&A、投资分析/行业研究(读懂财报是投资基本功)、风控/内审/合规、四大财务咨询、董秘/投资者关系。别把会计当限制而当底座——叠加数据分析/商业理解/行业知识，竞争力远超纯商科或纯技术背景。"}
+  ],
+  project_manager: [
+    {q:"PMP证书真的有用吗？",a:"<b>有用但非魔法。</b>PMP价值：1)简历筛选关——很多大公司PM岗明确PMP优先；2)系统性框架——教你怎么职业地管项目，对转行/新人尤其有价值；3)薪资提升——持证者比非持证者平均高16%(全球，中国约10-15%)。但是：有经验+PMP=如虎添翼，没经验+PMP=纸上谈兵。建议先积累1-2年经验再考，这期间可先考CAPM(无经验要求)。"},
+    {q:"项目经理和产品经理有什么区别？",a:"<b>产品经理回答做什么、为什么做</b>(定义方向，享受不确定性)；<b>项目经理回答怎么做、什么时候做完</b>(组织资源，享受把混乱变有序)。选产品如果你享受探索和创意、对用户心理好奇；选项目如果你享受协调资源、对按时按质交付有执念。注意：互联网公司PM默认指产品经理，传统行业(建筑/制造/医药)PM通常指项目经理。"},
+    {q:"技术不好能做项目经理吗？",a:"<b>取决于你管什么类型的项目。</b>软件开发→需技术理解力(看懂方案、理解估算逻辑)，不需自己写代码；建筑/工程→需懂图纸和施工流程；市场/活动→几乎不需技术背景，更需创意+统筹+商务能力。PM不需成为技术专家但需成为最好的翻译官——把业务需求翻译给技术团队，把技术限制翻译给业务方。"}
+  ],
+  operations: [
+    {q:"运营是不是什么人都能做？如何不被替代？",a:"<b>入门门槛低但做好的门槛非常高。</b>执行型运营(发推送/回评论/拉群)最易被替代；策略型运营(数据驱动增长/用户体系设计/商业变现)越做越值钱。升级方法：1)必须学SQL和数据分析；2)建立ROI思维——每件事能回答花了多少资源、带来什么效果；3)选择行业深耕。脉脉高频：3年还在做执行型运营？要么转型策略方向，要么接受天花板。"},
+    {q:"运营转产品经理可行吗？",a:"<b>非常可行——运营→产品是互联网最经典转型路径之一。</b>运营转PM优势：比纯PM更懂用户(天天打交道)、更懂执行(知道策略落地的运营动作)、更有数据sense。需补充：产品设计思维(PRD/原型)、技术理解力、优先级判断力(PM最大挑战是说不做什么)。建议：不要辞职——在现在岗位上主动承担产品化工作，用项目经验而非title证明产品能力。"},
+    {q:"用户/商家/策略/内容运营怎么选？",a:"<b>用户运营</b>——需求最大入门最易但竞争激烈；<b>商家/供给运营</b>——平台型公司需求旺盛需BD+数据能力；<b>策略运营</b>——薪资最高天花板最高但需强数据+商业判断力；<b>内容运营</b>——适合创意和表达的人；<b>增长运营</b>——最接近增长黑客，效果导向薪资高。前2年可轮岗感受，第3年必须选定方向深度积累。"}
+  ],
+  c_pm:[
+    {q:"C端PM和B端PM选哪个？",a:"<b>C端(消费者)</b>——面向海量用户，数据驱动+用户心理+快速实验，适合喜欢用户研究+数据的人；<b>B端(企业)</b>——面向企业客户，业务理解+系统设计+长周期交付，适合喜欢抽象建模+商业逻辑的人。薪资：B端中后期天花板更高( SaaS股票期权)，C端早期涨幅更快。建议：先选你喜欢面对的\"用户\"——是普通消费者还是企业客户？"},
+    {q:"没有技术背景能做C端PM吗？",a:"<b>可以，而且很多顶级PM不是技术出身。</b>C端PM的核心是用户洞察和问题定义，而非技术实现。你需要的是：1)能和工程师有效沟通的技术理解力(不是写代码)；2)数据分析能力( SQL+AB测试)；3)强大的用户同理心。张一鸣说过：\"产品经理最重要的能力是对用户的了解\"——这和技术背景无关。"},
+    {q:"C端PM的35岁危机怎么办？",a:"<b>执行型PM确实面临年轻化竞争，但策略型/商业型PM越老越值钱。</b>关键分水岭：从\"接需求写PRD\"升级到\"定义产品方向+对商业结果负责\"。建议：第3年开始主动参与产品战略和商业决策，积累\"为什么做\"而非仅\"怎么做\"的经验。最稀缺的PM是\"懂用户+懂数据+懂商业\"的三角型人才。"}
+  ],
+  b_pm:[
+    {q:"B端PM和C端PM的核心区别？",a:"<b>决策逻辑不同：</b>C端靠数据+直觉(海量用户AB测试)，B端靠业务理解+客户沟通(一个客户可能占30%收入)；<b>产品节奏不同：</b>C端快速迭代(周级)，B端谨慎交付(月级/季度)；<b>核心能力不同：</b>C端偏用户心理+数据分析，B端偏业务抽象+系统设计。选择建议：如果你享受\"把一个复杂混乱的业务流程梳理成清晰系统\"，选B端；如果你享受\"洞察海量用户的微妙心理\"，选C端。"},
+    {q:"B端PM需要懂技术吗？",a:"<b>比C端更需要。</b>B端产品往往涉及API集成、权限系统、数据迁移等技术场景。你不需要会写代码，但需要：1)理解API的基本概念(RESTful/Webhook/数据同步)；2)能和CTO/架构师做有效技术对话；3)理解SaaS多租户架构的基础。建议花2-4周学习基础技术概念——不需要深度，但需要广度。"},
+  ],
+  backend_dev:[
+    {q:"Java/Go/Python选哪个语言入门？",a:"<b>Java</b>——国内企业级市场占有率最高(大厂+银行+传统企业)，岗位最多但学习曲线较陡；<b>Go</b>——云原生/微服务时代首选，简洁高效，字节/腾讯/哔哩哔哩大量使用，未来增长最快；<b>Python</b>——AI/数据方向首选，语法最简单适合快速入门。建议：想进大厂选Java或Go；想快速入门+AI方向选Python；最终三个都要了解，但先精通一个。"},
+    {q:"AI编程工具( Copilot/ Cursor )会替代初级后端吗？",a:"<b>不会替代，但会大幅提高效率门槛。</b>AI工具让写代码快了3-5倍，这意味着：1)初级岗的\"纯执行\"价值在降低——你需要更快地成长到能做系统设计的水平；2)AI让有经验的人效率更高，拉大了初级和高级之间的产出差距。建议：不要恐惧AI，把它当作效率工具——学会用AI辅助写代码、Debug、写文档，这本身就是一项竞争力。"},
+  ],
+  frontend_dev:[{q:"前端会被AI替代吗？",a:"<b>纯页面开发在被AI加速替代，但前端工程化、性能优化、交互设计的价值在上升。</b>AI能生成登录页面，但无法设计复杂后台的前端架构。建议：把AI当效率工具，花时间在理解浏览器原理、性能优化、前端工程化上；关注前端+AI交叉方向( AI交互/WebAssembly/可视化)。"}],
+  tech_sales:[{q:"售前和纯销售的区别是什么？",a:"<b>纯销售=签单导向(商务+谈判)，售前=方案导向(技术+咨询)。</b>售前需要：理解产品技术架构、设计客户方案、做技术演示。薪资：纯销售提成占比更高(波动大)，售前底薪更高(更稳定)。应届生建议：有技术背景优先选售前(职业出口更广)，纯商科可从销售助理切入。"},{q:"没技术背景怎么入行科技销售？",a:"<b>两条路：</b>A)花2-3个月考基础技术认证(AWS Cloud Practitioner)→投SaaS公司SDR→边做边学；B)卖\"商业解决方案\"而非\"技术产品\"(如CRM/HR系统/Marketing SaaS)，这类产品购买决策者是业务负责人而非CTO。"}],
+  hr_od:[{q:"做HR真的有前途吗？",a:"<b>事务型HR(发工资/办入职)确实容易被替代，但战略型HR(组织设计/人才战略/文化塑造)是CEO最关心的事。</b>字节/阿里/腾讯HRBP薪资30-60K+。建议：入行2年内从\"人事执行\"转到\"业务伙伴\"——主动参与业务会议、学习看业务数据、用HR工具帮业务解决问题。"},{q:"HR要不要考证？",a:"<b>值得考：</b>企业人力资源管理师(人社部认证，国企/大厂常见要求)、SHRM-CP(外企认可)、MBTI/DiSC施测师(OD/TD方向实用)。<b>不建议：</b>野鸡机构\"HR总监班\"。猎头原话：除非是SHRM或企业人力一级，否则我不看证书栏。"}],
+  bio_medical:[{q:"非医药背景能进医药行业吗？",a:"<b>能，入口因岗位而异。</b>产品专员→偏好医药背景但不绝对；市场/品牌→对专业要求宽松；商务/准入→看重政策理解+沟通；医药代表→专业门槛最低。但所有方向共同要求：必须系统性学习一个疾病领域——不懂疾病不可能做好医药产品。"},{q:"医药行业未来最大的机会在哪？",a:"<b>三大增量方向：</b>1)创新药出海(百济/信达等国际化，急需懂海外注册+国际市场的人才)；2)CXO(CRO/CDMO持续扩张，临床试验方向需求旺盛)；3)数字健康/AI制药(融合IT+医药的复合背景最稀缺)。建议：选一个疾病领域(肿瘤/自免/代谢)深度积累，跨领域通才不如一个领域专才。"}],
+  finance_analyst:[{q:"卖方研究员和买方研究员怎么选？",a:"<b>卖方(券商)=服务+写报告+路演</b>，入行门槛相对低，培训完善，但工作强度极大；<b>买方(基金)=做判断+管钱+对业绩负责</b>，薪资更高更纯粹，但门槛极高(通常需卖方2-3年+CFA)。经典路径：卖方2-4年→跳买方。100个卖方里约10-15个能成功。"},{q:"CFA和CPA考哪个？",a:"<b>想做投资/研究/基金→CFA；想做投行/财务分析/风控→CPA；想做复合方向→两个都考(先CPA打财务功底再CFA深化框架)。</b>双证全拿下需4-5年在职，非常辛苦，但对顶级金融岗位是简历核武器。"}],
+  game_designer:[{q:"游戏策划需要会编程吗？",a:"<b>不需要写代码，但需要技术理解力。</b>你需理解引擎能力边界(不设计\"技术上无法实现\"的玩法)、能和程序员有效沟通(策划文档+流程图+数值表)。最低要求：用Unity/Unreal做一个可玩Demo——这个过程让你切身体会\"游戏怎么做出来的\"。"},{q:"去大厂还是独立游戏团队？",a:"<b>大厂=资源充足、培训完善、薪资竞争力强，但做流水线模块；独立团队=什么都要做(成长快)、创意自由度大但收入不稳定。</b>建议：刚入行先去大厂2-3年学正规军标准，再带经验去独立团队。"}],
+  crossborder_ecom:[{q:"跨境电商现在还赚钱吗？",a:"<b>粗放暴利时代过去了，但品牌化+差异化+多渠道的玩家仍在高速增长。</b>新机会：1)TikTok Shop/Temu新平台(流量便宜)；2)特定品类深度差异化(户外/宠物/母婴细分)；3)\"中国供应链+海外内容能力\"组合。一位年销千万的卖家：以前拼谁先发现好产品，现在拼谁能让消费者觉得\"这个品牌懂我\"。"},{q:"英语不好能做跨境吗？",a:"<b>不需要\"很好\"，但需要\"能用\"。</b>ChatGPT/DeepL辅助写Listing和文案(效率极高)、模板库+翻译工具处理客服邮件(CET-4完全够用)。牛客上一位四级飘过的跨境运营：ChatGPT是我的英语外挂，客户从没发现我不是native speaker。"}],
+  consultant:[{q:"非target school能进咨询吗？",a:"<b>MBB确实卡学校，但Tier2/精品咨询没那么绝对。</b>破局策略：1)从四大咨询/精品咨询切入→1-2年后申MBB社招(社招对学校比校招宽松)；2)在特定行业(医疗/汽车/能源)建立深度认知——咨询公司需要行业专家而非仅聪明通才；3)参加商赛+Case Competition；4)Networking——内部推荐可绕过简历筛选。"},{q:"咨询的工作强度到底多大？",a:"<b>比其他行业累。</b>周工时约55-70h(MBB)，周一飞客户城市、周四晚飞回、周五内部工作。四大咨询稍轻松(50-60h)。适合你如果喜欢高强度+高成长+高频出差且身体能承受；不适合如果你看重工作生活平衡。但大多数人只待2-4年——不是一生的选择。"}],
+  brand_marketing:[{q:"品牌营销和效果营销怎么选？",a:"<b>品牌=长期资产建设(品牌定位/故事/体验)，适合有创意/审美/战略思维的人；效果=短期可量化获客(广告投放/SEO/转化优化)，适合数据驱动/喜欢快速反馈的人。</b>新人最好两个都接触1-2年再深耕。最值钱的营销人是\"懂品牌的增长负责人\"或\"懂数据的品牌总监\"。"},{q:"快消管培生值得去吗？",a:"<b>值得，宝洁/联合利华/玛氏管培被称为营销界黄埔军校。</b>方法论体系完整、轮岗机制成熟、职业出口广阔(3-5年后被互联网/奢侈品/新消费挖走)。但薪资增速不如互联网，方法论沉淀远胜。宝洁校友经典评价：快消3年=互联网1.5年薪资，但快消3年的方法论可用30年。"}],
+  psychologist:[{q:"心理咨询师前期投入那么大，真能回本吗？",a:"<b>能回本但周期比你想象的长。</b>新手(前2年)：投入5-10万，月入3-8K——最难熬；成熟(3-5年)：月入15-25K；资深(5年+)：月入30K+，独立执业自由度高。关键：前2年需其他收入支撑，这也是为什么很多人从其他行业转型(带积蓄入行)。知乎咨询师：这不是快速暴富的职业，但真热爱的话，5年后你会感谢坚持的自己。"},{q:"AI会替代心理咨询师吗？",a:"<b>AI能替代标准化服务(测评/CBT自助)，但无法替代深度治疗性关系。</b>心理咨询起效的核心是治疗联盟——来访者和咨询师之间安全、信任、真实的关系。这不是技术问题是人性问题。反而AI会淘汰\"照手册念\"的低水平从业者——这是好事。"}],
+  new_energy_ve:[{q:"新能源车行业现在还值得入行吗？",a:"<b>从爆发期进入淘汰赛期——不是饱和而是洗牌。</b>头部企业(比亚迪/蔚小理/小米/华为)还在扩招，腰部企业收缩。建议：1)投头部\"增长型\"业务线(智能驾驶/出海/能源服务)；2)关注产业链上下游(电池/充电/芯片)可能比整车更稳；3)做好3年内格局大变的心理准备。"},{q:"非汽车/机械背景怎么进入？",a:"<b>新能源车比传统车企更需要跨界人才。</b>非技术可切入：产品经理(座舱体验/APP/充电)、用户运营/社群、品牌/市场、项目管理(PMP+行业学习)。花2-4周系统学行业基础(三电/智能驾驶分级/主要玩家)，然后找\"汽车+你已有能力\"的交叉点。"}],
+  semiconductor:[{q:"非微电子/EE专业能进半导体吗？",a:"<b>能，入口比科班窄但存在。</b>非技术岗：应用工程师(FAE，偏技术+客户沟通)、产品工程师/PM(偏产品定义+项目管理)、销售/客户经理(需懂产品不需设计)、供应链/采购。完全非理工可从商务/运营方向切入。所有方向共同要求：学半导体产业链基础——芯片怎么从沙子变产品。"},{q:"选外企还是国内半导体企业？",a:"<b>外企(Intel/NVIDIA/TI)=体系完善、培训成熟、天花板明显(核心研发很少放中国)；国内企业=成长空间大、有机会做更有挑战的事、股权激励上限高，但体系不成熟。知乎经典建议：先外企学方法，再国内拼事业。</b>不同细分差距不同——芯片设计已接近国际先进、制造落后2-3代、设备/材料差距最大但国产替代最迫切。"}],
+  growth_pm:[{q:"增长PM和普通PM的区别？",a:"<b>增长PM=指标驱动+实验文化+快速迭代。</b>普通PM回答\"用户需要什么\"，增长PM回答\"如何让更多用户发现/使用/留下来\"。核心差异：增长PM每天都在看数据、跑实验、优化漏斗。适合你如果：喜欢数据超过直觉、享受高频失败中找赢家、对\"转化率\"这个词有生理反应。"},{q:"没有产品经验能做增长PM吗？",a:"<b>可以从增长运营/数据分析岗切入，1-2年后转型增长PM。</b>增长PM核心能力=数据分析+实验设计+用户心理——这三样都可以在运营/分析岗中培养。简历加分项：自己做过一个增长实验(哪怕是公众号涨粉/社群拉新)，用数据展示\"实验前→实验后\"的变化。"}],
+  qa_engineer:[{q:"测试会被AI和自动化替代吗？",a:"<b>纯手工执行测试正在被替代，但测试架构设计和质量体系建设反而更值钱。</b>AI可以自动生成测试用例、执行回归测试，但无法替代：1)理解业务逻辑设计测试策略；2)搭建自动化测试框架；3)推动团队质量文化。建议：尽早学自动化测试+CI/CD，从\"执行测试\"转型为\"设计质量体系\"。"}],
+  devops_sre:[{q:"DevOps/SRE的门槛到底多高？",a:"<b>比前端/后端高——需要更全面的技术栈。</b>你需要：Linux系统管理(Docker/K8s)、至少一门脚本语言、CI/CD工具链、监控告警体系、基础网络知识。建议路径：先从运维/后端做起→在工作中积累线上故障处理经验→考AWS/阿里云认证→转DevOps/SRE。纯新手直接冲SRE难度大——建议先做1-2年后端开发打基础。"}],
+  tpm:[{q:"TPM和普通PM有什么区别？",a:"<b>TPM=技术项目经理，负责\"怎么把项目按时高质量交付\"；普通PM=产品经理，负责\"做什么产品、为什么做\"。</b>TPM更偏执行和流程，需要技术理解力+项目管理能力+跨团队协调能力。适合你如果：享受把混乱的研发流程梳理清晰、对按时交付有执念、喜欢和技术团队一起工作。"}],
+};
+
+function renderJobQA(job) {
+  var qa = JOB_QADATA[job.id];
+  if (!qa || !qa.length) return '';
+  var h = '<div style="margin-top:12px;border-top:1px solid var(--color-border);padding-top:12px;"><div class="dd-section-title">💬 ' + job.name + ' · 社区热议（点击展开）</div>';
+  qa.forEach(function(item, i) {
+    var qid = 'q_' + job.id + '_' + i;
+    h += '<div style="font-size:0.82rem;"><div style="padding:8px 0;cursor:pointer;color:var(--color-primary);font-weight:600;" onclick="var e=document.getElementById(\'' + qid + '\');e.classList.toggle(\'hidden\');">▼ ' + item.q + '</div><div id="' + qid + '" class="hidden" style="padding:4px 12px 8px;color:var(--color-text-secondary);font-size:0.8rem;line-height:1.7;">' + item.a + '</div></div>';
+  });
+  h += '<p style="font-size:0.7rem;color:var(--color-text-muted);margin-top:6px;">📌 以上问答整理自脉脉、知乎、小红书、牛客网等平台该岗位从业者真实讨论</p></div>';
+  return h;
+}
+
+// ============ PERSONA CARD RENDERING ============
+function renderPersonaCard(job) {
+  var pd = (JOB_PERSONA[job.id] || {}).persona;
+  if (!pd) return '';
+  var fc = profile.flashCard || {};
+  var userAbilities = (fc.abilities || []).join('、');
+  var userStyle = fc.workStyle || '';
+
+  // Calculate rough match score based on heuristic
+  var matchScore = 0;
+  var matchNotes = [];
+  if (userAbilities && pd.strengths) {
+    var strengthLower = pd.strengths;
+    if (/共情|沟通|人际/.test(userAbilities) && /共情|沟通|信任|人际/.test(strengthLower)) { matchScore += 25; matchNotes.push('你的共情沟通能力与该岗位高度匹配'); }
+    if (/逻辑|分析|数据|推理/.test(userAbilities) && /逻辑|分析|数据/.test(strengthLower)) { matchScore += 25; matchNotes.push('你的分析思维是该岗位的核心需求'); }
+    if (/创造|创新|创意|设计/.test(userAbilities) && /创造|创新|设计|创意/.test(strengthLower)) { matchScore += 20; matchNotes.push('你的创造力与该岗位的创新需求契合'); }
+    if (/组织|协调|统筹|管理/.test(userAbilities) && /组织|协调|统筹/.test(strengthLower)) { matchScore += 20; matchNotes.push('你的组织协调能力匹配该岗位'); }
+  }
+  matchScore = Math.min(matchScore + 30, 95); // base match
+
+  return '<div class="job-section" style="background:linear-gradient(135deg,#FFF7ED,#FFF0EE);border-radius:var(--radius-lg);padding:16px;margin-top:12px;border:1px solid var(--color-amber);"><div class="job-section-title">🎯 ' + job.name + ' · 人才画像</div><p style="font-size:0.78rem;color:var(--color-text-secondary);margin-bottom:10px;">基于牛客/脉脉/领英上该岗位优秀从业者的真实背景提炼，看看和你有多匹配～</p><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:0.8rem;"><div><strong>🧠 典型特质：</strong>' + pd.trait + '</div><div><strong>🔄 工作方式：</strong>' + pd.workStyle + '</div><div><strong>🎓 常见背景：</strong>' + pd.bg + '</div><div><strong>💪 核心优势：</strong>' + pd.strengths + '</div></div><div style="margin-top:10px;padding:10px;background:rgba(255,255,255,0.7);border-radius:var(--radius-md);"><div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;"><span style="font-weight:700;font-size:0.82rem;">📊 与你的人才匹配度：</span><span style="font-size:1.3rem;font-weight:700;color:var(--color-primary);">' + matchScore + '%</span><div style="flex:1;height:6px;background:#E0D8CC;border-radius:3px;overflow:hidden;min-width:60px;"><div style="height:100%;background:linear-gradient(90deg,var(--color-primary),var(--color-amber));border-radius:3px;width:' + matchScore + '%;"></div></div></div>' + (matchNotes.length > 0 ? '<div style="margin-top:6px;font-size:0.75rem;color:var(--color-text-secondary);">' + matchNotes.map(function(n){return '✅ ' + n;}).join('<br>') + '</div>' : '') + '</div><p style="font-size:0.75rem;color:var(--color-text-muted);margin-top:8px;">💡 ' + pd.ideal + '</p></div>';
+}
+
+function renderCoreSkillsCard(job) {
+  var skills = (JOB_PERSONA[job.id] || {}).coreSkills;
+  if (!skills || !skills.length) return '';
+  return '<div class="job-section" style="background:linear-gradient(135deg,#F5F3FF,#F0FDFA);border-radius:var(--radius-lg);padding:16px;margin-top:12px;border:1px solid var(--color-violet);"><div class="job-section-title">🧩 ' + job.name + ' · 核心可迁移能力</div><p style="font-size:0.78rem;color:var(--color-text-secondary);margin-bottom:10px;">这些能力在你未来转到其他岗位/行业时依然高度保值——越积累越值钱</p><div style="display:flex;flex-wrap:wrap;gap:6px;">' + skills.map(function(s){ return '<span style="padding:6px 12px;background:white;border:1px solid var(--color-violet-light);border-radius:var(--radius-full);font-size:0.78rem;font-weight:500;color:var(--color-violet);">' + s + '</span>'; }).join('') + '</div><p style="font-size:0.72rem;color:var(--color-text-muted);margin-top:10px;">🔑 这些能力在你未来转向 ' + getAdjacentRoles(job.id) + ' 等方向时可直接复用</p></div>';
+}
+
+function getAdjacentRoles(jobId) {
+  var map = {
+    ai_product: '传统PM/战略咨询/创业', ux_designer: '产品经理/前端开发/设计咨询',
+    content_creator: '品牌营销/增长运营/个人IP', data_analyst: '数据科学/策略产品/商业分析',
+    esg_analyst: '企业战略/绿色金融/公共政策', tech_sales: '客户成功/合作伙伴管理/创业',
+    hr_od: '管理咨询/高管教练/企业培训', bio_medical: '医学顾问/医药咨询/临床运营',
+    finance_analyst: '投资经理/企业战投/基金运营', accountant: '财务BP/投资分析/企业高管(CFO线)',
+    project_manager: '产品经理/运营总监/PMO负责人', operations: '产品经理/增长负责人/创业操盘手'
+  };
+  return map[jobId] || '相关管理岗/咨询/自主创业';
+}
+
+function renderStars(count) {
+  return '<span class="star-rating">' +
+    Array.from({ length: 5 }, (_, i) =>
+      i < count ? '<span class="star-filled">⭐</span>' : '<span class="star-empty">☆</span>'
+    ).join('') +
+    ` <span style="font-size:0.8rem;font-weight:700;">${count}/5</span></span>`;
+}
+
+function renderPhase3Table() {
+  const jobs = profile.recommendedJobs;
+  let html = `
+    <div class="card color-top blue">
+      <h3>📊 备选方向快速对照表</h3>
+      <p class="text-secondary mt-8 mb-16">一表看清所有推荐岗位的关键维度</p>
+      <div style="overflow-x:auto;">
+        <table class="compare-table">
+          <thead>
+            <tr>
+              <th>岗位</th>
+              <th>时代风口</th>
+              <th>城市友好</th>
+              <th>新手友好</th>
+              <th>技能迁移</th>
+            </tr>
+          </thead>
+          <tbody>
+  `;
+
+  jobs.forEach(job => {
+    html += `
+      <tr>
+        <td><strong>${job.name}</strong></td>
+        <td><span class="tag-pill tag-trend" style="font-size:0.72rem;">${job.trend.includes('⭐⭐') ? '双风口' : '风口'}</span></td>
+        <td style="font-size:0.78rem;">${job.cities.split('|')[0].trim()}</td>
+        <td>${renderStars(job.beginnerStars)}</td>
+        <td>${renderStars(job.skillTransferStars)}</td>
+      </tr>`;
+  });
+
+  html += `
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <button class="btn btn-primary mt-16" onclick="state.phase3Step='timeline';render();">
+      🗓 查看14天行动地图 →
+    </button>
+  `;
+
+  mainContent.innerHTML = html;
+}
+
+function renderPhase3Timeline() {
+  const topJob = profile.recommendedJobs[0];
+  const secondJob = profile.recommendedJobs[1];
+
+  let html = `
+    <div class="card color-top green">
+      <h3>🗓 14天迷你行动计划</h3>
+      <p class="text-secondary mt-8 mb-16">以"${topJob.name}"为主攻方向，开始你的原型探索之旅</p>
+      <div class="timeline">
+
+        <div class="timeline-item">
+          <div class="timeline-period">📅 D1-D3 · 原型体验</div>
+          <p style="font-size:0.85rem;">${topJob.prototype}</p>
+          ${secondJob ? `<p style="font-size:0.85rem;margin-top:4px;">📌 备选方向体验：${secondJob.prototype}</p>` : ''}
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-period">📅 D4-D7 · 连接与深挖</div>
+          <p style="font-size:0.85rem;">在LinkedIn/脉脉上找到3位做<strong>${topJob.name}</strong>的从业者，发出信息访谈邀请（模板：我是正在探索职业方向的[身份]，对你的工作很感兴趣，方便聊15分钟吗？）</p>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-period">📅 D8-D10 · 简历定向优化</div>
+          <p style="font-size:0.85rem;">根据岗位JD和访谈收获，修改简历和LinkedIn个人资料，突出与<strong>${topJob.name}</strong>相关的可迁移技能。尝试投递2-3个实习/初级岗位。</p>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-period">📅 D11-D13 · 复盘与迭代</div>
+          <p style="font-size:0.85rem;">回顾本周的探索：你对这个方向的感觉如何？有没有新的发现？如果方向不太对，回顾连连卡中的备选方向，调整目标继续探索。</p>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-period">📅 D14 · 庆祝与决策</div>
+          <p style="font-size:0.85rem;">无论进展如何，你已经完成了14天的职业探索——这本身就是一件了不起的事！写下你的关键收获，决定下一步是继续深入还是切换方向。记住，职业生涯是一场奥德赛，不是一次考试 🚀</p>
+        </div>
+      </div>
+    </div>
+    <button class="btn btn-primary mt-16" onclick="finishAll()">
+      🎊 完成探索 →
+    </button>
+  `;
+
+  mainContent.innerHTML = html;
+}
+
+function finishAll() {
+  state.phase = 'final';
+  state.coins = 25;
+  render();
+  setTimeout(() => {
+    if (typeof confetti !== 'undefined') {
+      confetti({
+        particleCount: 200,
+        spread: 100,
+        origin: { y: 0.5 },
+        colors: ['#FF6B6B', '#FFB347', '#4ECDC4', '#6BCB77', '#9B59B6', '#FF69B4'],
+      });
+    }
+    showToast('🎊', '连连看挑战成功！你已经拥有了职业探索的导航仪和种子资金（知识金币），现在就出发去创造属于你的奥德赛吧！', 4000);
+  }, 300);
+}
+
+function renderFinal() {
+  var fc = profile.flashCard || {};
+  var r = profile.ratioCustom || {};
+  var topJob = profile.recommendedJobs[0];
+  var topJobName = topJob ? topJob.name : '你的目标岗位';
+
+  var html = '<div class="flash-card" style="border-color:var(--color-teal);text-align:center;"><div style="position:relative;z-index:1;"><div style="font-size:4rem;margin-bottom:12px;">🎊</div><h3 style="color:var(--color-teal);">连连看挑战成功！</h3><p style="font-size:1.1rem;margin:16px 0;">你已经拥有了职业探索的<strong>导航仪</strong>和<strong>种子资金</strong>（知识金币 🪙 × ' + state.coins + '），现在就出发去创造属于你的奥德赛吧！</p>';
+
+  html += '<div style="display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin:20px 0;">';
+  (fc.abilities || []).forEach(function(a) { html += '<span class="flash-tag ability">' + a + '</span>'; });
+  (fc.passions || []).forEach(function(p) { html += '<span class="flash-tag passion">' + p + '</span>'; });
+  html += '</div>';
+
+  html += '<div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:20px;">';
+  html += '<button class="btn btn-small btn-primary" onclick="exportReportText()">📋 复制完整报告</button>';
+  html += '<button class="btn btn-small btn-outline" onclick="window.print()">🖨 打印/导出PDF</button>';
+  html += '<button class="btn btn-small btn-outline" onclick="exportChecklist()">✅ 导出学习清单</button>';
+  html += '</div></div></div>';
+
+  // Odyssey Plan
+  var odyssey = buildOdysseyPlan();
+  html += '<div class="card mt-16"><h3>🗺️ 奥德赛计划 · 三条可选人生路径</h3><p class="text-secondary mt-8 mb-16">基于斯坦福大学《人生设计课》Odyssey Plan 方法论——没有哪条是"正确的"，它们只是不同的可能性，值得你同时探索。</p><div class="odyssey-grid">';
+
+  for (var i = 0; i < odyssey.length; i++) {
+    var p = odyssey[i];
+    html += '<div class="odyssey-card ' + p.color + '"><div style="font-size:2.5rem;margin-bottom:8px;">' + p.icon + '</div><h4>' + p.title + '</h4><p style="font-size:0.82rem;color:var(--color-text-secondary);margin-bottom:8px;">' + p.desc + '</p><div style="font-size:0.78rem;text-align:left;line-height:1.6;"><div>📅 <strong>第1年：</strong>' + p.year1 + '</div><div style="margin-top:4px;">📅 <strong>第3年：</strong>' + p.year3 + '</div><div style="margin-top:4px;">📅 <strong>第5年：</strong>' + p.year5 + '</div></div><div style="margin-top:10px;padding:6px 12px;background:rgba(255,255,255,0.6);border-radius:20px;font-size:0.75rem;color:var(--color-text-secondary);">' + p.match + '</div></div>';
+  }
+
+  html += '</div><p class="text-secondary mt-12" style="font-size:0.78rem;text-align:center;">💡 奥德赛计划的核心：<strong>同时探索多条路径</strong>，用小成本的原型体验（而非空想）来判断哪条路最值得走。</p></div>';
+
+  html += '<button class="btn btn-primary mt-16" onclick="restartApp()" style="display:block;margin:0 auto;">🔄 重新开始探索</button>';
+
+  mainContent.innerHTML = html;
+}
+
+function buildOdysseyPlan() {
+  var fc = profile.flashCard || {};
+  var abilities = fc.abilities || [];
+  var passions = fc.passions || [];
+  var r = profile.ratioCustom || { want: 33, good: 34, money: 33 };
+  var topJob = profile.recommendedJobs[0];
+  var secondJob = profile.recommendedJobs[1];
+  var jobName = topJob ? topJob.name : '目标岗位';
+  var adjName = secondJob ? secondJob.name : '相邻领域';
+  var passionStr = passions.length ? passions[0] : '你热爱的领域';
+
+  // Adjacent role mapping
+  var adjMap = {ai_product:'技术咨询','c_pm':'增长PM','b_pm':'管理咨询','data_analyst':'数据产品','ux_designer':'前端开发','content_creator':'品牌营销','accountant':'财务BP','operations':'产品经理','project_manager':'产品经理','backend_dev':'架构师','frontend_dev':'全栈开发','growth_pm':'C端PM','tech_sales':'客户成功'};
+  var altRole = adjMap[topJob?topJob.id:''] || adjName;
+
+  return [
+    {icon:'🚀',title:'路径A · 顺势而为',color:'path-a',
+      desc:'在「'+jobName+'」领域深耕，充分发挥已有优势，追求持续晋升与行业影响力。',
+      year1:'入职「'+jobName+'」，快速学习行业规则与核心技能，完成从新手到能独立工作的转变',
+      year3:'成为团队核心骨干，独立负责模块/项目，建立专业口碑，开始指导新人',
+      year5:'晋升高级/Lead，开始带小团队或成为该领域公认的专家',
+      match:'最适合你'+(r.good>=30?'优势变现':(r.want>=30?'热情驱动':'务实发展'))+'的倾向——在当前最擅长的方向做到极致'},
+    {icon:'🌈',title:'路径B · 跨界融合',color:'path-b',
+      desc:'先做「'+jobName+'」2-3年打基础，再将核心能力跨界迁移到「'+altRole+'」，创造独特的复合竞争力。',
+      year1:'在主业之余，每周花5小时接触「'+altRole+'」的学习资源和社区',
+      year3:'两个领域的交叉能力成型——你成为团队中唯一既懂'+jobName+'又懂'+altRole+'的人',
+      year5:'凭借复合背景跳槽/晋升到需要双重能力的高薪岗位（市场稀缺性=薪资溢价）',
+      match:'适合你'+(abilities.length>=3?'多元能力的组合优势':'持续探索的好奇心')+'——不满足于只在一个领域深耕'},
+    {icon:'🌟',title:'路径C · 自主创造',color:'path-c',
+      desc:'以「'+jobName+'」为主业保障收入，同时围绕「'+passionStr+'」建立个人IP/副业，追求自主与多元。',
+      year1:'利用业余时间启动一个围绕「'+passionStr+'」的副业/自媒体/开源项目，积累第一批关注者',
+      year3:'副业收入达到主业30-50%，验证了商业模式的可行性，获得\"两条腿走路\"的安全感',
+      year5:'可选择：A)全职投入副业(已成熟)；B)保持双线模式(最大化抗风险能力)；C)将副业积累的能力反哺主业(升职加薪)',
+      match:'适合你'+(r.want>=25?'对自由度和创造性的追求':'在稳定基础上探索更多可能')+'——不把所有鸡蛋放在一个篮子里'}
+  ];
+}
+
+// ============ EXPORT FUNCTIONS ============
+function exportReportText() {
+  var t = '══════════════════════\n  连连看 · 职业探索报告\n══════════════════════\n\n';
+  var fc = profile.flashCard;
+  if (fc) {
+    t += '✨ 闪光点卡\n──────────────\n';
+    t += '能力：' + (fc.abilities||[]).join('、') + '\n';
+    t += '热情：' + (fc.passions||[]).join('、') + '\n';
+    t += '风格：' + fc.workStyle + '\n驱动：' + fc.coreDrive + '\n\n';
+  }
+  var r = profile.ratioCustom;
+  if (r && (r.want||r.good||r.money)) {
+    t += '⚖️ 三圈配方\n──────────────\n';
+    t += '想做的事：' + r.want + '% | 擅长的事：' + r.good + '% | 能赚钱：' + r.money + '%\n\n';
+  }
+  t += '🔗 推荐岗位\n──────────────\n';
+  profile.recommendedJobs.forEach(function(j,i) {
+    t += (i+1) + '. ' + j.name + ' — ' + (j.aliases||[]).join(' / ') + '\n';
+    t += '   薪资：' + j.salary + '\n   新手友好：' + '⭐'.repeat(j.beginnerStars) + '\n\n';
+  });
+  t += '──────────────\n报告生成：' + new Date().toLocaleDateString('zh-CN') + '\n══════════════════════';
+  if (navigator.clipboard) { navigator.clipboard.writeText(t).then(function(){ showToast('📋','报告已复制到剪贴板！'); }); }
+  else { var ta=document.createElement('textarea'); ta.value=t; ta.style.cssText='position:fixed;top:10%;left:10%;width:80%;height:60%;z-index:9999;'; document.body.appendChild(ta); ta.select(); showToast('📋','请手动复制（Ctrl+A→Ctrl+C）'); setTimeout(function(){ta.remove();},10000); }
+}
+
+function exportChecklist() {
+  var t = '📋 连连看 · 学习与证书清单\n══════════════════════\n\n';
+  profile.recommendedJobs.forEach(function(j,i) {
+    t += (i+1) + '. ' + j.name + '\n   ☐ 原型体验：' + j.prototype + '\n';
+    var certs = (JOB_PERSONA[j.id]||{}).certifications || [];
+    if (certs.length) { certs.forEach(function(c){ var ic=c.t==='must'?'🔴':c.t==='rec'?'🟡':'🟢'; t += '   ☐ '+ic+' '+c.n+' ('+(c.time||'')+' | '+(c.c||'')+')\n'; }); }
+    t += '\n';
+  });
+  t += '══════════════════════\n💡 建议：先完成原型体验，再根据体验结果选1-2个主攻方向开始备考证书。\n';
+  if (navigator.clipboard) { navigator.clipboard.writeText(t).then(function(){ showToast('✅','学习清单已复制！'); }); }
+  else { var ta=document.createElement('textarea'); ta.value=t; ta.style.cssText='position:fixed;top:10%;left:10%;width:80%;height:60%;z-index:9999;'; document.body.appendChild(ta); ta.select(); showToast('📋','请手动复制'); setTimeout(function(){ta.remove();},10000); }
+}
+
+function restartApp() {
+  // Reset state
+  state.phase = 'welcome';
+  state.questionIndex = 0;
+  state.phase2Step = 'fill';
+  state.phase3Step = 'intro';
+  state.coins = 0;
+
+  // Reset profile
+  Object.keys(profile).forEach(k => {
+    if (Array.isArray(profile[k])) profile[k] = [];
+    else if (typeof profile[k] === 'object' && profile[k] !== null) {
+      if (k === 'ratioCustom') profile[k] = { want: 0, good: 0, money: 0 };
+      else profile[k] = null;
+    } else {
+      profile[k] = '';
+    }
+  });
+  profile.recommendedJobs = [];
+  profile.moneyDirections = [];
+
+  // Reset temp state
+  state._multiTemp = [];
+  state._tagTemp = [];
+  state._dualTemp = { ie: null, tf: null };
+  state._moneyTemp = [];
+
+  render();
+  window.scrollTo(0, 0);
+}
+
+// ============ INIT ============
+try {
+  render();
+  console.log('连连看 app initialized successfully!');
+} catch (e) {
+  document.getElementById('mainContent').innerHTML = '<div class="card" style="border:2px solid #FF6B6B;margin:20px;"><h3>⚠️ 初始化出错了</h3><pre style="white-space:pre-wrap;font-size:0.85rem;">' + e.message + '\n\n' + e.stack + '</pre></div>';
+  console.error('App init error:', e);
+}
+</script>
+</body>
+</html>
