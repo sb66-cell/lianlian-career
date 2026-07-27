@@ -9,7 +9,7 @@
 (function() {
   window.confetti = function(opts) {
     var defaults = { particleCount: 80, spread: 50, origin: { x: 0.5, y: 0.5 },
-      colors: ['#818CF8','#6366F1','#34D399','#22D3EE','#A78BFA','#FBBF24'] };
+      colors: ['#4F46E5','#6366F1','#10B981','#0EA5E9','#8B5CF6','#F59E0B'] };
     var o = Object.assign({}, defaults, opts || {});
     var container = document.createElement('div');
     container.style.cssText = 'position:fixed;inset:0;pointer-events:none;z-index:9999;overflow:hidden;';
@@ -61,42 +61,42 @@
 
 /* --- CSS Custom Properties --- */
 :root {
-  /* Primary palette — 深邃宇宙蓝紫 */
-  --color-primary: #A5B4FC;
-  --color-primary-hover: #6366F1;
-  --color-primary-light: rgba(129,140,248,0.12);
-  --color-primary-glow: rgba(129,140,248,0.2);
+  /* Primary palette — 专业蓝紫色系 */
+  --color-primary: #4F46E5;
+  --color-primary-hover: #4338CA;
+  --color-primary-light: #EEF2FF;
+  --color-primary-glow: rgba(79,70,229,0.1);
 
-  /* Secondary accents — 星际色彩 */
-  --color-cyan: #22D3EE;
-  --color-cyan-light: rgba(34,211,238,0.1);
-  --color-teal: #34D399;
-  --color-teal-light: rgba(52,211,153,0.1);
-  --color-violet: #A78BFA;
-  --color-violet-light: rgba(167,139,250,0.1);
-  --color-amber: #FBBF24;
-  --color-amber-light: rgba(251,191,36,0.1);
+  /* Secondary accents */
+  --color-cyan: #0891B2;
+  --color-cyan-light: #ECFEFF;
+  --color-teal: #0D9488;
+  --color-teal-light: #F0FDFA;
+  --color-violet: #7C3AED;
+  --color-violet-light: #F5F3FF;
+  --color-amber: #D97706;
+  --color-amber-light: #FFFBEB;
 
-  /* Surfaces & Backgrounds — 深空色系 */
-  --color-bg: #080D1A;
-  --color-bg-alt: #111827;
-  --color-card: rgba(18,28,48,0.94);
-  --color-card-hover: rgba(25,38,58,0.97);
-  --color-border: rgba(129,140,248,0.25);
-  --color-border-active: #818CF8;
+  /* Surfaces & Backgrounds — 清爽浅色 */
+  --color-bg: #F8FAFC;
+  --color-bg-alt: #F1F5F9;
+  --color-card: #FFFFFF;
+  --color-card-hover: #F8FAFC;
+  --color-border: #E2E8F0;
+  --color-border-active: #4F46E5;
 
-  /* Text hierarchy — 高对比度 light on dark */
-  --color-text: #F1F5F9;
-  --color-text-secondary: #E2E8F0;
-  --color-text-muted: #B0BEC5;
+  /* Text hierarchy — 高对比度 dark on light */
+  --color-text: #0F172A;
+  --color-text-secondary: #475569;
+  --color-text-muted: #94A3B8;
   --color-text-on-primary: #FFFFFF;
 
-  /* Shadows — cosmic glow */
-  --shadow-sm: 0 1px 3px rgba(0,0,0,0.3);
-  --shadow-card: 0 2px 12px rgba(0,0,0,0.25), 0 0 1px rgba(99,102,241,0.15);
-  --shadow-card-hover: 0 8px 30px rgba(0,0,0,0.35), 0 0 20px rgba(99,102,241,0.15);
-  --shadow-button: 0 2px 16px rgba(129,140,248,0.35);
-  --shadow-lg: 0 16px 48px rgba(0,0,0,0.4);
+  /* Shadows — 干净专业 */
+  --shadow-sm: 0 1px 2px rgba(15,23,42,0.04);
+  --shadow-card: 0 1px 3px rgba(15,23,42,0.06), 0 1px 2px rgba(15,23,42,0.04);
+  --shadow-card-hover: 0 4px 12px rgba(15,23,42,0.08);
+  --shadow-button: 0 2px 8px rgba(79,70,229,0.25);
+  --shadow-lg: 0 10px 40px rgba(15,23,42,0.08);
 
   /* Border radius */
   --radius-sm: 6px;
@@ -127,7 +127,7 @@ html {
 
 body {
   font-family: 'Inter', 'PingFang SC', 'Microsoft YaHei', 'Noto Sans SC', -apple-system, sans-serif;
-  background: #080D1A;
+  background: linear-gradient(180deg, #F0F4FA 0%, #F8FAFC 30%, #F0F4FA 70%, #E8ECF4 100%);
   color: var(--color-text);
   line-height: 1.7;
   min-height: 100vh;
@@ -136,89 +136,49 @@ body {
   position: relative;
 }
 
-/* Realistic cosmic background with planets */
+/* Subtle cosmic accent background */
 body::before {
   content: '';
   position: fixed;
   inset: 0;
   z-index: 0;
   pointer-events: none;
+  opacity: 0.3;
   background:
-    /* Deep space gradient — realistic dark cosmos */
-    radial-gradient(ellipse 80% 60% at 50% 30%, #131E3D 0%, transparent 60%),
-    radial-gradient(ellipse 60% 50% at 20% 70%, #1A1050 0%, transparent 55%),
-    radial-gradient(ellipse 50% 40% at 75% 40%, #0C2040 0%, transparent 50%),
-    radial-gradient(ellipse 70% 50% at 40% 80%, #0D1525 0%, transparent 70%),
-    /* Large planet silhouette — top right */
-    radial-gradient(circle 180px at 85% 15%, rgba(99,120,180,0.12) 0%, rgba(99,120,180,0.04) 40%, transparent 55%),
-    /* Ringed planet — bottom left */
-    radial-gradient(ellipse 120px 30px at 15% 82%, rgba(160,140,200,0.08) 0%, transparent 60%),
-    radial-gradient(circle 50px at 15% 80%, rgba(180,160,140,0.1) 0%, rgba(180,160,140,0.03) 40%, transparent 55%),
-    /* Small distant planet — middle right */
-    radial-gradient(circle 25px at 78% 55%, rgba(140,180,220,0.08) 0%, transparent 60%),
-    /* Nebula wisps */
-    radial-gradient(ellipse 300px 150px at 60% 60%, rgba(80,60,180,0.06) 0%, transparent 70%),
-    radial-gradient(ellipse 250px 120px at 30% 20%, rgba(40,80,160,0.05) 0%, transparent 60%),
-    /* Base deep space */
-    linear-gradient(180deg, #070B18 0%, #0C1428 40%, #0A1020 70%, #070B18 100%);
+    /* Very subtle constellation lines pattern */
+    radial-gradient(1px 1px at 12% 8%, rgba(79,70,229,0.15), transparent),
+    radial-gradient(1px 1px at 28% 14%, rgba(79,70,229,0.1), transparent),
+    radial-gradient(1px 1px at 45% 6%, rgba(79,70,229,0.12), transparent),
+    radial-gradient(1px 1px at 62% 20%, rgba(79,70,229,0.08), transparent),
+    radial-gradient(1px 1px at 78% 12%, rgba(79,70,229,0.1), transparent),
+    radial-gradient(1px 1px at 90% 8%, rgba(79,70,229,0.07), transparent),
+    radial-gradient(1px 1px at 15% 30%, rgba(79,70,229,0.09), transparent),
+    radial-gradient(1px 1px at 35% 25%, rgba(79,70,229,0.06), transparent),
+    radial-gradient(1px 1px at 55% 35%, rgba(79,70,229,0.08), transparent),
+    radial-gradient(1px 1px at 72% 28%, rgba(79,70,229,0.07), transparent),
+    radial-gradient(1px 1px at 85% 40%, rgba(79,70,229,0.05), transparent),
+    radial-gradient(1px 1px at 20% 50%, rgba(79,70,229,0.06), transparent),
+    radial-gradient(1px 1px at 40% 55%, rgba(79,70,229,0.08), transparent),
+    radial-gradient(1px 1px at 60% 48%, rgba(79,70,229,0.07), transparent),
+    radial-gradient(1px 1px at 75% 60%, rgba(79,70,229,0.05), transparent),
+    radial-gradient(1px 1px at 10% 70%, rgba(79,70,229,0.06), transparent),
+    radial-gradient(1px 1px at 30% 75%, rgba(79,70,229,0.07), transparent),
+    radial-gradient(1px 1px at 50% 70%, rgba(79,70,229,0.05), transparent),
+    radial-gradient(1px 1px at 68% 80%, rgba(79,70,229,0.06), transparent),
+    radial-gradient(1px 1px at 88% 72%, rgba(79,70,229,0.04), transparent);
 }
 
-/* Stars — scattered realistic starfield */
 body::after {
   content: '';
   position: fixed;
   inset: 0;
   z-index: 0;
   pointer-events: none;
-  background-image:
-    /* Bright stars */
-    radial-gradient(2px 2px at 12% 8%, rgba(220,230,255,0.9), transparent),
-    radial-gradient(1.5px 1.5px at 28% 14%, rgba(200,210,240,0.7), transparent),
-    radial-gradient(2.5px 2.5px at 45% 6%, rgba(230,240,255,0.85), transparent),
-    radial-gradient(1px 1px at 62% 11%, rgba(180,200,230,0.6), transparent),
-    radial-gradient(2px 2px at 78% 18%, rgba(210,225,250,0.75), transparent),
-    radial-gradient(1.5px 1.5px at 90% 7%, rgba(190,210,240,0.65), transparent),
-    radial-gradient(2px 2px at 8% 28%, rgba(200,220,250,0.7), transparent),
-    radial-gradient(1px 1px at 35% 22%, rgba(170,190,220,0.55), transparent),
-    radial-gradient(1.5px 1.5px at 55% 32%, rgba(195,215,245,0.65), transparent),
-    radial-gradient(2.5px 2.5px at 72% 26%, rgba(225,235,255,0.8), transparent),
-    radial-gradient(1px 1px at 85% 35%, rgba(160,185,215,0.5), transparent),
-    radial-gradient(1.5px 1.5px at 18% 42%, rgba(185,205,235,0.6), transparent),
-    radial-gradient(2px 2px at 42% 48%, rgba(215,230,255,0.75), transparent),
-    radial-gradient(1px 1px at 58% 45%, rgba(175,195,225,0.55), transparent),
-    radial-gradient(1.5px 1.5px at 68% 52%, rgba(190,210,240,0.6), transparent),
-    radial-gradient(2px 2px at 80% 58%, rgba(205,220,250,0.7), transparent),
-    radial-gradient(1px 1px at 5% 62%, rgba(165,185,215,0.5), transparent),
-    radial-gradient(1.5px 1.5px at 25% 55%, rgba(180,200,230,0.55), transparent),
-    radial-gradient(2.5px 2.5px at 48% 68%, rgba(220,235,255,0.8), transparent),
-    radial-gradient(1px 1px at 65% 72%, rgba(170,190,220,0.5), transparent),
-    radial-gradient(1.5px 1.5px at 82% 65%, rgba(185,205,235,0.55), transparent),
-    radial-gradient(2px 2px at 88% 78%, rgba(210,225,250,0.7), transparent),
-    radial-gradient(1px 1px at 15% 75%, rgba(160,180,210,0.45), transparent),
-    radial-gradient(1.5px 1.5px at 38% 80%, rgba(175,195,225,0.5), transparent),
-    radial-gradient(2px 2px at 55% 85%, rgba(200,220,248,0.65), transparent),
-    radial-gradient(1px 1px at 70% 82%, rgba(155,180,210,0.45), transparent),
-    /* Dimmer background stars */
-    radial-gradient(1px 1px at 8% 18%, rgba(255,255,255,0.35), transparent),
-    radial-gradient(1px 1px at 22% 35%, rgba(255,255,255,0.3), transparent),
-    radial-gradient(1px 1px at 33% 12%, rgba(255,255,255,0.25), transparent),
-    radial-gradient(1px 1px at 48% 25%, rgba(255,255,255,0.35), transparent),
-    radial-gradient(1px 1px at 52% 38%, rgba(255,255,255,0.3), transparent),
-    radial-gradient(1px 1px at 63% 18%, rgba(255,255,255,0.28), transparent),
-    radial-gradient(1px 1px at 75% 42%, rgba(255,255,255,0.32), transparent),
-    radial-gradient(1px 1px at 88% 28%, rgba(255,255,255,0.25), transparent),
-    radial-gradient(1px 1px at 10% 52%, rgba(255,255,255,0.3), transparent),
-    radial-gradient(1px 1px at 28% 62%, rgba(255,255,255,0.28), transparent),
-    radial-gradient(1px 1px at 40% 58%, rgba(255,255,255,0.32), transparent),
-    radial-gradient(1px 1px at 58% 65%, rgba(255,255,255,0.25), transparent),
-    radial-gradient(1px 1px at 72% 55%, rgba(255,255,255,0.3), transparent),
-    radial-gradient(1px 1px at 85% 48%, rgba(255,255,255,0.28), transparent),
-    radial-gradient(1px 1px at 18% 78%, rgba(255,255,255,0.32), transparent),
-    radial-gradient(1px 1px at 32% 88%, rgba(255,255,255,0.25), transparent),
-    radial-gradient(1px 1px at 50% 78%, rgba(255,255,255,0.3), transparent),
-    radial-gradient(1px 1px at 62% 90%, rgba(255,255,255,0.28), transparent),
-    radial-gradient(1px 1px at 78% 85%, rgba(255,255,255,0.32), transparent),
-    radial-gradient(1px 1px at 92% 72%, rgba(255,255,255,0.25), transparent);
+  opacity: 0.2;
+  background:
+    /* Subtle nebula hint */
+    radial-gradient(ellipse 400px 200px at 20% 25%, rgba(79,70,229,0.04) 0%, transparent 60%),
+    radial-gradient(ellipse 300px 150px at 75% 65%, rgba(14,165,233,0.03) 0%, transparent 55%);
 }
 
 .app-container {
@@ -236,9 +196,9 @@ body::after {
   position: sticky;
   top: 0;
   z-index: 100;
-  background: rgba(8,13,26,0.92); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  background: rgba(255,255,255,0.85); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
   padding: 12px 20px;
-  border-bottom: 1px solid rgba(99,102,241,0.12);
+  border-bottom: 1px solid rgba(15,23,42,0.06);
 }
 
 .header-inner {
@@ -260,7 +220,7 @@ body::after {
 }
 .logo-icon {
   width: 36px; height: 36px;
-  background: linear-gradient(135deg, #6366F1, #818CF8);
+  background: linear-gradient(135deg, #4F46E5, #6366F1);
   border-radius: var(--radius-md);
   display: flex; align-items: center; justify-content: center;
   font-size: 1.2rem;
@@ -276,12 +236,12 @@ body::after {
 .phase-dot {
   width: 10px; height: 10px;
   border-radius: 50%;
-  background: rgba(255,255,255,0.15);
+  background: #E2E8F0;
   transition: all var(--transition-normal) var(--ease-smooth);
 }
 .phase-dot.active {
   background: var(--color-primary);
-  box-shadow: 0 0 12px rgba(129,140,248,0.5);
+  box-shadow: 0 0 8px rgba(79,70,229,0.3);
   transform: scale(1.3);
 }
 .phase-dot.done {
@@ -289,7 +249,7 @@ body::after {
 }
 .phase-line {
   width: 20px; height: 2px;
-  background: rgba(255,255,255,0.1);
+  background: #E2E8F0;
   border-radius: 1px;
 }
 .phase-line.done {
@@ -371,10 +331,10 @@ body::after {
   font-size: 1.3rem;
 }
 .coach .bubble-avatar {
-  background: linear-gradient(135deg, rgba(99,102,241,0.3), rgba(129,140,248,0.2));
+  background: linear-gradient(135deg, #EEF2FF, #E0E7FF);
 }
 .user .bubble-avatar {
-  background: linear-gradient(135deg, rgba(52,211,153,0.3), rgba(34,211,238,0.2));
+  background: linear-gradient(135deg, #F0FDFA, #CCFBF1);
   order: 2;
 }
 
@@ -392,7 +352,7 @@ body::after {
   border-bottom-left-radius: var(--radius-sm);
 }
 .user .bubble-content {
-  background: linear-gradient(135deg, rgba(52,211,153,0.15), rgba(34,211,238,0.1));
+  background: linear-gradient(135deg, #F0FDFA, #E0F2FE);
   border-bottom-right-radius: var(--radius-sm);
 }
 
@@ -422,7 +382,6 @@ body::after {
   font-weight: 600;
   margin-bottom: 20px;
   color: var(--color-text);
-  border: 1px solid var(--color-border);
   line-height: 1.5;
 }
 
@@ -533,7 +492,6 @@ body::after {
   min-height: 80px;
   background: var(--color-card);
   color: var(--color-text);
-  border: 1px solid var(--color-border);
   transition: all var(--transition-fast) var(--ease-smooth);
   outline: none;
 }
@@ -618,7 +576,7 @@ body::after {
 
 /* --- Flash Card (Phase 1 result) --- */
 .flash-card {
-  background: linear-gradient(135deg, rgba(22,33,55,0.95), rgba(30,41,62,0.85));
+  background: linear-gradient(135deg, #FFFFFF, #F5F7FF);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-xl);
   padding: 28px 24px;
@@ -632,7 +590,7 @@ body::after {
   position: absolute;
   top: -40px; right: -40px;
   width: 120px; height: 120px;
-  background: radial-gradient(circle, rgba(129,140,248,0.15), transparent);
+  background: radial-gradient(circle, rgba(79,70,229,0.08), transparent);
   border-radius: 50%;
 }
 .flash-card h3 {
@@ -663,10 +621,10 @@ body::after {
   font-size: 0.85rem;
   font-weight: 500;
 }
-.flash-tag.ability { background: rgba(52,211,153,0.2); color: #6EE7B7; }
-.flash-tag.passion { background: rgba(56,189,248,0.15); color: #7DD3FC; }
-.flash-tag.style { background: rgba(56,189,248,0.15); color: #67E8F9; }
-.flash-tag.drive { background: rgba(167,139,250,0.2); color: #C4B5FD; }
+.flash-tag.ability { background: #DCFCE7; color: #166534; }
+.flash-tag.passion { background: #E0F2FE; color: #075985; }
+.flash-tag.style { background: #E0F2FE; color: #0F766E; }
+.flash-tag.drive { background: #F3E8FF; color: #6B21A8; }
 
 /* --- Venn Diagram (Phase 2) --- */
 .venn-container {
@@ -844,13 +802,13 @@ body::after {
   align-items: center;
   gap: 3px;
 }
-.tag-trend { background: rgba(248,113,113,0.2); color: #FCA5A5; }
-.tag-city { background: rgba(56,189,248,0.15); color: #7DD3FC; }
-.tag-special { background: rgba(167,139,250,0.2); color: #C4B5FD; }
-.tag-beginner { background: rgba(52,211,153,0.2); color: #6EE7B7; }
-.tag-skill { background: rgba(251,191,36,0.2); color: #FDE68A; }
-.tag-mode { background: rgba(167,139,250,0.2); color: #C4B5FD; }
-.tag-warning { background: rgba(248,113,113,0.2); color: #FCA5A5; }
+.tag-trend { background: #FEE2E2; color: #991B1B; }
+.tag-city { background: #E0F2FE; color: #075985; }
+.tag-special { background: #F3E8FF; color: #6B21A8; }
+.tag-beginner { background: #DCFCE7; color: #166534; }
+.tag-skill { background: #FEF9C3; color: #A16207; }
+.tag-mode { background: #F3E8FF; color: #6B21A8; }
+.tag-warning { background: #FEE2E2; color: #991B1B; }
 
 /* Star rating */
 .star-rating {
@@ -859,7 +817,7 @@ body::after {
   font-size: 1.1rem;
 }
 .star-rating .star-filled { color: var(--color-primary); }
-.star-rating .star-empty { color: rgba(255,255,255,0.15); }
+.star-rating .star-empty { color: #E2E8F0; }
 
 /* --- Timeline (14-day plan) --- */
 .timeline {
@@ -965,7 +923,6 @@ body::after {
   font-weight: 700;
   font-size: 1.1rem;
   color: var(--color-text);
-  border: 1px solid var(--color-border);
 }
 
 /* --- Utility --- */
@@ -1115,7 +1072,7 @@ body::after {
 .city-policy strong{color:var(--color-teal)}
 
 .tag-pill.tag-city{cursor:pointer;position:relative;transition:all var(--transition-fast)}
-.tag-pill.tag-city:hover{transform:scale(1.05);box-shadow:0 2px 8px rgba(0,0,0,0.1)}
+.tag-pill.tag-city:hover{transform:scale(1.03);box-shadow:0 2px 8px rgba(0,0,0,0.08)}
 .tag-pill.tag-city::after{content:' 🔍点击看产业地图';font-size:0.65rem;opacity:0.75;margin-left:2px}
 .tag-pill.tag-city:hover::after{opacity:1}
 @media(max-width:600px){.emp-choice-grid{grid-template-columns:1fr}.city-cluster-grid{grid-template-columns:1fr}}
