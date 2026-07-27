@@ -9,7 +9,7 @@
 (function() {
   window.confetti = function(opts) {
     var defaults = { particleCount: 80, spread: 50, origin: { x: 0.5, y: 0.5 },
-      colors: ['#FF6B6B','#FFB347','#4ECDC4','#6BCB77','#9B59B6','#FF69B4'] };
+      colors: ['#4F46E5','#6366F1','#10B981','#0EA5E9','#8B5CF6','#06B6D4'] };
     var o = Object.assign({}, defaults, opts || {});
     var container = document.createElement('div');
     container.style.cssText = 'position:fixed;inset:0;pointer-events:none;z-index:9999;overflow:hidden;';
@@ -60,57 +60,57 @@
 
 /* --- CSS Custom Properties --- */
 :root {
-  /* Primary palette — warm & refined */
-  --color-primary: #F8716B;
-  --color-primary-hover: #EF5A5A;
-  --color-primary-light: #FFF0EE;
-  --color-primary-glow: rgba(248,113,107,0.18);
+  /* Primary palette — tech & professional */
+  --color-primary: #4F46E5;
+  --color-primary-hover: #4338CA;
+  --color-primary-light: #EEF2FF;
+  --color-primary-glow: rgba(79,70,229,0.15);
 
   /* Secondary accents */
-  --color-amber: #F59E4B;
-  --color-amber-light: #FFF7ED;
-  --color-teal: #14B8A6;
-  --color-teal-light: #F0FDFA;
-  --color-violet: #8B5CF6;
+  --color-amber: #0EA5E9;
+  --color-amber-light: #F0F9FF;
+  --color-teal: #10B981;
+  --color-teal-light: #ECFDF5;
+  --color-violet: #7C3AED;
   --color-violet-light: #F5F3FF;
   --color-blue: #3B82F6;
   --color-blue-light: #EFF6FF;
 
   /* Surfaces & Backgrounds */
-  --color-bg: #FFFBF7;
-  --color-bg-alt: #FFF7ED;
+  --color-bg: #F8FAFC;
+  --color-bg-alt: #F1F5F9;
   --color-card: #FFFFFF;
-  --color-card-hover: #FFFAF5;
-  --color-border: #F0EAE0;
-  --color-border-active: #F8716B;
+  --color-card-hover: #F8FAFC;
+  --color-border: #E2E8F0;
+  --color-border-active: #4F46E5;
 
   /* Text hierarchy */
-  --color-text: #1E293B;
-  --color-text-secondary: #64748B;
+  --color-text: #0F172A;
+  --color-text-secondary: #475569;
   --color-text-muted: #94A3B8;
   --color-text-on-primary: #FFFFFF;
 
-  /* Shadows — softer, warmer */
-  --shadow-sm: 0 1px 3px rgba(30,41,59,0.04);
-  --shadow-card: 0 2px 16px rgba(30,41,59,0.06);
-  --shadow-card-hover: 0 8px 30px rgba(30,41,59,0.10);
-  --shadow-button: 0 4px 14px rgba(248,113,107,0.28);
-  --shadow-lg: 0 16px 48px rgba(30,41,59,0.10);
+  /* Shadows — clean, professional */
+  --shadow-sm: 0 1px 2px rgba(15,23,42,0.04);
+  --shadow-card: 0 1px 3px rgba(15,23,42,0.06), 0 1px 2px rgba(15,23,42,0.04);
+  --shadow-card-hover: 0 4px 12px rgba(15,23,42,0.08), 0 2px 4px rgba(15,23,42,0.04);
+  --shadow-button: 0 2px 8px rgba(79,70,229,0.25);
+  --shadow-lg: 0 10px 40px rgba(15,23,42,0.08);
 
-  /* Border radius */
-  --radius-sm: 8px;
-  --radius-md: 12px;
-  --radius-lg: 16px;
-  --radius-xl: 20px;
-  --radius-2xl: 24px;
+  /* Border radius — refined */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-2xl: 20px;
   --radius-full: 999px;
 
   /* Transitions */
-  --ease-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
   --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
   --transition-fast: 0.15s;
-  --transition-normal: 0.3s;
-  --transition-slow: 0.5s;
+  --transition-normal: 0.25s;
+  --transition-slow: 0.4s;
 }
 
 /* --- Reset & Base --- */
@@ -127,7 +127,7 @@ html {
 
 body {
   font-family: 'Inter', 'PingFang SC', 'Microsoft YaHei', 'Noto Sans SC', -apple-system, sans-serif;
-  background: linear-gradient(180deg, #FFFBF7 0%, #FFF7ED 40%, #FFF3E5 100%);
+  background: linear-gradient(180deg, #F8FAFC 0%, #F1F5F9 40%, #E8ECF4 100%);
   color: var(--color-text);
   line-height: 1.7;
   min-height: 100vh;
@@ -163,11 +163,9 @@ p { margin-bottom: 0.6em; }
   position: sticky;
   top: 0;
   z-index: 100;
-  background: rgba(255,251,247,0.85); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background: rgba(248,250,252,0.88); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
   padding: 12px 20px;
-  border-bottom: 1px solid rgba(44,62,80,0.06);
+  border-bottom: 1px solid rgba(15,23,42,0.06);
 }
 
 .header-inner {
@@ -189,11 +187,11 @@ p { margin-bottom: 0.6em; }
 }
 .logo-icon {
   width: 36px; height: 36px;
-  background: linear-gradient(135deg, var(--color-primary), var(--color-amber));
+  background: linear-gradient(135deg, #4F46E5, #6366F1);
   border-radius: var(--radius-md);
   display: flex; align-items: center; justify-content: center;
   font-size: 1.2rem;
-  box-shadow: 0 2px 8px rgba(255,107,107,0.25);
+  box-shadow: 0 2px 8px rgba(79,70,229,0.25);
 }
 
 /* --- Phase Indicator --- */
@@ -500,12 +498,12 @@ p { margin-bottom: 0.6em; }
 .btn:active { transform: scale(0.95); }
 
 .btn-primary {
-  background: linear-gradient(135deg, var(--color-primary), var(--color-amber));
+  background: linear-gradient(135deg, #4F46E5, #6366F1);
   color: white;
-  box-shadow: var(--shadow-button);
+  box-shadow: 0 2px 8px rgba(79,70,229,0.25);
 }
 .btn-primary:hover {
-  box-shadow: 0 6px 20px rgba(255,107,107,0.4);
+  box-shadow: 0 4px 16px rgba(79,70,229,0.35);
 }
 .btn-outline {
   background: transparent;
@@ -538,7 +536,7 @@ p { margin-bottom: 0.6em; }
 .progress-bar-fill {
   height: 100%;
   border-radius: var(--radius-full);
-  background: linear-gradient(90deg, var(--color-primary), var(--color-amber), var(--color-violet));
+  background: linear-gradient(90deg, #4F46E5, #6366F1, #8B5CF6);
   background-size: 200% 100%;
   animation: progressShimmer 2s linear infinite;
   transition: width 0.5s var(--ease-bounce);
@@ -550,11 +548,11 @@ p { margin-bottom: 0.6em; }
 
 /* --- Flash Card (Phase 1 result) --- */
 .flash-card {
-  background: linear-gradient(135deg, #FFFFFF, #FFF8F0);
-  border: 2px solid var(--color-amber);
+  background: linear-gradient(135deg, #FFFFFF, #F8FAFF);
+  border: 2px solid var(--color-border);
   border-radius: var(--radius-xl);
   padding: 28px 24px;
-  box-shadow: 0 8px 32px rgba(255,107,107,0.12);
+  box-shadow: var(--shadow-lg);
   animation: cardPopIn 0.7s var(--ease-bounce);
   position: relative;
   overflow: hidden;
@@ -595,10 +593,10 @@ p { margin-bottom: 0.6em; }
   font-size: 0.85rem;
   font-weight: 500;
 }
-.flash-tag.ability { background: #E0F7E3; color: #2E7D32; }
-.flash-tag.passion { background: #FFF0E0; color: #E65100; }
-.flash-tag.style { background: #D4F5F2; color: #00695C; }
-.flash-tag.drive { background: #F0E4F6; color: #6A1B9A; }
+.flash-tag.ability { background: #DCFCE7; color: #166534; }
+.flash-tag.passion { background: #E0F2FE; color: #075985; }
+.flash-tag.style { background: #E0F2FE; color: #0F766E; }
+.flash-tag.drive { background: #F3E8FF; color: #6B21A8; }
 
 /* --- Venn Diagram (Phase 2) --- */
 .venn-container {
@@ -776,13 +774,13 @@ p { margin-bottom: 0.6em; }
   align-items: center;
   gap: 3px;
 }
-.tag-trend { background: #FFE0D0; color: #D84315; }
-.tag-city { background: #D4F5F2; color: #00695C; }
-.tag-special { background: #E8E0F0; color: #4A148C; }
-.tag-beginner { background: #E0F7E3; color: #2E7D32; }
-.tag-skill { background: #FFF9C4; color: #F57F17; }
-.tag-mode { background: #F5F0FF; color: #6A1B9A; }
-.tag-warning { background: #FFECEC; color: #C62828; }
+.tag-trend { background: #FEE2E2; color: #991B1B; }
+.tag-city { background: #E0F2FE; color: #075985; }
+.tag-special { background: #F3E8FF; color: #6B21A8; }
+.tag-beginner { background: #DCFCE7; color: #166534; }
+.tag-skill { background: #FEF9C3; color: #A16207; }
+.tag-mode { background: #F3E8FF; color: #6B21A8; }
+.tag-warning { background: #FEE2E2; color: #991B1B; }
 
 /* Star rating */
 .star-rating {
@@ -1937,7 +1935,7 @@ function celebrate(emoji = '🎉', text = '') {
       particleCount: 100,
       spread: 70,
       origin: { y: 0.6 },
-      colors: ['#FF6B6B', '#FFB347', '#4ECDC4', '#6BCB77', '#9B59B6', '#FF69B4'],
+      colors: ['#4F46E5', '#6366F1', '#10B981', '#0EA5E9', '#8B5CF6', '#06B6D4'],
     });
   }
 }
@@ -2814,84 +2812,72 @@ function renderPhase3Intro() {
 }
 
 function renderPhase3Cards() {
-  const jobs = profile.recommendedJobs;
-  const userAbilities = profile.flashCard?.abilities || [];
-  const topAbility = userAbilities[0] || '你的核心优势';
+  var jobs = profile.recommendedJobs;
+  var userAbilities = profile.flashCard?.abilities || [];
+  var topAbility = userAbilities[0] || '你的核心优势';
 
-  let html = '<h3 style="margin-bottom:8px;">🔗 你的职业连连卡</h3>';
-  html += `<p class="text-secondary mb-16">连连把 ${jobs.length} 个岗位和你的闪光点连在一起了～ 点击卡片看详情</p>`;
+  var html = '<h3 style="margin-bottom:4px;">🔗 你的职业连连卡</h3>';
+  html += '<p class="text-secondary mb-12">' + jobs.length + ' 个高度匹配岗位 · 点击卡片展开完整详情 👇</p>';
 
-  jobs.forEach((job, idx) => {
-    html += `
-    <div class="job-card mt-16" style="animation-delay:${idx * 0.12}s;">
-      <div class="connect-line">
-        <span class="ability-tag">${topAbility}</span>
-        <span class="arrow">→→→</span>
-        <span class="job-name">${job.name}</span>
-      </div>
-      <h4>📌 ${job.name} <span style="font-weight:400;font-size:0.85rem;color:var(--color-text-secondary);">${job.aliases.join(' / ')}</span></h4>
+  jobs.forEach(function(job, idx) {
+    // Compact card header
+    html += '<div class="job-card mt-12" style="animation-delay:' + (idx * 0.1) + 's;cursor:pointer;" onclick="toggleProDetail(\'pd_' + job.id + '\', this)">';
+    html += '<div style="display:flex;align-items:flex-start;gap:12px;">';
+    html += '<div style="width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,#EEF2FF,#E0E7FF);display:flex;align-items:center;justify-content:center;font-size:1.2rem;font-weight:700;color:#4F46E5;flex-shrink:0;">' + (idx+1) + '</div>';
+    html += '<div style="flex:1;min-width:0;">';
+    html += '<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">';
+    html += '<strong style="font-size:1rem;">' + job.name + '</strong>';
+    html += '<span style="font-size:0.75rem;color:var(--color-text-muted);">' + (job.aliases||[]).slice(0,2).join(' / ') + '</span>';
+    html += '</div>';
+    // Match reason line
+    html += '<p style="font-size:0.82rem;color:var(--color-text-secondary);margin:4px 0 0;"><span style="color:#4F46E5;font-weight:600;">' + topAbility + '</span> → ' + job.matchAbilities.slice(0,2).join('、') + '</p>';
+    // Key tags
+    html += '<div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:6px;">';
+    html += '<span class="tag-pill tag-trend" style="font-size:0.7rem;padding:3px 8px;">📈 ' + (job.trend.indexOf('⭐⭐') >= 0 ? '双风口' : '风口') + '</span>';
+    html += '<span class="tag-pill tag-city" style="font-size:0.7rem;padding:3px 8px;">🏙 ' + job.cities.split('|')[0].split('（')[0].trim() + '</span>';
+    html += '<span class="tag-pill tag-beginner" style="font-size:0.7rem;padding:3px 8px;">🌱 ' + '⭐'.repeat(job.beginnerStars) + '</span>';
+    html += '<span style="font-size:0.7rem;color:var(--color-primary);padding:3px 6px;">▼ 展开详情</span>';
+    html += '</div></div></div>';
 
-      <div class="job-section">
-        <div class="job-section-title">🔗 适配理由</div>
-        <p style="font-size:0.9rem;">因为你的<strong>${topAbility}</strong>，而这个岗位恰需要<strong>${job.matchAbilities.slice(0,2).join('、')}</strong>，所以连在一起。</p>
-      </div>
-
-      <div class="job-section">
-        <div class="job-section-title">📋 工作内容</div>
-        <ul style="padding-left:18px;font-size:0.9rem;">
-          ${job.workContent.map(w => `<li>${w}</li>`).join('')}
-        </ul>
-      </div>
-
-      <div class="job-section">
-        <div class="job-section-title">💰 薪资结构</div>
-        <p style="font-size:0.85rem;">${job.salary}</p>
-        <p class="text-secondary" style="font-size:0.75rem;">⚠️ 基于公开数据及典型情况，请以实时官方渠道核实为准</p>
-      </div>
-
-      <div class="job-section">
-        <div class="job-section-title">🛠 技能要求与补充路径</div>
-        <p style="font-size:0.85rem;">${job.skillGap}</p>
-      </div>
-
-      <!-- Tags -->
-      <div class="job-section">
-        <div class="job-section-title">🏷 必备标签</div>
-        <div class="tag-row">
-          <span class="tag-pill tag-trend" title="${job.trend}">📈 ${job.trend.substring(0,40)}...</span>
-          <span class="tag-pill tag-city" onclick="showCityMap('${job.id}')" title="👆 点击查看产业集群地图">🏙 ${job.cities}</span>
-          ${job.special ? `<span class="tag-pill tag-special">🛡️ ${job.special.substring(0,25)}...</span>` : ''}
-        </div>
-      </div>
-      <div class="tag-row mt-8">
-        <span class="tag-pill tag-beginner">🌱 新手友好 ${renderStars(job.beginnerStars)} ${job.beginnerNote.substring(0,20)}...</span>
-        <span class="tag-pill tag-skill">🧩 技能迁移 ${renderStars(job.skillTransferStars)} ${job.skillTransferNote.substring(0,20)}...</span>
-      </div>
-
-      <div class="job-section">
-        <div class="job-section-title">💬 社群口碑速读</div>
-        <p style="font-size:0.85rem;">${job.community}</p>
-      </div>
-
-      <div class="job-section" style="background:var(--color-bg-alt);border-radius:var(--radius-md);padding:14px;margin-top:14px;">
-        <div class="job-section-title">🧪 原型体验行动（本周即可执行）</div>
-        <p style="font-size:0.85rem;">${job.prototype}</p>
-      </div>
-
-      <!-- Talent Persona Card -->
-      ${renderPersonaCard(job)}
-
-      <!-- Core Transferable Competencies -->
-      ${renderCoreSkillsCard(job)}
-
-      ${renderJobQA(job)}
-    </div>`;
+    // Expandable full detail
+    html += '<div id="pd_' + job.id + '" style="display:none;margin-top:16px;padding-top:16px;border-top:1px solid var(--color-border);">';
+    html += '<div class="job-section"><div class="job-section-title">📋 工作内容</div><ul style="padding-left:18px;font-size:0.88rem;">' + job.workContent.map(function(w){return '<li>'+w+'</li>';}).join('') + '</ul></div>';
+    html += '<div class="job-section"><div class="job-section-title">💰 薪资结构</div><p style="font-size:0.85rem;">' + job.salary + '</p><p class="text-secondary" style="font-size:0.72rem;">⚠️ 基于公开数据及典型情况，请以实时官方渠道核实为准</p></div>';
+    html += '<div class="job-section"><div class="job-section-title">🛠 技能要求与补充路径</div><p style="font-size:0.85rem;">' + job.skillGap + '</p></div>';
+    html += '<div class="job-section"><div class="job-section-title">🏷 必备标签</div><div class="tag-row"><span class="tag-pill tag-trend">📈 ' + job.trend.substring(0,40) + '...</span><span class="tag-pill tag-city" onclick="event.stopPropagation();showCityMap(\'' + job.id + '\')" title="👆 点击查看产业集群地图">🏙 ' + job.cities + '</span>' + (job.special ? '<span class="tag-pill tag-special">🛡️ ' + job.special.substring(0,25) + '...</span>' : '') + '</div></div>';
+    html += '<div class="tag-row mt-8"><span class="tag-pill tag-beginner">🌱 新手友好 ' + renderStars(job.beginnerStars) + ' ' + job.beginnerNote.substring(0,20) + '...</span><span class="tag-pill tag-skill">🧩 技能迁移 ' + renderStars(job.skillTransferStars) + ' ' + job.skillTransferNote.substring(0,20) + '...</span></div>';
+    html += '<div class="job-section"><div class="job-section-title">💬 社群口碑速读</div><p style="font-size:0.85rem;">' + job.community + '</p></div>';
+    html += '<div class="job-section" style="background:var(--color-bg-alt);border-radius:var(--radius-md);padding:14px;"><div class="job-section-title">🧪 原型体验行动（本周即可执行）</div><p style="font-size:0.85rem;">' + job.prototype + '</p></div>';
+    html += renderPersonaCard(job);
+    html += renderCoreSkillsCard(job);
+    html += renderJobQA(job);
+    html += '</div></div>';
   });
 
   html += '<button class="btn btn-outline mt-16" onclick="state.phase3Step=\'table\';render();">📊 查看备选方向对照表 →</button>';
-
   mainContent.innerHTML = html;
 }
+
+function toggleProDetail(id, card) {
+  var el = document.getElementById(id);
+  var arrow = card.querySelector('span[style]');
+  var allSpans = card.querySelectorAll('span');
+  var toggleSpan = null;
+  for (var i = 0; i < allSpans.length; i++) {
+    if (allSpans[i].textContent.indexOf('展开') >= 0 || allSpans[i].textContent.indexOf('收起') >= 0) {
+      toggleSpan = allSpans[i]; break;
+    }
+  }
+  if (el.style.display === 'none' || !el.style.display) {
+    el.style.display = 'block';
+    if (toggleSpan) toggleSpan.textContent = '▲ 收起详情';
+  } else {
+    el.style.display = 'none';
+    if (toggleSpan) toggleSpan.textContent = '▼ 展开详情';
+  }
+}
+
+// ============ STUB (old detailed cards - kept for reference) ============
 
 // ============ SCORING + DEEP DIVE ============
 
@@ -3285,7 +3271,7 @@ function finishAll() {
         particleCount: 200,
         spread: 100,
         origin: { y: 0.5 },
-        colors: ['#FF6B6B', '#FFB347', '#4ECDC4', '#6BCB77', '#9B59B6', '#FF69B4'],
+        colors: ['#4F46E5', '#6366F1', '#10B981', '#0EA5E9', '#8B5CF6', '#06B6D4'],
       });
     }
     showToast('🎊', '连连看挑战成功！你已经拥有了职业探索的导航仪和种子资金（知识金币），现在就出发去创造属于你的奥德赛吧！', 4000);
