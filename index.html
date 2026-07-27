@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>职业连连看 · 发现你的职业新可能</title>
+<title>星途职引 · AI-powered 科学职业测评</title>
 <!-- Self-contained confetti (no CDN dependency) -->
 <script>
 (function() {
@@ -60,44 +60,44 @@
 
 /* --- CSS Custom Properties --- */
 :root {
-  /* Primary palette — tech & professional */
-  --color-primary: #4F46E5;
-  --color-primary-hover: #4338CA;
-  --color-primary-light: #EEF2FF;
-  --color-primary-glow: rgba(79,70,229,0.15);
+  /* Primary palette — cosmic deep space */
+  --color-primary: #818CF8;
+  --color-primary-hover: #6366F1;
+  --color-primary-light: rgba(99,102,241,0.12);
+  --color-primary-glow: rgba(129,140,248,0.25);
 
-  /* Secondary accents */
-  --color-amber: #0EA5E9;
-  --color-amber-light: #F0F9FF;
-  --color-teal: #10B981;
-  --color-teal-light: #ECFDF5;
-  --color-violet: #7C3AED;
-  --color-violet-light: #F5F3FF;
-  --color-blue: #3B82F6;
-  --color-blue-light: #EFF6FF;
+  /* Secondary accents — stellar */
+  --color-amber: #38BDF8;
+  --color-amber-light: rgba(56,189,248,0.1);
+  --color-teal: #34D399;
+  --color-teal-light: rgba(52,211,153,0.1);
+  --color-violet: #A78BFA;
+  --color-violet-light: rgba(167,139,250,0.12);
+  --color-blue: #60A5FA;
+  --color-blue-light: rgba(96,165,250,0.1);
 
-  /* Surfaces & Backgrounds */
-  --color-bg: #F8FAFC;
-  --color-bg-alt: #F1F5F9;
-  --color-card: #FFFFFF;
-  --color-card-hover: #F8FAFC;
-  --color-border: #E2E8F0;
-  --color-border-active: #4F46E5;
+  /* Surfaces — deep space */
+  --color-bg: #0B1120;
+  --color-bg-alt: #111827;
+  --color-card: rgba(30,41,59,0.55);
+  --color-card-hover: rgba(30,41,59,0.75);
+  --color-border: rgba(99,102,241,0.12);
+  --color-border-active: #818CF8;
 
-  /* Text hierarchy */
-  --color-text: #0F172A;
-  --color-text-secondary: #475569;
-  --color-text-muted: #94A3B8;
+  /* Text hierarchy — high contrast on dark */
+  --color-text: #F1F5F9;
+  --color-text-secondary: #94A3B8;
+  --color-text-muted: #64748B;
   --color-text-on-primary: #FFFFFF;
 
-  /* Shadows — clean, professional */
-  --shadow-sm: 0 1px 2px rgba(15,23,42,0.04);
-  --shadow-card: 0 1px 3px rgba(15,23,42,0.06), 0 1px 2px rgba(15,23,42,0.04);
-  --shadow-card-hover: 0 4px 12px rgba(15,23,42,0.08), 0 2px 4px rgba(15,23,42,0.04);
-  --shadow-button: 0 2px 8px rgba(79,70,229,0.25);
-  --shadow-lg: 0 10px 40px rgba(15,23,42,0.08);
+  /* Shadows — glowing */
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.3);
+  --shadow-card: 0 2px 8px rgba(0,0,0,0.4), 0 0 1px rgba(99,102,241,0.1);
+  --shadow-card-hover: 0 4px 20px rgba(0,0,0,0.5), 0 0 2px rgba(129,140,248,0.2);
+  --shadow-button: 0 0 20px rgba(99,102,241,0.3);
+  --shadow-lg: 0 8px 40px rgba(0,0,0,0.5);
 
-  /* Border radius — refined */
+  /* Border radius — sleek */
   --radius-sm: 6px;
   --radius-md: 10px;
   --radius-lg: 12px;
@@ -105,12 +105,12 @@
   --radius-2xl: 20px;
   --radius-full: 999px;
 
-  /* Transitions */
-  --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+  /* Transitions — smooth only, no bounce */
+  --ease-bounce: cubic-bezier(0.4, 0, 0.2, 1);
   --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
   --transition-fast: 0.15s;
   --transition-normal: 0.25s;
-  --transition-slow: 0.4s;
+  --transition-slow: 0.5s;
 }
 
 /* --- Reset & Base --- */
@@ -127,7 +127,7 @@ html {
 
 body {
   font-family: 'Inter', 'PingFang SC', 'Microsoft YaHei', 'Noto Sans SC', -apple-system, sans-serif;
-  background: linear-gradient(180deg, #F8FAFC 0%, #F1F5F9 40%, #E8ECF4 100%);
+  background: linear-gradient(180deg, #0B1120 0%, #111827 30%, #0F172A 60%, #0B1120 100%);
   color: var(--color-text);
   line-height: 1.7;
   min-height: 100vh;
@@ -163,9 +163,9 @@ p { margin-bottom: 0.6em; }
   position: sticky;
   top: 0;
   z-index: 100;
-  background: rgba(248,250,252,0.88); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+  background: rgba(11,17,32,0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
   padding: 12px 20px;
-  border-bottom: 1px solid rgba(15,23,42,0.06);
+  border-bottom: 1px solid rgba(99,102,241,0.1);
 }
 
 .header-inner {
@@ -254,11 +254,12 @@ p { margin-bottom: 0.6em; }
 /* --- Cards --- */
 .card {
   background: var(--color-card);
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
   border-radius: var(--radius-xl);
   padding: 24px;
   box-shadow: var(--shadow-card);
   transition: all var(--transition-normal) var(--ease-smooth);
-  animation: cardSlideUp 0.5s var(--ease-bounce);
+  animation: cardSlideUp 0.4s var(--ease-smooth);
   border: 1px solid var(--color-border);
 }
 .card:hover {
@@ -319,12 +320,14 @@ p { margin-bottom: 0.6em; }
   position: relative;
 }
 .coach .bubble-content {
-  background: var(--color-card);
+  background: rgba(30,41,59,0.5);
+  backdrop-filter: blur(8px);
   box-shadow: var(--shadow-card);
   border-bottom-left-radius: var(--radius-sm);
 }
 .user .bubble-content {
-  background: linear-gradient(135deg, var(--color-teal-light), #D4F5F2);
+  background: rgba(56,189,248,0.15);
+  backdrop-filter: blur(8px);
   border-bottom-right-radius: var(--radius-sm);
 }
 
@@ -368,23 +371,21 @@ p { margin-bottom: 0.6em; }
   align-items: center;
   gap: 12px;
   padding: 14px 18px;
-  border: 2px solid #EDE8E0;
+  border: 1px solid rgba(99,102,241,0.15);
   border-radius: var(--radius-lg);
   cursor: pointer;
-  transition: all var(--transition-fast) var(--ease-bounce);
-  background: var(--color-card);
+  transition: all var(--transition-fast) var(--ease-smooth);
+  background: rgba(30,41,59,0.4);
   font-size: 0.95rem;
 }
 .option-card:hover {
   border-color: var(--color-primary);
-  background: #FFF5F0;
-  transform: scale(1.02);
+  background: rgba(99,102,241,0.08);
 }
 .option-card.selected {
   border-color: var(--color-primary);
-  background: var(--color-primary-light);
-  box-shadow: 0 0 0 3px rgba(255,107,107,0.12);
-  animation: optionSelect 0.3s var(--ease-bounce);
+  background: rgba(99,102,241,0.12);
+  box-shadow: 0 0 0 2px rgba(129,140,248,0.2);
 }
 @keyframes optionSelect {
   0% { transform: scale(1); }
@@ -498,12 +499,12 @@ p { margin-bottom: 0.6em; }
 .btn:active { transform: scale(0.95); }
 
 .btn-primary {
-  background: linear-gradient(135deg, #4F46E5, #6366F1);
+  background: linear-gradient(135deg, #6366F1, #818CF8);
   color: white;
-  box-shadow: 0 2px 8px rgba(79,70,229,0.25);
+  box-shadow: 0 0 20px rgba(99,102,241,0.3);
 }
 .btn-primary:hover {
-  box-shadow: 0 4px 16px rgba(79,70,229,0.35);
+  box-shadow: 0 0 30px rgba(129,140,248,0.5);
 }
 .btn-outline {
   background: transparent;
@@ -536,9 +537,9 @@ p { margin-bottom: 0.6em; }
 .progress-bar-fill {
   height: 100%;
   border-radius: var(--radius-full);
-  background: linear-gradient(90deg, #4F46E5, #6366F1, #8B5CF6);
+  background: linear-gradient(90deg, #6366F1, #818CF8, #38BDF8);
   background-size: 200% 100%;
-  animation: progressShimmer 2s linear infinite;
+  animation: progressShimmer 3s linear infinite;
   transition: width 0.5s var(--ease-bounce);
 }
 @keyframes progressShimmer {
@@ -548,8 +549,9 @@ p { margin-bottom: 0.6em; }
 
 /* --- Flash Card (Phase 1 result) --- */
 .flash-card {
-  background: linear-gradient(135deg, #FFFFFF, #F8FAFF);
-  border: 2px solid var(--color-border);
+  background: linear-gradient(135deg, rgba(30,41,59,0.6), rgba(30,58,95,0.5));
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(99,102,241,0.2);
   border-radius: var(--radius-xl);
   padding: 28px 24px;
   box-shadow: var(--shadow-lg);
@@ -569,6 +571,15 @@ p { margin-bottom: 0.6em; }
   color: var(--color-primary);
   margin-bottom: 16px;
   font-size: 1.3rem;
+}
+.question-card {
+  background: var(--color-card);
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+  border-radius: var(--radius-xl);
+  padding: 28px 24px;
+  box-shadow: var(--shadow-card);
+  border: 1px solid var(--color-border);
+  animation: cardSlideUp 0.4s var(--ease-smooth);
 }
 .flash-section {
   margin-bottom: 12px;
@@ -593,10 +604,10 @@ p { margin-bottom: 0.6em; }
   font-size: 0.85rem;
   font-weight: 500;
 }
-.flash-tag.ability { background: #DCFCE7; color: #166534; }
-.flash-tag.passion { background: #E0F2FE; color: #075985; }
-.flash-tag.style { background: #E0F2FE; color: #0F766E; }
-.flash-tag.drive { background: #F3E8FF; color: #6B21A8; }
+.flash-tag.ability { background: rgba(52,211,153,0.15); color: #6EE7B7; }
+.flash-tag.passion { background: rgba(56,189,248,0.15); color: #7DD3FC; }
+.flash-tag.style { background: rgba(129,140,248,0.15); color: #A5B4FC; }
+.flash-tag.drive { background: rgba(167,139,250,0.15); color: #C4B5FD; }
 
 /* --- Venn Diagram (Phase 2) --- */
 .venn-container {
@@ -774,13 +785,13 @@ p { margin-bottom: 0.6em; }
   align-items: center;
   gap: 3px;
 }
-.tag-trend { background: #FEE2E2; color: #991B1B; }
-.tag-city { background: #E0F2FE; color: #075985; }
-.tag-special { background: #F3E8FF; color: #6B21A8; }
-.tag-beginner { background: #DCFCE7; color: #166534; }
-.tag-skill { background: #FEF9C3; color: #A16207; }
-.tag-mode { background: #F3E8FF; color: #6B21A8; }
-.tag-warning { background: #FEE2E2; color: #991B1B; }
+.tag-trend { background: rgba(248,113,113,0.15); color: #FCA5A5; }
+.tag-city { background: rgba(56,189,248,0.12); color: #7DD3FC; cursor:pointer; }
+.tag-special { background: rgba(167,139,250,0.15); color: #C4B5FD; }
+.tag-beginner { background: rgba(52,211,153,0.12); color: #6EE7B7; }
+.tag-skill { background: rgba(251,191,36,0.12); color: #FDE68A; }
+.tag-mode { background: rgba(167,139,250,0.15); color: #C4B5FD; }
+.tag-warning { background: rgba(248,113,113,0.15); color: #FCA5A5; }
 
 /* Star rating */
 .star-rating {
@@ -1070,7 +1081,7 @@ p { margin-bottom: 0.6em; }
     <div class="header-inner">
       <div class="logo">
         <div class="logo-icon">🔗</div>
-        <span>职业连连看</span>
+        <span>星途职引</span>
       </div>
       <div class="stepped-progress" id="steppedProgress"><div class="step-node" data-step="1"><div class="step-dot active">1</div><div class="step-label active">✨ 闪光挖掘</div></div><div class="step-connector"></div><div class="step-node" data-step="2"><div class="step-dot">2</div><div class="step-label">🌳 行业探索</div></div><div class="step-connector"></div><div class="step-node" data-step="3"><div class="step-dot">3</div><div class="step-label">⚗️ 三圈配方</div></div><div class="step-connector"></div><div class="step-node" data-step="4"><div class="step-dot">4</div><div class="step-label">🔗 连连看</div></div></div>
     <div style="max-width:540px;margin:6px auto 0;position:relative;">
@@ -1691,6 +1702,13 @@ const CAREER_DB = [
   { id:'qa_engineer', name:'软件测试工程师 / QA', aliases:['测试开发','质量保障','自动化测试'], matchAbilities:['细致认真','逻辑思维','问题定位','文档能力'], matchInterests:['质量','细节','技术','系统思维'], matchValues:['稳定安全','学习成长','人际关系'], workContent:['设计测试用例并执行功能/性能/安全测试','开发自动化测试框架与脚本提升测试效率','与开发团队协作定位缺陷，建立质量保障流程'], salary:'应届10-18K·14薪，初级15-28K，测开20-40K（一线互联网）', skillGap:'需掌握测试方法论、至少一门脚本语言(Python优先)、自动化测试工具(Selenium/Appium)。路径：ISTQB基础认证→学习Python→做一个自动化测试项目', trend:'⭐ 质量保障为软件工程核心环节，AI辅助测试/DevOps一体化推动测开需求增长', cities:'北京/深圳/杭州(互联网)⭐|成都/武汉(二线研发中心)', special:'—', community:'👍 工作节奏比研发稍好、转开发/PM/技术管理路径清晰|⚠️ 传统手工测试天花板低、需主动转型测开。脉脉:只会点点的QA没有未来', beginnerStars:5, beginnerNote:'入门门槛最低的技术岗，培训2-3个月即可找初级岗', skillTransferStars:3, skillTransferNote:'问题定位、系统理解、质量意识可迁移，但需主动补充开发能力', prototype:'选一个你常用的APP，为它的登录功能设计一套完整的测试用例(正常+异常+边界)，用Excel或脑图整理' },
   { id:'devops_sre', name:'DevOps / SRE 工程师', aliases:['运维开发','站点可靠性工程师','云原生工程师'], matchAbilities:['系统思维','问题定位','自动化意识','抗压能力'], matchInterests:['系统','自动化','稳定性','技术深度'], matchValues:['学习成长','经济回报','稳定安全'], workContent:['设计并维护CI/CD流水线与基础设施即代码','监控系统稳定性，快速响应并解决线上故障','推动容器化、微服务化等云原生架构落地'], salary:'应届14-25K·14薪，初级20-40K，高级35-80K（一线互联网）', skillGap:'需掌握Linux系统管理、Docker/K8s、至少一门脚本语言、CI/CD工具链。路径：AWS/Azure基础认证→搭建个人K8s集群→参与开源项目', trend:'⭐ 云原生/微服务为十五五数字基础设施重点，DevOps/SRE全球人才缺口Top5', cities:'北京/深圳/杭州(互联网)⭐|上海(金融云) |成都/西安(研发中心)', special:'云原生/DevOps工具类企业大量为专精特新', community:'👍 技术壁垒极高(极度稀缺)、远程工作友好|⚠️ on-call压力大(半夜被叫醒)。知乎:SRE是技术界特种兵', beginnerStars:2, beginnerNote:'需要较全面的技术基础，建议从运维/后端转岗，纯新手难度大', skillTransferStars:4, skillTransferNote:'系统架构、自动化思维、故障处理经验对架构师/技术管理极具价值', prototype:'在AWS/阿里云上免费创建一台云服务器，学习基本的Linux命令和Docker操作，部署一个简单的Web应用' },
   { id:'tpm', name:'技术项目经理 / TPM', aliases:['TPM','研发项目经理','技术PMO'], matchAbilities:['技术理解','沟通协调','风险管理','组织能力'], matchInterests:['技术','管理','交付','效率'], matchValues:['学习成长','人际关系','经济回报'], workContent:['管理技术项目的范围、进度、资源与风险','协调工程、产品、设计等多团队推进项目交付','建立并优化研发流程(敏捷/Scrum)与项目管理体系'], salary:'应届15-25K·14薪，初级22-40K，高级35-70K（一线互联网）', skillGap:'需了解软件开发流程、敏捷/Scrum方法、Jira等工具。路径：PMP/CAPM认证→学习敏捷→在当前岗位主动承担项目协调角色', trend:'⭐ 技术团队规模化后TPM为刚需，AI项目管理为新兴方向', cities:'北京/深圳/杭州(互联网)⭐|上海(外企) |成都(研发中心)', special:'—', community:'👍 技术+管理复合型(稀缺)、职业出口广(转PM/技术管理/咨询)|⚠️ 夹在产品和技术中间压力大。脉脉:好的TPM是团队润滑剂+加速器', beginnerStars:3, beginnerNote:'有技术背景最好，但优秀的项目管理者可跨行业迁移', skillTransferStars:5, skillTransferNote:'项目管理、跨团队协调、流程优化为所有行业通用管理能力', prototype:'为你参与过的任何一个团队项目(哪怕是学校小组作业)用甘特图/看板做一次复盘，分析哪个环节最影响进度' },
+  // === 零工经济 / 新服务经济 (参考人社部《新职业在线学习平台》+ 国家统计局《职业分类大典》2022版) ===
+  { id:'live_streamer', name:'直播主播 / 电商达人', aliases:['带货主播','直播运营','达人','自媒体博主'], matchAbilities:['沟通表达','即兴发挥','镜头表现力','网感'], matchInterests:['表达','社交','创意','销售'], matchValues:['自主独立','经济回报','人际关系'], workContent:['策划直播内容与选品策略，制定排期与脚本','在直播间完成产品讲解、互动答疑与促单转化','分析直播数据(观看/互动/GMV)，持续优化直播效果'], salary:'新手 5-15K+提成，腰部主播 15-50K+佣金，头部主播收入上不封顶（杭州/广州/深圳）', skillGap:'需培养镜头感与口播能力、了解平台规则(抖音/快手/淘宝)、基础选品与供应链知识。路径：先兼职试播1个月积累经验→参加平台官方培训→签约MCN或独立运营', trend:'⭐ 直播电商列入十五五数字经济重点方向，人社部2020年正式认定"互联网营销师"新职业', cities:'杭州(直播电商之都)⭐|广州(档口直播) |深圳(3C数码直播)', special:'人社部认定新职业(互联网营销师)，可考取职业技能等级证书', community:'👍 门槛低、潜力大、灵活自由 | ⚠️ 竞争激烈、收入不稳定、需要持续输出内容。行业共识:能坚持3个月的人已经淘汰了80%的竞争者', beginnerStars:5, beginnerNote:'几乎零门槛，一部手机即可开播，平台有新人流量扶持', skillTransferStars:4, skillTransferNote:'口播、销售、内容策划能力可迁移到销售/培训/内容运营等领域', prototype:'选一个你熟悉的品类(如美妆/食品/数码)，在抖音或视频号开一场30分钟的试播，不求卖货，只练习镜头表达和产品讲解' },
+  { id:'logistics_ops', name:'快递/物流网点管理', aliases:['快递站长','物流运营','仓储主管','配送管理'], matchAbilities:['组织管理','抗压能力','沟通协调','执行力'], matchInterests:['物流','运营','效率','管理'], matchValues:['稳定安全','经济回报','学习成长'], workContent:['管理快递/物流网点日常运营，包括人员排班、车辆调度、时效管控','优化配送路线、降低运营成本、处理异常件与客户投诉','对接总部KPI考核，落实标准化流程与安全规范'], salary:'基层操作5-8K，网点主管8-15K，区域经理15-30K（各线城市均有需求）', skillGap:'从基层做起积累实操经验→学习仓储管理系统(WMS/TMS)→管理能力提升。快递/物流行业晋升通道明确，中高层管理缺口大', trend:'⭐⭐ 快递/即时配送为十五五现代物流体系核心，2024年全国快递业务量突破1400亿件', cities:'义乌(快递量全国第一)⭐|广州(华南物流枢纽) |上海(国际物流中心) |武汉(中部物流枢纽)', special:'快递/物流企业大量为专精特新(智能物流装备/物流科技方向)', community:'👍 行业稳定增长、晋升通道清晰、各线城市都有岗位 | ⚠️ 工作强度大、节假日高峰期压力大。快递行业名言:干过快递，什么苦都不怕', beginnerStars:5, beginnerNote:'入职门槛低，从基层做起，半年可升主管，2年可升站长/经理', skillTransferStars:4, skillTransferNote:'物流管理、成本控制、人员调度能力在所有实物商品相关行业通用', prototype:'关注"快递杂志"公众号了解行业动态；对比顺丰/中通/圆通/极兔四家快递的时效与服务差异，写一页分析' },
+  { id:'ride_hailing_mgr', name:'网约车/出行服务 车队管理', aliases:['网约车司管','出行运营','车队经理','租赁运营'], matchAbilities:['组织协调','数据分析','沟通能力','成本意识'], matchInterests:['交通','运营','服务','管理'], matchValues:['稳定安全','自主独立','经济回报'], workContent:['招募和管理网约车司机团队，制定出车激励政策与考核方案','分析订单数据(接单率/完单率/客诉率)优化运营策略','协调车辆租赁、保险、维修等后勤支持，保障车队运转'], salary:'司管 6-12K，车队经理 12-25K，城市运营总监 25-45K（滴滴/曹操/T3等平台）', skillGap:'了解网约车行业法规与平台规则→积累司机管理与调度经验→学习数据分析与运营优化。可考取"网约车从业资格证"', trend:'⭐ 出行即服务(MaaS)列入交通强国建设方向，网约车合规化后管理岗位需求增加', cities:'北京/上海/广州(出行平台总部)⭐|成都/杭州(出行需求旺盛) |各二线省会城市', special:'平台型企业+线下管理复合岗，出行/物流/外卖行业通用', community:'👍 行业规范后管理岗价值提升、需求稳定 | ⚠️ 司机管理是"和人打交道"的活，需要耐心和情商。滴滴老兵:管过100个司机的人，销售/HR/运营都能做', beginnerStars:4, beginnerNote:'从司管或运营助理做起，了解业务后用数据驱动管理', skillTransferStars:4, skillTransferNote:'人员管理、数据分析、运营优化能力在物流/外卖/出行行业通用', prototype:'下载滴滴出行APP，研究司机端的招募页面和激励政策设计(如高峰奖励/完成单奖)，思考这些政策如何激励司机行为' },
+  { id:'community_ecom', name:'社区团购 / 本地生活运营', aliases:['团长运营','社区电商','本地生活BD','私域运营'], matchAbilities:['社群运营','销售转化','供应链意识','服务意识'], matchInterests:['社区','消费','社交电商','服务'], matchValues:['人际关系','自主独立','经济回报'], workContent:['拓展社区团长/合伙人网络，制定团长激励与培训方案','选品定价、策划团购活动、管理社群活跃度与转化率','对接供应商与物流配送，确保履约时效与售后体验'], salary:'运营专员 6-12K，BD经理 12-25K+绩效，区域负责人 20-40K（美团优选/多多买菜/兴盛优选等）', skillGap:'了解社区团购商业模式→学习社群运营与私域转化技巧→积累供应商与团长资源。路径：从团长做起→加入平台做BD→升区域管理', trend:'⭐ 本地生活/即时零售列入十五五数字经济新业态，社区电商为商务部重点支持方向', cities:'长沙(兴盛优选总部/社区团购之都)⭐|广州/深圳(多多买菜华南中心) |武汉/成都(区域竞争激烈)', special:'新业态用工灵活，团长/合伙人模式适合副业起步', community:'👍 离用户最近、能快速看到结果、晋升路径清晰 | ⚠️ 行业竞争激烈(补贴战)、团长流失率高。行业共识:真正懂社区的人才能在团购行业活下去', beginnerStars:5, beginnerNote:'从团长或BD做起，门槛极低，3个月就能判断自己是否适合', skillTransferStars:5, skillTransferNote:'社群运营、销售转化、供应链管理能力在各行业通用且非常值钱', prototype:'在你住的小区/社区找一个高频消费品类(如水果/纸巾)，尝试组织一次小规模团购(哪怕只有5个人)，体验选品→推广→履约的全流程' },
+  { id:'pet_service', name:'宠物美容师 / 宠物驯导师', aliases:['宠物美容','宠物行为训练','宠物护理','宠物门店管理'], matchAbilities:['动手操作','耐心细致','共情能力','服务意识'], matchInterests:['动物','美学','手工','服务'], matchValues:['自主独立','人际关系','学习成长'], workContent:['为宠物提供美容造型(剪毛/造型/SPA)、基础健康检查与护理建议','训练宠物行为(坐/卧/随行/社交)、为宠主提供养宠指导','管理宠物门店日常运营，包括客户预约、产品零售与服务品控'], salary:'学徒 3-5K，独立美容师 6-15K+提成，资深/店长 15-30K+（一二线城市需求旺盛）', skillGap:'考取CKU/NGKC宠物美容师等级证书(A/B/C级)→积累实操案例→学习门店运营。路径：培训机构3个月→实习→考证→独立接单或开店', trend:'⭐⭐ 宠物经济年增速超20%，2024年中国宠物市场规模突破3000亿，养宠家庭超1亿', cities:'上海/北京(宠物消费第一梯队)⭐|成都(宠物友好城市) |广州/深圳(华南宠物经济中心)', special:'人社部2020年认定"宠物健康护理员"新职业，可考取职业技能等级证书', community:'👍 做喜欢的事(和猫狗在一起)、越老越吃香(经验积累型) | ⚠️ 体力活、被抓咬风险、节假日最忙。宠美人圈金句:不是真心喜欢动物的人坚持不了3个月', beginnerStars:4, beginnerNote:'培训机构完善，3个月可拿C级证书入行，学徒制+考证路径清晰', skillTransferStars:3, skillTransferNote:'宠物行业经验可迁移到宠物医疗/宠物食品/宠物门店管理/创业开店', prototype:'搜索你所在城市的宠物美容培训学校(CKU/NGKC认证)，了解培训周期和费用；去3家宠物店做"神秘顾客"观察服务流程和定价' },
+  { id:'fitness_pro', name:'健身教练 / 运动健康顾问', aliases:['私人教练','体能训练师','运动康复师','健康管理师'], matchAbilities:['沟通激励','共情能力','专业学习','身体力行'], matchInterests:['运动','健康','助人','科学'], matchValues:['人际关系','学习成长','自主独立'], workContent:['为会员制定个性化健身/饮食计划，一对一指导训练动作','跟踪会员身体数据与训练进展，持续调整方案并激励坚持','维护客户关系、开发私教课程销售、参与健身房运营管理'], salary:'新手 5-10K+课时费，资深教练 15-30K+提成，明星教练 30K+（一线城市高端健身房/工作室）', skillGap:'考取国家健身教练职业资格证(NSCA/ACE/NASM等国际认证优先)→积累100+课时实操→选择一个专项深入(康复/孕产/体能/拳击等)', trend:'⭐ 全民健身/健康中国2030国家战略，运动健康消费年增速超15%，中产健身人群持续扩大', cities:'上海/北京(高端健身工作室集中)⭐|深圳/广州(年轻白领健身需求旺盛) |成都/杭州(生活方式型城市)', special:'国家体育总局"健身教练职业资格证"为行业准入，国际四大认证(NSCA/ACE/NASM/ACSM)含金量更高', community:'👍 帮助他人变健康很有成就感、工作时间相对灵活 | ⚠️ 业绩压力(卖课KPI)、节假日/周末最忙、身体消耗大。健身圈格言:最好的教练是"能让人坚持的教练"，不一定是练得最好的', beginnerStars:3, beginnerNote:'考证+实操6个月可入行，但建立稳定客户群需要1-2年积累', skillTransferStars:4, skillTransferNote:'沟通激励、健康知识、销售能力可迁移到健康管理/康复/培训/自媒体领域', prototype:'选一个健身/运动类APP(Keep/乐刻)，体验3节不同类型课程，记录教练的指导方式和你的感受；去最近健身房咨询私教体验课' },
 ];
 
 // ============ INDUSTRY TREE (GB/T 4754-2017 + 十五五新兴产业 + 招聘平台标签) ============
@@ -1797,6 +1815,14 @@ const CITY_CLUSTERS = {
     emerging: [{city:'成都',area:'高新区/锦江',note:'西部直播中心，生活/美食/文旅类直播特色鲜明'},{city:'长沙',area:'马栏山',note:'芒果MCN+湖南广电生态，综艺/娱乐类内容制作全国领先'}],
     policyRef:'数字经济/文创新发展方向列入十五五规划，杭州/广州/上海为直播产业三大集聚城市'
   }
+  // === 零工经济 / 新服务经济 persona ===
+  live_streamer:{persona:{trait:"表现力强+即兴发挥+抗压+网感敏锐",workStyle:"高频内容输出+数据分析复盘+持续学习平台规则",bg:"不限专业！各行业转行均常见，更重要的是个人特质和持续学习能力",strengths:"镜头表现力和口播感染力；快速捕捉热点和用户兴趣；在高压直播中保持状态",ideal:"如果你喜欢和人交流、享受被关注、且能持续输出内容不轻易放弃，你可能天生适合做主播"},coreSkills:["镜头表现与口播话术","选品策略与供应链理解","直播数据分析(GMV/转化/停留)","平台规则与流量算法","脚本策划与内容创作","粉丝运营与私域维护","基础视频剪辑与拍摄"],certifications:[{n:"互联网营销师(人社部认定)",t:"rec",c:"约1000-3000元",time:"1-3个月",d:"国家级新职业认证，直播/短视频方向"},{n:"全媒体运营师",t:"opt",c:"约1000-2000元",time:"1-2个月",d:"内容运营综合能力认证"}]},
+  logistics_ops:{persona:{trait:"执行力强+抗压稳定+统筹调度+靠谱负责",workStyle:"早晚高峰作业+异常处理+持续的成本优化和数据管理",bg:"不限专业！物流管理/工业工程有优势但非必须，更看重实操和管理能力",strengths:"在混乱中保持秩序和效率；人员管理和团队激励；成本控制意识",ideal:"如果你享受让所有包裹按时到达的成就感且不怕辛苦，快递物流行业值得深耕"},coreSkills:["快递/物流网点运营管理","WMS/TMS系统操作","配送路线优化与成本控制","人员排班与团队管理","异常件处理与客户投诉","KPI考核与标准化落地","仓储规划与库存管理"],certifications:[{n:"物流师国家职业资格",t:"rec",c:"约1000-3000元",time:"2-3个月",d:"人社部认证，物流行业准入"},{n:"快递业务员职业资格",t:"opt",c:"约500-1000元",time:"1-2个月",d:"快递行业基础认证"}]},
+  ride_hailing_mgr:{persona:{trait:"数据驱动+沟通情商+成本意识+结果导向",workStyle:"日/周数据分析→司机管理与激励→运营策略调整→后勤协调",bg:"不限专业！有销售/客服/运营经验优先，管理岗看重带团队能力",strengths:"用数据驱动管理决策；和不同背景的司机有效沟通；平衡平台利益与司机利益",ideal:"如果你喜欢管一群人、盯着数据做决策、看到指标变好就有成就感，出行运营很适合你"},coreSkills:["网约车行业法规与平台规则","司机招募/培训/激励体系设计","订单数据与KPI分析","车辆租赁与后勤管理","客诉处理与服务质量管控","城市运营策略制定"],certifications:[{n:"网约车从业资格证",t:"rec",c:"约200-500元",time:"1-2周",d:"驾驶员/管理人员均建议了解"},{n:"道路运输安全管理人员证",t:"opt",c:"约500-800元",time:"2-4周",d:"安全管理方向"}]},
+  community_ecom:{persona:{trait:"社交达人+商业嗅觉+执行力+服务意识",workStyle:"拓展团长网络→社群运营→选品活动→数据复盘→优化迭代",bg:"不限专业！有零售/销售/微商/社区工作经验加分，更看重社交+商业sense",strengths:"快速建立信任关系(团长/供应商/用户)；选品和定价的商业直觉；多线程管理(同时跟进N个团长/活动)",ideal:"如果你喜欢和人打交道、对卖东西有天然的热情、享受自己操盘一个生意的感觉，社区团购很适合你"},coreSkills:["团长招募/培训/激励体系","社群运营与私域转化","选品策略与供应商谈判","团购活动策划与执行","履约管理与售后体系","本地生活行业认知","数据分析与ROI测算"],certifications:[{n:"互联网营销师",t:"opt",c:"约1000-3000元",time:"1-3个月",d:"人社部新职业认证"},{n:"社群运营相关培训",t:"opt",c:"视机构而定",time:"1-2个月",d:"私域/社群方向实战课程"}]},
+  pet_service:{persona:{trait:"爱心耐心+动手能力强+审美在线+服务意识",workStyle:"预约制→一对一服务→客户关系维护→持续学习新技术/新造型",bg:"不限专业！动物医学/畜牧有优势但非必须，培训+考证+实操经验是核心",strengths:"对动物行为的理解和共情；精湛的手艺和审美；和宠主建立信任关系",ideal:"如果你真心喜欢动物(不只是觉得可爱)、享受用手艺创造价值、愿意在节假日也工作，宠物行业值得投入"},coreSkills:["宠物美容造型技术(CKU/NGKC标准)","宠物行为观察与基础训练","宠物健康检查与护理","客户沟通与门店运营","宠物用品零售知识","宠物行业趋势判断"],certifications:[{n:"CKU宠物美容师A/B/C级",t:"must",c:"约3000-8000元/级",time:"3个月(C级)-2年(A级)",d:"国内最权威宠物美容认证"},{n:"宠物健康护理员(人社部)",t:"rec",c:"约1000-2000元",time:"1-2个月",d:"国家新职业认证"}]},
+  fitness_pro:{persona:{trait:"激励高手+共情力强+自律榜样+持续学习",workStyle:"排课→1v1指导→跟踪客户数据→开发新客户→学习新知识→自我训练",bg:"体育/医学/生物有优势，但很多明星教练来自完全不同的行业转行",strengths:"让不同性格的客户坚持下去的沟通激励能力；将复杂人体科学转化为易懂的行动方案",ideal:"如果你健身不是坚持而是享受、且看到别人因为你的帮助变好会发自内心的开心，你适合做教练"},coreSkills:["运动解剖学与训练方案设计","营养学基础与饮食计划制定","客户沟通激励与行为改变","体适能评估与数据追踪","私教课程销售与客户管理","专项训练(康复/孕产/体能等)"],certifications:[{n:"健身教练国家职业资格",t:"must",c:"约3000-5000元",time:"2-3个月",d:"国内行业准入证书"},{n:"NSCA-CPT/ACSM-CPT(国际)",t:"rec",c:"约$300-500",time:"3-6个月",d:"国际认证含金量更高"},{n:"ACE-CPT",t:"opt",c:"约$599-799",time:"3-6个月",d:"美国运动委员会认证"}]},
+
 };
 
 // Map careers to industry cluster keys
@@ -1810,7 +1836,10 @@ const CAREER_CLUSTER_MAP = {
   crossborder_ecom: '跨境电商 / 外贸', new_energy_ve: '新能源汽车 / 汽车',
   semiconductor: '半导体 / 集成电路', c_pm: '互联网 / 信息技术', b_pm: '互联网 / 信息技术',
   growth_pm: '互联网 / 信息技术', frontend_dev: '互联网 / 信息技术', backend_dev: '互联网 / 信息技术',
-  qa_engineer: '互联网 / 信息技术', devops_sre: '互联网 / 信息技术', tpm: '互联网 / 信息技术'
+  qa_engineer: '互联网 / 信息技术', devops_sre: '互联网 / 信息技术', tpm: '互联网 / 信息技术',
+  live_streamer: '直播 / MCN / 短视频', logistics_ops: '互联网 / 信息技术',
+  ride_hailing_mgr: '互联网 / 信息技术', community_ecom: '互联网 / 信息技术',
+  pet_service: '生物医药 / 医疗健康', fitness_pro: '互联网 / 信息技术'
 };
 
 // ============ ORG TYPE TAGS FOR CAREERS ============
@@ -1829,7 +1858,10 @@ const CAREER_ORG_TYPES = {
   b_pm: ['private','foreign','soe'], growth_pm: ['private','foreign'],
   frontend_dev: ['private','foreign','soe','central_soe'], backend_dev: ['private','foreign','soe','central_soe'],
   qa_engineer: ['private','foreign','soe','central_soe'], devops_sre: ['private','foreign','soe','central_soe'],
-  tpm: ['private','foreign','soe','central_soe']
+  tpm: ['private','foreign','soe','central_soe'],
+  live_streamer: ['private'], logistics_ops: ['private','soe'],
+  ride_hailing_mgr: ['private'], community_ecom: ['private'],
+  pet_service: ['private'], fitness_pro: ['private']
 };
 
 // ============ DOM REFS ============
@@ -2364,16 +2396,34 @@ function renderPhase2() {
 
 // === Industry Tree UI ===
 function renderIndustryTree() {
-  var h = '<div class="card color-top" style="border-top-color:var(--color-teal);"><h3>🌳 选择你感兴趣的行业</h3><p class="text-secondary mt-8">行行出状元！先勾选你感兴趣的细分行业（建议选 3-8 个），连连会在这些行业里帮你连线好岗位～</p><div class="industry-tree mt-16" id="industryTree">';
-  for (var i = 0; i < INDUSTRY_TREE.length; i++) {
-    var cat = INDUSTRY_TREE[i];
-    h += '<div class="tree-category" data-cat="' + cat.id + '"><div class="tree-cat-header" onclick="toggleTreeCat(\'' + cat.id + '\')"><span class="tree-cat-icon">' + cat.icon + '</span><span class="tree-cat-name">' + cat.name + '</span><span class="tree-cat-count">' + cat.subs.length + '个方向</span><span class="tree-cat-arrow">▼</span></div><div class="tree-sub-list" id="subList_' + cat.id + '">';
+  // Classify industries as market or public-leaning
+  var publicIds = ['gov_public','edu_research','legal_consult','elderly_care'];
+  var marketCats = []; var publicCats = [];
+  INDUSTRY_TREE.forEach(function(cat) {
+    if (publicIds.indexOf(cat.id) >= 0) publicCats.push(cat); else marketCats.push(cat);
+  });
+
+  function renderCat(cat) {
+    var h = '<div class="tree-category" data-cat="' + cat.id + '"><div class="tree-cat-header" onclick="toggleTreeCat(\'' + cat.id + '\')"><span class="tree-cat-icon">' + cat.icon + '</span><span class="tree-cat-name">' + cat.name + '</span><span class="tree-cat-count">' + cat.subs.length + '个方向</span><span class="tree-cat-arrow">▼</span></div><div class="tree-sub-list" id="subList_' + cat.id + '">';
     for (var j = 0; j < cat.subs.length; j++) {
       h += '<div class="tree-sub-tag" data-cat="' + cat.id + '" data-sub="' + cat.subs[j] + '" onclick="toggleSubTag(this);event.stopPropagation();">' + cat.subs[j] + '</div>';
     }
     h += '</div></div>';
+    return h;
   }
-  h += '</div><div class="mt-16 flex-between flex-wrap gap-8"><span class="text-secondary" style="font-size:0.85rem;" id="industryCount">已选 0 个细分行业</span><button class="btn btn-primary" onclick="submitIndustries()" id="industrySubmit" disabled>确认行业选择 →</button></div></div>';
+
+  var h = '<div class="card color-top" style="border-top-color:var(--color-teal);"><h3>🌳 选择你感兴趣的行业</h3><p class="text-secondary mt-8">基于国家统计局《职业分类大典》(2022版) + 招聘平台主流行业分类。先勾选感兴趣的细分行业（建议 3-8 个），连连会在这些行业里帮你连线好岗位～</p>';
+  h += '<div class="industry-tree mt-16" id="industryTree">';
+
+  // Market section
+  h += '<div style="padding:8px 12px;margin-bottom:6px;border-radius:8px;background:rgba(56,189,248,0.08);font-size:0.82rem;font-weight:700;color:#7DD3FC;">🏢 市场化就业行业</div>';
+  marketCats.forEach(function(cat) { h += renderCat(cat); });
+
+  // Public section
+  h += '<div style="padding:8px 12px;margin:12px 0 6px;border-radius:8px;background:rgba(167,139,250,0.08);font-size:0.82rem;font-weight:700;color:#C4B5FD;">🏛️ 体制内 / 公共事业方向</div>';
+  publicCats.forEach(function(cat) { h += renderCat(cat); });
+
+  h += '</div><p class="text-secondary mt-8" style="font-size:0.72rem;">📌 行业分类参考：国家统计局《国民经济行业分类》(GB/T 4754-2017) + 人社部《职业分类大典》(2022版)。如有遗漏深表抱歉，欢迎反馈补充 🙏</p><div class="mt-12 flex-between flex-wrap gap-8"><span class="text-secondary" style="font-size:0.85rem;" id="industryCount">已选 0 个细分行业</span><button class="btn btn-primary" onclick="submitIndustries()" id="industrySubmit" disabled>确认行业选择 →</button></div></div>';
   mainContent.innerHTML = h;
 }
 function toggleTreeCat(id) { document.querySelector('.tree-category[data-cat="' + id + '"]').classList.toggle('expanded'); }
@@ -2834,8 +2884,9 @@ function renderPhase3Cards() {
     // Key tags
     html += '<div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:6px;">';
     html += '<span class="tag-pill tag-trend" style="font-size:0.7rem;padding:3px 8px;">📈 ' + (job.trend.indexOf('⭐⭐') >= 0 ? '双风口' : '风口') + '</span>';
-    html += '<span class="tag-pill tag-city" style="font-size:0.7rem;padding:3px 8px;">🏙 ' + job.cities.split('|')[0].split('（')[0].trim() + '</span>';
+    html += '<span class="tag-pill tag-city" style="font-size:0.7rem;padding:3px 8px;" onclick="event.stopPropagation();showCityMap(\'' + job.id + '\')" title="点击查看产业集群地图">🏙 ' + job.cities.split('|')[0].split('（')[0].trim() + ' <span style="font-size:0.65rem;opacity:0.8;">🔍点击看产业地图</span></span>';
     html += '<span class="tag-pill tag-beginner" style="font-size:0.7rem;padding:3px 8px;">🌱 ' + '⭐'.repeat(job.beginnerStars) + '</span>';
+    html += getOrgTypeBadge(job.id);
     html += '<span style="font-size:0.7rem;color:var(--color-primary);padding:3px 6px;">▼ 展开详情</span>';
     html += '</div></div></div>';
 
@@ -2856,6 +2907,18 @@ function renderPhase3Cards() {
 
   html += '<button class="btn btn-outline mt-16" onclick="state.phase3Step=\'table\';render();">📊 查看备选方向对照表 →</button>';
   mainContent.innerHTML = html;
+}
+
+function getOrgTypeBadge(jobId) {
+  var orgs = CAREER_ORG_TYPES[jobId] || ['private'];
+  var labels = { 'public': '🏛️ 体制内', 'soe': '🏭 国企', 'central_soe': '🏗️ 央企', 'private': '🏢 市场化', 'foreign': '🌍 外企' };
+  var hasPublic = orgs.indexOf('public') >= 0 || orgs.indexOf('soe') >= 0 || orgs.indexOf('central_soe') >= 0;
+  var hasMarket = orgs.indexOf('private') >= 0 || orgs.indexOf('foreign') >= 0;
+  var parts = [];
+  if (hasPublic) parts.push('<span style="font-size:0.68rem;padding:2px 8px;border-radius:10px;background:rgba(167,139,250,0.2);color:#C4B5FD;">🏛️ 偏体制内</span>');
+  if (hasMarket) parts.push('<span style="font-size:0.68rem;padding:2px 8px;border-radius:10px;background:rgba(56,189,248,0.2);color:#7DD3FC;">🏢 市场化就业</span>');
+  if (hasPublic && hasMarket) return '<span style="font-size:0.68rem;padding:2px 8px;border-radius:10px;background:rgba(52,211,153,0.2);color:#6EE7B7;">🔄 双通道（体制内+市场化均有）</span>';
+  return parts.join(' ');
 }
 
 function toggleProDetail(id, card) {
@@ -2947,7 +3010,36 @@ var JOB_QADATA = {
   growth_pm:[{q:"增长PM和普通PM的区别？",a:"<b>增长PM=指标驱动+实验文化+快速迭代。</b>普通PM回答\"用户需要什么\"，增长PM回答\"如何让更多用户发现/使用/留下来\"。核心差异：增长PM每天都在看数据、跑实验、优化漏斗。适合你如果：喜欢数据超过直觉、享受高频失败中找赢家、对\"转化率\"这个词有生理反应。"},{q:"没有产品经验能做增长PM吗？",a:"<b>可以从增长运营/数据分析岗切入，1-2年后转型增长PM。</b>增长PM核心能力=数据分析+实验设计+用户心理——这三样都可以在运营/分析岗中培养。简历加分项：自己做过一个增长实验(哪怕是公众号涨粉/社群拉新)，用数据展示\"实验前→实验后\"的变化。"}],
   qa_engineer:[{q:"测试会被AI和自动化替代吗？",a:"<b>纯手工执行测试正在被替代，但测试架构设计和质量体系建设反而更值钱。</b>AI可以自动生成测试用例、执行回归测试，但无法替代：1)理解业务逻辑设计测试策略；2)搭建自动化测试框架；3)推动团队质量文化。建议：尽早学自动化测试+CI/CD，从\"执行测试\"转型为\"设计质量体系\"。"}],
   devops_sre:[{q:"DevOps/SRE的门槛到底多高？",a:"<b>比前端/后端高——需要更全面的技术栈。</b>你需要：Linux系统管理(Docker/K8s)、至少一门脚本语言、CI/CD工具链、监控告警体系、基础网络知识。建议路径：先从运维/后端做起→在工作中积累线上故障处理经验→考AWS/阿里云认证→转DevOps/SRE。纯新手直接冲SRE难度大——建议先做1-2年后端开发打基础。"}],
-  tpm:[{q:"TPM和普通PM有什么区别？",a:"<b>TPM=技术项目经理，负责\"怎么把项目按时高质量交付\"；普通PM=产品经理，负责\"做什么产品、为什么做\"。</b>TPM更偏执行和流程，需要技术理解力+项目管理能力+跨团队协调能力。适合你如果：享受把混乱的研发流程梳理清晰、对按时交付有执念、喜欢和技术团队一起工作。"}],
+  tpm:[{q:"TPM和普通PM有什么区别？",a:"<b>TPM=技术项目经理，负责\"怎么把项目按时高质量交付\"；普通PM=产品经理，负责\"做什么产品、为什么做\"。</b>TPM更偏执行和流程，需要技术理解力+项目管理能力+跨团队协调能力。适合你如果：享受把混乱的研发流程梳理清晰、对按时交付有执念、喜欢和技术团队一起工作。"}],,
+  live_streamer:[
+    {q:"完全没有经验，怎么开始做直播？",a:"<b>三步走：</b>1)选一个你真正熟悉的品类(美妆/穿搭/数码/食品/家居)，不要选热门但不熟的品类；2)先不卖货，每天开播30分钟纯聊天/分享，练习镜头表达和口播流畅度，坚持1个月；3)第2个月开始尝试带货(从你真正用过的好产品开始)，同时学习平台投流和数据分析。关键：<b>前3个月不要关注GMV，关注：我今天比昨天讲得好吗？</b>80%的人在第1个月放弃，能坚持3个月你已经赢了大多数人。"},
+    {q:"直播行业还能火多久？现在入行晚了吗？",a:"<b>直播本身不会消失但形态在进化。</b>从叫卖式直播→内容化直播→AI辅助直播。任何时候入行都不晚，关键是找到差异化的定位：1)选择一个细分品类深度耕耘(而非什么都播)；2)建立个人IP和信任(而非单纯价格竞争)；3)学习用AI工具提升效率。人社部已将互联网营销师列为新职业，行业在规范化、专业化方向发展。"},
+    {q:"做主播需要签约MCN吗？",a:"<b>不一定，取决于你的阶段和目标。</b>新手期：不建议马上签MCN——先自己播3-6个月，了解行业、建立基础能力、明确自己的方向后再考虑。选择MCN看三点：1)有没有成功孵化同类主播的案例(不是画饼)；2)分成比例是否合理(新手通常50-70%归主播)；3)有没有供应链/流量支持(不是只给你一个直播间)。警惕签约即拿保底的条款——往往有高额违约金陷阱。"}
+  ],
+  logistics_ops:[
+    {q:"快递物流行业有前途吗？会不会被自动化替代？",a:"<b>物流行业不会被替代，但低端岗位在自动化。</b>自动分拣、无人配送车、无人机在替代重复性劳动，但网点管理、路线优化、异常处理、客户关系这些需要人的判断和决策。而且快递量每年增长15-20%，管理岗位需求在增加而非减少。关键：不要停留在搬快递的层面，要往管网点/管人/管数据的方向发展。"},
+    {q:"从基层到站长/经理要多久？",a:"<b>快递行业晋升通道相对清晰：</b>操作员(3-6个月)→组长(6-12个月)→主管/副站长(1-2年)→站长(2-3年)→区域经理(3-5年)。顺丰/京东/中通等头部企业有完善的内部晋升体系。加速方法：1)主动学习系统操作和数据看板；2)在旺季/异常事件中主动承担责任；3)考取物流师职业资格。快递行业名言：熬过3个双十一，你就是人才。"},
+    {q:"顺丰vs京东vs通达系怎么选？",a:"<b>顺丰</b>——薪资高、管理规范、晋升体系完善，适合追求职业化发展；<b>京东物流</b>——五险一金齐全、科技驱动(无人仓/无人配送)、适合对物流科技感兴趣；<b>中通/圆通/韵达/极兔</b>——加盟制为主，网点经营自主权大，适合有创业想法的人(做得好的网点老板年入百万)。建议：刚入行先选直营体系(顺丰/京东)学习标准化管理，积累经验后再考虑加盟创业。"}
+  ],
+  ride_hailing_mgr:[
+    {q:"网约车行业现在进入合规化阶段，还有机会吗？",a:"<b>合规化恰恰是管理岗的机会。</b>过去网约车野蛮生长，平台靠补贴和烧钱；现在各地要求合规化运营(双证齐全，平台持牌)，这意味着平台需要更多专业的运营管理人员来：1)管理合规司机队伍(招募/培训/考核)；2)对接政府监管和合规要求；3)优化运营效率和成本。行业从抢司机变成管司机，管理岗价值在提升。"},
+    {q:"这个岗位的核心竞争力是什么？",a:"<b>管人的能力+数据分析能力+成本控制能力。</b>管100个司机的司管本质上是一个小型HRBP+运营经理。你需要：1)激励不同类型的司机(有人要收入、有人要自由、有人要归属感)；2)从数据中发现运营问题(为什么某个区域完单率低？)；3)在成本(司机补贴/车辆维护)和收入之间找平衡。这些能力在物流、外卖、出行行业完全通用。"},
+  ],
+  community_ecom:[
+    {q:"社区团购和微商有什么区别？",a:"<b>本质不同：</b>微商=层层代理+囤货模式，以拉人头为核心；社区团购=平台供应链+团长服务+次日自提，以商品力和履约效率为核心。社区团购的团长更像社区服务站站长，需要选品、推广、售后等综合能力。美团优选/多多买菜等平台已把社区团购打造成社区零售新基建，团长运营/BD是正规化的职业方向。"},
+    {q:"从团长做起，能发展到什么程度？",a:"<b>团长→BD经理→区域负责人→城市总经理。</b>团长阶段：学会选品、社群运营、客户服务(3-12个月)；BD经理阶段：管理10-50个团长，做培训和激励体系(1-2年)；区域负责人：管一个区域(一个区/一个城市)的团长网络和GMV(2-4年)。头部社区团购平台的区域负责人年薪30-50万+。而且这个经验可迁移到所有本地生活和社区商业领域。"},
+  ],
+  pet_service:[
+    {q:"学宠物美容一定要去培训学校吗？",a:"<b>建议去CKU/NGKC认证的培训学校系统学习。</b>虽然可以在宠物店学徒(免费、包吃住)，但学徒制存在风险：1)师傅的水平参差不齐；2)可能被当廉价劳动力(洗狗半年不给学技术)；3)没有系统性知识框架。正规培训学校3个月C级课程(约3000-8000元)能让你系统掌握基础美容技术+宠物行为知识+门店运营基础，性价比更高。建议：如果预算允许，先培训考证再找店实习。"},
+    {q:"宠物美容是一碗青春饭吗？",a:"<b>恰恰相反，是越老越吃香。</b>宠物美容师的核心资产是：1)手艺(越做越精)；2)客户信任(宠主把孩子交给你，信任需要时间积累)；3)对宠物行为的理解(经验积累型)。一个做了5年的美容师，客户复购率、客单价、效率都远超新手。而且这个行业可以从美容师→店长→开店老板，职业路径清晰。宠物经济年增速20%+，需求远未饱和。"},
+    {q:"被猫狗抓咬了怎么办？风险大吗？",a:"<b>实话实说：风险确实存在，但可控。</b>所有宠物美容师都被抓过咬过(这是行业现实)。降低风险：1)学会观察宠物行为信号(紧张/恐惧/攻击前的征兆)；2)使用专业保定工具和安全操作流程；3)和宠主充分沟通(了解宠物性格/健康状况/是否有攻击史)；4)打狂犬疫苗(基本预防)。如果对动物有恐惧或无法接受偶尔被抓伤，这个行业可能不适合你。"},
+  ],
+  fitness_pro:[
+    {q:"做健身教练必须自己练得很好吗？",a:"<b>不一定是练得最好的，但必须是最能帮别人坚持的。</b>很多顶级教练自己并非健美冠军，但他们：1)能精准诊断每个客户的障碍(身体+心理)；2)能把复杂的运动科学翻译成做这个，别做那个；3)能给不同性格的人恰到好处的激励。健身圈格言：最好的教练是那个能让你坚持下来的教练，不一定是那个练得最好的。当然，基本的身体素质和专业形象是必须的(你自己都没有运动习惯，很难让客户信服)。"},
+    {q:"教练的业绩压力有多大？",a:"<b>实话：卖课KPI是教练工作最现实的压力。</b>大多数健身房/工作室教练底薪很低(2-5K)，主要收入来自私教课时费+销售提成。这意味着你需要：1)不断开发新客户(地推/转介绍/社交媒体)；2)维护老客户续课(这个比开发新客户更重要)；3)在专业服务和销售之间找平衡。建议：选择口碑好的工作室(非纯销售导向)，或积累2-3年经验后做独立教练(自由度高、客户质量好)。"},
+    {q:"考证选国内还是国际？",a:"<b>国内证(国家职业资格)是入场券，国际证(NSCA/NASM/ACE/ACSM)是升级券。</b>建议路径：先考国家职业资格(2-3个月，约3000-5000元)入行→工作1-2年积累实操经验→再考一个国际认证(3-6个月，约$300-800)提升含金量。国际四大认证中NSCA-CPT偏力量训练、ACE-CPT偏大众健身、NASM-CPT偏矫正训练、ACSM-CPT偏医学/康复——根据你想深耕的方向选择。"},
+  ],
+
 };
 
 function renderJobQA(job) {
