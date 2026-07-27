@@ -1801,6 +1801,25 @@ const CAREER_CLUSTER_MAP = {
   qa_engineer: '互联网 / 信息技术', devops_sre: '互联网 / 信息技术', tpm: '互联网 / 信息技术'
 };
 
+// ============ ORG TYPE TAGS FOR CAREERS ============
+// Each career: 'public'(体制内), 'soe'(国企), 'central_soe'(央企), 'private'(私企), 'foreign'(外企)
+const CAREER_ORG_TYPES = {
+  ai_product: ['private','foreign'], ux_designer: ['private','foreign','soe'],
+  content_creator: ['private','soe','foreign'], data_analyst: ['private','foreign','soe','central_soe'],
+  esg_analyst: ['foreign','soe','central_soe','private'], tech_sales: ['private','foreign','soe'],
+  hr_od: ['private','soe','central_soe','foreign'], bio_medical: ['foreign','private','soe'],
+  finance_analyst: ['private','foreign','soe','central_soe'], accountant: ['private','soe','central_soe','foreign'],
+  project_manager: ['private','soe','central_soe','foreign'], operations: ['private','foreign','soe'],
+  consultant: ['foreign','private'], brand_marketing: ['private','foreign','soe'],
+  psychologist: ['public','private'], game_designer: ['private','foreign'],
+  crossborder_ecom: ['private','foreign'], new_energy_ve: ['private','soe','central_soe','foreign'],
+  semiconductor: ['private','soe','central_soe','foreign'], c_pm: ['private','foreign'],
+  b_pm: ['private','foreign','soe'], growth_pm: ['private','foreign'],
+  frontend_dev: ['private','foreign','soe','central_soe'], backend_dev: ['private','foreign','soe','central_soe'],
+  qa_engineer: ['private','foreign','soe','central_soe'], devops_sre: ['private','foreign','soe','central_soe'],
+  tpm: ['private','foreign','soe','central_soe']
+};
+
 // ============ DOM REFS ============
 const mainContent = document.getElementById('mainContent');
 const coinCount = document.getElementById('coinCount');
