@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>职业连连看 · 发现你的职业新可能</title>
+<title>星途职引 · 发现你的职业新可能</title>
 <!-- Self-contained confetti (no CDN dependency) -->
 <script>
 (function() {
   window.confetti = function(opts) {
     var defaults = { particleCount: 80, spread: 50, origin: { x: 0.5, y: 0.5 },
-      colors: ['#4F46E5','#6366F1','#10B981','#0EA5E9','#8B5CF6','#06B6D4'] };
+      colors: ['#818CF8','#6366F1','#34D399','#22D3EE','#A78BFA','#FBBF24'] };
     var o = Object.assign({}, defaults, opts || {});
     var container = document.createElement('div');
     container.style.cssText = 'position:fixed;inset:0;pointer-events:none;z-index:9999;overflow:hidden;';
@@ -55,49 +55,50 @@
 </style>
 <style>
 /* ============================================================
-   CSS DESIGN SYSTEM — 明快·活泼·温暖·积极向上
+   CSS DESIGN SYSTEM — 求职宇宙 · Career Universe
+   深邃、专业、冷静、值得信赖的职场风格
    ============================================================ */
 
 /* --- CSS Custom Properties --- */
 :root {
-  /* Primary palette — tech & professional */
-  --color-primary: #4F46E5;
-  --color-primary-hover: #4338CA;
-  --color-primary-light: #EEF2FF;
-  --color-primary-glow: rgba(79,70,229,0.15);
+  /* Primary palette — 深邃宇宙蓝紫 */
+  --color-primary: #818CF8;
+  --color-primary-hover: #6366F1;
+  --color-primary-light: rgba(129,140,248,0.12);
+  --color-primary-glow: rgba(129,140,248,0.2);
 
-  /* Secondary accents */
-  --color-amber: #0EA5E9;
-  --color-amber-light: #F0F9FF;
-  --color-teal: #10B981;
-  --color-teal-light: #ECFDF5;
-  --color-violet: #7C3AED;
-  --color-violet-light: #F5F3FF;
-  --color-blue: #3B82F6;
-  --color-blue-light: #EFF6FF;
+  /* Secondary accents — 星际色彩 */
+  --color-cyan: #22D3EE;
+  --color-cyan-light: rgba(34,211,238,0.1);
+  --color-teal: #34D399;
+  --color-teal-light: rgba(52,211,153,0.1);
+  --color-violet: #A78BFA;
+  --color-violet-light: rgba(167,139,250,0.1);
+  --color-amber: #FBBF24;
+  --color-amber-light: rgba(251,191,36,0.1);
 
-  /* Surfaces & Backgrounds */
-  --color-bg: #F8FAFC;
-  --color-bg-alt: #F1F5F9;
-  --color-card: #FFFFFF;
-  --color-card-hover: #F8FAFC;
-  --color-border: #E2E8F0;
-  --color-border-active: #4F46E5;
+  /* Surfaces & Backgrounds — 深空色系 */
+  --color-bg: #0B1120;
+  --color-bg-alt: #111827;
+  --color-card: rgba(30,41,59,0.65);
+  --color-card-hover: rgba(30,41,59,0.85);
+  --color-border: rgba(99,102,241,0.15);
+  --color-border-active: #818CF8;
 
-  /* Text hierarchy */
-  --color-text: #0F172A;
-  --color-text-secondary: #475569;
-  --color-text-muted: #94A3B8;
+  /* Text hierarchy — light on dark */
+  --color-text: #F1F5F9;
+  --color-text-secondary: #94A3B8;
+  --color-text-muted: #64748B;
   --color-text-on-primary: #FFFFFF;
 
-  /* Shadows — clean, professional */
-  --shadow-sm: 0 1px 2px rgba(15,23,42,0.04);
-  --shadow-card: 0 1px 3px rgba(15,23,42,0.06), 0 1px 2px rgba(15,23,42,0.04);
-  --shadow-card-hover: 0 4px 12px rgba(15,23,42,0.08), 0 2px 4px rgba(15,23,42,0.04);
-  --shadow-button: 0 2px 8px rgba(79,70,229,0.25);
-  --shadow-lg: 0 10px 40px rgba(15,23,42,0.08);
+  /* Shadows — cosmic glow */
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.3);
+  --shadow-card: 0 2px 12px rgba(0,0,0,0.25), 0 0 1px rgba(99,102,241,0.15);
+  --shadow-card-hover: 0 8px 30px rgba(0,0,0,0.35), 0 0 20px rgba(99,102,241,0.15);
+  --shadow-button: 0 2px 16px rgba(129,140,248,0.35);
+  --shadow-lg: 0 16px 48px rgba(0,0,0,0.4);
 
-  /* Border radius — refined */
+  /* Border radius */
   --radius-sm: 6px;
   --radius-md: 10px;
   --radius-lg: 12px;
@@ -105,8 +106,7 @@
   --radius-2xl: 20px;
   --radius-full: 999px;
 
-  /* Transitions */
-  --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+  /* Transitions — professional smooth, no bounce */
   --ease-smooth: cubic-bezier(0.4, 0, 0.2, 1);
   --transition-fast: 0.15s;
   --transition-normal: 0.25s;
@@ -127,8 +127,9 @@ html {
 
 body {
   font-family: 'Inter', 'PingFang SC', 'Microsoft YaHei', 'Noto Sans SC', -apple-system, sans-serif;
-  background: linear-gradient(180deg, #F8FAFC 0%, #F1F5F9 40%, #E8ECF4 100%);
+  background: linear-gradient(180deg, #0B1120 0%, #0F172A 30%, #111827 60%, #0B1120 100%);
   color: var(--color-text);
+  border: 1px solid var(--color-border);
   line-height: 1.7;
   min-height: 100vh;
   overflow-x: hidden;
@@ -163,9 +164,9 @@ p { margin-bottom: 0.6em; }
   position: sticky;
   top: 0;
   z-index: 100;
-  background: rgba(248,250,252,0.88); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+  background: rgba(11,17,32,0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
   padding: 12px 20px;
-  border-bottom: 1px solid rgba(15,23,42,0.06);
+  border-bottom: 1px solid rgba(99,102,241,0.12);
 }
 
 .header-inner {
@@ -187,11 +188,11 @@ p { margin-bottom: 0.6em; }
 }
 .logo-icon {
   width: 36px; height: 36px;
-  background: linear-gradient(135deg, #4F46E5, #6366F1);
+  background: linear-gradient(135deg, #6366F1, #818CF8);
   border-radius: var(--radius-md);
   display: flex; align-items: center; justify-content: center;
   font-size: 1.2rem;
-  box-shadow: 0 2px 8px rgba(79,70,229,0.25);
+  box-shadow: 0 0 20px rgba(99,102,241,0.3);
 }
 
 /* --- Phase Indicator --- */
@@ -203,12 +204,12 @@ p { margin-bottom: 0.6em; }
 .phase-dot {
   width: 10px; height: 10px;
   border-radius: 50%;
-  background: #E0D8CC;
-  transition: all var(--transition-normal) var(--ease-bounce);
+  background: rgba(255,255,255,0.15);
+  transition: all var(--transition-normal) var(--ease-smooth);
 }
 .phase-dot.active {
   background: var(--color-primary);
-  box-shadow: 0 0 8px rgba(255,107,107,0.5);
+  box-shadow: 0 0 12px rgba(129,140,248,0.5);
   transform: scale(1.3);
 }
 .phase-dot.done {
@@ -230,16 +231,10 @@ p { margin-bottom: 0.6em; }
   gap: 4px;
   font-weight: 700;
   font-size: 0.9rem;
-  color: var(--color-amber);
+  color: var(--color-primary);
 }
 .coin-counter .coin-icon {
   font-size: 1.2rem;
-  animation: coinBounce 0.5s var(--ease-bounce);
-}
-@keyframes coinBounce {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.5) rotateY(180deg); }
-  100% { transform: scale(1) rotateY(360deg); }
 }
 
 /* --- Main Content --- */
@@ -258,7 +253,7 @@ p { margin-bottom: 0.6em; }
   padding: 24px;
   box-shadow: var(--shadow-card);
   transition: all var(--transition-normal) var(--ease-smooth);
-  animation: cardSlideUp 0.5s var(--ease-bounce);
+  animation: cardSlideUp 0.5s var(--ease-smooth);
   border: 1px solid var(--color-border);
 }
 .card:hover {
@@ -272,7 +267,7 @@ p { margin-bottom: 0.6em; }
 .card.color-top.green { border-top-color: var(--color-teal); }
 .card.color-top.blue { border-top-color: var(--color-teal); }
 .card.color-top.purple { border-top-color: var(--color-violet); }
-.card.color-top.yellow { border-top-color: var(--color-amber); }
+.card.color-top.yellow { border-top-color: var(--color-primary); }
 
 @keyframes cardSlideUp {
   from { opacity: 0; transform: translateY(24px); }
@@ -283,14 +278,14 @@ p { margin-bottom: 0.6em; }
   70% { transform: scale(1.04); }
   100% { opacity: 1; transform: scale(1); }
 }
-.card-pop { animation: cardPopIn 0.6s var(--ease-bounce); }
+.card-pop { animation: cardPopIn 0.6s var(--ease-smooth); }
 
 /* --- Chat Bubbles --- */
 .chat-bubble {
   display: flex;
   gap: 10px;
   align-items: flex-start;
-  animation: cardSlideUp 0.4s var(--ease-bounce);
+  animation: cardSlideUp 0.4s var(--ease-smooth);
 }
 .chat-bubble.coach { justify-content: flex-start; }
 .chat-bubble.user { justify-content: flex-end; }
@@ -303,10 +298,10 @@ p { margin-bottom: 0.6em; }
   font-size: 1.3rem;
 }
 .coach .bubble-avatar {
-  background: linear-gradient(135deg, var(--color-primary-light), #FFE0D0);
+  background: linear-gradient(135deg, rgba(99,102,241,0.3), rgba(129,140,248,0.2));
 }
 .user .bubble-avatar {
-  background: linear-gradient(135deg, var(--color-teal-light), #D4F5F2);
+  background: linear-gradient(135deg, rgba(52,211,153,0.3), rgba(34,211,238,0.2));
   order: 2;
 }
 
@@ -324,7 +319,7 @@ p { margin-bottom: 0.6em; }
   border-bottom-left-radius: var(--radius-sm);
 }
 .user .bubble-content {
-  background: linear-gradient(135deg, var(--color-teal-light), #D4F5F2);
+  background: linear-gradient(135deg, rgba(52,211,153,0.15), rgba(34,211,238,0.1));
   border-bottom-right-radius: var(--radius-sm);
 }
 
@@ -335,7 +330,7 @@ p { margin-bottom: 0.6em; }
   padding: 28px 24px;
   box-shadow: var(--shadow-card);
   border: 1px solid rgba(44,62,80,0.04);
-  animation: cardSlideUp 0.5s var(--ease-bounce);
+  animation: cardSlideUp 0.5s var(--ease-smooth);
 }
 .question-number {
   display: inline-flex;
@@ -354,6 +349,7 @@ p { margin-bottom: 0.6em; }
   font-weight: 600;
   margin-bottom: 20px;
   color: var(--color-text);
+  border: 1px solid var(--color-border);
   line-height: 1.5;
 }
 
@@ -371,7 +367,7 @@ p { margin-bottom: 0.6em; }
   border: 2px solid #EDE8E0;
   border-radius: var(--radius-lg);
   cursor: pointer;
-  transition: all var(--transition-fast) var(--ease-bounce);
+  transition: all var(--transition-fast) var(--ease-smooth);
   background: var(--color-card);
   font-size: 0.95rem;
 }
@@ -384,7 +380,7 @@ p { margin-bottom: 0.6em; }
   border-color: var(--color-primary);
   background: var(--color-primary-light);
   box-shadow: 0 0 0 3px rgba(255,107,107,0.12);
-  animation: optionSelect 0.3s var(--ease-bounce);
+  animation: optionSelect 0.3s var(--ease-smooth);
 }
 @keyframes optionSelect {
   0% { transform: scale(1); }
@@ -401,7 +397,7 @@ p { margin-bottom: 0.6em; }
   border-radius: 50%;
   border: 2px solid #D0C8C0;
   display: flex; align-items: center; justify-content: center;
-  transition: all var(--transition-fast) var(--ease-bounce);
+  transition: all var(--transition-fast) var(--ease-smooth);
   font-size: 0.7rem;
   color: transparent;
 }
@@ -423,7 +419,7 @@ p { margin-bottom: 0.6em; }
   border-radius: var(--radius-full);
   cursor: pointer;
   font-size: 0.9rem;
-  transition: all var(--transition-fast) var(--ease-bounce);
+  transition: all var(--transition-fast) var(--ease-smooth);
   background: var(--color-card);
   user-select: none;
 }
@@ -438,7 +434,7 @@ p { margin-bottom: 0.6em; }
   box-shadow: 0 2px 8px rgba(155,89,182,0.3);
 }
 .tag-option.tag-rec {
-  border-color: var(--color-amber);
+  border-color: var(--color-primary);
   background: #FFFBF0;
   border-style: dashed;
 }
@@ -464,6 +460,7 @@ p { margin-bottom: 0.6em; }
   min-height: 80px;
   background: var(--color-card);
   color: var(--color-text);
+  border: 1px solid var(--color-border);
   transition: all var(--transition-fast) var(--ease-smooth);
   outline: none;
 }
@@ -489,7 +486,7 @@ p { margin-bottom: 0.6em; }
   font-weight: 600;
   cursor: pointer;
   border: none;
-  transition: all var(--transition-fast) var(--ease-bounce);
+  transition: all var(--transition-fast) var(--ease-smooth);
   text-decoration: none;
   user-select: none;
   white-space: nowrap;
@@ -539,7 +536,7 @@ p { margin-bottom: 0.6em; }
   background: linear-gradient(90deg, #4F46E5, #6366F1, #8B5CF6);
   background-size: 200% 100%;
   animation: progressShimmer 2s linear infinite;
-  transition: width 0.5s var(--ease-bounce);
+  transition: width 0.5s var(--ease-smooth);
 }
 @keyframes progressShimmer {
   0% { background-position: 100% 0; }
@@ -548,12 +545,12 @@ p { margin-bottom: 0.6em; }
 
 /* --- Flash Card (Phase 1 result) --- */
 .flash-card {
-  background: linear-gradient(135deg, #FFFFFF, #F8FAFF);
-  border: 2px solid var(--color-border);
+  background: linear-gradient(135deg, rgba(30,41,59,0.8), rgba(30,41,59,0.5));
+  border: 1px solid var(--color-border);
   border-radius: var(--radius-xl);
   padding: 28px 24px;
   box-shadow: var(--shadow-lg);
-  animation: cardPopIn 0.7s var(--ease-bounce);
+  animation: cardPopIn 0.5s var(--ease-smooth);
   position: relative;
   overflow: hidden;
 }
@@ -562,7 +559,7 @@ p { margin-bottom: 0.6em; }
   position: absolute;
   top: -40px; right: -40px;
   width: 120px; height: 120px;
-  background: radial-gradient(circle, rgba(255,179,71,0.2), transparent);
+  background: radial-gradient(circle, rgba(129,140,248,0.15), transparent);
   border-radius: 50%;
 }
 .flash-card h3 {
@@ -593,10 +590,10 @@ p { margin-bottom: 0.6em; }
   font-size: 0.85rem;
   font-weight: 500;
 }
-.flash-tag.ability { background: #DCFCE7; color: #166534; }
-.flash-tag.passion { background: #E0F2FE; color: #075985; }
-.flash-tag.style { background: #E0F2FE; color: #0F766E; }
-.flash-tag.drive { background: #F3E8FF; color: #6B21A8; }
+.flash-tag.ability { background: rgba(52,211,153,0.2); color: #6EE7B7; }
+.flash-tag.passion { background: rgba(56,189,248,0.15); color: #7DD3FC; }
+.flash-tag.style { background: rgba(56,189,248,0.15); color: #67E8F9; }
+.flash-tag.drive { background: rgba(167,139,250,0.2); color: #C4B5FD; }
 
 /* --- Venn Diagram (Phase 2) --- */
 .venn-container {
@@ -612,7 +609,7 @@ p { margin-bottom: 0.6em; }
   height: auto;
 }
 .venn-circle {
-  transition: all 0.6s var(--ease-bounce);
+  transition: all 0.6s var(--ease-smooth);
 }
 
 /* Ratio Sliders */
@@ -650,12 +647,12 @@ p { margin-bottom: 0.6em; }
   border-radius: 50%;
   cursor: pointer;
   box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-  transition: transform 0.2s var(--ease-bounce);
+  transition: transform 0.2s var(--ease-smooth);
 }
 .ratio-slider::-webkit-slider-thumb:hover { transform: scale(1.2); }
 .ratio-slider.want::-webkit-slider-thumb { background: var(--color-teal); }
 .ratio-slider.good::-webkit-slider-thumb { background: var(--color-teal); }
-.ratio-slider.money::-webkit-slider-thumb { background: var(--color-amber); }
+.ratio-slider.money::-webkit-slider-thumb { background: var(--color-primary); }
 .ratio-value {
   width: 44px;
   text-align: center;
@@ -674,7 +671,7 @@ p { margin-bottom: 0.6em; }
   border-radius: var(--radius-lg);
   border: 2px solid #EDE8E0;
   cursor: pointer;
-  transition: all var(--transition-fast) var(--ease-bounce);
+  transition: all var(--transition-fast) var(--ease-smooth);
   text-align: center;
   background: var(--color-card);
 }
@@ -705,7 +702,7 @@ p { margin-bottom: 0.6em; }
   padding: 24px;
   box-shadow: var(--shadow-card);
   border: 1px solid rgba(44,62,80,0.05);
-  animation: cardSlideUp 0.5s var(--ease-bounce);
+  animation: cardSlideUp 0.5s var(--ease-smooth);
   position: relative;
   overflow: hidden;
 }
@@ -731,8 +728,8 @@ p { margin-bottom: 0.6em; }
   animation: arrowPulse 1.5s infinite;
 }
 @keyframes arrowPulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.4; }
+  0%, 100% { opacity: 0.7; }
+  50% { opacity: 0.3; }
 }
 .connect-line .job-name {
   background: var(--color-primary-light);
@@ -774,13 +771,13 @@ p { margin-bottom: 0.6em; }
   align-items: center;
   gap: 3px;
 }
-.tag-trend { background: #FEE2E2; color: #991B1B; }
-.tag-city { background: #E0F2FE; color: #075985; }
-.tag-special { background: #F3E8FF; color: #6B21A8; }
-.tag-beginner { background: #DCFCE7; color: #166534; }
-.tag-skill { background: #FEF9C3; color: #A16207; }
-.tag-mode { background: #F3E8FF; color: #6B21A8; }
-.tag-warning { background: #FEE2E2; color: #991B1B; }
+.tag-trend { background: rgba(248,113,113,0.2); color: #FCA5A5; }
+.tag-city { background: rgba(56,189,248,0.15); color: #7DD3FC; }
+.tag-special { background: rgba(167,139,250,0.2); color: #C4B5FD; }
+.tag-beginner { background: rgba(52,211,153,0.2); color: #6EE7B7; }
+.tag-skill { background: rgba(251,191,36,0.2); color: #FDE68A; }
+.tag-mode { background: rgba(167,139,250,0.2); color: #C4B5FD; }
+.tag-warning { background: rgba(248,113,113,0.2); color: #FCA5A5; }
 
 /* Star rating */
 .star-rating {
@@ -788,8 +785,8 @@ p { margin-bottom: 0.6em; }
   gap: 2px;
   font-size: 1.1rem;
 }
-.star-rating .star-filled { color: var(--color-amber); }
-.star-rating .star-empty { color: #E0D8CC; }
+.star-rating .star-filled { color: var(--color-primary); }
+.star-rating .star-empty { color: rgba(255,255,255,0.15); }
 
 /* --- Timeline (14-day plan) --- */
 .timeline {
@@ -820,7 +817,7 @@ p { margin-bottom: 0.6em; }
   border-radius: 50%;
   border: 3px solid var(--color-primary);
   background: white;
-  transition: all var(--transition-fast) var(--ease-bounce);
+  transition: all var(--transition-fast) var(--ease-smooth);
 }
 .timeline-item.done::before {
   background: var(--color-teal);
@@ -872,7 +869,7 @@ p { margin-bottom: 0.6em; }
   text-align: center;
   box-shadow: 0 16px 48px rgba(44,62,80,0.2);
   z-index: 1000;
-  animation: toastPopIn 0.5s var(--ease-bounce) forwards;
+  animation: toastPopIn 0.5s var(--ease-smooth) forwards;
   pointer-events: none;
 }
 @keyframes toastPopIn {
@@ -889,12 +886,13 @@ p { margin-bottom: 0.6em; }
 .celebration-emoji {
   font-size: 3rem;
   margin-bottom: 12px;
-  animation: coinBounce 0.8s var(--ease-bounce) infinite;
+  animation: coinBounce 0.8s var(--ease-smooth) infinite;
 }
 .celebration-text {
   font-weight: 700;
   font-size: 1.1rem;
   color: var(--color-text);
+  border: 1px solid var(--color-border);
 }
 
 /* --- Utility --- */
@@ -936,7 +934,7 @@ p { margin-bottom: 0.6em; }
 /* --- v2 Components --- */
 .stepped-progress{display:flex;align-items:center;justify-content:center;gap:0;max-width:540px;margin:8px auto 0;padding:0 8px}
 .step-node{display:flex;flex-direction:column;align-items:center;gap:3px}
-.step-dot{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700;background:#F0EAE0;color:var(--color-text-muted);transition:all var(--transition-normal) var(--ease-bounce);z-index:2}
+.step-dot{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700;background:#F0EAE0;color:var(--color-text-muted);transition:all var(--transition-normal) var(--ease-smooth);z-index:2}
 .step-dot.active{background:var(--color-primary);color:#fff;box-shadow:0 0 0 4px var(--color-primary-glow);transform:scale(1.1)}
 .step-dot.done{background:var(--color-teal);color:#fff}
 .step-label{font-size:.62rem;font-weight:600;color:var(--color-text-muted);white-space:nowrap;transition:color var(--transition-normal)}
@@ -946,7 +944,7 @@ p { margin-bottom: 0.6em; }
 .step-connector.done{background:var(--color-teal)}
 .step-connector.active{background:linear-gradient(90deg,var(--color-teal),var(--color-primary))}
 .progress-bar-wrapper{width:100%;max-width:540px;margin:4px auto 0;height:3px;background:#F0EAE0;border-radius:var(--radius-full);overflow:hidden}
-.progress-bar-fill{height:100%;border-radius:var(--radius-full);background:linear-gradient(90deg,var(--color-primary),var(--color-amber),var(--color-violet));background-size:200% 100%;animation:progressShimmer 2.5s linear infinite;transition:width .6s var(--ease-bounce)}
+.progress-bar-fill{height:100%;border-radius:var(--radius-full);background:linear-gradient(90deg,var(--color-primary),var(--color-primary),var(--color-violet));background-size:200% 100%;animation:progressShimmer 2.5s linear infinite;transition:width .6s var(--ease-smooth)}
 @keyframes progressShimmer{0%{background-position:100% 0}100%{background-position:-100% 0}}
 .phase-indicator{display:none}
 .industry-tree{display:flex;flex-direction:column;gap:6px}
@@ -961,15 +959,15 @@ p { margin-bottom: 0.6em; }
 .tree-category.expanded .tree-cat-arrow{transform:rotate(180deg)}
 .tree-sub-list{display:none;padding:4px 12px 12px 44px;flex-wrap:wrap;gap:6px}
 .tree-category.expanded .tree-sub-list{display:flex}
-.tree-sub-tag{padding:6px 14px;border:1.5px solid var(--color-border);border-radius:var(--radius-full);font-size:.82rem;cursor:pointer;transition:all var(--transition-fast) var(--ease-bounce);background:var(--color-card);user-select:none}
+.tree-sub-tag{padding:6px 14px;border:1.5px solid var(--color-border);border-radius:var(--radius-full);font-size:.82rem;cursor:pointer;transition:all var(--transition-fast) var(--ease-smooth);background:var(--color-card);user-select:none}
 .tree-sub-tag:hover{border-color:var(--color-primary);background:var(--color-primary-light)}
 .tree-sub-tag.selected{background:var(--color-primary);color:#fff;border-color:var(--color-primary);box-shadow:0 2px 8px var(--color-primary-glow)}
-.tag-option.tag-rec{border-color:var(--color-amber);background:#FFFBF0;border-style:dashed}
+.tag-option.tag-rec{border-color:var(--color-primary);background:#FFFBF0;border-style:dashed}
 .score-stars{display:inline-flex;gap:2px;cursor:pointer}
-.score-stars .star{font-size:1.3rem;transition:transform var(--transition-fast) var(--ease-bounce);color:#E0D8CC}
-.score-stars .star.active{color:var(--color-amber)}
+.score-stars .star{font-size:1.3rem;transition:transform var(--transition-fast) var(--ease-smooth);color:#E0D8CC}
+.score-stars .star.active{color:var(--color-primary)}
 .score-stars .star:hover{transform:scale(1.2)}
-.deep-dive{margin-top:16px;border:2px dashed var(--color-border);border-radius:var(--radius-lg);overflow:hidden;animation:cardSlideUp .4s var(--ease-bounce);background:var(--color-bg-alt)}
+.deep-dive{margin-top:16px;border:2px dashed var(--color-border);border-radius:var(--radius-lg);overflow:hidden;animation:cardSlideUp .4s var(--ease-smooth);background:var(--color-bg-alt)}
 .deep-dive-header{padding:14px 18px;background:linear-gradient(135deg,var(--color-primary-light),var(--color-amber-light));font-weight:700;font-size:.9rem;display:flex;align-items:center;gap:6px}
 .deep-dive-body{padding:16px 18px;display:flex;flex-direction:column;gap:14px}
 .dd-section-title{font-weight:700;font-size:.82rem;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;display:flex;align-items:center;gap:4px}
@@ -983,19 +981,19 @@ p { margin-bottom: 0.6em; }
 .dd-path-step{display:flex;align-items:flex-start;gap:10px;padding:8px 0}
 .dd-path-num{width:26px;height:26px;border-radius:50%;background:var(--color-primary);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.78rem;flex-shrink:0}
 .star-rating{display:inline-flex;gap:2px;font-size:1.1rem}
-.star-rating .star-filled{color:var(--color-amber)}
+.star-rating .star-filled{color:var(--color-primary)}
 .star-rating .star-empty{color:#E0D8CC}
 .compare-modal-overlay{display:none;position:fixed;inset:0;background:rgba(30,41,59,.5);z-index:1000;align-items:center;justify-content:center;padding:20px}
 .compare-modal-overlay.show{display:flex}
-.compare-modal{background:var(--color-card);border-radius:var(--radius-2xl);max-width:900px;width:100%;max-height:85vh;overflow-y:auto;padding:28px 24px;box-shadow:var(--shadow-lg);animation:cardPopIn .4s var(--ease-bounce)}
+.compare-modal{background:var(--color-card);border-radius:var(--radius-2xl);max-width:900px;width:100%;max-height:85vh;overflow-y:auto;padding:28px 24px;box-shadow:var(--shadow-lg);animation:cardPopIn .4s var(--ease-smooth)}
 .compare-table-wide{width:100%;border-collapse:collapse;font-size:.82rem}
 .compare-table-wide th{background:var(--color-bg-alt);padding:10px 12px;text-align:left;font-weight:700;font-size:.78rem;color:var(--color-text-secondary);position:sticky;top:0}
 .compare-table-wide td{padding:10px 12px;border-top:1px solid var(--color-border);vertical-align:top}
 .compare-table-wide tr:hover td{background:var(--color-bg-alt)}
-.compare-checkbox{display:inline-flex;align-items:center;gap:4px;padding:6px 12px;border-radius:var(--radius-full);border:2px solid var(--color-border);cursor:pointer;font-size:.82rem;transition:all var(--transition-fast) var(--ease-bounce)}
+.compare-checkbox{display:inline-flex;align-items:center;gap:4px;padding:6px 12px;border-radius:var(--radius-full);border:2px solid var(--color-border);cursor:pointer;font-size:.82rem;transition:all var(--transition-fast) var(--ease-smooth)}
 .compare-checkbox.checked{border-color:var(--color-violet);background:var(--color-violet-light);color:var(--color-violet);font-weight:600}
 .odyssey-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
-.odyssey-card{padding:20px 16px;border-radius:var(--radius-xl);text-align:center;transition:transform var(--transition-fast) var(--ease-bounce);border:2px solid var(--color-border)}
+.odyssey-card{padding:20px 16px;border-radius:var(--radius-xl);text-align:center;transition:transform var(--transition-fast) var(--ease-smooth);border:2px solid var(--color-border)}
 .odyssey-card:hover{transform:translateY(-3px)}
 .odyssey-card.path-a{border-color:var(--color-primary);background:var(--color-primary-light)}
 .odyssey-card.path-b{border-color:var(--color-teal);background:var(--color-teal-light)}
@@ -1004,7 +1002,7 @@ p { margin-bottom: 0.6em; }
 
 /* --- Employment Type Selection --- */
 .emp-choice-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:540px;margin:0 auto}
-.emp-choice-card{padding:20px 16px;border:2px solid var(--color-border);border-radius:var(--radius-xl);cursor:pointer;text-align:center;transition:all var(--transition-fast) var(--ease-bounce);background:var(--color-card)}
+.emp-choice-card{padding:20px 16px;border:2px solid var(--color-border);border-radius:var(--radius-xl);cursor:pointer;text-align:center;transition:all var(--transition-fast) var(--ease-smooth);background:var(--color-card)}
 .emp-choice-card:hover{border-color:var(--color-primary);transform:translateY(-2px);box-shadow:var(--shadow-card)}
 .emp-choice-card.selected{border-color:var(--color-primary);background:var(--color-primary-light);box-shadow:0 0 0 3px var(--color-primary-glow)}
 .emp-choice-card .emp-icon{font-size:2.5rem;margin-bottom:8px}
@@ -1013,9 +1011,9 @@ p { margin-bottom: 0.6em; }
 .emp-choice-card .emp-check{display:inline-block;width:22px;height:22px;border-radius:50%;border:2px solid #D0C8C0;margin-top:8px;line-height:18px;font-size:0.7rem;color:transparent;transition:all var(--transition-fast)}
 .emp-choice-card.selected .emp-check{background:var(--color-teal);border-color:var(--color-teal);color:white}
 .emp-org-row{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:8px}
-.emp-org-tag{padding:8px 16px;border:2px solid #EDE8E0;border-radius:var(--radius-full);cursor:pointer;font-size:0.85rem;font-weight:500;transition:all var(--transition-fast) var(--ease-bounce);background:var(--color-card);user-select:none}
-.emp-org-tag:hover{border-color:var(--color-amber)}
-.emp-org-tag.selected{background:var(--color-amber);color:white;border-color:var(--color-amber);box-shadow:0 2px 8px rgba(245,158,75,0.3)}
+.emp-org-tag{padding:8px 16px;border:2px solid #EDE8E0;border-radius:var(--radius-full);cursor:pointer;font-size:0.85rem;font-weight:500;transition:all var(--transition-fast) var(--ease-smooth);background:var(--color-card);user-select:none}
+.emp-org-tag:hover{border-color:var(--color-primary)}
+.emp-org-tag.selected{background:var(--color-primary);color:white;border-color:var(--color-primary);box-shadow:0 2px 8px rgba(245,158,75,0.3)}
 .emp-org-tag.emp-all-tag{border-style:dashed;border-color:var(--color-violet);color:var(--color-violet)}
 .emp-org-tag.emp-all-tag:hover{background:var(--color-violet-light)}
 .emp-org-tag.emp-all-tag.selected{background:var(--color-violet);color:white;border-color:var(--color-violet)}
@@ -1023,7 +1021,7 @@ p { margin-bottom: 0.6em; }
 /* --- City Cluster Map Modal --- */
 .city-map-overlay{display:none;position:fixed;inset:0;background:rgba(30,41,59,0.5);z-index:1000;align-items:center;justify-content:center;padding:20px}
 .city-map-overlay.show{display:flex}
-.city-map-modal{background:var(--color-card);border-radius:var(--radius-2xl);max-width:700px;width:100%;max-height:85vh;overflow-y:auto;padding:28px 24px;box-shadow:var(--shadow-lg);animation:cardPopIn .4s var(--ease-bounce)}
+.city-map-modal{background:var(--color-card);border-radius:var(--radius-2xl);max-width:700px;width:100%;max-height:85vh;overflow-y:auto;padding:28px 24px;box-shadow:var(--shadow-lg);animation:cardPopIn .4s var(--ease-smooth)}
 .city-map-title{font-weight:700;font-size:1.2rem;margin-bottom:4px;display:flex;align-items:center;gap:8px}
 .city-map-subtitle{font-size:0.82rem;color:var(--color-text-secondary);margin-bottom:16px}
 .city-map-legend{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:16px;font-size:0.78rem}
@@ -1045,15 +1043,15 @@ p { margin-bottom: 0.6em; }
 
 .tag-pill.tag-city{cursor:pointer;position:relative;transition:all var(--transition-fast)}
 .tag-pill.tag-city:hover{transform:scale(1.05);box-shadow:0 2px 8px rgba(0,0,0,0.1)}
-.tag-pill.tag-city::after{content:' 🔍';font-size:0.7rem;opacity:0;transition:opacity var(--transition-fast)}
+.tag-pill.tag-city::after{content:' 🔍点击看产业地图';font-size:0.65rem;opacity:0.75;margin-left:2px}
 .tag-pill.tag-city:hover::after{opacity:1}
 @media(max-width:600px){.emp-choice-grid{grid-template-columns:1fr}.city-cluster-grid{grid-template-columns:1fr}}
 
 /* --- Welcome Page --- */
-.welcome-hero{text-align:center;padding:20px 0 0;animation:cardSlideUp .6s var(--ease-bounce)}
+.welcome-hero{text-align:center;padding:20px 0 0;animation:cardSlideUp .6s var(--ease-smooth)}
 .welcome-mascot{font-size:6rem;animation:floatUpDown 3s ease-in-out infinite;display:inline-block;filter:drop-shadow(0 8px 20px rgba(255,179,71,0.3))}
 @keyframes floatUpDown{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
-.welcome-badge{display:inline-block;padding:8px 24px;background:linear-gradient(135deg,#FF6B6B,#FFB347);color:#fff;border-radius:30px;font-weight:900;font-size:1.2rem;letter-spacing:2px;animation:cardPopIn .8s var(--ease-bounce);margin:12px 0;box-shadow:0 6px 20px rgba(255,107,107,0.35)}
+.welcome-badge{display:inline-block;padding:8px 24px;background:linear-gradient(135deg,#FF6B6B,#FFB347);color:#fff;border-radius:30px;font-weight:900;font-size:1.2rem;letter-spacing:2px;animation:cardPopIn .8s var(--ease-smooth);margin:12px 0;box-shadow:0 6px 20px rgba(255,107,107,0.35)}
 .welcome-subtitle{color:var(--color-text-secondary);font-size:0.95rem;max-width:420px;margin:0 auto;line-height:1.7}
 .welcome-features{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;max-width:500px;margin:16px auto 0}
 .welcome-feat{padding:14px 10px;background:var(--color-card);border-radius:var(--radius-lg);text-align:center;box-shadow:var(--shadow-sm);transition:all var(--transition-fast)}
@@ -1075,7 +1073,7 @@ p { margin-bottom: 0.6em; }
       <div class="stepped-progress" id="steppedProgress"><div class="step-node" data-step="1"><div class="step-dot active">1</div><div class="step-label active">✨ 闪光挖掘</div></div><div class="step-connector"></div><div class="step-node" data-step="2"><div class="step-dot">2</div><div class="step-label">🌳 行业探索</div></div><div class="step-connector"></div><div class="step-node" data-step="3"><div class="step-dot">3</div><div class="step-label">⚗️ 三圈配方</div></div><div class="step-connector"></div><div class="step-node" data-step="4"><div class="step-dot">4</div><div class="step-label">🔗 连连看</div></div></div>
     <div style="max-width:540px;margin:6px auto 0;position:relative;">
       <div class="progress-bar-wrapper" style="margin:0;"><div class="progress-bar-fill" id="globalProgress" style="width:0%"></div></div>
-      <span id="progressMascot" style="position:absolute;top:-18px;font-size:1.1rem;transition:left 0.6s var(--ease-bounce);left:0%;">🦊</span>
+      <span id="progressMascot" style="position:absolute;top:-18px;font-size:1.1rem;transition:left 0.6s var(--ease-smooth);left:0%;">🦊</span>
       <span id="progressPct" style="display:block;text-align:right;font-size:0.7rem;font-weight:700;color:var(--color-primary);margin-top:2px;">0%</span>
     </div>
     <div class="phase-indicator" id="phaseIndicator" style="display:none;">
@@ -1142,9 +1140,8 @@ const profile = {
   ratioPreset: '',
   ratioCustom: { want: 0, good: 0, money: 0 },
 
-  // Employment preference
-  employmentType: '',       // 'market' | 'public' | 'both'
-  orgTypes: [],             // 'private' | 'soe' | 'central_soe' | 'foreign'
+  // Org type preference (set to empty = no filter)
+  orgTypes: [],
 
   // Display mode
   careerMode: '',           // 'pro' | 'simple'
@@ -2287,7 +2284,6 @@ function render() {
     case 'welcome': renderWelcome(); break;
     case 'phase1': renderPhase1Question(); break;
     case 'phase1_flash': renderFlashCard(); break;
-    case 'employment_choice': renderEmploymentChoice(); break;
     case 'phase2': renderPhase2(); break;
     case 'phase2_result': renderPhase2Result(); break;
     case 'phase3': renderPhase3(); break;
@@ -2308,10 +2304,9 @@ function updateProgress() {
   var pct = 0, activeStep = 1;
   if (state.phase === 'phase1') { pct = (state.questionIndex / 10) * 20; activeStep = 1; }
   else if (state.phase === 'phase1_flash') { pct = 20; activeStep = 1; }
-  else if (state.phase === 'employment_choice') { pct = 22; activeStep = 2; }
   else if (state.phase === 'phase2') {
-    if (state.phase2Step === 'tree') { pct = 24; activeStep = 2; }
-    else if (state.phase2Step === 'fill') { pct = 30; activeStep = 2; }
+    if (state.phase2Step === 'tree') { pct = 22; activeStep = 2; }
+    else if (state.phase2Step === 'fill') { pct = 28; activeStep = 2; }
     else if (state.phase2Step === 'ratio') { pct = 44; activeStep = 3; }
   } else if (state.phase === 'phase2_result') { pct = 50; activeStep = 3; }
   else if (state.phase === 'phase3') {
@@ -2395,7 +2390,7 @@ function renderWelcome() {
   var saved = checkSavedProgress();
   var resumeHTML = '';
   if (saved) {
-    resumeHTML = '<div class="card mt-16" style="text-align:center;border:2px dashed var(--color-amber);background:#FFFDF5;"><p style="font-weight:700;">💾 检测到未完成的探索记录</p><p class="text-secondary" style="font-size:0.85rem;">上次进度：' + saved.phaseLabel + '（' + saved.time + '）</p><div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:8px;"><button class="btn btn-primary btn-small" onclick="resumeProgress()">📂 继续上次探索</button><button class="btn btn-ghost btn-small" onclick="clearSavedProgress()">🗑 重新开始</button></div></div>';
+    resumeHTML = '<div class="card mt-16" style="text-align:center;border:2px dashed var(--color-primary);background:#FFFDF5;"><p style="font-weight:700;">💾 检测到未完成的探索记录</p><p class="text-secondary" style="font-size:0.85rem;">上次进度：' + saved.phaseLabel + '（' + saved.time + '）</p><div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:8px;"><button class="btn btn-primary btn-small" onclick="resumeProgress()">📂 继续上次探索</button><button class="btn btn-ghost btn-small" onclick="clearSavedProgress()">🗑 重新开始</button></div></div>';
   }
   var html = '<div class="welcome-hero"><div class="welcome-mascot">🤑</div>';
   html += '<div class="welcome-badge">✨ 你必发财 ✨</div>';
@@ -2684,7 +2679,7 @@ function renderFlashCard() {
         var v = prompt('修改（留空删除）：', tag.textContent.trim());
         if (v === null) return;
         if (v === '') { tag.style.opacity = '0.4'; tag.style.textDecoration = 'line-through'; tag.title = '已标记删除'; }
-        else { tag.textContent = v; tag.style.border = '1.5px dashed var(--color-amber)'; tag.style.background = '#FFF7ED'; }
+        else { tag.textContent = v; tag.style.border = '1.5px dashed var(--color-primary)'; tag.style.background = '#FFF7ED'; }
       });
     });
   }, 300);
@@ -2707,91 +2702,10 @@ function submitFlashFeedback() {
 }
 
 function startPhase2() {
-  // First go through employment choice
-  state.phase = 'employment_choice';
-  profile.selectedIndustries = [];
-  render();
-}
-
-// ============ EMPLOYMENT TYPE CHOICE ============
-function renderEmploymentChoice() {
-  var html = '<div class="card color-top" style="border-top-color:var(--color-violet);"><h3>🏢 选择你的就业方向偏好</h3><p class="text-secondary mt-8">告诉连连你更倾向于哪种就业路径——这会影响后面的岗位推荐哦。不确定的话可以都选～</p><div class="emp-choice-grid mt-16" id="empChoiceGrid">';
-
-  // Market option
-  html += '<div class="emp-choice-card' + (profile.employmentType === 'market' ? ' selected' : '') + '" data-type="market" onclick="selectEmpType(\'market\')"><div class="emp-icon">🏢</div><div class="emp-title">市场化就业</div><div class="emp-desc">国企 · 央企 · 私企 · 外企<br>追求市场竞争与个人成长</div><div class="emp-check">✓</div></div>';
-
-  // Public sector option
-  html += '<div class="emp-choice-card' + (profile.employmentType === 'public' ? ' selected' : '') + '" data-type="public" onclick="selectEmpType(\'public\')"><div class="emp-icon">🏛️</div><div class="emp-title">体制内就业</div><div class="emp-desc">公务员 · 事业单位 · 国企编制<br>追求稳定与社会价值</div><div class="emp-check">✓</div></div>';
-
-  // Both option
-  html += '</div><div style="text-align:center;margin-top:12px;"><div class="emp-choice-card' + (profile.employmentType === 'both' ? ' selected' : '') + '" data-type="both" onclick="selectEmpType(\'both\')" style="display:inline-block;min-width:200px;"><div class="emp-icon" style="display:inline;">🌐</div><div class="emp-title" style="display:inline;"> 都看看</div><div class="emp-desc">我还不确定，两边都想了解一下</div><div class="emp-check">✓</div></div></div>';
-
-  // Org type selection (shown for market or both)
-  if (profile.employmentType === 'market' || profile.employmentType === 'both') {
-    html += '<div class="mt-16" id="orgTypeSection"><p style="font-weight:600;font-size:0.9rem;margin-bottom:8px;">🏷️ 选择你感兴趣的企业类型（可多选）</p><div class="emp-org-row">';
-    var orgLabels = [
-      {id:'private',label:'🏢 私企/民企',desc:'互联网大厂/创业公司/独角兽'},
-      {id:'soe',label:'🏭 国企',desc:'地方国有企业，稳定+发展平衡'},
-      {id:'central_soe',label:'🏗️ 央企',desc:'中央企业，平台大+资源多'},
-      {id:'foreign',label:'🌍 外企/合资',desc:'跨国企业，体系完善+国际视野'}
-    ];
-    orgLabels.forEach(function(o){
-      html += '<div class="emp-org-tag' + (profile.orgTypes.indexOf(o.id) >= 0 ? ' selected' : '') + '" data-org="' + o.id + '" onclick="toggleOrgType(\'' + o.id + '\')" title="' + o.desc + '">' + o.label + '</div>';
-    });
-    html += '<div class="emp-org-tag emp-all-tag' + (profile.orgTypes.indexOf('all') >= 0 ? ' selected' : '') + '" data-org="all" onclick="toggleOrgType(\'all\')" title="所有类型都看">🔄 都行/不限</div>';
-    html += '</div><p class="text-secondary mt-8" style="font-size:0.75rem;">💡 已选 ' + (profile.orgTypes.length || 0) + ' 种企业类型 — 选得越多，连连能帮你找到的好岗位越多～</p></div>';
-  }
-
-  if (profile.employmentType === 'public') {
-    html += '<div class="mt-16" style="padding:14px 18px;background:var(--color-bg-alt);border-radius:var(--radius-md);"><p style="font-weight:600;font-size:0.9rem;">📋 体制内就业路径</p><p style="font-size:0.85rem;color:var(--color-text-secondary);">体制内方向通常通过<strong>国考/省考/选调生/事业单位招考</strong>等统一渠道进入，建议关注"国家公务员局"官网和各省人事考试网。连连会在后续推荐中提示哪些岗位有体制内对应路径。</p></div>';
-  }
-
-  html += '<button class="btn btn-primary mt-16" onclick="submitEmploymentChoice()" ' + (!profile.employmentType ? 'disabled id="empSubmitBtn"' : '') + '>确认就业偏好 →</button></div>';
-  mainContent.innerHTML = html;
-
-  if (!profile.employmentType) {
-    var btn = document.getElementById('empSubmitBtn');
-    if (btn) btn.disabled = true;
-  }
-}
-
-function selectEmpType(type) {
-  profile.employmentType = type;
-  // Reset org types when switching
-  if (type === 'public') profile.orgTypes = ['public'];
-  else profile.orgTypes = [];
-  renderEmploymentChoice();
-}
-
-function toggleOrgType(orgId) {
-  if (orgId === 'all') {
-    // Toggle all - if already all, unselect all. Otherwise select all
-    if (profile.orgTypes.indexOf('all') >= 0) {
-      profile.orgTypes = [];
-    } else {
-      profile.orgTypes = ['all'];
-    }
-  } else {
-    // Remove 'all' if selecting specific types
-    profile.orgTypes = profile.orgTypes.filter(function(x) { return x !== 'all'; });
-    var idx = profile.orgTypes.indexOf(orgId);
-    if (idx >= 0) profile.orgTypes.splice(idx, 1);
-    else profile.orgTypes.push(orgId);
-  }
-  renderEmploymentChoice();
-}
-
-function submitEmploymentChoice() {
-  if (!profile.employmentType) return;
-  if (profile.orgTypes.indexOf('all') >= 0) {
-    // "All" means all market types
-    profile.orgTypes = ['private','soe','central_soe','foreign'];
-  }
-  if (profile.employmentType === 'public') {
-    profile.orgTypes = ['public'];
-  }
   state.phase = 'phase2';
   state.phase2Step = 'tree';
+  profile.selectedIndustries = [];
+  profile.orgTypes = [];
   render();
 }
 
@@ -3132,18 +3046,7 @@ function matchCareers() {
   const scored = CAREER_DB.map(career => {
     let score = 0;
 
-    // Employment type filter — careers matching user's org preference get a boost
-    if (userOrgTypes.length > 0) {
-      var careerOrgs = CAREER_ORG_TYPES[career.id] || ['private'];
-      var hasMatch = userOrgTypes.some(function(uo) { return careerOrgs.indexOf(uo) >= 0; });
-      if (!hasMatch) {
-        // Soft filter — still include but with penalty, so user sees all options
-        score -= 10;
-      } else {
-        // Boost careers that match user's org type preference
-        score += 5;
-      }
-    }
+    // Org type scoring — neutral by default (no user preference = no bias)
 
     // Ability match
     const userAbilities = profile.flashCard?.abilities || [];
@@ -3274,7 +3177,7 @@ function renderPhase3Cards() {
     // Key tags
     html += '<div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:6px;">';
     html += '<span class="tag-pill tag-trend" style="font-size:0.7rem;padding:3px 8px;">📈 ' + (job.trend.indexOf('⭐⭐') >= 0 ? '双风口' : '风口') + '</span>';
-    html += '<span class="tag-pill tag-city" style="font-size:0.7rem;padding:3px 8px;">🏙 ' + job.cities.split('|')[0].split('（')[0].trim() + '</span>';
+    html += '<span class="tag-pill tag-city" style="font-size:0.7rem;padding:3px 8px;cursor:pointer;" onclick="event.stopPropagation();showCityMap(\'' + job.id + '\')" title="点击查看产业集群地图">🏙 ' + job.cities.split('|')[0].split('（')[0].trim() + ' <span style="font-size:0.6rem;opacity:0.7;">🔍点击看产业地图</span></span>';
     html += '<span class="tag-pill tag-beginner" style="font-size:0.7rem;padding:3px 8px;">🌱 ' + '⭐'.repeat(job.beginnerStars) + '</span>';
     html += '<span style="font-size:0.7rem;color:var(--color-primary);padding:3px 6px;">▼ 展开详情</span>';
     html += '</div></div></div>';
@@ -3488,7 +3391,7 @@ function renderPersonaCard(job) {
   }
   matchScore = Math.min(matchScore + 30, 95); // base match
 
-  return '<div class="job-section" style="background:linear-gradient(135deg,#FFF7ED,#FFF0EE);border-radius:var(--radius-lg);padding:16px;margin-top:12px;border:1px solid var(--color-amber);"><div class="job-section-title">🎯 ' + job.name + ' · 人才画像</div><p style="font-size:0.78rem;color:var(--color-text-secondary);margin-bottom:10px;">基于牛客/脉脉/领英上该岗位优秀从业者的真实背景提炼，看看和你有多匹配～</p><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:0.8rem;"><div><strong>🧠 典型特质：</strong>' + pd.trait + '</div><div><strong>🔄 工作方式：</strong>' + pd.workStyle + '</div><div><strong>🎓 常见背景：</strong>' + pd.bg + '</div><div><strong>💪 核心优势：</strong>' + pd.strengths + '</div></div><div style="margin-top:10px;padding:10px;background:rgba(255,255,255,0.7);border-radius:var(--radius-md);"><div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;"><span style="font-weight:700;font-size:0.82rem;">📊 与你的人才匹配度：</span><span style="font-size:1.3rem;font-weight:700;color:var(--color-primary);">' + matchScore + '%</span><div style="flex:1;height:6px;background:#E0D8CC;border-radius:3px;overflow:hidden;min-width:60px;"><div style="height:100%;background:linear-gradient(90deg,var(--color-primary),var(--color-amber));border-radius:3px;width:' + matchScore + '%;"></div></div></div>' + (matchNotes.length > 0 ? '<div style="margin-top:6px;font-size:0.75rem;color:var(--color-text-secondary);">' + matchNotes.map(function(n){return '✅ ' + n;}).join('<br>') + '</div>' : '') + '</div><p style="font-size:0.75rem;color:var(--color-text-muted);margin-top:8px;">💡 ' + pd.ideal + '</p></div>';
+  return '<div class="job-section" style="background:linear-gradient(135deg,#FFF7ED,#FFF0EE);border-radius:var(--radius-lg);padding:16px;margin-top:12px;border:1px solid var(--color-primary);"><div class="job-section-title">🎯 ' + job.name + ' · 人才画像</div><p style="font-size:0.78rem;color:var(--color-text-secondary);margin-bottom:10px;">基于牛客/脉脉/领英上该岗位优秀从业者的真实背景提炼，看看和你有多匹配～</p><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:0.8rem;"><div><strong>🧠 典型特质：</strong>' + pd.trait + '</div><div><strong>🔄 工作方式：</strong>' + pd.workStyle + '</div><div><strong>🎓 常见背景：</strong>' + pd.bg + '</div><div><strong>💪 核心优势：</strong>' + pd.strengths + '</div></div><div style="margin-top:10px;padding:10px;background:rgba(255,255,255,0.7);border-radius:var(--radius-md);"><div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;"><span style="font-weight:700;font-size:0.82rem;">📊 与你的人才匹配度：</span><span style="font-size:1.3rem;font-weight:700;color:var(--color-primary);">' + matchScore + '%</span><div style="flex:1;height:6px;background:#E0D8CC;border-radius:3px;overflow:hidden;min-width:60px;"><div style="height:100%;background:linear-gradient(90deg,var(--color-primary),var(--color-primary));border-radius:3px;width:' + matchScore + '%;"></div></div></div>' + (matchNotes.length > 0 ? '<div style="margin-top:6px;font-size:0.75rem;color:var(--color-text-secondary);">' + matchNotes.map(function(n){return '✅ ' + n;}).join('<br>') + '</div>' : '') + '</div><p style="font-size:0.75rem;color:var(--color-text-muted);margin-top:8px;">💡 ' + pd.ideal + '</p></div>';
 }
 
 function renderCoreSkillsCard(job) {
@@ -3652,7 +3555,7 @@ function renderPhase3SimpleCards() {
     html += '<p style="font-size:0.82rem;color:var(--color-text-secondary);margin:2px 0 0;">' + s.oneLiner + '</p>';
     html += '<div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:4px;">';
     html += '<span style="font-size:0.7rem;background:#E8F5E9;color:#2E7D32;padding:2px 8px;border-radius:10px;">💰 ' + s.money + '</span>';
-    html += '<span style="font-size:0.7rem;background:#E3F2FD;color:#1565C0;padding:2px 8px;border-radius:10px;">🏙 ' + s.bestCities + '</span>';
+    html += '<span style="font-size:0.7rem;background:rgba(56,189,248,0.15);color:#7DD3FC;padding:2px 8px;border-radius:10px;">🏙 ' + s.bestCities + '</span>';
     html += '<span style="font-size:0.7rem;background:#FFF3E0;color:#E65100;padding:2px 8px;border-radius:10px;">🌱 新手' + '⭐'.repeat(job.beginnerStars) + '</span>';
     html += '</div></div>';
     html += '<span style="font-size:0.7rem;color:var(--color-text-muted);">▼ 展开</span></div>';
@@ -3961,7 +3864,7 @@ function closeCompareModal(e) {
 // ============ LOCAL STORAGE SAVE / RESUME ============
 function saveProgress() {
   try {
-    var phaseLabels = {welcome:'欢迎页',phase1:'闪光挖掘第'+(state.questionIndex+1)+'题',phase1_flash:'闪光点卡',employment_choice:'就业偏好选择',phase2:'行业探索',phase2_result:'三圈配方结果',phase3:'连连看匹配',final:'奥德赛计划'};
+    var phaseLabels = {welcome:'欢迎页',phase1:'闪光挖掘第'+(state.questionIndex+1)+'题',phase1_flash:'闪光点卡',phase2:'行业探索',phase2_result:'三圈配方结果',phase3:'连连看匹配',final:'奥德赛计划'};
     var data = {state:state,profile:profile,time:new Date().toLocaleString('zh-CN'),phaseLabel:phaseLabels[state.phase]||'探索中'};
     localStorage.setItem('lianlian_progress', JSON.stringify(data));
   } catch(e) {}
@@ -4008,7 +3911,7 @@ function restartApp() {
   profile.flashCard = null;
   profile.wantToDo = ''; profile.goodAt = ''; profile.moneyDirections = [];
   profile.ratioPreset = ''; profile.ratioCustom = { want: 0, good: 0, money: 0 };
-  profile.employmentType = ''; profile.orgTypes = [];
+  profile.orgTypes = [];
   profile.careerMode = '';
   profile.recommendedJobs = [];
   profile.selectedIndustries = [];
