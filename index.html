@@ -285,7 +285,7 @@ body::after {
   padding: 24px;
   box-shadow: var(--shadow-card);
   transition: all var(--transition-normal) var(--ease-smooth);
-  animation: cardSlideUp 0.5s var(--ease-smooth);
+  animation: cardSlideUp 0.35s var(--ease-smooth);
   border: 1px solid var(--color-border);
 }
 .card:hover {
@@ -311,14 +311,14 @@ body::after {
   70% { transform: scale(1.04); }
   100% { opacity: 1; transform: scale(1); }
 }
-.card-pop { animation: cardPopIn 0.6s var(--ease-smooth); }
+.card-pop { animation: cardPopIn 0.35s var(--ease-smooth); }
 
 /* --- Chat Bubbles --- */
 .chat-bubble {
   display: flex;
   gap: 10px;
   align-items: flex-start;
-  animation: cardSlideUp 0.4s var(--ease-smooth);
+  animation: cardSlideUp 0.3s var(--ease-smooth);
 }
 .chat-bubble.coach { justify-content: flex-start; }
 .chat-bubble.user { justify-content: flex-end; }
@@ -363,7 +363,7 @@ body::after {
   padding: 28px 24px;
   box-shadow: var(--shadow-card);
   border: 1px solid rgba(44,62,80,0.04);
-  animation: cardSlideUp 0.5s var(--ease-smooth);
+  animation: cardSlideUp 0.35s var(--ease-smooth);
 }
 .question-number {
   display: inline-flex;
@@ -566,8 +566,8 @@ body::after {
   border-radius: var(--radius-full);
   background: linear-gradient(90deg, #4F46E5, #6366F1, #8B5CF6);
   background-size: 200% 100%;
-  animation: progressShimmer 2s linear infinite;
-  transition: width 0.5s var(--ease-smooth);
+  animation: progressShimmer 1.5s linear infinite;
+  transition: width 0.35s var(--ease-smooth);
 }
 @keyframes progressShimmer {
   0% { background-position: 100% 0; }
@@ -581,7 +581,7 @@ body::after {
   border-radius: var(--radius-xl);
   padding: 28px 24px;
   box-shadow: var(--shadow-lg);
-  animation: cardPopIn 0.5s var(--ease-smooth);
+  animation: cardPopIn 0.3s var(--ease-smooth);
   position: relative;
   overflow: hidden;
 }
@@ -640,7 +640,7 @@ body::after {
   height: auto;
 }
 .venn-circle {
-  transition: all 0.6s var(--ease-smooth);
+  transition: all 0.3s var(--ease-smooth);
 }
 
 /* Ratio Sliders */
@@ -733,7 +733,7 @@ body::after {
   padding: 24px;
   box-shadow: var(--shadow-card);
   border: 1px solid rgba(44,62,80,0.05);
-  animation: cardSlideUp 0.5s var(--ease-smooth);
+  animation: cardSlideUp 0.35s var(--ease-smooth);
   position: relative;
   overflow: hidden;
 }
@@ -756,7 +756,7 @@ body::after {
 .connect-line .arrow {
   color: var(--color-primary);
   font-weight: 700;
-  animation: arrowPulse 1.5s infinite;
+  animation: arrowPulse 1s infinite;
 }
 @keyframes arrowPulse {
   0%, 100% { opacity: 0.7; }
@@ -900,7 +900,7 @@ body::after {
   text-align: center;
   box-shadow: 0 16px 48px rgba(44,62,80,0.2);
   z-index: 1000;
-  animation: toastPopIn 0.5s var(--ease-smooth) forwards;
+  animation: toastPopIn 0.3s var(--ease-smooth) forwards;
   pointer-events: none;
 }
 @keyframes toastPopIn {
@@ -909,7 +909,7 @@ body::after {
   100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
 }
 .celebration-toast.dismiss {
-  animation: toastPopOut 0.4s var(--ease-smooth) forwards;
+  animation: toastPopOut 0.25s var(--ease-smooth) forwards;
 }
 @keyframes toastPopOut {
   to { transform: translate(-50%, -50%) scale(0); opacity: 0; }
@@ -917,7 +917,7 @@ body::after {
 .celebration-emoji {
   font-size: 3rem;
   margin-bottom: 12px;
-  animation: coinBounce 0.8s var(--ease-smooth) infinite;
+  animation: coinBounce 0.5s var(--ease-smooth) infinite;
 }
 .celebration-text {
   font-weight: 700;
@@ -974,7 +974,7 @@ body::after {
 .step-connector.done{background:var(--color-teal)}
 .step-connector.active{background:linear-gradient(90deg,var(--color-teal),var(--color-primary))}
 .progress-bar-wrapper{width:100%;max-width:540px;margin:4px auto 0;height:3px;background:#F0EAE0;border-radius:var(--radius-full);overflow:hidden}
-.progress-bar-fill{height:100%;border-radius:var(--radius-full);background:linear-gradient(90deg,var(--color-primary),var(--color-primary),var(--color-violet));background-size:200% 100%;animation:progressShimmer 2.5s linear infinite;transition:width .6s var(--ease-smooth)}
+.progress-bar-fill{height:100%;border-radius:var(--radius-full);background:linear-gradient(90deg,var(--color-primary),var(--color-primary),var(--color-violet));background-size:200% 100%;animation:progressShimmer 1.5s linear infinite;transition:width .35s var(--ease-smooth)}
 @keyframes progressShimmer{0%{background-position:100% 0}100%{background-position:-100% 0}}
 .phase-indicator{display:none}
 .industry-tree{display:flex;flex-direction:column;gap:6px}
@@ -1078,8 +1078,46 @@ body::after {
 @media(max-width:600px){.emp-choice-grid{grid-template-columns:1fr}.city-cluster-grid{grid-template-columns:1fr}}
 
 /* --- Welcome Page --- */
-.welcome-hero{text-align:center;padding:20px 0 0;animation:cardSlideUp .6s var(--ease-smooth)}
-.welcome-mascot{font-size:6rem;animation:floatUpDown 3s ease-in-out infinite;display:inline-block;filter:drop-shadow(0 8px 20px rgba(255,179,71,0.3))}
+.welcome-hero{
+  text-align:center;
+  padding:40px 20px 32px;
+  margin:-24px -20px 0;
+  animation:cardSlideUp .4s var(--ease-smooth);
+  position:relative;
+  overflow:hidden;
+  background:
+    radial-gradient(ellipse 80% 50% at 50% 30%, #0F172A 0%, #1E293B 50%, #0F172A 100%),
+    radial-gradient(2px 2px at 15% 20%, rgba(255,255,255,0.3), transparent),
+    radial-gradient(1.5px 1.5px at 25% 45%, rgba(255,255,255,0.25), transparent),
+    radial-gradient(2px 2px at 40% 15%, rgba(255,255,255,0.35), transparent),
+    radial-gradient(1px 1px at 55% 35%, rgba(255,255,255,0.2), transparent),
+    radial-gradient(2.5px 2.5px at 70% 22%, rgba(255,255,255,0.3), transparent),
+    radial-gradient(1.5px 1.5px at 82% 40%, rgba(255,255,255,0.2), transparent),
+    radial-gradient(1px 1px at 88% 12%, rgba(255,255,255,0.25), transparent),
+    radial-gradient(2px 2px at 10% 55%, rgba(255,255,255,0.3), transparent),
+    radial-gradient(1px 1px at 32% 65%, rgba(255,255,255,0.2), transparent),
+    radial-gradient(1.5px 1.5px at 58% 60%, rgba(255,255,255,0.25), transparent),
+    radial-gradient(2px 2px at 75% 55%, rgba(255,255,255,0.3), transparent),
+    radial-gradient(1px 1px at 92% 65%, rgba(255,255,255,0.2), transparent),
+    radial-gradient(ellipse 200px 150px at 25% 30%, rgba(99,102,241,0.15), transparent 60%),
+    radial-gradient(ellipse 180px 120px at 70% 50%, rgba(14,165,233,0.1), transparent 55%);
+  border-radius:var(--radius-xl);
+  color:#F1F5F9;
+}
+.welcome-hero * {position:relative;z-index:1;}
+.welcome-hero .welcome-badge {
+  background:linear-gradient(135deg, #6366F1, #818CF8);
+  color:#FFF;
+  display:inline-block;
+  padding:8px 24px;
+  border-radius:var(--radius-full);
+  font-weight:700;
+  font-size:1.1rem;
+  margin-bottom:16px;
+}
+.welcome-hero h1 {color:#FFF;font-size:2rem;}
+.welcome-hero .welcome-subtitle {color:#CBD5E1;}
+.welcome-mascot{font-size:6rem;animation:floatUpDown 2s ease-in-out infinite;display:inline-block;filter:drop-shadow(0 8px 30px rgba(99,102,241,0.4))}
 @keyframes floatUpDown{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
 .welcome-badge{display:inline-block;padding:8px 24px;background:linear-gradient(135deg,#FF6B6B,#FFB347);color:#fff;border-radius:30px;font-weight:900;font-size:1.2rem;letter-spacing:2px;animation:cardPopIn .8s var(--ease-smooth);margin:12px 0;box-shadow:0 6px 20px rgba(255,107,107,0.35)}
 .welcome-subtitle{color:var(--color-text-secondary);font-size:0.95rem;max-width:420px;margin:0 auto;line-height:1.7}
@@ -1103,7 +1141,7 @@ body::after {
       <div class="stepped-progress" id="steppedProgress"><div class="step-node" data-step="1"><div class="step-dot active">1</div><div class="step-label active">✨ 闪光挖掘</div></div><div class="step-connector"></div><div class="step-node" data-step="2"><div class="step-dot">2</div><div class="step-label">🌳 行业探索</div></div><div class="step-connector"></div><div class="step-node" data-step="3"><div class="step-dot">3</div><div class="step-label">⚗️ 三圈配方</div></div><div class="step-connector"></div><div class="step-node" data-step="4"><div class="step-dot">4</div><div class="step-label">🚀 智能匹配</div></div></div>
     <div style="max-width:540px;margin:6px auto 0;position:relative;">
       <div class="progress-bar-wrapper" style="margin:0;"><div class="progress-bar-fill" id="globalProgress" style="width:0%"></div></div>
-      <span id="progressMascot" style="position:absolute;top:-18px;font-size:1.1rem;transition:left 0.6s var(--ease-smooth);left:0%;">🦊</span>
+      <span id="progressMascot" style="position:absolute;top:-18px;font-size:1.1rem;transition:left 0.3s var(--ease-smooth);left:0%;">🌌</span>
       <span id="progressPct" style="display:block;text-align:right;font-size:0.7rem;font-weight:700;color:var(--color-primary);margin-top:2px;">0%</span>
     </div>
     <div class="phase-indicator" id="phaseIndicator" style="display:none;">
@@ -1285,7 +1323,7 @@ const PHASE1_QUESTIONS = [
   // Q10: 背景信息
   {
     id: 'background', type: 'backgroundForm', number: 10, emoji: '📋',
-    title: '最后，让星途了解一下你的背景～',
+    title: '最后，完善你的基本信息',
     subtitle: '这些信息帮我更精准地为你连线',
     fields: ['major', 'workYears', 'currentCity', 'targetCity'],
     coinLabel: '背景金币',
@@ -2353,12 +2391,12 @@ function updateProgress() {
   if (mascot) { mascot.style.left = Math.min(pct, 95) + '%'; }
   if (pctEl) { pctEl.textContent = pct + '%'; }
   // Change mascot based on phase
-  var mascots = {1:'🦊', 2:'🌳', 3:'⚗️', 4:'🔗', 100:'🎊'};
+  var mascots = {1:'⭐', 2:'🌐', 3:'⚗️', 4:'🎯', 100:'🚀'};
   if (mascot) {
     if (pct >= 100) mascot.textContent = '🎊';
     else if (pct >= 50) mascot.textContent = '🔗';
     else if (pct >= 25) mascot.textContent = '⚗️';
-    else mascot.textContent = '🦊';
+    else mascot.textContent = '⭐';
   }
 
   // Update stepped progress
@@ -2422,19 +2460,19 @@ function renderWelcome() {
   if (saved) {
     resumeHTML = '<div class="card mt-16" style="text-align:center;border:2px dashed var(--color-primary);background:#FFFDF5;"><p style="font-weight:700;">💾 检测到未完成的探索记录</p><p class="text-secondary" style="font-size:0.85rem;">上次进度：' + saved.phaseLabel + '（' + saved.time + '）</p><div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:8px;"><button class="btn btn-primary btn-small" onclick="resumeProgress()">📂 继续上次探索</button><button class="btn btn-ghost btn-small" onclick="clearSavedProgress()">🗑 重新开始</button></div></div>';
   }
-  var html = '<div class="welcome-hero"><div class="welcome-mascot">🤑</div>';
-  html += '<div class="welcome-badge">✨ 你必发财 ✨</div>';
+  var html = '<div class="welcome-hero"><div class="welcome-mascot">🌌</div>';
+  html += '<div class="welcome-badge">🚀 开启职业探索</div>';
   html += '<h2 style="margin:8px 0;font-size:1.5rem;">星途职引</h2>';
-  html += '<p class="welcome-subtitle">基于<strong>权威心理学模型</strong>的科学测评<br>发现你的职业基因，匹配理想工作 💫</p>';
+  html += '<p class="welcome-subtitle">基于<strong>权威心理学模型</strong>的科学测评<br>发现你的职业基因，精准匹配理想工作</p>';
   html += '<div class="welcome-features">';
   html += '<div class="welcome-feat"><div class="feat-emoji">🧩</div><div class="feat-text">科学测评<br>10题认识自己</div></div>';
   html += '<div class="welcome-feat"><div class="feat-emoji">⚗️</div><div class="feat-text">三圈配方<br>定制职业方向</div></div>';
   html += '<div class="welcome-feat"><div class="feat-emoji">🔗</div><div class="feat-text">智能匹配<br>60+精选岗位</div></div>';
   html += '</div></div>';
 
-  html += '<div class="chat-bubble coach mt-16"><div class="bubble-avatar">🦊</div><div class="bubble-content"><p>嗨，我是<strong>星途助手</strong>，你的职业探索教练 ✨</p><p>我们一起用科学方法找到适合你的好工作～</p></div></div>';
+  html += '<div class="chat-bubble coach mt-16"><div class="bubble-avatar">🌌</div><div class="bubble-content"><p>你好，我是<strong>星途助手</strong>，你的职业探索教练。</p><p>基于科学测评模型，帮你精准定位职业方向。</p></div></div>';
 
-  html += '<button class="btn btn-primary mt-16" onclick="startPhase1()" style="display:block;margin:0 auto;font-size:1.05rem;padding:14px 36px;">✨ 开始探索 →</button>';
+  html += '<button class="btn btn-primary mt-16" onclick="startPhase1()" style="display:block;margin:0 auto;font-size:1.05rem;padding:14px 36px;">🚀 开始测评 →</button>';
 
   if (saved) html += resumeHTML;
   mainContent.innerHTML = html;
@@ -2471,7 +2509,7 @@ function renderPhase1Question() {
         }).join('') +
         '</div>' +
         '<div class="text-secondary mt-8" id="pickHint">已选 0 / ' + q.maxSelect + ' 个</div>' +
-        '<button class="btn btn-primary mt-12" onclick="submitMultiPick(\'' + q.id + '\',' + q.maxSelect + ')" disabled id="multiPickSubmit">选好了 → 🪙</button>';
+        '<button class="btn btn-primary mt-12" onclick="submitMultiPick(\'' + q.id + '\',' + q.maxSelect + ')" disabled id="multiPickSubmit">确认提交</button>';
       break;
 
     case 'backgroundForm':
@@ -2480,7 +2518,7 @@ function renderPhase1Question() {
         '<input class="text-input text-input-single" id="bgWorkYears" placeholder="工作年限（如：应届 / 1年）">' +
         '<input class="text-input text-input-single" id="bgCurrentCity" placeholder="当前城市">' +
         '<input class="text-input text-input-single" id="bgTargetCity" placeholder="意向城市（可选）">' +
-        '<button class="btn btn-primary" onclick="submitBackground()">完成 → 🪙</button>' +
+        '<button class="btn btn-primary" onclick="submitBackground()">确认提交</button>' +
         '</div>';
       break;
   }
@@ -2643,13 +2681,13 @@ function finishPhase1() {
   state.phase = 'phase1_flash';
   state.coins = 10;
   render();
-  setTimeout(function() { celebrate('🎉', '恭喜！基于 MBTI + 霍兰德 + 大五人格的专属闪光点卡已生成！'); }, 600);
+  setTimeout(function() { celebrate('🎉', '测评完成！你的专属闪光点卡已生成。'); }, 600);
 }
 
 function renderFlashCard() {
   var fc = profile.flashCard;
   var html = '<div class="flash-card"><div style="position:relative;z-index:1;">';
-  html += '<h3>✨ 我的闪光点卡 ✨</h3>';
+  html += '<h3>🔬 我的闪光点卡</h3>';
 
   // MBTI + Holland summary row
   html += '<div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:16px;align-items:center;">';
@@ -2691,7 +2729,7 @@ function renderFlashCard() {
   // Feedback box
   html += '<div style="margin-top:20px;padding:16px;background:var(--color-bg-alt);border-radius:var(--radius-md);" id="flashFeedbackBox">';
   html += '<p style="font-weight:700;font-size:0.9rem;margin-bottom:6px;">💬 这张闪光点卡准不准？</p>';
-  html += '<p style="font-size:0.78rem;color:var(--color-text-secondary);margin-bottom:8px;">点击上方任意标签修改它，或在下方补充星途漏掉的优势～</p>';
+  html += '<p style="font-size:0.78rem;color:var(--color-text-secondary);margin-bottom:8px;">点击标签修改，或补充星途未识别的优势：</p>';
   html += '<textarea class="text-input" id="flashFeedbackInput" placeholder="比如：我觉得你还漏掉了「快速学习新工具」这个优势..." rows="2" style="font-size:0.85rem;min-height:50px;"></textarea>';
   html += '<button class="btn btn-small btn-outline mt-8" onclick="submitFlashFeedback()">💾 更新闪光点</button>';
   html += '<span style="font-size:0.78rem;color:var(--color-teal);margin-left:8px;display:none;" id="feedbackSaved">✅ 已记录！</span>';
@@ -2748,7 +2786,7 @@ function renderPhase2() {
 
 // === Industry Tree UI ===
 function renderIndustryTree() {
-  var h = '<div class="card color-top" style="border-top-color:var(--color-teal);"><h3>🌳 选择你感兴趣的行业</h3><p class="text-secondary mt-8">行行出状元！先勾选你感兴趣的细分行业（建议选 3-8 个），星途会在这些行业里帮你连线好岗位～</p><div class="industry-tree mt-16" id="industryTree">';
+  var h = '<div class="card color-top" style="border-top-color:var(--color-teal);"><h3>🌳 选择你感兴趣的行业</h3><p class="text-secondary mt-8">请勾选你感兴趣的细分行业（建议选 3-8 个），星途会在这些行业里帮你匹配合适的岗位。</p><div class="industry-tree mt-16" id="industryTree">';
   for (var i = 0; i < INDUSTRY_TREE.length; i++) {
     var cat = INDUSTRY_TREE[i];
     h += '<div class="tree-category" data-cat="' + cat.id + '"><div class="tree-cat-header" onclick="toggleTreeCat(\'' + cat.id + '\')"><span class="tree-cat-icon">' + cat.icon + '</span><span class="tree-cat-name">' + cat.name + '</span><span class="tree-cat-count">' + cat.subs.length + '个方向</span><span class="tree-cat-arrow">▼</span></div><div class="tree-sub-list" id="subList_' + cat.id + '">';
@@ -2779,7 +2817,7 @@ function renderPhase2Fill() {
   mainContent.innerHTML = `
     <div class="card color-top">
       <h3>⚗️ 三圈配方实验室</h3>
-      <p class="text-secondary mt-8">基于你的闪光点，我们来填充职业三圈的配方～</p>
+      <p class="text-secondary mt-8">基于你的闪光点，填充职业三圈配方</p>
 
       <div style="display:flex;justify-content:center;margin:12px 0;">
         <svg width="280" height="200" viewBox="0 0 280 200" class="venn-svg">
@@ -2801,8 +2839,8 @@ function renderPhase2Fill() {
         <textarea class="text-input mt-8" id="goodAt" placeholder="源于你的能力标签与成就事件，比如：共情沟通、结构化思维..." rows="2"></textarea>
       </div>
       <div class="mt-12">
-        <label style="font-weight:700;">💛 感兴趣的变现方向（勾选你感兴趣的，多多益善～）</label>
-        <p class="text-secondary" style="font-size:0.8rem;" id="moneyHint">基于你的闪光点，星途标记了 ✨推荐 方向，当然你也可以自由选择任何感兴趣的～</p>
+        <label style="font-weight:700;">💛 感兴趣的变现方向（勾选你感兴趣的变现方向）</label>
+        <p class="text-secondary" style="font-size:0.8rem;" id="moneyHint">星途已根据你的闪光点标记了推荐方向，也可自由选择</p>
         <div class="tag-group mt-8" id="moneyTags">
           ${(() => {
             const allDirs = [
@@ -2892,7 +2930,7 @@ function renderPhase2Ratio() {
   mainContent.innerHTML = `
     <div class="card color-top purple">
       <h3>⚖️ 确定你的三圈比重</h3>
-      <p class="text-secondary mt-8">告诉星途你目前最看重哪个维度，或者从预设方案中选一个最接近的～</p>
+      <p class="text-secondary mt-8">选择你最看重的维度，或从预设方案中选择</p>
 
       <div class="preset-group mt-16" id="presetGroup">
         ${RATIO_PRESETS.map(p => `
@@ -2924,7 +2962,7 @@ function renderPhase2Ratio() {
         </div>
       </div>
       <div id="ratioWarning" class="text-secondary mt-8" style="color:var(--color-primary);font-weight:600;display:none;">
-        ⚠️ 三个比例加起来需要等于100%哦～
+        ⚠️ 三个比例之和需等于 100%
       </div>
 
       <!-- SVG preview -->
@@ -3007,7 +3045,7 @@ function submitPhase2Ratio() {
   state.phase2Step = 'result';
   state.phase = 'phase2_result';
   render();
-  setTimeout(() => celebrate('🌟', '专属职业配方已调配完成！接下来我们驾驶"星途职引"号，驶向具体岗位星球！'), 500);
+  setTimeout(() => celebrate('🌟', '职业配方完成！接下来查看为你匹配的具体岗位。'), 500);
 }
 
 function renderPhase2Result() {
@@ -3153,7 +3191,7 @@ function renderPhase3() {
 function renderVersionChoice() {
   var html = '<div class="card color-top" style="border-top-color:var(--color-violet);text-align:center;">';
   html += '<h3>📋 选择你的报告风格</h3>';
-  html += '<p class="text-secondary mt-8">同样的岗位匹配结果，两种不同的阅读体验～</p>';
+  html += '<p class="text-secondary mt-8">同一匹配结果，两种阅读体验</p>';
   html += '<div class="emp-choice-grid mt-16">';
   html += '<div class="emp-choice-card" onclick="selectCareerMode(\'pro\')"><div class="emp-icon">📊</div><div class="emp-title">专业版</div><div class="emp-desc">详细数据、行业术语、完整标签<br>适合想深入了解的你</div><div class="emp-check">✓</div></div>';
   html += '<div class="emp-choice-card" onclick="selectCareerMode(\'simple\')"><div class="emp-icon">💬</div><div class="emp-title">人话版</div><div class="emp-desc">用最通俗的语言讲清楚<br>像朋友聊天一样介绍工作</div><div class="emp-check">✓</div></div>';
@@ -3171,7 +3209,7 @@ function renderPhase3Intro() {
   const jobs = profile.recommendedJobs;
   mainContent.innerHTML = `
     <div class="chat-bubble coach">
-      <div class="bubble-avatar">🦊</div>
+      <div class="bubble-avatar">🌌</div>
       <div class="bubble-content">
         <p>星途正在分析你的闪光点和三圈配方……🔍</p>
         <p>我扫描了你的<strong>能力标签</strong>、<strong>热情领域</strong>、<strong>价值观</strong>和<strong>市场趋势</strong>，为你找到了 <strong>${jobs.length}</strong> 个高度适配的岗位方向！</p>
@@ -3421,7 +3459,7 @@ function renderPersonaCard(job) {
   }
   matchScore = Math.min(matchScore + 30, 95); // base match
 
-  return '<div class="job-section" style="background:linear-gradient(135deg,#FFF7ED,#FFF0EE);border-radius:var(--radius-lg);padding:16px;margin-top:12px;border:1px solid var(--color-primary);"><div class="job-section-title">🎯 ' + job.name + ' · 人才画像</div><p style="font-size:0.78rem;color:var(--color-text-secondary);margin-bottom:10px;">基于牛客/脉脉/领英上该岗位优秀从业者的真实背景提炼，看看和你有多匹配～</p><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:0.8rem;"><div><strong>🧠 典型特质：</strong>' + pd.trait + '</div><div><strong>🔄 工作方式：</strong>' + pd.workStyle + '</div><div><strong>🎓 常见背景：</strong>' + pd.bg + '</div><div><strong>💪 核心优势：</strong>' + pd.strengths + '</div></div><div style="margin-top:10px;padding:10px;background:rgba(255,255,255,0.7);border-radius:var(--radius-md);"><div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;"><span style="font-weight:700;font-size:0.82rem;">📊 与你的人才匹配度：</span><span style="font-size:1.3rem;font-weight:700;color:var(--color-primary);">' + matchScore + '%</span><div style="flex:1;height:6px;background:#E0D8CC;border-radius:3px;overflow:hidden;min-width:60px;"><div style="height:100%;background:linear-gradient(90deg,var(--color-primary),var(--color-primary));border-radius:3px;width:' + matchScore + '%;"></div></div></div>' + (matchNotes.length > 0 ? '<div style="margin-top:6px;font-size:0.75rem;color:var(--color-text-secondary);">' + matchNotes.map(function(n){return '✅ ' + n;}).join('<br>') + '</div>' : '') + '</div><p style="font-size:0.75rem;color:var(--color-text-muted);margin-top:8px;">💡 ' + pd.ideal + '</p></div>';
+  return '<div class="job-section" style="background:linear-gradient(135deg,#FFF7ED,#FFF0EE);border-radius:var(--radius-lg);padding:16px;margin-top:12px;border:1px solid var(--color-primary);"><div class="job-section-title">🎯 ' + job.name + ' · 人才画像</div><p style="font-size:0.78rem;color:var(--color-text-secondary);margin-bottom:10px;">基于牛客/脉脉/领英上该岗位优秀从业者的真实背景提炼，看看和你有多匹配。</p><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:0.8rem;"><div><strong>🧠 典型特质：</strong>' + pd.trait + '</div><div><strong>🔄 工作方式：</strong>' + pd.workStyle + '</div><div><strong>🎓 常见背景：</strong>' + pd.bg + '</div><div><strong>💪 核心优势：</strong>' + pd.strengths + '</div></div><div style="margin-top:10px;padding:10px;background:rgba(255,255,255,0.7);border-radius:var(--radius-md);"><div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;"><span style="font-weight:700;font-size:0.82rem;">📊 与你的人才匹配度：</span><span style="font-size:1.3rem;font-weight:700;color:var(--color-primary);">' + matchScore + '%</span><div style="flex:1;height:6px;background:#E0D8CC;border-radius:3px;overflow:hidden;min-width:60px;"><div style="height:100%;background:linear-gradient(90deg,var(--color-primary),var(--color-primary));border-radius:3px;width:' + matchScore + '%;"></div></div></div>' + (matchNotes.length > 0 ? '<div style="margin-top:6px;font-size:0.75rem;color:var(--color-text-secondary);">' + matchNotes.map(function(n){return '✅ ' + n;}).join('<br>') + '</div>' : '') + '</div><p style="font-size:0.75rem;color:var(--color-text-muted);margin-top:8px;">💡 ' + pd.ideal + '</p></div>';
 }
 
 function renderCoreSkillsCard(job) {
@@ -3574,7 +3612,7 @@ function simplifyFullDetail(job, topAbility, yourStyle) {
 function renderPhase3SimpleCards() {
   var jobs = profile.recommendedJobs;
   var html = '<h3 style="margin-bottom:4px;">🔗 你的职业卡片 · 白话版</h3>';
-  html += '<p class="text-secondary mb-12">用大白话给你讲清楚每个工作是干嘛的～ 点击卡片看详细解释 👇</p>';
+  html += '<p class="text-secondary mb-12">用大白话给你讲清楚每个工作是干嘛的。 点击卡片看详细解释 👇</p>';
 
   jobs.forEach(function(job, idx) {
     var s = simplifyJobData(job);
@@ -3713,7 +3751,7 @@ function finishAll() {
         colors: ['#4F46E5', '#6366F1', '#10B981', '#0EA5E9', '#8B5CF6', '#06B6D4'],
       });
     }
-    showToast('🎊', '星途探索完成！你已经拥有了职业探索的导航仪和种子资金（知识金币），现在就出发去创造属于你的奥德赛吧！', 4000);
+    showToast('🎊', '职业探索完成！你已拥有职业导航和知识金币（），现在就出发去创造属于你的奥德赛吧！', 4000);
   }, 300);
 }
 
@@ -3723,7 +3761,7 @@ function renderFinal() {
   var topJob = profile.recommendedJobs[0];
   var topJobName = topJob ? topJob.name : '你的目标岗位';
 
-  var html = '<div class="flash-card" style="border-color:var(--color-teal);text-align:center;"><div style="position:relative;z-index:1;"><div style="font-size:4rem;margin-bottom:12px;">🎊</div><h3 style="color:var(--color-teal);">🚀 星途探索完成！</h3><p style="font-size:1.1rem;margin:16px 0;">你已经拥有了职业探索的<strong>导航仪</strong>和<strong>种子资金</strong>（知识金币 🪙 × ' + state.coins + '），现在就出发去创造属于你的奥德赛吧！</p>';
+  var html = '<div class="flash-card" style="border-color:var(--color-teal);text-align:center;"><div style="position:relative;z-index:1;"><div style="font-size:4rem;margin-bottom:12px;">🎊</div><h3 style="color:var(--color-teal);">🚀 职业探索完成！</h3><p style="font-size:1.1rem;margin:16px 0;">你已经拥有了职业探索的<strong>导航仪</strong>和<strong>种子资金</strong>（知识金币 🪙 × ' + state.coins + '），现在就出发去创造属于你的奥德赛吧！</p>';
 
   html += '<div style="display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin:20px 0;">';
   (fc.abilities || []).forEach(function(a) { html += '<span class="flash-tag ability">' + a + '</span>'; });
@@ -3822,9 +3860,9 @@ function shareSite() {
     navigator.share({title:'星途职引 · 科学职业测评',text:text,url:url}).catch(function(){});
   } else {
     if (navigator.clipboard) {
-      navigator.clipboard.writeText(text).then(function(){ showToast('📤','分享文案已复制！直接粘贴发给朋友即可～'); });
+      navigator.clipboard.writeText(text).then(function(){ showToast('📤','分享文案已复制！直接粘贴发给朋友即可。'); });
     } else {
-      var ta = document.createElement('textarea'); ta.value = text; ta.style.cssText = 'position:fixed;top:10%;left:10%;width:80%;height:40%;z-index:9999;'; document.body.appendChild(ta); ta.select(); showToast('📤','请手动复制文案分享～'); setTimeout(function(){ta.remove();},10000);
+      var ta = document.createElement('textarea'); ta.value = text; ta.style.cssText = 'position:fixed;top:10%;left:10%;width:80%;height:40%;z-index:9999;'; document.body.appendChild(ta); ta.select(); showToast('📤','请手动复制文案分享。'); setTimeout(function(){ta.remove();},10000);
     }
   }
 }
