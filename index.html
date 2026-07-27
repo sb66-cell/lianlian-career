@@ -1003,6 +1003,53 @@ p { margin-bottom: 0.6em; }
 .odyssey-card.path-b{border-color:var(--color-teal);background:var(--color-teal-light)}
 .odyssey-card.path-c{border-color:var(--color-violet);background:var(--color-violet-light)}
 @media print{body{background:#fff!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}.app-header,.btn,.score-stars,.deep-dive,.celebration-toast,.progress-bar-wrapper,.stepped-progress{display:none!important}.main-content{padding:0!important}.card,.job-card,.flash-card{box-shadow:none!important;border:1px solid #ddd!important;break-inside:avoid}.flash-card{border-color:#F8716B!important}h3{font-size:1.1rem!important}.tag-pill,.flash-tag{border:1px solid #ddd!important}}
+
+/* --- Employment Type Selection --- */
+.emp-choice-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;max-width:540px;margin:0 auto}
+.emp-choice-card{padding:20px 16px;border:2px solid var(--color-border);border-radius:var(--radius-xl);cursor:pointer;text-align:center;transition:all var(--transition-fast) var(--ease-bounce);background:var(--color-card)}
+.emp-choice-card:hover{border-color:var(--color-primary);transform:translateY(-2px);box-shadow:var(--shadow-card)}
+.emp-choice-card.selected{border-color:var(--color-primary);background:var(--color-primary-light);box-shadow:0 0 0 3px var(--color-primary-glow)}
+.emp-choice-card .emp-icon{font-size:2.5rem;margin-bottom:8px}
+.emp-choice-card .emp-title{font-weight:700;font-size:1rem;margin-bottom:4px}
+.emp-choice-card .emp-desc{font-size:0.78rem;color:var(--color-text-secondary)}
+.emp-choice-card .emp-check{display:inline-block;width:22px;height:22px;border-radius:50%;border:2px solid #D0C8C0;margin-top:8px;line-height:18px;font-size:0.7rem;color:transparent;transition:all var(--transition-fast)}
+.emp-choice-card.selected .emp-check{background:var(--color-teal);border-color:var(--color-teal);color:white}
+.emp-org-row{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:8px}
+.emp-org-tag{padding:8px 16px;border:2px solid #EDE8E0;border-radius:var(--radius-full);cursor:pointer;font-size:0.85rem;font-weight:500;transition:all var(--transition-fast) var(--ease-bounce);background:var(--color-card);user-select:none}
+.emp-org-tag:hover{border-color:var(--color-amber)}
+.emp-org-tag.selected{background:var(--color-amber);color:white;border-color:var(--color-amber);box-shadow:0 2px 8px rgba(245,158,75,0.3)}
+.emp-org-tag.emp-all-tag{border-style:dashed;border-color:var(--color-violet);color:var(--color-violet)}
+.emp-org-tag.emp-all-tag:hover{background:var(--color-violet-light)}
+.emp-org-tag.emp-all-tag.selected{background:var(--color-violet);color:white;border-color:var(--color-violet)}
+
+/* --- City Cluster Map Modal --- */
+.city-map-overlay{display:none;position:fixed;inset:0;background:rgba(30,41,59,0.5);z-index:1000;align-items:center;justify-content:center;padding:20px}
+.city-map-overlay.show{display:flex}
+.city-map-modal{background:var(--color-card);border-radius:var(--radius-2xl);max-width:700px;width:100%;max-height:85vh;overflow-y:auto;padding:28px 24px;box-shadow:var(--shadow-lg);animation:cardPopIn .4s var(--ease-bounce)}
+.city-map-title{font-weight:700;font-size:1.2rem;margin-bottom:4px;display:flex;align-items:center;gap:8px}
+.city-map-subtitle{font-size:0.82rem;color:var(--color-text-secondary);margin-bottom:16px}
+.city-map-legend{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:16px;font-size:0.78rem}
+.city-map-legend span{display:flex;align-items:center;gap:4px}
+.legend-dot{width:10px;height:10px;border-radius:50%;display:inline-block}
+.legend-dot.dev{background:#FF6B6B;box-shadow:0 0 6px rgba(255,107,107,0.5)}
+.legend-dot.rising{background:#FFB347;box-shadow:0 0 6px rgba(255,179,71,0.4)}
+.city-cluster-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.city-cluster-section h4{font-size:0.85rem;font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:4px}
+.city-card{padding:12px 14px;border-radius:var(--radius-md);font-size:0.8rem;margin-bottom:8px;line-height:1.5;transition:transform var(--transition-fast)}
+.city-card:hover{transform:translateX(4px)}
+.city-card.dev{border-left:3px solid #FF6B6B;background:#FFF5F5}
+.city-card.rising{border-left:3px solid #FFB347;background:#FFFDF5}
+.city-card .cc-name{font-weight:700;font-size:0.88rem}
+.city-card .cc-area{color:var(--color-text-muted);font-size:0.75rem}
+.city-card .cc-note{color:var(--color-text-secondary);margin-top:2px}
+.city-policy{padding:14px 16px;background:var(--color-bg-alt);border-radius:var(--radius-md);font-size:0.78rem;color:var(--color-text-secondary);margin-top:12px;border-left:3px solid var(--color-teal)}
+.city-policy strong{color:var(--color-teal)}
+
+.tag-pill.tag-city{cursor:pointer;position:relative;transition:all var(--transition-fast)}
+.tag-pill.tag-city:hover{transform:scale(1.05);box-shadow:0 2px 8px rgba(0,0,0,0.1)}
+.tag-pill.tag-city::after{content:' 🔍';font-size:0.7rem;opacity:0;transition:opacity var(--transition-fast)}
+.tag-pill.tag-city:hover::after{opacity:1}
+@media(max-width:600px){.emp-choice-grid{grid-template-columns:1fr}.city-cluster-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -1043,6 +1090,8 @@ p { margin-bottom: 0.6em; }
 
 <div class="compare-modal-overlay" id="compareModalOverlay" onclick="closeCompareModal(event)"><div class="compare-modal" id="compareModal" onclick="event.stopPropagation()"><div class="flex-between mb-16"><h3>🔍 岗位对比</h3><button class="btn btn-small btn-ghost" onclick="closeCompareModal()">✕ 关闭</button></div><div id="compareModalBody"></div></div></div>
 
+<div class="city-map-overlay" id="cityMapOverlay" onclick="closeCityMap(event)"><div class="city-map-modal" id="cityMapModal" onclick="event.stopPropagation()"><div class="flex-between mb-16"><div class="city-map-title"><span id="cityMapEmoji">🗺️</span><span id="cityMapTitle">产业集群地图</span></div><button class="btn btn-small btn-ghost" onclick="closeCityMap()">✕ 关闭</button></div><div class="city-map-subtitle" id="cityMapSubtitle"></div><div class="city-map-legend"><span><span class="legend-dot dev"></span> 已成熟产业集群城市</span><span><span class="legend-dot rising"></span> 高潜力/政策扶持城市</span></div><div id="cityMapBody"></div></div></div>
+
 <script>
 // ============================================================
 //  连连看 · 职业连连看 — JAVASCRIPT APPLICATION
@@ -1081,6 +1130,10 @@ const profile = {
   moneyDirections: [],
   ratioPreset: '',
   ratioCustom: { want: 0, good: 0, money: 0 },
+
+  // Employment preference
+  employmentType: '',       // 'market' | 'public' | 'both'
+  orgTypes: [],             // 'private' | 'soe' | 'central_soe' | 'foreign'
 
   // Phase 3
   recommendedJobs: [],
@@ -1680,6 +1733,74 @@ const JOB_PERSONA = {
   backend_dev:{persona:{trait:"系统思维+抽象能力+深度钻研",workStyle:"需求分析→系统设计→编码实现→Code Review",bg:"计算机/软件/数学/EE，专业相关度高",strengths:"设计可扩展的系统架构；性能瓶颈定位；抽象复用的工程思维",ideal:"如果你对'一个请求从点击到返回数据经历了什么'有持续好奇，你可能天生适合后端"},coreSkills:["Java/Go/Python至少精通一门","数据库设计与优化(MySQL/Redis)","系统设计与分布式基础","API设计与RESTful规范","Linux系统与Shell","消息队列与微服务","性能调优与故障排查","CI/CD与容器化"],certifications:[{n:"AWS Solutions Architect",t:"rec",c:"约$150",time:"2-3个月",d:"系统设计能力证明"},{n:"CKAD Kubernetes认证",t:"opt",c:"约$300",time:"2-3个月",d:"云原生方向加分"}]},
 };
 
+// ============ CITY INDUSTRY CLUSTER MAP DATA ============
+const CITY_CLUSTERS = {
+  'AI / 人工智能': {
+    developed: [{city:'北京',area:'中关村/望京/五道口',note:'中国AI产业第一极，大模型/自动驾驶/AI芯片企业密集，百度/字节/商汤/旷视总部'},{city:'深圳',area:'南山/前海',note:'华为/腾讯AI Lab，AI硬件+应用层企业活跃，机器人/智能硬件生态完善'},{city:'上海',area:'张江/徐汇西岸',note:'AI四小龙(商汤/依图)发源地，AI+金融/医疗应用场景丰富'},{city:'杭州',area:'未来科技城/云栖小镇',note:'阿里达摩院/之江实验室，AI+电商/云计算生态，独角兽密度高'}],
+    emerging: [{city:'成都',area:'高新区/天府新区',note:'西部AI产业高地，商汤/科大讯飞西南总部，生活成本低+高校资源充足(川大/电子科大)'},{city:'合肥',area:'高新区/中国声谷',note:'科大讯飞总部所在地，语音AI/认知智能全国领先，中科大AI人才供给充足'},{city:'南京',area:'江北新区/雨花台',note:'AI+智能制造/芯片，东南大学/南大AI研究强，距上海1小时高铁产业联动'},{city:'武汉',area:'光谷/东湖高新',note:'华中AI产业中心，小米/华为武研所，人才储备充足，光电子信息+AI交叉'},{city:'西安',area:'高新区/西咸新区',note:'西部硬科技中心，AI+军工/航天，西交大/西电AI人才性价比极高'}],
+    policyRef:'科技部《新一代人工智能发展规划》明确北京/上海/深圳/杭州为国家AI创新发展试验区，合肥/成都/南京/武汉/西安为扩大试验区'
+  },
+  '互联网 / 信息技术': {
+    developed: [{city:'北京',area:'中关村/望京/西二旗',note:'字节跳动/百度/美团/京东/快手总部所在地'},{city:'深圳',area:'南山科技园/后海',note:'腾讯总部，互联网+硬件跨界生态全球领先'},{city:'杭州',area:'未来科技城/西溪',note:'阿里巴巴/蚂蚁/网易总部，电商/云计算/金融科技生态完整'},{city:'上海',area:'漕河泾/杨浦',note:'拼多多/哔哩哔哩/小红书总部，互联网+消费/内容/外企生态'}],
+    emerging: [{city:'成都',area:'高新区/天府软件园',note:'腾讯/字节/阿里西南总部聚集，游戏+互联网运营中心'},{city:'广州',area:'琶洲/天河',note:'微信总部/网易游戏/唯品会，互联网+跨境电商+游戏产业特色'},{city:'长沙',area:'麓谷/马栏山',note:'芒果TV/万兴科技，互联网+文娱/内容创意，生活成本优势显著'}],
+    policyRef:'工信部《"十四五"数字经济发展规划》明确京津冀/长三角/粤港澳为数字经济核心区'
+  },
+  '新能源汽车 / 汽车': {
+    developed: [{city:'上海',area:'临港/嘉定',note:'特斯拉超级工厂+蔚来/理想/上汽总部，研发+制造+供应链全链条'},{city:'深圳',area:'坪山',note:'比亚迪全球总部，从电池到整车全产业链垂直整合'},{city:'合肥',area:'经开区/新站',note:'蔚来中国总部+大众安徽+江淮+国轩高科'},{city:'广州',area:'南沙/番禺',note:'小鹏汽车总部+广汽埃安，自动驾驶+智能座舱研发实力强'}],
+    emerging: [{city:'武汉',area:'经开区(车谷)',note:'东风汽车+岚图+路特斯，传统汽车重镇向新能源转型'},{city:'重庆',area:'两江新区',note:'长安汽车+赛力斯(问界)，西南汽车制造中心'},{city:'常州',area:'武进/新北',note:'理想汽车制造基地+动力电池产业链(中创新航/蜂巢能源)'}],
+    policyRef:'国务院《新能源汽车产业发展规划(2021-2035)》+十五五持续推动'
+  },
+  '半导体 / 集成电路': {
+    developed: [{city:'上海',area:'张江科学城',note:'中国集成电路产业第一城，中芯国际/华虹/紫光展锐'},{city:'北京',area:'亦庄/中关村',note:'中芯国际北方/北方华创/兆易创新/地平线'},{city:'深圳',area:'南山/龙岗',note:'海思半导体(华为)/汇顶科技/比亚迪半导体，IC设计全国第一'}],
+    emerging: [{city:'合肥',area:'高新区/新站',note:'长鑫存储(DRAM)+晶合集成，存储芯片制造重镇'},{city:'无锡',area:'滨湖/新区',note:'SK海力士+华润微+卓胜微，封装+设计+特色工艺'},{city:'武汉',area:'光谷',note:'长江存储(3D NAND)总部，国家存储器基地'}],
+    policyRef:'国家集成电路产业发展推进纲要+国家大基金三期，十五五"科技自立自强"核心方向'
+  },
+  '生物医药 / 医疗健康': {
+    developed: [{city:'上海',area:'张江药谷',note:'中国生物医药产业第一极，跨国药企中国研发中心+本土创新药企密集'},{city:'苏州',area:'BioBAY/工业园区',note:'"中国药谷"，信达/百济/康宁杰瑞等创新药标杆企业'},{city:'北京',area:'中关村生命科学园/亦庄',note:'百济神州/诺诚健华/科兴，基础研究+临床资源全国最强'}],
+    emerging: [{city:'深圳',area:'坪山/光明',note:'医疗器械之都(迈瑞/华大基因)，基因测序+体外诊断'},{city:'广州',area:'国际生物岛/科学城',note:'生物医药+精准医疗+CRO集群，华南医疗资源最丰富'},{city:'杭州',area:'钱塘/未来科技城',note:'数字健康+AI制药交叉方向，阿里健康+微医+丁香园'}],
+    policyRef:'十五五规划明确生物制造/创新药/医疗器械为重点产业'
+  },
+  '金融 / 投资': {
+    developed: [{city:'上海',area:'陆家嘴/外滩',note:'中国金融中心，上交所+上期所+中国银联'},{city:'北京',area:'金融街/国贸',note:'一行两会+四大行总部+中金/中信'},{city:'深圳',area:'福田/前海',note:'深交所+平安集团+招商系，VC/PE活跃度全国第一'}],
+    emerging: [{city:'杭州',area:'钱江新城/未来科技城',note:'蚂蚁集团+阿里金融生态，金融科技全国标杆'},{city:'广州',area:'珠江新城/国际金融城',note:'华南金融中心，广期所(碳排放/电力期货)特色'}],
+    policyRef:'十五五金融强国战略，上海/北京/深圳为三大国际金融中心'
+  },
+  '游戏 / 电竞': {
+    developed: [{city:'上海',area:'漕河泾/张江',note:'米哈游/莉莉丝/叠纸"游戏四小龙"，中国游戏产业第一城'},{city:'广州',area:'天河/科韵路',note:'网易游戏/三七互娱/多益，华南游戏产业中心'},{city:'深圳',area:'南山科技园',note:'腾讯游戏(王者荣耀/和平精英)+创梦天地'}],
+    emerging: [{city:'成都',area:'高新区/天府软件园',note:'天美工作室群(王者荣耀)+乐狗/数字天空，"手游第一城"'},{city:'杭州',area:'滨江/未来科技城',note:'网易(逆水寒)+电魂网络，游戏+电竞+直播联动'}],
+    policyRef:'国务院文化强国/数字文化出口政策支持游戏出海'
+  },
+  '跨境电商 / 外贸': {
+    developed: [{city:'深圳',area:'坂田/南山',note:'"跨境电商之都"，亚马逊大卖家集中(坂田五虎)，3C供应链完备'},{city:'广州',area:'番禺/白云',note:'Shein/Temu总部，服装/皮具/美妆供应链+广交会'},{city:'宁波',area:'鄞州/北仑/保税区',note:'外贸万亿之城，宁波舟山港货物吞吐量全球第一，跨境电商综试区+中东欧贸易枢纽'},{city:'义乌',area:'义乌国际商贸城',note:'全球最大小商品集散地，"义新欧"班列+跨境电商综试区'}],
+    emerging: [{city:'杭州',area:'余杭/下沙',note:'阿里巴巴国际站+速卖通总部，跨境电商平台+服务商生态完整'},{city:'厦门',area:'湖里/海沧',note:'福建跨境电商中心，鞋服箱包产业带，东南亚航线优势'},{city:'青岛',area:'西海岸/城阳',note:'中日韩跨境电商枢纽，家电/假发/渔具产业带'},{city:'长沙',area:'黄花综保区/高新区',note:'中部跨境电商增长最快城市，工程机械/烟花/茶叶产业带+中非经贸博览会'}],
+    policyRef:'国务院常务会议高频推动跨境电商/品牌出海，十五五明确数字贸易为外贸新动能，全国已设165个跨境电商综试区'
+  },
+  '新能源 / 碳中和': {
+    developed: [{city:'常州',area:'武进/新北',note:'"新能源之都"，动力电池(中创新航/蜂巢能源)+光伏(天合光能)产业链集聚度全国第一'},{city:'无锡',area:'新区/宜兴',note:'光伏(尚德/上能)+氢能(先导智能)+风电，新能源装备制造强市'},{city:'苏州',area:'工业园区/常熟',note:'光伏(协鑫/阿特斯)+储能+新能源材料'}],
+    emerging: [{city:'西安',area:'高新区/西咸',note:'光伏龙头(隆基绿能总部)，单晶硅片全球第一'},{city:'邢台',area:'宁晋/开发区',note:'光伏产业基地(晶澳科技总部)'},{city:'包头',area:'稀土高新区',note:'稀土之都+风电基地，永磁材料+风力发电双优势'}],
+    policyRef:'十五五双碳目标+国务院《2030年前碳达峰行动方案》'
+  },
+  '直播 / MCN / 短视频': {
+    developed: [{city:'杭州',area:'滨江/九堡/未来科技城',note:'"直播电商之都"，淘宝直播+抖音/快手直播基地密集，MCN机构数量全国第一'},{city:'广州',area:'白云/番禺',note:'辛选(辛巴)+抖音直播+服装/美妆供应链直播，"档口直播"模式发源地'},{city:'上海',area:'杨浦/徐汇',note:'小红书/B站总部+MCN，内容+品牌+生活方式类内容创作中心'}],
+    emerging: [{city:'成都',area:'高新区/锦江',note:'西部直播中心，生活/美食/文旅类直播特色鲜明'},{city:'长沙',area:'马栏山',note:'芒果MCN+湖南广电生态，综艺/娱乐类内容制作全国领先'}],
+    policyRef:'数字经济/文创新发展方向列入十五五规划，杭州/广州/上海为直播产业三大集聚城市'
+  }
+};
+
+// Map careers to industry cluster keys
+const CAREER_CLUSTER_MAP = {
+  ai_product: 'AI / 人工智能', data_analyst: '互联网 / 信息技术', ux_designer: '互联网 / 信息技术',
+  content_creator: '直播 / MCN / 短视频', esg_analyst: '新能源 / 碳中和',
+  tech_sales: '互联网 / 信息技术', hr_od: '互联网 / 信息技术', bio_medical: '生物医药 / 医疗健康',
+  finance_analyst: '金融 / 投资', accountant: '金融 / 投资', project_manager: '互联网 / 信息技术',
+  operations: '互联网 / 信息技术', consultant: '金融 / 投资', brand_marketing: '互联网 / 信息技术',
+  psychologist: '生物医药 / 医疗健康', game_designer: '游戏 / 电竞',
+  crossborder_ecom: '跨境电商 / 外贸', new_energy_ve: '新能源汽车 / 汽车',
+  semiconductor: '半导体 / 集成电路', c_pm: '互联网 / 信息技术', b_pm: '互联网 / 信息技术',
+  growth_pm: '互联网 / 信息技术', frontend_dev: '互联网 / 信息技术', backend_dev: '互联网 / 信息技术',
+  qa_engineer: '互联网 / 信息技术', devops_sre: '互联网 / 信息技术', tpm: '互联网 / 信息技术'
+};
+
 // ============ DOM REFS ============
 const mainContent = document.getElementById('mainContent');
 const coinCount = document.getElementById('coinCount');
@@ -1695,6 +1816,7 @@ function render() {
     case 'welcome': renderWelcome(); break;
     case 'phase1': renderPhase1Question(); break;
     case 'phase1_flash': renderFlashCard(); break;
+    case 'employment_choice': renderEmploymentChoice(); break;
     case 'phase2': renderPhase2(); break;
     case 'phase2_result': renderPhase2Result(); break;
     case 'phase3': renderPhase3(); break;
@@ -1714,6 +1836,7 @@ function updateProgress() {
   var pct = 0, activeStep = 1;
   if (state.phase === 'phase1') { pct = (state.questionIndex / 8) * 20; activeStep = 1; }
   else if (state.phase === 'phase1_flash') { pct = 20; activeStep = 1; }
+  else if (state.phase === 'employment_choice') { pct = 22; activeStep = 2; }
   else if (state.phase === 'phase2') {
     if (state.phase2Step === 'tree') { pct = 24; activeStep = 2; }
     else if (state.phase2Step === 'fill') { pct = 30; activeStep = 2; }
@@ -2168,9 +2291,91 @@ function submitFlashFeedback() {
 }
 
 function startPhase2() {
+  // First go through employment choice
+  state.phase = 'employment_choice';
+  profile.selectedIndustries = [];
+  render();
+}
+
+// ============ EMPLOYMENT TYPE CHOICE ============
+function renderEmploymentChoice() {
+  var html = '<div class="card color-top" style="border-top-color:var(--color-violet);"><h3>🏢 选择你的就业方向偏好</h3><p class="text-secondary mt-8">告诉连连你更倾向于哪种就业路径——这会影响后面的岗位推荐哦。不确定的话可以都选～</p><div class="emp-choice-grid mt-16" id="empChoiceGrid">';
+
+  // Market option
+  html += '<div class="emp-choice-card' + (profile.employmentType === 'market' ? ' selected' : '') + '" data-type="market" onclick="selectEmpType(\'market\')"><div class="emp-icon">🏢</div><div class="emp-title">市场化就业</div><div class="emp-desc">国企 · 央企 · 私企 · 外企<br>追求市场竞争与个人成长</div><div class="emp-check">✓</div></div>';
+
+  // Public sector option
+  html += '<div class="emp-choice-card' + (profile.employmentType === 'public' ? ' selected' : '') + '" data-type="public" onclick="selectEmpType(\'public\')"><div class="emp-icon">🏛️</div><div class="emp-title">体制内就业</div><div class="emp-desc">公务员 · 事业单位 · 国企编制<br>追求稳定与社会价值</div><div class="emp-check">✓</div></div>';
+
+  // Both option
+  html += '</div><div style="text-align:center;margin-top:12px;"><div class="emp-choice-card' + (profile.employmentType === 'both' ? ' selected' : '') + '" data-type="both" onclick="selectEmpType(\'both\')" style="display:inline-block;min-width:200px;"><div class="emp-icon" style="display:inline;">🌐</div><div class="emp-title" style="display:inline;"> 都看看</div><div class="emp-desc">我还不确定，两边都想了解一下</div><div class="emp-check">✓</div></div></div>';
+
+  // Org type selection (shown for market or both)
+  if (profile.employmentType === 'market' || profile.employmentType === 'both') {
+    html += '<div class="mt-16" id="orgTypeSection"><p style="font-weight:600;font-size:0.9rem;margin-bottom:8px;">🏷️ 选择你感兴趣的企业类型（可多选）</p><div class="emp-org-row">';
+    var orgLabels = [
+      {id:'private',label:'🏢 私企/民企',desc:'互联网大厂/创业公司/独角兽'},
+      {id:'soe',label:'🏭 国企',desc:'地方国有企业，稳定+发展平衡'},
+      {id:'central_soe',label:'🏗️ 央企',desc:'中央企业，平台大+资源多'},
+      {id:'foreign',label:'🌍 外企/合资',desc:'跨国企业，体系完善+国际视野'}
+    ];
+    orgLabels.forEach(function(o){
+      html += '<div class="emp-org-tag' + (profile.orgTypes.indexOf(o.id) >= 0 ? ' selected' : '') + '" data-org="' + o.id + '" onclick="toggleOrgType(\'' + o.id + '\')" title="' + o.desc + '">' + o.label + '</div>';
+    });
+    html += '<div class="emp-org-tag emp-all-tag' + (profile.orgTypes.indexOf('all') >= 0 ? ' selected' : '') + '" data-org="all" onclick="toggleOrgType(\'all\')" title="所有类型都看">🔄 都行/不限</div>';
+    html += '</div><p class="text-secondary mt-8" style="font-size:0.75rem;">💡 已选 ' + (profile.orgTypes.length || 0) + ' 种企业类型 — 选得越多，连连能帮你找到的好岗位越多～</p></div>';
+  }
+
+  if (profile.employmentType === 'public') {
+    html += '<div class="mt-16" style="padding:14px 18px;background:var(--color-bg-alt);border-radius:var(--radius-md);"><p style="font-weight:600;font-size:0.9rem;">📋 体制内就业路径</p><p style="font-size:0.85rem;color:var(--color-text-secondary);">体制内方向通常通过<strong>国考/省考/选调生/事业单位招考</strong>等统一渠道进入，建议关注"国家公务员局"官网和各省人事考试网。连连会在后续推荐中提示哪些岗位有体制内对应路径。</p></div>';
+  }
+
+  html += '<button class="btn btn-primary mt-16" onclick="submitEmploymentChoice()" ' + (!profile.employmentType ? 'disabled id="empSubmitBtn"' : '') + '>确认就业偏好 →</button></div>';
+  mainContent.innerHTML = html;
+
+  if (!profile.employmentType) {
+    var btn = document.getElementById('empSubmitBtn');
+    if (btn) btn.disabled = true;
+  }
+}
+
+function selectEmpType(type) {
+  profile.employmentType = type;
+  // Reset org types when switching
+  if (type === 'public') profile.orgTypes = ['public'];
+  else profile.orgTypes = [];
+  renderEmploymentChoice();
+}
+
+function toggleOrgType(orgId) {
+  if (orgId === 'all') {
+    // Toggle all - if already all, unselect all. Otherwise select all
+    if (profile.orgTypes.indexOf('all') >= 0) {
+      profile.orgTypes = [];
+    } else {
+      profile.orgTypes = ['all'];
+    }
+  } else {
+    // Remove 'all' if selecting specific types
+    profile.orgTypes = profile.orgTypes.filter(function(x) { return x !== 'all'; });
+    var idx = profile.orgTypes.indexOf(orgId);
+    if (idx >= 0) profile.orgTypes.splice(idx, 1);
+    else profile.orgTypes.push(orgId);
+  }
+  renderEmploymentChoice();
+}
+
+function submitEmploymentChoice() {
+  if (!profile.employmentType) return;
+  if (profile.orgTypes.indexOf('all') >= 0) {
+    // "All" means all market types
+    profile.orgTypes = ['private','soe','central_soe','foreign'];
+  }
+  if (profile.employmentType === 'public') {
+    profile.orgTypes = ['public'];
+  }
   state.phase = 'phase2';
   state.phase2Step = 'tree';
-  profile.selectedIndustries = [];
   render();
 }
 
@@ -2506,9 +2711,23 @@ function startPhase3() {
 
 // ============ PHASE 3: MATCHING ============
 function matchCareers() {
+  var userOrgTypes = profile.orgTypes || [];
   // Score each career against user profile
   const scored = CAREER_DB.map(career => {
     let score = 0;
+
+    // Employment type filter — careers matching user's org preference get a boost
+    if (userOrgTypes.length > 0) {
+      var careerOrgs = CAREER_ORG_TYPES[career.id] || ['private'];
+      var hasMatch = userOrgTypes.some(function(uo) { return careerOrgs.indexOf(uo) >= 0; });
+      if (!hasMatch) {
+        // Soft filter — still include but with penalty, so user sees all options
+        score -= 10;
+      } else {
+        // Boost careers that match user's org type preference
+        score += 5;
+      }
+    }
 
     // Ability match
     const userAbilities = profile.flashCard?.abilities || [];
@@ -2635,7 +2854,7 @@ function renderPhase3Cards() {
         <div class="job-section-title">🏷 必备标签</div>
         <div class="tag-row">
           <span class="tag-pill tag-trend" title="${job.trend}">📈 ${job.trend.substring(0,40)}...</span>
-          <span class="tag-pill tag-city">🏙 ${job.cities}</span>
+          <span class="tag-pill tag-city" onclick="showCityMap('${job.id}')" title="👆 点击查看产业集群地图">🏙 ${job.cities}</span>
           ${job.special ? `<span class="tag-pill tag-special">🛡️ ${job.special.substring(0,25)}...</span>` : ''}
         </div>
       </div>
@@ -3017,6 +3236,55 @@ function exportChecklist() {
   else { var ta=document.createElement('textarea'); ta.value=t; ta.style.cssText='position:fixed;top:10%;left:10%;width:80%;height:60%;z-index:9999;'; document.body.appendChild(ta); ta.select(); showToast('📋','请手动复制'); setTimeout(function(){ta.remove();},10000); }
 }
 
+function showCityMap(jobId) {
+  var clusterKey = CAREER_CLUSTER_MAP[jobId];
+  if (!clusterKey) clusterKey = '互联网 / 信息技术';
+  var cluster = CITY_CLUSTERS[clusterKey];
+  if (!cluster) return;
+
+  var overlay = document.getElementById('cityMapOverlay');
+  document.getElementById('cityMapEmoji').textContent = '🗺️';
+  document.getElementById('cityMapTitle').textContent = clusterKey + ' · 产业集群地图';
+  document.getElementById('cityMapSubtitle').textContent = '颜色标记：🔴红色 = 已成熟的产业集群城市 | 🟠橙色 = 政策扶持的高潜力城市';
+
+  var body = document.getElementById('cityMapBody');
+  var html = '<div class="city-cluster-grid">';
+
+  // Developed cities
+  html += '<div class="city-cluster-section"><h4>🔴 成熟产业集群城市</h4>';
+  (cluster.developed || []).forEach(function(c){
+    html += '<div class="city-card dev"><div class="cc-name">' + c.city + '</div><div class="cc-area">📍 ' + c.area + '</div><div class="cc-note">' + c.note + '</div></div>';
+  });
+  html += '</div>';
+
+  // Emerging cities
+  html += '<div class="city-cluster-section"><h4>🟠 高潜力 / 政策扶持城市</h4>';
+  (cluster.emerging || []).forEach(function(c){
+    html += '<div class="city-card rising"><div class="cc-name">' + c.city + '</div><div class="cc-area">📍 ' + c.area + '</div><div class="cc-note">' + c.note + '</div></div>';
+  });
+  html += '</div></div>';
+
+  // Policy reference
+  if (cluster.policyRef) {
+    html += '<div class="city-policy">📋 <strong>政策依据：</strong>' + cluster.policyRef + '</div>';
+  }
+
+  html += '<p class="text-secondary mt-12" style="font-size:0.72rem;text-align:center;">💡 数据来源：工信部/科技部/国家统计局/各省政府官网公开文件 + 招聘平台(猎聘/脉脉/牛客)产业集聚分析</p>';
+
+  body.innerHTML = html;
+  overlay.classList.add('show');
+}
+
+function closeCityMap(e) {
+  if (e && e.target !== document.getElementById('cityMapOverlay')) return;
+  document.getElementById('cityMapOverlay').classList.remove('show');
+}
+
+function closeCompareModal(e) {
+  if (e && e.target !== document.getElementById('compareModalOverlay')) return;
+  document.getElementById('compareModalOverlay').classList.remove('show');
+}
+
 function restartApp() {
   // Reset state
   state.phase = 'welcome';
@@ -3037,6 +3305,8 @@ function restartApp() {
   });
   profile.recommendedJobs = [];
   profile.moneyDirections = [];
+  profile.employmentType = '';
+  profile.orgTypes = [];
 
   // Reset temp state
   state._multiTemp = [];
