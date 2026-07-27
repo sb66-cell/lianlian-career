@@ -78,17 +78,17 @@
   --color-amber-light: rgba(251,191,36,0.1);
 
   /* Surfaces & Backgrounds — 深空色系 */
-  --color-bg: #0B1120;
+  --color-bg: #080D1A;
   --color-bg-alt: #111827;
-  --color-card: rgba(30,41,59,0.65);
-  --color-card-hover: rgba(30,41,59,0.85);
-  --color-border: rgba(99,102,241,0.15);
+  --color-card: rgba(22,33,55,0.88);
+  --color-card-hover: rgba(30,41,62,0.95);
+  --color-border: rgba(129,140,248,0.2);
   --color-border-active: #818CF8;
 
-  /* Text hierarchy — light on dark */
+  /* Text hierarchy — 高对比度 light on dark */
   --color-text: #F1F5F9;
-  --color-text-secondary: #94A3B8;
-  --color-text-muted: #64748B;
+  --color-text-secondary: #CBD5E1;
+  --color-text-muted: #94A3B8;
   --color-text-on-primary: #FFFFFF;
 
   /* Shadows — cosmic glow */
@@ -127,13 +127,78 @@ html {
 
 body {
   font-family: 'Inter', 'PingFang SC', 'Microsoft YaHei', 'Noto Sans SC', -apple-system, sans-serif;
-  background: linear-gradient(180deg, #0B1120 0%, #0F172A 30%, #111827 60%, #0B1120 100%);
+  background: #080D1A;
   color: var(--color-text);
-  border: 1px solid var(--color-border);
   line-height: 1.7;
   min-height: 100vh;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
+  position: relative;
+}
+
+/* Cosmic starfield background */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    /* Nebula glows — 星云光晕 */
+    radial-gradient(ellipse 600px 400px at 15% 20%, rgba(99,102,241,0.08) 0%, transparent 70%),
+    radial-gradient(ellipse 500px 350px at 80% 60%, rgba(34,211,238,0.05) 0%, transparent 70%),
+    radial-gradient(ellipse 400px 300px at 50% 85%, rgba(167,139,250,0.06) 0%, transparent 70%),
+    radial-gradient(circle 300px at 10% 80%, rgba(251,191,36,0.03) 0%, transparent 60%);
+}
+
+/* Starfield dots */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image:
+    /* Layer 1: bright stars */
+    radial-gradient(1.5px 1.5px at 10% 15%, rgba(255,255,255,0.8), transparent),
+    radial-gradient(1px 1px at 25% 8%, rgba(255,255,255,0.6), transparent),
+    radial-gradient(2px 2px at 40% 25%, rgba(255,255,255,0.7), transparent),
+    radial-gradient(1px 1px at 55% 12%, rgba(255,255,255,0.5), transparent),
+    radial-gradient(1.5px 1.5px at 70% 20%, rgba(255,255,255,0.6), transparent),
+    radial-gradient(1px 1px at 85% 10%, rgba(255,255,255,0.7), transparent),
+    radial-gradient(2px 2px at 15% 35%, rgba(255,255,255,0.5), transparent),
+    radial-gradient(1px 1px at 33% 42%, rgba(255,255,255,0.4), transparent),
+    radial-gradient(1.5px 1.5px at 60% 38%, rgba(255,255,255,0.6), transparent),
+    radial-gradient(1px 1px at 78% 45%, rgba(255,255,255,0.5), transparent),
+    radial-gradient(2px 2px at 92% 33%, rgba(255,255,255,0.7), transparent),
+    radial-gradient(1px 1px at 8% 55%, rgba(255,255,255,0.4), transparent),
+    radial-gradient(1.5px 1.5px at 20% 62%, rgba(255,255,255,0.5), transparent),
+    radial-gradient(1px 1px at 45% 58%, rgba(255,255,255,0.6), transparent),
+    radial-gradient(2px 2px at 65% 65%, rgba(255,255,255,0.4), transparent),
+    radial-gradient(1px 1px at 88% 60%, rgba(255,255,255,0.5), transparent),
+    radial-gradient(1.5px 1.5px at 5% 78%, rgba(255,255,255,0.6), transparent),
+    radial-gradient(1px 1px at 30% 82%, rgba(255,255,255,0.4), transparent),
+    radial-gradient(2px 2px at 52% 75%, rgba(255,255,255,0.7), transparent),
+    radial-gradient(1px 1px at 72% 85%, rgba(255,255,255,0.5), transparent),
+    radial-gradient(1.5px 1.5px at 90% 78%, rgba(255,255,255,0.4), transparent),
+    /* Layer 2: medium stars */
+    radial-gradient(1px 1px at 18% 18%, rgba(255,255,255,0.35), transparent),
+    radial-gradient(1px 1px at 35% 28%, rgba(255,255,255,0.3), transparent),
+    radial-gradient(1px 1px at 50% 18%, rgba(255,255,255,0.4), transparent),
+    radial-gradient(1px 1px at 68% 25%, rgba(255,255,255,0.3), transparent),
+    radial-gradient(1px 1px at 82% 15%, rgba(255,255,255,0.35), transparent),
+    radial-gradient(1px 1px at 12% 45%, rgba(255,255,255,0.3), transparent),
+    radial-gradient(1px 1px at 42% 50%, rgba(255,255,255,0.35), transparent),
+    radial-gradient(1px 1px at 58% 48%, rgba(255,255,255,0.3), transparent),
+    radial-gradient(1px 1px at 75% 55%, rgba(255,255,255,0.35), transparent),
+    radial-gradient(1px 1px at 22% 70%, rgba(255,255,255,0.3), transparent),
+    radial-gradient(1px 1px at 48% 68%, rgba(255,255,255,0.35), transparent),
+    radial-gradient(1px 1px at 70% 72%, rgba(255,255,255,0.3), transparent),
+    radial-gradient(1px 1px at 85% 68%, rgba(255,255,255,0.35), transparent),
+    radial-gradient(1px 1px at 15% 88%, rgba(255,255,255,0.3), transparent),
+    radial-gradient(1px 1px at 38% 90%, rgba(255,255,255,0.35), transparent),
+    radial-gradient(1px 1px at 62% 88%, rgba(255,255,255,0.3), transparent),
+    radial-gradient(1px 1px at 80% 92%, rgba(255,255,255,0.35), transparent);
 }
 
 /* --- Typography --- */
@@ -148,7 +213,7 @@ h3 { font-size: 1.2rem; }
 h4 { font-size: 1rem; }
 
 p { margin-bottom: 0.6em; }
-.text-secondary { color: var(--color-text-secondary); font-size: 0.875rem; }
+.text-secondary { color: var(--color-text-secondary); font-size: 0.875rem; font-weight: 400; }
 
 /* --- App Shell --- */
 .app-container {
@@ -157,6 +222,8 @@ p { margin-bottom: 0.6em; }
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  position: relative;
+  z-index: 1;
 }
 
 /* --- Header / Nav --- */
@@ -164,7 +231,7 @@ p { margin-bottom: 0.6em; }
   position: sticky;
   top: 0;
   z-index: 100;
-  background: rgba(11,17,32,0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  background: rgba(8,13,26,0.92); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
   padding: 12px 20px;
   border-bottom: 1px solid rgba(99,102,241,0.12);
 }
@@ -217,7 +284,7 @@ p { margin-bottom: 0.6em; }
 }
 .phase-line {
   width: 20px; height: 2px;
-  background: #E0D8CC;
+  background: rgba(255,255,255,0.1);
   border-radius: 1px;
 }
 .phase-line.done {
@@ -257,8 +324,9 @@ p { margin-bottom: 0.6em; }
   border: 1px solid var(--color-border);
 }
 .card:hover {
-  transform: translateY(-2px);
+  transform: translateY(-1px);
   box-shadow: var(--shadow-card-hover);
+  border-color: rgba(129,140,248,0.3);
 }
 .card.color-top {
   border-top: 4px solid var(--color-primary);
@@ -545,7 +613,7 @@ p { margin-bottom: 0.6em; }
 
 /* --- Flash Card (Phase 1 result) --- */
 .flash-card {
-  background: linear-gradient(135deg, rgba(30,41,59,0.8), rgba(30,41,59,0.5));
+  background: linear-gradient(135deg, rgba(22,33,55,0.95), rgba(30,41,62,0.85));
   border: 1px solid var(--color-border);
   border-radius: var(--radius-xl);
   padding: 28px 24px;
@@ -1068,9 +1136,9 @@ p { margin-bottom: 0.6em; }
     <div class="header-inner">
       <div class="logo">
         <div class="logo-icon">🔗</div>
-        <span>职业连连看</span>
+        <span>星途职引</span>
       </div>
-      <div class="stepped-progress" id="steppedProgress"><div class="step-node" data-step="1"><div class="step-dot active">1</div><div class="step-label active">✨ 闪光挖掘</div></div><div class="step-connector"></div><div class="step-node" data-step="2"><div class="step-dot">2</div><div class="step-label">🌳 行业探索</div></div><div class="step-connector"></div><div class="step-node" data-step="3"><div class="step-dot">3</div><div class="step-label">⚗️ 三圈配方</div></div><div class="step-connector"></div><div class="step-node" data-step="4"><div class="step-dot">4</div><div class="step-label">🔗 连连看</div></div></div>
+      <div class="stepped-progress" id="steppedProgress"><div class="step-node" data-step="1"><div class="step-dot active">1</div><div class="step-label active">✨ 闪光挖掘</div></div><div class="step-connector"></div><div class="step-node" data-step="2"><div class="step-dot">2</div><div class="step-label">🌳 行业探索</div></div><div class="step-connector"></div><div class="step-node" data-step="3"><div class="step-dot">3</div><div class="step-label">⚗️ 三圈配方</div></div><div class="step-connector"></div><div class="step-node" data-step="4"><div class="step-dot">4</div><div class="step-label">🚀 智能匹配</div></div></div>
     <div style="max-width:540px;margin:6px auto 0;position:relative;">
       <div class="progress-bar-wrapper" style="margin:0;"><div class="progress-bar-fill" id="globalProgress" style="width:0%"></div></div>
       <span id="progressMascot" style="position:absolute;top:-18px;font-size:1.1rem;transition:left 0.6s var(--ease-smooth);left:0%;">🦊</span>
@@ -1102,7 +1170,7 @@ p { margin-bottom: 0.6em; }
 
 <script>
 // ============================================================
-//  连连看 · 职业连连看 — JAVASCRIPT APPLICATION
+//   星途职引 — JAVASCRIPT APPLICATION
 // ============================================================
 
 // ============ STATE MANAGEMENT ============
@@ -1255,7 +1323,7 @@ const PHASE1_QUESTIONS = [
   // Q10: 背景信息
   {
     id: 'background', type: 'backgroundForm', number: 10, emoji: '📋',
-    title: '最后，让连连了解一下你的背景～',
+    title: '最后，让星途了解一下你的背景～',
     subtitle: '这些信息帮我更精准地为你连线',
     fields: ['major', 'workYears', 'currentCity', 'targetCity'],
     coinLabel: '背景金币',
@@ -2394,15 +2462,15 @@ function renderWelcome() {
   }
   var html = '<div class="welcome-hero"><div class="welcome-mascot">🤑</div>';
   html += '<div class="welcome-badge">✨ 你必发财 ✨</div>';
-  html += '<h2 style="margin:8px 0;font-size:1.5rem;">职业连连看</h2>';
+  html += '<h2 style="margin:8px 0;font-size:1.5rem;">星途职引</h2>';
   html += '<p class="welcome-subtitle">基于<strong>MBTI + 霍兰德 + 大五人格</strong>的科学测评<br>帮你把闪光点连向理想工作 💫</p>';
   html += '<div class="welcome-features">';
   html += '<div class="welcome-feat"><div class="feat-emoji">🧩</div><div class="feat-text">科学测评<br>10题认识自己</div></div>';
   html += '<div class="welcome-feat"><div class="feat-emoji">⚗️</div><div class="feat-text">三圈配方<br>定制职业方向</div></div>';
-  html += '<div class="welcome-feat"><div class="feat-emoji">🔗</div><div class="feat-text">连连看匹配<br>28个精选岗位</div></div>';
+  html += '<div class="welcome-feat"><div class="feat-emoji">🔗</div><div class="feat-text">智能匹配<br>60+精选岗位</div></div>';
   html += '</div></div>';
 
-  html += '<div class="chat-bubble coach mt-16"><div class="bubble-avatar">🦊</div><div class="bubble-content"><p>嗨，我是<strong>连连</strong>，你的职业探索教练 ✨</p><p>我们一起用科学方法找到适合你的好工作～</p></div></div>';
+  html += '<div class="chat-bubble coach mt-16"><div class="bubble-avatar">🦊</div><div class="bubble-content"><p>嗨，我是<strong>星途助手</strong>，你的职业探索教练 ✨</p><p>我们一起用科学方法找到适合你的好工作～</p></div></div>';
 
   html += '<button class="btn btn-primary mt-16" onclick="startPhase1()" style="display:block;margin:0 auto;font-size:1.05rem;padding:14px 36px;">✨ 开始探索 →</button>';
 
@@ -2661,7 +2729,7 @@ function renderFlashCard() {
   // Feedback box
   html += '<div style="margin-top:20px;padding:16px;background:var(--color-bg-alt);border-radius:var(--radius-md);" id="flashFeedbackBox">';
   html += '<p style="font-weight:700;font-size:0.9rem;margin-bottom:6px;">💬 这张闪光点卡准不准？</p>';
-  html += '<p style="font-size:0.78rem;color:var(--color-text-secondary);margin-bottom:8px;">点击上方任意标签修改它，或在下方补充连连漏掉的优势～</p>';
+  html += '<p style="font-size:0.78rem;color:var(--color-text-secondary);margin-bottom:8px;">点击上方任意标签修改它，或在下方补充星途漏掉的优势～</p>';
   html += '<textarea class="text-input" id="flashFeedbackInput" placeholder="比如：我觉得你还漏掉了「快速学习新工具」这个优势..." rows="2" style="font-size:0.85rem;min-height:50px;"></textarea>';
   html += '<button class="btn btn-small btn-outline mt-8" onclick="submitFlashFeedback()">💾 更新闪光点</button>';
   html += '<span style="font-size:0.78rem;color:var(--color-teal);margin-left:8px;display:none;" id="feedbackSaved">✅ 已记录！</span>';
@@ -2718,7 +2786,7 @@ function renderPhase2() {
 
 // === Industry Tree UI ===
 function renderIndustryTree() {
-  var h = '<div class="card color-top" style="border-top-color:var(--color-teal);"><h3>🌳 选择你感兴趣的行业</h3><p class="text-secondary mt-8">行行出状元！先勾选你感兴趣的细分行业（建议选 3-8 个），连连会在这些行业里帮你连线好岗位～</p><div class="industry-tree mt-16" id="industryTree">';
+  var h = '<div class="card color-top" style="border-top-color:var(--color-teal);"><h3>🌳 选择你感兴趣的行业</h3><p class="text-secondary mt-8">行行出状元！先勾选你感兴趣的细分行业（建议选 3-8 个），星途会在这些行业里帮你连线好岗位～</p><div class="industry-tree mt-16" id="industryTree">';
   for (var i = 0; i < INDUSTRY_TREE.length; i++) {
     var cat = INDUSTRY_TREE[i];
     h += '<div class="tree-category" data-cat="' + cat.id + '"><div class="tree-cat-header" onclick="toggleTreeCat(\'' + cat.id + '\')"><span class="tree-cat-icon">' + cat.icon + '</span><span class="tree-cat-name">' + cat.name + '</span><span class="tree-cat-count">' + cat.subs.length + '个方向</span><span class="tree-cat-arrow">▼</span></div><div class="tree-sub-list" id="subList_' + cat.id + '">';
@@ -2772,7 +2840,7 @@ function renderPhase2Fill() {
       </div>
       <div class="mt-12">
         <label style="font-weight:700;">💛 感兴趣的变现方向（勾选你感兴趣的，多多益善～）</label>
-        <p class="text-secondary" style="font-size:0.8rem;" id="moneyHint">基于你的闪光点，连连标记了 ✨推荐 方向，当然你也可以自由选择任何感兴趣的～</p>
+        <p class="text-secondary" style="font-size:0.8rem;" id="moneyHint">基于你的闪光点，星途标记了 ✨推荐 方向，当然你也可以自由选择任何感兴趣的～</p>
         <div class="tag-group mt-8" id="moneyTags">
           ${(() => {
             const allDirs = [
@@ -2862,7 +2930,7 @@ function renderPhase2Ratio() {
   mainContent.innerHTML = `
     <div class="card color-top purple">
       <h3>⚖️ 确定你的三圈比重</h3>
-      <p class="text-secondary mt-8">告诉连连你目前最看重哪个维度，或者从预设方案中选一个最接近的～</p>
+      <p class="text-secondary mt-8">告诉星途你目前最看重哪个维度，或者从预设方案中选一个最接近的～</p>
 
       <div class="preset-group mt-16" id="presetGroup">
         ${RATIO_PRESETS.map(p => `
@@ -2977,7 +3045,7 @@ function submitPhase2Ratio() {
   state.phase2Step = 'result';
   state.phase = 'phase2_result';
   render();
-  setTimeout(() => celebrate('🌟', '专属职业配方已调配完成！接下来我们驾驶"连连看"号，驶向具体岗位星球！'), 500);
+  setTimeout(() => celebrate('🌟', '专属职业配方已调配完成！接下来我们驾驶"星途职引"号，驶向具体岗位星球！'), 500);
 }
 
 function renderPhase2Result() {
@@ -3026,7 +3094,7 @@ function renderPhase2Result() {
       </div>
     </div>
     <button class="btn btn-primary mt-16" onclick="startPhase3()">
-      🔗 开始连连看匹配 →
+      🔗 开始智能匹配 →
     </button>
   `;
 }
@@ -3143,13 +3211,13 @@ function renderPhase3Intro() {
     <div class="chat-bubble coach">
       <div class="bubble-avatar">🦊</div>
       <div class="bubble-content">
-        <p>连连正在把你的闪光点和三圈配方进行"连连看"匹配……🔍</p>
+        <p>星途正在分析你的闪光点和三圈配方……🔍</p>
         <p>我扫描了你的<strong>能力标签</strong>、<strong>热情领域</strong>、<strong>价值观</strong>和<strong>市场趋势</strong>，为你找到了 <strong>${jobs.length}</strong> 个高度适配的岗位方向！</p>
-        <p>每一个岗位都配有完整的<strong>连连卡</strong>——包含时代风口、城市友好、社群口碑、新手友好度等超级标签 🏷️</p>
+        <p>每一个岗位都配有完整的<strong>职业卡片</strong>——包含时代风口、城市友好、社群口碑、新手友好度等超级标签 🏷️</p>
       </div>
     </div>
     <button class="btn btn-primary mt-12" onclick="state.phase3Step='cards';render();">
-      📌 查看我的连连卡 →
+      📌 查看我的职业卡片 →
     </button>
   `;
 }
@@ -3159,7 +3227,7 @@ function renderPhase3Cards() {
   var userAbilities = profile.flashCard?.abilities || [];
   var topAbility = userAbilities[0] || '你的核心优势';
 
-  var html = '<h3 style="margin-bottom:4px;">🔗 你的职业连连卡</h3>';
+  var html = '<h3 style="margin-bottom:4px;">🔗 你的职业卡片</h3>';
   html += '<p class="text-secondary mb-12">' + jobs.length + ' 个高度匹配岗位 · 点击卡片展开完整详情 👇</p>';
 
   jobs.forEach(function(job, idx) {
@@ -3543,7 +3611,7 @@ function simplifyFullDetail(job, topAbility, yourStyle) {
 
 function renderPhase3SimpleCards() {
   var jobs = profile.recommendedJobs;
-  var html = '<h3 style="margin-bottom:4px;">🔗 你的职业连连卡 · 人话版</h3>';
+  var html = '<h3 style="margin-bottom:4px;">🔗 你的职业卡片 · 白话版</h3>';
   html += '<p class="text-secondary mb-12">用大白话给你讲清楚每个工作是干嘛的～ 点击卡片看详细解释 👇</p>';
 
   jobs.forEach(function(job, idx) {
@@ -3653,7 +3721,7 @@ function renderPhase3Timeline() {
 
         <div class="timeline-item">
           <div class="timeline-period">📅 D11-D13 · 复盘与迭代</div>
-          <p style="font-size:0.85rem;">回顾本周的探索：你对这个方向的感觉如何？有没有新的发现？如果方向不太对，回顾连连卡中的备选方向，调整目标继续探索。</p>
+          <p style="font-size:0.85rem;">回顾本周的探索：你对这个方向的感觉如何？有没有新的发现？如果方向不太对，回顾职业卡片中的备选方向，调整目标继续探索。</p>
         </div>
 
         <div class="timeline-item">
@@ -3683,7 +3751,7 @@ function finishAll() {
         colors: ['#4F46E5', '#6366F1', '#10B981', '#0EA5E9', '#8B5CF6', '#06B6D4'],
       });
     }
-    showToast('🎊', '连连看挑战成功！你已经拥有了职业探索的导航仪和种子资金（知识金币），现在就出发去创造属于你的奥德赛吧！', 4000);
+    showToast('🎊', '星途探索完成！你已经拥有了职业探索的导航仪和种子资金（知识金币），现在就出发去创造属于你的奥德赛吧！', 4000);
   }, 300);
 }
 
@@ -3693,7 +3761,7 @@ function renderFinal() {
   var topJob = profile.recommendedJobs[0];
   var topJobName = topJob ? topJob.name : '你的目标岗位';
 
-  var html = '<div class="flash-card" style="border-color:var(--color-teal);text-align:center;"><div style="position:relative;z-index:1;"><div style="font-size:4rem;margin-bottom:12px;">🎊</div><h3 style="color:var(--color-teal);">连连看挑战成功！</h3><p style="font-size:1.1rem;margin:16px 0;">你已经拥有了职业探索的<strong>导航仪</strong>和<strong>种子资金</strong>（知识金币 🪙 × ' + state.coins + '），现在就出发去创造属于你的奥德赛吧！</p>';
+  var html = '<div class="flash-card" style="border-color:var(--color-teal);text-align:center;"><div style="position:relative;z-index:1;"><div style="font-size:4rem;margin-bottom:12px;">🎊</div><h3 style="color:var(--color-teal);">🚀 星途探索完成！</h3><p style="font-size:1.1rem;margin:16px 0;">你已经拥有了职业探索的<strong>导航仪</strong>和<strong>种子资金</strong>（知识金币 🪙 × ' + state.coins + '），现在就出发去创造属于你的奥德赛吧！</p>';
 
   html += '<div style="display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin:20px 0;">';
   (fc.abilities || []).forEach(function(a) { html += '<span class="flash-tag ability">' + a + '</span>'; });
@@ -3762,7 +3830,7 @@ function buildOdysseyPlan() {
 
 // ============ EXPORT FUNCTIONS ============
 function exportReportText() {
-  var t = '══════════════════════\n  连连看 · 职业探索报告\n══════════════════════\n\n';
+  var t = '══════════════════════\n  星途职引 · 职业探索报告\n══════════════════════\n\n';
   var fc = profile.flashCard;
   if (fc) {
     t += '✨ 闪光点卡\n──────────────\n';
@@ -3787,9 +3855,9 @@ function exportReportText() {
 
 function shareSite() {
   var url = 'https://sb66-cell.github.io/lianlian-career/';
-  var text = '🔗 职业连连看 · 免费科学职业测评\n🧩 MBTI + 霍兰德 + 大五人格 | 10题认识自己\n✨ 28个精选岗位 + 详细求职攻略\n👉 ' + url;
+  var text = '🔗 星途职引 · 免费科学职业测评\n🧩 MBTI + 霍兰德 + 大五人格 | 10题认识自己\n✨ 28个精选岗位 + 详细求职攻略\n👉 ' + url;
   if (navigator.share) {
-    navigator.share({title:'职业连连看 · 科学职业测评',text:text,url:url}).catch(function(){});
+    navigator.share({title:'星途职引 · 科学职业测评',text:text,url:url}).catch(function(){});
   } else {
     if (navigator.clipboard) {
       navigator.clipboard.writeText(text).then(function(){ showToast('📤','分享文案已复制！直接粘贴发给朋友即可～'); });
@@ -3800,7 +3868,7 @@ function shareSite() {
 }
 
 function exportChecklist() {
-  var t = '📋 连连看 · 学习与证书清单\n══════════════════════\n\n';
+  var t = '📋 星途职引 · 学习与证书清单\n══════════════════════\n\n';
   profile.recommendedJobs.forEach(function(j,i) {
     t += (i+1) + '. ' + j.name + '\n   ☐ 原型体验：' + j.prototype + '\n';
     var certs = (JOB_PERSONA[j.id]||{}).certifications || [];
@@ -3864,7 +3932,7 @@ function closeCompareModal(e) {
 // ============ LOCAL STORAGE SAVE / RESUME ============
 function saveProgress() {
   try {
-    var phaseLabels = {welcome:'欢迎页',phase1:'闪光挖掘第'+(state.questionIndex+1)+'题',phase1_flash:'闪光点卡',phase2:'行业探索',phase2_result:'三圈配方结果',phase3:'连连看匹配',final:'奥德赛计划'};
+    var phaseLabels = {welcome:'欢迎页',phase1:'闪光挖掘第'+(state.questionIndex+1)+'题',phase1_flash:'闪光点卡',phase2:'行业探索',phase2_result:'三圈配方结果',phase3:'智能匹配',final:'奥德赛计划'};
     var data = {state:state,profile:profile,time:new Date().toLocaleString('zh-CN'),phaseLabel:phaseLabels[state.phase]||'探索中'};
     localStorage.setItem('lianlian_progress', JSON.stringify(data));
   } catch(e) {}
@@ -3929,7 +3997,7 @@ function restartApp() {
 // ============ INIT ============
 try {
   render();
-  console.log('连连看 app initialized successfully!');
+  console.log('星途职引 app initialized successfully!');
 } catch (e) {
   document.getElementById('mainContent').innerHTML = '<div class="card" style="border:2px solid #FF6B6B;margin:20px;"><h3>⚠️ 初始化出错了</h3><pre style="white-space:pre-wrap;font-size:0.85rem;">' + e.message + '\n\n' + e.stack + '</pre></div>';
   console.error('App init error:', e);
