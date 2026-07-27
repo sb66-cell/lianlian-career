@@ -2534,7 +2534,29 @@ function renderPhase1Question() {
 // ---- Phase 1 Handlers ----
 function submitSingleChoice(qid, value) {
   profile[qid] = value;
-  advanceQuestion();
+
+  // Highlight selected, disable others, show confirmation
+  var cards = document.querySelectorAll('.option-card');
+  cards.forEach(function(c) {
+    c.style.pointerEvents = 'none';
+    if (c.getAttribute('data-id') === value) {
+      c.classList.add('selected');
+    } else {
+      c.style.opacity = '0.4';
+    }
+  });
+
+  // Show brief confirmation
+  var qcard = document.querySelector('.question-card');
+  var confirm = document.createElement('div');
+  confirm.style.cssText = 'text-align:center;margin-top:14px;padding:10px;background:var(--color-primary-light);border-radius:var(--radius-md);color:var(--color-primary);font-weight:600;font-size:0.9rem;animation:cardPopIn 0.3s var(--ease-smooth);';
+  confirm.textContent = '✓ 已记录，即将进入下一题...';
+  qcard.appendChild(confirm);
+
+  // Auto-advance after brief pause
+  setTimeout(function() {
+    advanceQuestion();
+  }, 700);
 }
 
 function toggleMultiPick(qid, value, max) {
