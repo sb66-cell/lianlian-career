@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>连连看 · 职业连连看</title>
+<title>职业连连看 · 发现你的职业新可能</title>
 <!-- Self-contained confetti (no CDN dependency) -->
 <script>
 (function() {
@@ -1050,6 +1050,18 @@ p { margin-bottom: 0.6em; }
 .tag-pill.tag-city::after{content:' 🔍';font-size:0.7rem;opacity:0;transition:opacity var(--transition-fast)}
 .tag-pill.tag-city:hover::after{opacity:1}
 @media(max-width:600px){.emp-choice-grid{grid-template-columns:1fr}.city-cluster-grid{grid-template-columns:1fr}}
+
+/* --- Welcome Page --- */
+.welcome-hero{text-align:center;padding:20px 0 0;animation:cardSlideUp .6s var(--ease-bounce)}
+.welcome-mascot{font-size:6rem;animation:floatUpDown 3s ease-in-out infinite;display:inline-block;filter:drop-shadow(0 8px 20px rgba(255,179,71,0.3))}
+@keyframes floatUpDown{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+.welcome-badge{display:inline-block;padding:8px 24px;background:linear-gradient(135deg,#FF6B6B,#FFB347);color:#fff;border-radius:30px;font-weight:900;font-size:1.2rem;letter-spacing:2px;animation:cardPopIn .8s var(--ease-bounce);margin:12px 0;box-shadow:0 6px 20px rgba(255,107,107,0.35)}
+.welcome-subtitle{color:var(--color-text-secondary);font-size:0.95rem;max-width:420px;margin:0 auto;line-height:1.7}
+.welcome-features{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;max-width:500px;margin:16px auto 0}
+.welcome-feat{padding:14px 10px;background:var(--color-card);border-radius:var(--radius-lg);text-align:center;box-shadow:var(--shadow-sm);transition:all var(--transition-fast)}
+.welcome-feat:hover{transform:translateY(-3px);box-shadow:var(--shadow-card)}
+.welcome-feat .feat-emoji{font-size:2rem;margin-bottom:4px}
+.welcome-feat .feat-text{font-size:0.78rem;font-weight:600;color:var(--color-text)}
 </style>
 </head>
 <body>
@@ -1060,7 +1072,7 @@ p { margin-bottom: 0.6em; }
     <div class="header-inner">
       <div class="logo">
         <div class="logo-icon">🔗</div>
-        <span>连连看</span>
+        <span>职业连连看</span>
       </div>
       <div class="stepped-progress" id="steppedProgress"><div class="step-node" data-step="1"><div class="step-dot active">1</div><div class="step-label active">✨ 闪光挖掘</div></div><div class="step-connector"></div><div class="step-node" data-step="2"><div class="step-dot">2</div><div class="step-label">🌳 行业探索</div></div><div class="step-connector"></div><div class="step-node" data-step="3"><div class="step-dot">3</div><div class="step-label">⚗️ 三圈配方</div></div><div class="step-connector"></div><div class="step-node" data-step="4"><div class="step-dot">4</div><div class="step-label">🔗 连连看</div></div></div>
     <div style="max-width:540px;margin:6px auto 0;position:relative;">
@@ -1135,6 +1147,9 @@ const profile = {
   // Employment preference
   employmentType: '',       // 'market' | 'public' | 'both'
   orgTypes: [],             // 'private' | 'soe' | 'central_soe' | 'foreign'
+
+  // Display mode
+  careerMode: '',           // 'pro' | 'simple'
 
   // Phase 3
   recommendedJobs: [],
@@ -1841,6 +1856,7 @@ function render() {
     case 'final': renderFinal(); break;
   }
   updateProgress();
+  saveProgress();
   // Smooth scroll to latest content
   setTimeout(() => {
     mainContent.scrollTop = mainContent.scrollHeight;
@@ -1938,22 +1954,27 @@ function addCoins(n) {
 
 // ============ PHASE: WELCOME ============
 function renderWelcome() {
-  mainContent.innerHTML = `
-    <div class="chat-bubble coach">
-      <div class="bubble-avatar">🦊</div>
-      <div class="bubble-content">
-        <p>嗨，我是<strong>连连</strong>，一个帮你把闪光点连向理想工作的可爱教练 ✨</p>
-        <p>我们的旅程超轻松：</p>
-        <p>1️⃣ 用几个精准问题发现你的<strong>闪光金币</strong></p>
-        <p>2️⃣ 自己调配<strong>三圈比重</strong>，定制专属职业配方</p>
-        <p>3️⃣ 像玩连连看一样，连接具体岗位和超级标签，获得<strong>14天行动地图</strong></p>
-        <p style="color:var(--color-primary);font-weight:700;">全程有彩蛋掉落哦！准备好了吗？🪙</p>
-      </div>
-    </div>
-    <button class="btn btn-primary mt-16" onclick="startPhase1()" style="align-self:flex-start;">
-      ✨ 开始探索 →
-    </button>
-  `;
+  var saved = checkSavedProgress();
+  var resumeHTML = '';
+  if (saved) {
+    resumeHTML = '<div class="card mt-16" style="text-align:center;border:2px dashed var(--color-amber);background:#FFFDF5;"><p style="font-weight:700;">💾 检测到未完成的探索记录</p><p class="text-secondary" style="font-size:0.85rem;">上次进度：' + saved.phaseLabel + '（' + saved.time + '）</p><div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:8px;"><button class="btn btn-primary btn-small" onclick="resumeProgress()">📂 继续上次探索</button><button class="btn btn-ghost btn-small" onclick="clearSavedProgress()">🗑 重新开始</button></div></div>';
+  }
+  var html = '<div class="welcome-hero"><div class="welcome-mascot">🤑</div>';
+  html += '<div class="welcome-badge">✨ 你必发财 ✨</div>';
+  html += '<h2 style="margin:8px 0;font-size:1.5rem;">职业连连看</h2>';
+  html += '<p class="welcome-subtitle">基于<strong>MBTI + 霍兰德 + 大五人格</strong>的科学测评<br>帮你把闪光点连向理想工作 💫</p>';
+  html += '<div class="welcome-features">';
+  html += '<div class="welcome-feat"><div class="feat-emoji">🧩</div><div class="feat-text">科学测评<br>10题认识自己</div></div>';
+  html += '<div class="welcome-feat"><div class="feat-emoji">⚗️</div><div class="feat-text">三圈配方<br>定制职业方向</div></div>';
+  html += '<div class="welcome-feat"><div class="feat-emoji">🔗</div><div class="feat-text">连连看匹配<br>28个精选岗位</div></div>';
+  html += '</div></div>';
+
+  html += '<div class="chat-bubble coach mt-16"><div class="bubble-avatar">🦊</div><div class="bubble-content"><p>嗨，我是<strong>连连</strong>，你的职业探索教练 ✨</p><p>我们一起用科学方法找到适合你的好工作～</p></div></div>';
+
+  html += '<button class="btn btn-primary mt-16" onclick="startPhase1()" style="display:block;margin:0 auto;font-size:1.05rem;padding:14px 36px;">✨ 开始探索 →</button>';
+
+  if (saved) html += resumeHTML;
+  mainContent.innerHTML = html;
 }
 
 function startPhase1() {
@@ -2659,9 +2680,9 @@ function renderPhase2Result() {
 }
 
 function startPhase3() {
+  // Show version choice first
   state.phase = 'phase3';
-  state.phase3Step = 'intro';
-  // Match careers
+  state.phase3Step = 'version_choice';
   matchCareers();
   render();
 }
@@ -2751,10 +2772,28 @@ function matchCareers() {
 }
 
 function renderPhase3() {
-  if (state.phase3Step === 'intro') renderPhase3Intro();
-  else if (state.phase3Step === 'cards') renderPhase3Cards();
+  if (state.phase3Step === 'version_choice') renderVersionChoice();
+  else if (state.phase3Step === 'intro') renderPhase3Intro();
+  else if (state.phase3Step === 'cards') { if (profile.careerMode === 'simple') renderPhase3SimpleCards(); else renderPhase3Cards(); }
   else if (state.phase3Step === 'table') renderPhase3Table();
   else if (state.phase3Step === 'timeline') renderPhase3Timeline();
+}
+
+function renderVersionChoice() {
+  var html = '<div class="card color-top" style="border-top-color:var(--color-violet);text-align:center;">';
+  html += '<h3>📋 选择你的报告风格</h3>';
+  html += '<p class="text-secondary mt-8">同样的岗位匹配结果，两种不同的阅读体验～</p>';
+  html += '<div class="emp-choice-grid mt-16">';
+  html += '<div class="emp-choice-card" onclick="selectCareerMode(\'pro\')"><div class="emp-icon">📊</div><div class="emp-title">专业版</div><div class="emp-desc">详细数据、行业术语、完整标签<br>适合想深入了解的你</div><div class="emp-check">✓</div></div>';
+  html += '<div class="emp-choice-card" onclick="selectCareerMode(\'simple\')"><div class="emp-icon">💬</div><div class="emp-title">人话版</div><div class="emp-desc">用最通俗的语言讲清楚<br>像朋友聊天一样介绍工作</div><div class="emp-check">✓</div></div>';
+  html += '</div></div>';
+  mainContent.innerHTML = html;
+}
+
+function selectCareerMode(mode) {
+  profile.careerMode = mode;
+  state.phase3Step = 'intro';
+  render();
 }
 
 function renderPhase3Intro() {
@@ -2986,6 +3025,167 @@ function renderStars(count) {
     ` <span style="font-size:0.8rem;font-weight:700;">${count}/5</span></span>`;
 }
 
+// ============ SIMPLIFIED ("人话版") JOB CARD RENDERING ============
+function simplifyJobData(job) {
+  // Generate ultra-simple job descriptions from professional data
+  var userAbilities = profile.flashCard?.abilities || [];
+  var topAbility = userAbilities[0] || '你的优势';
+  var hollandCode = profile.hollandCode || [];
+  var hollandMap = {R:'动手操作',I:'研究思考',A:'创意表达',S:'帮助他人',E:'领导管理',C:'组织规划'};
+  var yourStyle = hollandCode.map(function(c){return hollandMap[c]||c;}).join('、') || '多元化';
+
+  return {
+    // One-liner
+    oneLiner: simplifyJobName(job),
+    // What you do (3 bullet points, ultra simple)
+    whatYouDo: simplifyWorkContent(job),
+    // How to get in
+    howToGet: simplifySkillGap(job),
+    // Best cities
+    bestCities: simplifyCities(job),
+    // Does it fit you?
+    fitYou: simplifyFit(job, topAbility, yourStyle),
+    // Money
+    money: simplifySalary(job),
+    // Full detail (expandable)
+    fullDetail: simplifyFullDetail(job, topAbility, yourStyle)
+  };
+}
+
+function simplifyJobName(job) {
+  var map = {
+    'AI 产品经理': '帮AI产品想功能、定方向的人',
+    '用户体验设计师（UX/UI）': '让APP用起来顺手又好看的设计师',
+    '内容策划 / 新媒体运营': '写文案、拍视频、运营社交账号的人',
+    '数据分析师': '用数据帮公司做决策的人',
+    'ESG/可持续发展分析师': '帮企业变得更环保、更有社会责任的人',
+    '科技行业解决方案顾问（售前）': '给客户讲解技术产品怎么解决他们问题的人',
+    'HR 组织发展 / 人才发展专员（OD/TD）': '帮公司培养人才、建团队文化的人',
+    '生物医药 / 医疗器械 产品专员': '帮医药/医疗器械产品做市场推广的人',
+    '金融分析师 / 投资顾问': '研究公司值不值得投资的人',
+    '游戏策划 / 制作人助理': '设计游戏怎么玩的人',
+    '跨境电商运营 / 品牌出海经理': '把中国产品卖到国外去的人',
+    '管理咨询顾问': '帮助企业解决经营管理难题的人',
+    '品牌经理 / 市场营销专家': '让更多人知道并喜欢一个品牌的人',
+    '心理咨询师 / 心理健康教育': '帮人解决心理困扰、变得更快乐的人',
+    '新能源汽车行业 产品/项目专员': '帮新能源车企造更好的电动车的人',
+    '半导体行业 应用工程师 / 产品工程师': '帮芯片公司把芯片用到各种设备里的人',
+  };
+  if (map[job.name]) return map[job.name];
+  // Fallback: generate from job name
+  var name = job.name.split(' / ')[0];
+  return '做「' + name + '」相关工作的人';
+}
+
+function simplifyWorkContent(job) {
+  var map = {
+    'AI 产品经理': ['想清楚AI产品应该有什么功能','和程序员、设计师一起把产品做出来','盯着行业新动态，决定下一步做什么'],
+    '用户体验设计师（UX/UI）': ['研究用户怎么用产品、哪里不爽','设计产品页面长什么样、怎么交互','和产品经理、程序员配合把设计落地'],
+    '内容策划 / 新媒体运营': ['想选题、写文案、拍视频','看数据，分析哪些内容受欢迎','研究各个平台的规则和趋势'],
+    '数据分析师': ['搞清楚业务部门想了解什么问题','用SQL/Python捞数据、做分析','把分析结果讲给老板听，帮他做决策'],
+    '跨境电商运营 / 品牌出海经理': ['在中国选好产品，上架到亚马逊/TikTok等国外平台','设置广告、优化产品页面、回复客户消息','分析什么产品好卖，不断调整策略'],
+  };
+  if (map[job.name]) return map[job.name];
+  return job.workContent.map(function(w){ return w.replace(/[，、].*/,'').substring(0,25)+'...'; }).slice(0,3);
+}
+
+function simplifySkillGap(job) {
+  var s = job.skillGap;
+  s = s.replace(/路径：.*/, '').replace(/建议路径：.*/, '').replace(/需掌握|需要补充|需了解|需系统学习/g, '需要学：');
+  if (s.length > 80) s = s.substring(0,80) + '...';
+  return s || '从零开始学，花几个月时间认真准备就行';
+}
+
+function simplifyCities(job) {
+  return job.cities.split('|').map(function(c){ return c.split('（')[0].trim(); }).slice(0,3).join('、');
+}
+
+function simplifySalary(job) {
+  var s = job.salary;
+  var m = s.match(/应届(\d+-\d+[Kk])/);
+  return m ? '毕业起薪约 ' + m[1] + '/月' : (s.substring(0,30) + '...');
+}
+
+function simplifyFit(job, topAbility, yourStyle) {
+  var matches = [];
+  var userAbs = (profile.flashCard?.abilities || []).join(' ');
+  job.matchAbilities.forEach(function(a){
+    if (userAbs.indexOf(a) >= 0 || userAbs.indexOf(a.substring(0,2)) >= 0) matches.push(a);
+  });
+  if (matches.length >= 2) return '✅ 很适合你！你的' + matches.slice(0,2).join('、') + '正好是这个岗位需要的';
+  if (matches.length >= 1) return '👍 还不错！你的' + matches[0] + '能用上，再补一点行业知识就行';
+  return '🤔 需要努把力——你的底层能力（' + yourStyle + '）可以迁移过来，但需要学一些新知识';
+}
+
+function simplifyFullDetail(job, topAbility, yourStyle) {
+  var h = '<div style="line-height:1.8;">';
+  h += '<p><strong>🔍 这工作到底是干啥的？</strong></p>';
+  h += '<p>简单说就是：' + simplifyJobName(job) + '。</p>';
+  h += '<p>每天主要做这些事：</p><ol style="padding-left:18px;">';
+  (simplifyWorkContent(job)).forEach(function(w){ h += '<li>' + w + '</li>'; });
+  h += '</ol>';
+
+  h += '<p style="margin-top:12px;"><strong>🛤 怎么才能拿到Offer？</strong></p>';
+  h += '<p>' + simplifySkillGap(job) + '</p>';
+  h += '<p>💡 <strong>最关键的3个月计划：</strong>' + job.prototype + '</p>';
+
+  h += '<p style="margin-top:12px;"><strong>🏙 去哪些城市发展比较好？</strong></p>';
+  h += '<p>首选：' + simplifyCities(job) + '。</p>';
+
+  h += '<p style="margin-top:12px;"><strong>💰 能赚多少钱？</strong></p>';
+  h += '<p>' + job.salary + '</p>';
+
+  h += '<p style="margin-top:12px;"><strong>🎯 适合我吗？</strong></p>';
+  h += '<p>' + simplifyFit(job, topAbility, yourStyle) + '</p>';
+  h += '<p style="font-size:0.82rem;color:var(--color-text-secondary);">新手友好度：' + '⭐'.repeat(job.beginnerStars) + ' | 能力可迁移度：' + '⭐'.repeat(job.skillTransferStars) + '</p>';
+
+  h += '<p style="margin-top:12px;"><strong>💬 做过的人怎么说？</strong></p>';
+  h += '<p style="font-size:0.82rem;color:var(--color-text-secondary);">' + job.community + '</p>';
+
+  h += '</div>';
+  return h;
+}
+
+function renderPhase3SimpleCards() {
+  var jobs = profile.recommendedJobs;
+  var html = '<h3 style="margin-bottom:4px;">🔗 你的职业连连卡 · 人话版</h3>';
+  html += '<p class="text-secondary mb-12">用大白话给你讲清楚每个工作是干嘛的～ 点击卡片看详细解释 👇</p>';
+
+  jobs.forEach(function(job, idx) {
+    var s = simplifyJobData(job);
+    html += '<div class="job-card mt-12" style="animation-delay:' + (idx * 0.1) + 's;cursor:pointer;" onclick="toggleSimpleDetail(\'sd_' + job.id + '\', this)">';
+    html += '<div style="display:flex;align-items:center;gap:12px;">';
+    html += '<div style="width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--color-primary-light),var(--color-amber-light));display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0;">' + (idx+1) + '</div>';
+    html += '<div style="flex:1;"><strong style="font-size:1rem;">' + job.name + '</strong>';
+    html += '<p style="font-size:0.82rem;color:var(--color-text-secondary);margin:2px 0 0;">' + s.oneLiner + '</p>';
+    html += '<div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:4px;">';
+    html += '<span style="font-size:0.7rem;background:#E8F5E9;color:#2E7D32;padding:2px 8px;border-radius:10px;">💰 ' + s.money + '</span>';
+    html += '<span style="font-size:0.7rem;background:#E3F2FD;color:#1565C0;padding:2px 8px;border-radius:10px;">🏙 ' + s.bestCities + '</span>';
+    html += '<span style="font-size:0.7rem;background:#FFF3E0;color:#E65100;padding:2px 8px;border-radius:10px;">🌱 新手' + '⭐'.repeat(job.beginnerStars) + '</span>';
+    html += '</div></div>';
+    html += '<span style="font-size:0.7rem;color:var(--color-text-muted);">▼ 展开</span></div>';
+
+    // Expandable detail
+    html += '<div id="sd_' + job.id + '" style="display:none;margin-top:12px;padding-top:12px;border-top:1px solid var(--color-border);">' + s.fullDetail + '</div>';
+    html += '</div>';
+  });
+
+  html += '<button class="btn btn-outline mt-16" onclick="state.phase3Step=\'table\';render();">📊 查看备选方向对照表 →</button>';
+  mainContent.innerHTML = html;
+}
+
+function toggleSimpleDetail(id, card) {
+  var el = document.getElementById(id);
+  var arrow = card.querySelector('span:last-child');
+  if (el.style.display === 'none' || !el.style.display) {
+    el.style.display = 'block';
+    if (arrow) arrow.textContent = '▲ 收起';
+  } else {
+    el.style.display = 'none';
+    if (arrow) arrow.textContent = '▼ 展开';
+  }
+}
+
 function renderPhase3Table() {
   const jobs = profile.recommendedJobs;
   let html = `
@@ -3109,6 +3309,7 @@ function renderFinal() {
   html += '<button class="btn btn-small btn-primary" onclick="exportReportText()">📋 复制完整报告</button>';
   html += '<button class="btn btn-small btn-outline" onclick="window.print()">🖨 打印/导出PDF</button>';
   html += '<button class="btn btn-small btn-outline" onclick="exportChecklist()">✅ 导出学习清单</button>';
+  html += '<button class="btn btn-small btn-outline" onclick="shareSite()" style="background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;border:none;">📤 分享给朋友</button>';
   html += '</div></div></div>';
 
   // Odyssey Plan
@@ -3189,6 +3390,20 @@ function exportReportText() {
   else { var ta=document.createElement('textarea'); ta.value=t; ta.style.cssText='position:fixed;top:10%;left:10%;width:80%;height:60%;z-index:9999;'; document.body.appendChild(ta); ta.select(); showToast('📋','请手动复制（Ctrl+A→Ctrl+C）'); setTimeout(function(){ta.remove();},10000); }
 }
 
+function shareSite() {
+  var url = 'https://sb66-cell.github.io/lianlian-career/';
+  var text = '🔗 职业连连看 · 免费科学职业测评\n🧩 MBTI + 霍兰德 + 大五人格 | 10题认识自己\n✨ 28个精选岗位 + 详细求职攻略\n👉 ' + url;
+  if (navigator.share) {
+    navigator.share({title:'职业连连看 · 科学职业测评',text:text,url:url}).catch(function(){});
+  } else {
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(text).then(function(){ showToast('📤','分享文案已复制！直接粘贴发给朋友即可～'); });
+    } else {
+      var ta = document.createElement('textarea'); ta.value = text; ta.style.cssText = 'position:fixed;top:10%;left:10%;width:80%;height:40%;z-index:9999;'; document.body.appendChild(ta); ta.select(); showToast('📤','请手动复制文案分享～'); setTimeout(function(){ta.remove();},10000);
+    }
+  }
+}
+
 function exportChecklist() {
   var t = '📋 连连看 · 学习与证书清单\n══════════════════════\n\n';
   profile.recommendedJobs.forEach(function(j,i) {
@@ -3251,6 +3466,40 @@ function closeCompareModal(e) {
   document.getElementById('compareModalOverlay').classList.remove('show');
 }
 
+// ============ LOCAL STORAGE SAVE / RESUME ============
+function saveProgress() {
+  try {
+    var phaseLabels = {welcome:'欢迎页',phase1:'闪光挖掘第'+(state.questionIndex+1)+'题',phase1_flash:'闪光点卡',employment_choice:'就业偏好选择',phase2:'行业探索',phase2_result:'三圈配方结果',phase3:'连连看匹配',final:'奥德赛计划'};
+    var data = {state:state,profile:profile,time:new Date().toLocaleString('zh-CN'),phaseLabel:phaseLabels[state.phase]||'探索中'};
+    localStorage.setItem('lianlian_progress', JSON.stringify(data));
+  } catch(e) {}
+}
+function checkSavedProgress() {
+  try {
+    var raw = localStorage.getItem('lianlian_progress');
+    if (!raw) return null;
+    var data = JSON.parse(raw);
+    if (!data.state || data.state.phase === 'welcome' || data.state.phase === 'final') return null;
+    return data;
+  } catch(e) { return null; }
+}
+function resumeProgress() {
+  try {
+    var raw = localStorage.getItem('lianlian_progress');
+    if (!raw) return;
+    var data = JSON.parse(raw);
+    Object.assign(state, data.state);
+    Object.assign(profile, data.profile);
+    profile.recommendedJobs = data.profile.recommendedJobs || [];
+    render();
+    window.scrollTo(0, 0);
+  } catch(e) { restartApp(); }
+}
+function clearSavedProgress() {
+  localStorage.removeItem('lianlian_progress');
+  restartApp();
+}
+
 function restartApp() {
   // Reset state
   state.phase = 'welcome';
@@ -3268,6 +3517,7 @@ function restartApp() {
   profile.wantToDo = ''; profile.goodAt = ''; profile.moneyDirections = [];
   profile.ratioPreset = ''; profile.ratioCustom = { want: 0, good: 0, money: 0 };
   profile.employmentType = ''; profile.orgTypes = [];
+  profile.careerMode = '';
   profile.recommendedJobs = [];
   profile.selectedIndustries = [];
 
