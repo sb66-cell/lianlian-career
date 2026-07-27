@@ -1107,15 +1107,16 @@ const state = {
 };
 
 const profile = {
-  // Phase 1
-  flowMoment: '',
-  energyTendency: [],
-  values: [],
-  strengthSignal: '',
-  achievementSnapshot: '',
-  personalityIE: '',
-  personalityTF: '',
-  idealWorkday: '',
+  // Phase 1 — 科学测评 (MBTI + 霍兰德 + 大五人格)
+  mbti_ei: '',            // 'E' or 'I' (Q1)
+  mbti_sn: '',            // 'S' or 'N' (Q2)
+  mbti_tf: '',            // 'T' or 'F' (Q3)
+  mbti_jp: '',            // 'J' or 'P' (Q4)
+  hollandCode: [],        // top 1-2 of R/I/A/S/E/C (Q5)
+  openness: '',           // 'low'|'mid'|'high' (Q6)
+  coreValues: [],         // selected values max 2 (Q7)
+  dominantSkills: [],     // selected skills max 2 (Q8)
+  workEnvPref: '',        // selected environment (Q9)
   major: '',
   workYears: '',
   currentCity: '',
@@ -1139,119 +1140,117 @@ const profile = {
   recommendedJobs: [],
 };
 
-// ============ CONSTANTS ============
+// ============ PHASE 1 QUESTIONS — 霍兰德 RIASEC + MBTI + 大五人格 ============
 const PHASE1_QUESTIONS = [
+  // Q1: MBTI E/I — 能量来源
   {
-    id: 'flowMoment',
-    type: 'text',
-    number: 1,
-    emoji: '🕒',
-    title: '过去一个月里，做什么事情的时候你最投入、完全注意不到时间？',
-    subtitle: '哪怕只是一件很小的事，比如组装家具、写日记、研究某个话题...',
-    placeholder: '说说你的心流时刻吧～',
-    coinLabel: '心流金币',
-  },
-  {
-    id: 'energyTendency',
-    type: 'multiChoice',
-    number: 2,
-    emoji: '🧭',
-    title: '如果必须选，你更享受哪种类型的活动？（可多选）',
-    subtitle: '选最让你有能量的，不用想太多～',
+    id: 'mbti_ei', type: 'singleChoice', number: 1, emoji: '🔋',
+    title: '忙碌一周后，哪种方式最让你恢复能量？',
+    subtitle: '基于 MBTI 外向/内向维度 · 反映你的能量流动方向',
     options: [
-      { value: 'A', icon: '💬', label: '与人深度交流', desc: '倾听、共情、深度对话' },
-      { value: 'B', icon: '🧩', label: '独自分析复杂信息', desc: '研究、逻辑推理、数据挖掘' },
-      { value: 'C', icon: '🔧', label: '动手创造或制作', desc: '搭建、编程、手作实物' },
-      { value: 'D', icon: '📋', label: '策划统筹活动', desc: '组织、协调、推进项目落地' },
-      { value: 'E', icon: '🎨', label: '自由艺术表达', desc: '写作、绘画、设计、音乐' },
-    ],
-    coinLabel: '能量金币',
-  },
+      { id:'I', icon:'🏠', label:'独处恢复', desc:'一个人阅读、散步、思考或沉浸在自己的世界里，享受安静时光让我重新充满电' },
+      { id:'E', icon:'🎉', label:'社交恢复', desc:'约朋友聚会、聊天、参加活动或热闹的场合，和他人互动让我重获能量' }
+    ], coinLabel:'MBTI·能量倾向' },
+  // Q2: MBTI S/N — 信息感知方式
   {
-    id: 'values',
-    type: 'tags',
-    number: 3,
-    emoji: '💎',
-    title: '目前对你最重要的三个价值观是什么？',
-    subtitle: '请选出你内心最看重的 3 个',
-    maxSelect: 3,
+    id: 'mbti_sn', type: 'singleChoice', number: 2, emoji: '🔍',
+    title: '接触一个新领域时，你更关注什么？',
+    subtitle: '基于 MBTI 感觉/直觉维度 · 反映你如何感知和处理信息',
     options: [
-      '自主独立', '经济回报', '社会影响', '人际关系',
-      '学习成长', '稳定安全', '创新创造', '工作生活平衡',
-    ],
-    coinLabel: '价值观金币',
-  },
+      { id:'S', icon:'📋', label:'具体事实与细节', desc:'关注实际数据、操作步骤和已验证的经验，相信"眼见为实"，喜欢具体明确的指导' },
+      { id:'N', icon:'🔮', label:'整体模式与可能性', desc:'关注背后的规律、未来趋势和抽象概念，喜欢探索"为什么"和"如果…会怎样"，享受头脑风暴' }
+    ], coinLabel:'MBTI·感知方式' },
+  // Q3: MBTI T/F — 决策判断依据
   {
-    id: 'strengthSignal',
-    type: 'text',
-    number: 4,
-    emoji: '🌟',
-    title: '别人经常夸你什么？或者总向你请教哪类问题？',
-    subtitle: '有时候我们自己看不到的优势，别人看得最清楚～',
-    placeholder: '比如：朋友总找你帮忙分析感情问题、同事常请教你PPT技巧...',
-    coinLabel: '优势金币',
-  },
+    id: 'mbti_tf', type: 'singleChoice', number: 3, emoji: '⚖️',
+    title: '做重要决定时，你更依赖什么？',
+    subtitle: '基于 MBTI 思维/情感维度 · 反映你的决策判断逻辑',
+    options: [
+      { id:'T', icon:'🧠', label:'逻辑与客观分析', desc:'收集数据、权衡利弊、分析因果关系，追求公平一致的原则，认为决策应该基于理性而非情绪' },
+      { id:'F', icon:'💛', label:'价值观与人际影响', desc:'考虑对他人的影响、是否符合自己的价值观，关注和谐与共情，认为好的决策应该兼顾人的感受' }
+    ], coinLabel:'MBTI·决策方式' },
+  // Q4: MBTI J/P + 大五尽责性 — 组织与计划风格
   {
-    id: 'achievementSnapshot',
-    type: 'text',
-    number: 5,
-    emoji: '🏆',
-    title: '用三句话讲一个你过去的小成就',
-    subtitle: '你做了什么？克服了什么困难？结果怎样？不用很大，真实就好～',
-    placeholder: '比如：大学时我发起了读书打卡群，从最初的3个人发展到50人，坚持了100天...',
-    coinLabel: '成就金币',
-  },
+    id: 'mbti_jp', type: 'singleChoice', number: 4, emoji: '📅',
+    title: '以下哪种描述更符合你的日常风格？',
+    subtitle: '基于 MBTI 判断/感知维度 + 大五人格尽责性 · 反映你的工作组织方式',
+    options: [
+      { id:'J', icon:'✅', label:'计划有序型', desc:'喜欢提前规划、列清单、设定 deadline，完成一件事再开始下一件。桌面整洁，讨厌临时变卦。对我来说"确定性"本身就是一种生产力' },
+      { id:'P', icon:'🔄', label:'灵活随性型', desc:'保持多种可能性、随遇而安，享受即兴发挥。桌面可能有点乱但我知道东西在哪。deadline 前效率最高，变化带来新鲜感而非压力' }
+    ], coinLabel:'MBTI·组织风格' },
+  // Q5: 霍兰德 RIASEC — 核心兴趣方向 (选2)
   {
-    id: 'personality',
-    type: 'dualChoice',
-    number: 6,
-    emoji: '🧩',
-    title: '快速性格倾向——更接近哪一种？',
-    subtitle: '凭第一感觉选就好，这不是科学测试，只是帮连连更了解你～',
-    questionA: '你在哪种状态下更容易恢复精力？',
-    optionsA: [
-      { value: 'I', icon: '🏠', label: '独处时充电', desc: '一个人看书、散步、思考' },
-      { value: 'E', icon: '🎉', label: '社交时充电', desc: '和朋友聚会、聊天、热闹场合' },
-    ],
-    questionB: '做重要决定时，你更依赖什么？',
-    optionsB: [
-      { value: 'T', icon: '🧠', label: '逻辑分析', desc: '数据、利弊、客观推理' },
-      { value: 'F', icon: '💛', label: '人的感受', desc: '价值观、人际关系、和谐度' },
-    ],
-    coinLabel: '性格金币',
-  },
+    id: 'hollandCode', type: 'multiPick2', number: 5, emoji: '🧭',
+    title: '不考虑薪资和现实约束，哪两类活动最吸引你？',
+    subtitle: '基于霍兰德 RIASEC 职业兴趣理论 · 选择最让你有热情的 2 个方向',
+    maxSelect: 2,
+    options: [
+      { id:'R', icon:'🔧', label:'实做型 (R)', desc:'动手操作工具、机器或材料；户外工作；建造或修理东西；看到有形的成果' },
+      { id:'I', icon:'🔬', label:'研究型 (I)', desc:'分析数据、研究复杂问题；探索科学或理论；独立深入思考；追求知识和真相' },
+      { id:'A', icon:'🎨', label:'艺术型 (A)', desc:'创意表达、设计、写作或表演；追求美感与独特性；在非结构化环境中自由创作' },
+      { id:'S', icon:'🤝', label:'社会型 (S)', desc:'帮助他人、教学培训、咨询辅导；促进理解与成长；用共情和沟通建立连接' },
+      { id:'E', icon:'🚀', label:'企业型 (E)', desc:'领导团队、说服影响、经营商业；追求成就与影响力；在竞争和挑战中获得动力' },
+      { id:'C', icon:'📊', label:'常规型 (C)', desc:'组织管理数据、按流程执行、注重准确和效率；在有序环境中持续稳定地产出' }
+    ], coinLabel:'霍兰德·兴趣倾向' },
+  // Q6: 大五人格 O — 开放性/创新意愿
   {
-    id: 'idealWorkday',
-    type: 'text',
-    number: 7,
-    emoji: '🖼',
-    title: '你理想的工作日是怎样的画面？',
-    subtitle: '闭上眼睛想象一下：在哪里、和谁、在做什么？',
-    placeholder: '比如：在明亮的窗边独立专注地写作，偶尔和团队远程交流创意...',
-    coinLabel: '理想日金币',
-  },
+    id: 'openness', type: 'singleChoice', number: 6, emoji: '🌟',
+    title: '面对新体验和变化，你的态度更接近？',
+    subtitle: '基于大五人格开放性维度 · 反映创新意愿与变革容忍度',
+    options: [
+      { id:'low', icon:'⚓', label:'稳健务实型', desc:'我偏好熟悉的环境和经过验证的方法，稳定的节奏比频繁变化更能让我发挥。对于全新事物会先观望再决定是否尝试' },
+      { id:'mid', icon:'🌿', label:'平衡开放型', desc:'我乐于在稳定基础上适度尝试新事物，对新趋势保持关注但不会盲目追逐。变与不变之间我寻求最适合当下情况的选择' },
+      { id:'high', icon:'🚀', label:'探索创新型', desc:'我天生好奇、喜欢尝试没做过的事，愿意走出舒适区。变化的行业、新奇的挑战对我来说是吸引力而非阻力，甚至会觉得"太稳定"有点无聊' }
+    ], coinLabel:'大五·开放性' },
+  // Q7: 核心驱动力/价值观 (选2)
   {
-    id: 'background',
-    type: 'backgroundForm',
-    number: 8,
-    emoji: '📋',
+    id: 'coreValues', type: 'multiPick2', number: 7, emoji: '💎',
+    title: '工作中你最看重的两个因素是什么？',
+    subtitle: '基于职业锚理论 + 大五人格宜人性 · 选择最驱动你的 2 个内在动机',
+    maxSelect: 2,
+    options: [
+      { id:'security', icon:'🏰', label:'安全与稳定', desc:'可靠的收入、清晰的晋升路径、不用担心朝不保夕' },
+      { id:'achievement', icon:'🏆', label:'成就与卓越', desc:'成为领域顶尖高手、攻克难题、获得专业认可与尊重' },
+      { id:'autonomy', icon:'🕊️', label:'自主与自由', desc:'掌控自己的时间、工作方式和决策权，不被微观管理' },
+      { id:'purpose', icon:'🌍', label:'意义与影响', desc:'做对社会/他人有积极影响的事，工作本身就是目的' },
+      { id:'connection', icon:'🤗', label:'关系与归属', desc:'和喜欢的人一起工作、团队氛围好、有归属感和被需要感' },
+      { id:'growth', icon:'📈', label:'成长与学习', desc:'持续获得新技能、新视野，不断突破自己的能力边界' }
+    ], coinLabel:'职业锚·价值观' },
+  // Q8: 优势技能自评 (选2)
+  {
+    id: 'dominantSkills', type: 'multiPick2', number: 8, emoji: '⭐',
+    title: '以下哪两项能力是你最突出的优势？',
+    subtitle: '基于盖洛普优势识别思路 · 选择你被高频夸赞或最自信的 2 项',
+    maxSelect: 2,
+    options: [
+      { id:'analytical', icon:'🧩', label:'分析与逻辑', desc:'数据分析、逻辑推理、问题拆解、从复杂信息中提炼规律' },
+      { id:'creative', icon:'🎨', label:'创意与表达', desc:'写作策划、设计审美、内容创作、把一个想法变成生动作品' },
+      { id:'interpersonal', icon:'💬', label:'沟通与共情', desc:'倾听理解、说服协调、建立信任、读懂他人的情绪和需求' },
+      { id:'technical', icon:'💻', label:'技术与动手', desc:'编程开发、工具操作、动手搭建、用技术手段实现解决方案' },
+      { id:'organizational', icon:'📋', label:'组织与统筹', desc:'项目管理、资源协调、流程优化、把混乱梳理成有序推进' },
+      { id:'resilience', icon:'💪', label:'执行与韧性', desc:'说到做到、在压力下保持稳定、持续推动直到目标达成' }
+    ], coinLabel:'优势·技能评估' },
+  // Q9: 理想工作环境
+  {
+    id: 'workEnvPref', type: 'singleChoice', number: 9, emoji: '🏢',
+    title: '以下哪种工作环境最让你感到舒适和高效？',
+    subtitle: '基于组织文化匹配理论 · 环境与人格的契合度直接影响工作满意度',
+    options: [
+      { id:'structured', icon:'🏛️', label:'规范有序型', desc:'清晰的规则流程、明确的层级分工、稳定的节奏、可预期的晋升' },
+      { id:'collaborative', icon:'👥', label:'协作共生型', desc:'开放沟通、团队作战、互相支持、公司像大家庭一样有归属感' },
+      { id:'autonomous', icon:'🏡', label:'自主灵活型', desc:'弹性工作、信任文化、结果导向而不是过程管控、包容个性化' },
+      { id:'fast-paced', icon:'⚡', label:'快节奏挑战型', desc:'高目标高回报、快速迭代、竞争激励、每天都面临新挑战' },
+      { id:'creative', icon:'🌈', label:'创意自由型', desc:'扁平结构、鼓励试错、包容非常规想法、不拘一格的文化氛围' }
+    ], coinLabel:'环境·文化匹配' },
+  // Q10: 背景信息
+  {
+    id: 'background', type: 'backgroundForm', number: 10, emoji: '📋',
     title: '最后，让连连了解一下你的背景～',
     subtitle: '这些信息帮我更精准地为你连线',
     fields: ['major', 'workYears', 'currentCity', 'targetCity'],
     coinLabel: '背景金币',
   },
 ];
-
-const VALUE_LABEL_MAP = {
-  '自主独立': { icon: '🕊️', color: '#4ECDC4' },
-  '经济回报': { icon: '💰', color: '#FFB347' },
-  '社会影响': { icon: '🌍', color: '#9B59B6' },
-  '人际关系': { icon: '🤝', color: '#FF6B6B' },
-  '学习成长': { icon: '📚', color: '#6BCB77' },
-  '稳定安全': { icon: '🏰', color: '#5DADE2' },
-  '创新创造': { icon: '💡', color: '#FFB347' },
-  '工作生活平衡': { icon: '⚖️', color: '#4ECDC4' },
-};
 
 const RATIO_PRESETS = [
   {
@@ -1853,7 +1852,7 @@ function render() {
 
 function updateProgress() {
   var pct = 0, activeStep = 1;
-  if (state.phase === 'phase1') { pct = (state.questionIndex / 8) * 20; activeStep = 1; }
+  if (state.phase === 'phase1') { pct = (state.questionIndex / 10) * 20; activeStep = 1; }
   else if (state.phase === 'phase1_flash') { pct = 20; activeStep = 1; }
   else if (state.phase === 'employment_choice') { pct = 22; activeStep = 2; }
   else if (state.phase === 'phase2') {
@@ -1970,171 +1969,76 @@ function renderPhase1Question() {
 
   let inputHTML = '';
   switch (q.type) {
-    case 'text':
-      inputHTML = `
-        <div class="text-input-group">
-          <textarea class="text-input" id="textAnswer" placeholder="${q.placeholder}" rows="3"></textarea>
-          <button class="btn btn-primary" onclick="submitTextAnswer('${q.id}')" id="submitBtn">
-            继续 → 🪙
-          </button>
-        </div>`;
+    case 'singleChoice':
+      // Click an option → auto-submit (no extra button needed)
+      inputHTML = '<div class="option-group">' +
+        q.options.map(function(o) {
+          return '<div class="option-card" data-id="' + o.id + '" onclick="submitSingleChoice(\'' + q.id + '\',\'' + o.id + '\')"><span class="option-icon">' + o.icon + '</span><div><strong>' + o.label + '</strong><div class="text-secondary">' + o.desc + '</div></div><div class="check-mark">✓</div></div>';
+        }).join('') +
+        '</div>';
       break;
 
-    case 'multiChoice':
-      inputHTML = `
-        <div class="option-group" id="multiOptions">
-          ${q.options.map(o => `
-            <div class="option-card" data-value="${o.value}" onclick="toggleMultiOption(this, '${q.id}')">
-              <span class="option-icon">${o.icon}</span>
-              <div>
-                <strong>${o.label}</strong>
-                <div class="text-secondary">${o.desc}</div>
-              </div>
-              <div class="check-mark">✓</div>
-            </div>
-          `).join('')}
-        </div>
-        <button class="btn btn-primary mt-16" onclick="submitMultiChoice('${q.id}')" disabled id="multiSubmit">
-          选好了 → 🪙
-        </button>`;
-
-      // Store temp multi-select state
+    case 'multiPick2':
+      // Max 2 selections with counter
       state._multiTemp = [];
-      break;
-
-    case 'tags':
-      inputHTML = `
-        <div class="tag-group" id="tagOptions">
-          ${q.options.map(t => `
-            <div class="tag-option" data-value="${t}" onclick="toggleTag(this, '${q.id}', ${q.maxSelect})">
-              ${t}
-            </div>
-          `).join('')}
-        </div>
-        <div class="text-secondary mt-8" id="tagHint">已选 0 / ${q.maxSelect} 个</div>
-        <button class="btn btn-primary mt-16" onclick="submitTags('${q.id}', ${q.maxSelect})" disabled id="tagSubmit">
-          选好了 → 🪙
-        </button>`;
-      state._tagTemp = [];
-      break;
-
-    case 'dualChoice':
-      state._dualTemp = { ie: null, tf: null };
-      inputHTML = `
-        <div class="mb-16">
-          <p style="font-weight:600;margin-bottom:8px;color:var(--color-text-secondary);">${q.questionA}</p>
-          <div class="option-group" id="dualA">
-            ${q.optionsA.map(o => `
-              <div class="option-card" data-value="${o.value}" data-group="ie" onclick="selectDual(this, 'ie')">
-                <span class="option-icon">${o.icon}</span>
-                <div><strong>${o.label}</strong><div class="text-secondary">${o.desc}</div></div>
-                <div class="check-mark">✓</div>
-              </div>
-            `).join('')}
-          </div>
-        </div>
-        <div>
-          <p style="font-weight:600;margin-bottom:8px;color:var(--color-text-secondary);">${q.questionB}</p>
-          <div class="option-group" id="dualB">
-            ${q.optionsB.map(o => `
-              <div class="option-card" data-value="${o.value}" data-group="tf" onclick="selectDual(this, 'tf')">
-                <span class="option-icon">${o.icon}</span>
-                <div><strong>${o.label}</strong><div class="text-secondary">${o.desc}</div></div>
-                <div class="check-mark">✓</div>
-              </div>
-            `).join('')}
-          </div>
-        </div>
-        <button class="btn btn-primary mt-16" onclick="submitDual('${q.id}')" disabled id="dualSubmit">
-          选好了 → 🪙
-        </button>`;
+      inputHTML = '<div class="option-group" id="multiOptions">' +
+        q.options.map(function(o) {
+          return '<div class="option-card" data-id="' + o.id + '" onclick="toggleMultiPick(\'' + q.id + '\',\'' + o.id + '\',' + q.maxSelect + ')"><span class="option-icon">' + o.icon + '</span><div><strong>' + o.label + '</strong><div class="text-secondary">' + o.desc + '</div></div><div class="check-mark">✓</div></div>';
+        }).join('') +
+        '</div>' +
+        '<div class="text-secondary mt-8" id="pickHint">已选 0 / ' + q.maxSelect + ' 个</div>' +
+        '<button class="btn btn-primary mt-12" onclick="submitMultiPick(\'' + q.id + '\',' + q.maxSelect + ')" disabled id="multiPickSubmit">选好了 → 🪙</button>';
       break;
 
     case 'backgroundForm':
-      inputHTML = `
-        <div class="text-input-group">
-          <input class="text-input text-input-single" id="bgMajor" placeholder="专业 / 在读或毕业">
-          <input class="text-input text-input-single" id="bgWorkYears" placeholder="工作年限（如：应届 / 1年）">
-          <input class="text-input text-input-single" id="bgCurrentCity" placeholder="当前城市">
-          <input class="text-input text-input-single" id="bgTargetCity" placeholder="意向城市（可选）">
-          <button class="btn btn-primary" onclick="submitBackground('${q.id}')">
-            完成 → 🪙
-          </button>
-        </div>`;
+      inputHTML = '<div class="text-input-group">' +
+        '<input class="text-input text-input-single" id="bgMajor" placeholder="专业 / 在读或毕业">' +
+        '<input class="text-input text-input-single" id="bgWorkYears" placeholder="工作年限（如：应届 / 1年）">' +
+        '<input class="text-input text-input-single" id="bgCurrentCity" placeholder="当前城市">' +
+        '<input class="text-input text-input-single" id="bgTargetCity" placeholder="意向城市（可选）">' +
+        '<button class="btn btn-primary" onclick="submitBackground()">完成 → 🪙</button>' +
+        '</div>';
       break;
   }
 
-  mainContent.innerHTML = `
-    <div class="question-card">
-      <div class="question-number">${q.emoji} 第 ${q.number} / 8 题 · ${q.coinLabel || '金币'}</div>
-      <div class="question-text">${q.title}</div>
-      ${q.subtitle ? `<p class="text-secondary mb-16">${q.subtitle}</p>` : ''}
-      ${inputHTML}
-    </div>
-  `;
+  mainContent.innerHTML = '<div class="question-card">' +
+    '<div class="question-number">' + q.emoji + ' 第 ' + q.number + ' / 10 题 · ' + (q.coinLabel || '金币') + '</div>' +
+    '<div class="question-text">' + q.title + '</div>' +
+    (q.subtitle ? '<p class="text-secondary mb-16">' + q.subtitle + '</p>' : '') +
+    inputHTML +
+    '</div>';
 }
 
 // ---- Phase 1 Handlers ----
-function submitTextAnswer(id) {
-  const el = document.getElementById('textAnswer');
-  const val = el.value.trim();
-  if (!val) { el.focus(); el.style.borderColor = 'var(--color-primary)'; return; }
-  profile[id] = val;
+function submitSingleChoice(qid, value) {
+  profile[qid] = value;
   advanceQuestion();
 }
 
-function toggleMultiOption(el, id) {
-  el.classList.toggle('selected');
-  const val = el.dataset.value;
-  if (el.classList.contains('selected')) {
-    if (!state._multiTemp.includes(val)) state._multiTemp.push(val);
-  } else {
-    state._multiTemp = state._multiTemp.filter(v => v !== val);
-  }
-  document.getElementById('multiSubmit').disabled = state._multiTemp.length === 0;
-}
-
-function submitMultiChoice(id) {
-  profile[id] = [...state._multiTemp];
-  advanceQuestion();
-}
-
-function toggleTag(el, id, max) {
-  const val = el.dataset.value;
-  if (el.classList.contains('selected')) {
+function toggleMultiPick(qid, value, max) {
+  var el = event.target.closest('.option-card');
+  if (!el) return;
+  var idx = state._multiTemp.indexOf(value);
+  if (idx >= 0) {
+    state._multiTemp.splice(idx, 1);
     el.classList.remove('selected');
-    state._tagTemp = state._tagTemp.filter(v => v !== val);
   } else {
-    if (state._tagTemp.length >= max) return;
+    if (state._multiTemp.length >= max) return;
+    state._multiTemp.push(value);
     el.classList.add('selected');
-    state._tagTemp.push(val);
   }
-  document.getElementById('tagHint').textContent = `已选 ${state._tagTemp.length} / ${max} 个`;
-  document.getElementById('tagSubmit').disabled = state._tagTemp.length === 0;
+  var hint = document.getElementById('pickHint');
+  if (hint) hint.textContent = '已选 ' + state._multiTemp.length + ' / ' + max + ' 个';
+  var btn = document.getElementById('multiPickSubmit');
+  if (btn) btn.disabled = state._multiTemp.length === 0;
 }
 
-function submitTags(id, max) {
-  profile[id] = [...state._tagTemp];
+function submitMultiPick(qid, max) {
+  profile[qid] = state._multiTemp.slice();
   advanceQuestion();
 }
 
-function selectDual(el, group) {
-  // Deselect siblings
-  const parent = group === 'ie' ? document.getElementById('dualA') : document.getElementById('dualB');
-  parent.querySelectorAll('.option-card').forEach(c => c.classList.remove('selected'));
-  el.classList.add('selected');
-  if (group === 'ie') state._dualTemp.ie = el.dataset.value;
-  else state._dualTemp.tf = el.dataset.value;
-  document.getElementById('dualSubmit').disabled = !state._dualTemp.ie || !state._dualTemp.tf;
-}
-
-function submitDual(id) {
-  profile.personalityIE = state._dualTemp.ie;
-  profile.personalityTF = state._dualTemp.tf;
-  advanceQuestion();
-}
-
-function submitBackground(id) {
+function submitBackground() {
   profile.major = document.getElementById('bgMajor').value.trim();
   profile.workYears = document.getElementById('bgWorkYears').value.trim();
   profile.currentCity = document.getElementById('bgCurrentCity').value.trim();
@@ -2153,134 +2057,167 @@ function advanceQuestion() {
 }
 
 function finishPhase1() {
-  // Generate flash card
-  const abilities = [];
-  const passions = [];
+  // === MULTI-FRAMEWORK CROSS-ANALYSIS ===
+  // Synthesize MBTI + Holland + Big Five into a unified personality report
 
-  // From energy tendency
-  const energyMap = {
-    'A': '共情沟通', 'B': '逻辑分析', 'C': '动手创造', 'D': '策划统筹', 'E': '艺术表达'
+  // --- 1. MBTI type string ---
+  var mbtiType = (profile.mbti_ei || '?') + (profile.mbti_sn || '?') + (profile.mbti_tf || '?') + (profile.mbti_jp || '?');
+
+  // --- 2. Holland code → ability + passion mapping ---
+  var hollandMap = {
+    'R': { ability: '动手操作', passion: '建造与制作', interest: '工具机械·户外实践' },
+    'I': { ability: '分析思维', passion: '探索求知', interest: '研究分析·科学探索' },
+    'A': { ability: '创意能力', passion: '创造与表达', interest: '艺术设计·创意表达' },
+    'S': { ability: '共情沟通', passion: '助人成长', interest: '教育培训·社会服务' },
+    'E': { ability: '组织管理', passion: '领导影响', interest: '商业经营·说服协调' },
+    'C': { ability: '细致执行', passion: '有序建设', interest: '数据管理·流程优化' }
   };
-  (profile.energyTendency || []).forEach(e => {
-    abilities.push(energyMap[e] || e);
+  var hc = profile.hollandCode || [];
+  var abilities = [];
+  var passions = [];
+  var interests = [];
+  hc.forEach(function(c) {
+    var m = hollandMap[c];
+    if (m) {
+      abilities.push(m.ability);
+      passions.push(m.passion);
+      interests.push(m.interest);
+    }
   });
 
-  // From strength signal
-  if (profile.strengthSignal) {
-    // Extract key phrases
-    const strengthLower = profile.strengthSignal.toLowerCase();
-    if (/沟通|交流|聊|说|协调|谈/.test(strengthLower)) abilities.push('沟通表达');
-    if (/分析|逻辑|推理|研究|数据/.test(strengthLower)) abilities.push('分析思维');
-    if (/创意|创造|想法|灵感|设计/.test(strengthLower)) abilities.push('创意能力');
-    if (/组织|策划|安排|统筹|管理/.test(strengthLower)) abilities.push('组织管理');
-    if (/写|文案|文字|内容/.test(strengthLower)) abilities.push('文字表达');
-    if (/审美|好看|美|设计|视觉/.test(strengthLower)) abilities.push('视觉审美');
-    if (/耐心|细心|仔细|认真/.test(strengthLower)) abilities.push('细致认真');
-    if (/帮|助人|倾听|理解|共情/.test(strengthLower)) abilities.push('共情助人');
-  }
+  // --- 3. Skills from Q8 → ability tags ---
+  var skillMap = {
+    'analytical': '分析逻辑', 'creative': '创意表达', 'interpersonal': '沟通共情',
+    'technical': '技术动手', 'organizational': '组织统筹', 'resilience': '执行韧性'
+  };
+  (profile.dominantSkills || []).forEach(function(s) {
+    if (skillMap[s]) abilities.push(skillMap[s]);
+  });
 
-  // From flow moment
-  if (profile.flowMoment) {
-    const flowLower = profile.flowMoment.toLowerCase();
-    if (/创造|写|画|设计|做|搭建/.test(flowLower)) passions.push('创造与表达');
-    if (/帮|教|分享|解答|引导/.test(flowLower)) passions.push('助人成长');
-    if (/研究|分析|解谜|探索|学/.test(flowLower)) passions.push('探索求知');
-    if (/组织|策划|活动|聚会|协调/.test(flowLower)) passions.push('组织策划');
-    if (/运动|跑步|健身|户外/.test(flowLower)) passions.push('身心活跃');
-  }
+  // --- 4. Values from Q7 → core drive + passion enrichment ---
+  var valueMap = {
+    'security': { drive: '安全与稳定', passion: '稳定深耕' },
+    'achievement': { drive: '成就与卓越', passion: '专业精进' },
+    'autonomy': { drive: '自主与自由', passion: '独立掌控' },
+    'purpose': { drive: '意义与影响', passion: '社会价值' },
+    'connection': { drive: '关系与归属', passion: '与人连接' },
+    'growth': { drive: '成长与学习', passion: '持续突破' }
+  };
+  var coreDrive = '';
+  (profile.coreValues || []).forEach(function(v) {
+    var vm = valueMap[v];
+    if (vm) {
+      if (!coreDrive) coreDrive = vm.drive;
+      passions.push(vm.passion);
+    }
+  });
+  if (!coreDrive) coreDrive = '在适合自己的节奏中持续成长';
 
-  // From values
-  if (profile.values.includes('创新创造')) passions.push('创新领域');
-  if (profile.values.includes('社会影响')) passions.push('社会价值');
-  if (profile.values.includes('人际关系')) passions.push('与人连接');
+  // --- 5. Work style from MBTI E/I + J/P + environment ---
+  var ei = profile.mbti_ei;
+  var jp = profile.mbti_jp;
+  var env = profile.workEnvPref;
+  var workStyle = '';
+  if (ei === 'I' && jp === 'J') workStyle = '独立深耕 + 有序推进';
+  else if (ei === 'I' && jp === 'P') workStyle = '独立探索 + 灵活适应';
+  else if (ei === 'E' && jp === 'J') workStyle = '团队协作 + 计划驱动';
+  else if (ei === 'E' && jp === 'P') workStyle = '社交互动 + 即兴应变';
+  else workStyle = '平衡协作 + 灵活节奏';
 
-  // Determine work style
-  let workStyle = '';
-  const ie = profile.personalityIE;
-  const tf = profile.personalityTF;
-  const energyTags = (profile.energyTendency || []).map(e => e);
-  const hasSocial = energyTags.includes('A') || energyTags.includes('D');
-  const hasSolo = energyTags.includes('B') || energyTags.includes('C') || energyTags.includes('E');
+  // Environment enriches work style
+  var envDesc = { 'structured': '规范有序', 'collaborative': '协作共生', 'autonomous': '自主灵活', 'fast-paced': '快节奏挑战', 'creative': '创意自由' };
+  var envLabel = envDesc[env] || '灵活适应';
 
-  if (ie === 'I' && hasSolo) workStyle = '独立深耕 + 深度专注';
-  else if (ie === 'E' && hasSocial) workStyle = '团队协作 + 能量互动';
-  else if (ie === 'I') workStyle = '独立深耕 + 灵活协作';
-  else workStyle = '以人为中心 + 弹性节奏';
+  // --- 6. Innovation tendency from openness ---
+  var opennessMap = { 'low': '稳健务实型 — 偏好成熟方法和稳定环境', 'mid': '平衡开放型 — 稳定基础上适度尝新', 'high': '探索创新型 — 主动走出舒适区追求新挑战' };
+  var innovationStyle = opennessMap[profile.openness] || '平衡开放型';
 
-  // Deduplicate
-  const unique = (arr) => [...new Set(arr)];
-  const finalAbilities = unique(abilities).slice(0, 5);
-  const finalPassions = unique(passions).slice(0, 5);
+  // --- 7. Assemble final flash card ---
+  var uniqueArr = function(arr) { var seen = {}; return arr.filter(function(x) { return seen[x] ? false : (seen[x] = true); }); };
+  var finalAbilities = uniqueArr(abilities).slice(0, 6);
+  var finalPassions = uniqueArr(passions).slice(0, 5);
+  var finalInterests = uniqueArr(interests).slice(0, 4);
 
-  // Core drive
-  let coreDrive = '';
-  if (profile.values.includes('社会影响') || profile.values.includes('人际关系')) {
-    coreDrive = '通过创造与连接，对他人产生积极影响';
-  } else if (profile.values.includes('创新创造') || profile.values.includes('学习成长')) {
-    coreDrive = '持续探索未知、创造新事物的内在热情';
-  } else if (profile.values.includes('经济回报') || profile.values.includes('自主独立')) {
-    coreDrive = '用能力获取自由，掌控自己的人生节奏';
-  } else {
-    coreDrive = '在适合自己的节奏中，持续成长和贡献';
-  }
+  // Holland label
+  var hollandLabel = hc.length > 0 ? hc.join('') + ' 型' : '多元型';
+  var hollandNames = { 'R': '实做', 'I': '研究', 'A': '艺术', 'S': '社会', 'E': '企业', 'C': '常规' };
+  var hollandDesc = hc.map(function(c) { return hollandNames[c] || c; }).join('+');
 
   profile.flashCard = {
     abilities: finalAbilities,
     passions: finalPassions,
-    workStyle,
-    coreDrive,
+    interests: finalInterests,
+    workStyle: workStyle,
+    coreDrive: coreDrive,
+    envLabel: envLabel,
+    innovationStyle: innovationStyle,
+    mbtiType: mbtiType,
+    hollandLabel: hollandLabel,
+    hollandDesc: hollandDesc,
   };
 
   state.phase = 'phase1_flash';
-  state.coins = 8;
+  state.coins = 10;
   render();
-  setTimeout(() => celebrate('🎉', '恭喜！你的专属闪光金币已铸造完成！接下来我们用它去调配你的职业配方～'), 600);
+  setTimeout(function() { celebrate('🎉', '恭喜！基于 MBTI + 霍兰德 + 大五人格的专属闪光点卡已生成！'); }, 600);
 }
 
 function renderFlashCard() {
-  const fc = profile.flashCard;
-  mainContent.innerHTML = `
-    <div class="flash-card">
-      <div style="position:relative;z-index:1;">
-        <h3>✨ 我的闪光点卡 ✨</h3>
-        <div class="flash-section">
-          <div class="label">🔮 能力标签</div>
-          <div class="tags">
-            ${fc.abilities.map(a => `<span class="flash-tag ability">${a}</span>`).join('')}
-          </div>
-        </div>
-        <div class="flash-section">
-          <div class="label">💖 热情领域</div>
-          <div class="tags">
-            ${fc.passions.map(p => `<span class="flash-tag passion">${p}</span>`).join('')}
-          </div>
-        </div>
-        <div class="flash-section">
-          <div class="label">🧘 工作风格</div>
-          <div class="tags">
-            <span class="flash-tag style">${fc.workStyle}</span>
-          </div>
-        </div>
-        <div class="flash-section">
-          <div class="label">❤️‍🔥 核心驱动力</div>
-          <div class="tags">
-            <span class="flash-tag drive">${fc.coreDrive}</span>
-          </div>
-        </div>
-        <div style="margin-top:20px;padding:16px;background:var(--color-bg-alt);border-radius:var(--radius-md);" id="flashFeedbackBox">
-          <p style="font-weight:700;font-size:0.9rem;margin-bottom:6px;">💬 这张闪光点卡准不准？</p>
-          <p style="font-size:0.78rem;color:var(--color-text-secondary);margin-bottom:8px;">点击上方任意标签修改它，或在下方补充连连漏掉的优势～</p>
-          <textarea class="text-input" id="flashFeedbackInput" placeholder="比如：我觉得你还漏掉了"快速学习新工具"这个优势..." rows="2" style="font-size:0.85rem;min-height:50px;"></textarea>
-          <button class="btn btn-small btn-outline mt-8" onclick="submitFlashFeedback()">💾 更新闪光点</button>
-          <span style="font-size:0.78rem;color:var(--color-teal);margin-left:8px;display:none;" id="feedbackSaved">✅ 已记录！</span>
-        </div>
-      </div>
-    </div>
-    <button class="btn btn-primary mt-16" onclick="startPhase2()">
-      继续调配职业配方 → 🌟
-    </button>
-  `;
-  // Make tags clickable
+  var fc = profile.flashCard;
+  var html = '<div class="flash-card"><div style="position:relative;z-index:1;">';
+  html += '<h3>✨ 我的闪光点卡 ✨</h3>';
+
+  // MBTI + Holland summary row
+  html += '<div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:16px;align-items:center;">';
+  html += '<span style="padding:6px 14px;background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;border-radius:20px;font-size:0.82rem;font-weight:700;">🧩 MBTI: ' + fc.mbtiType + '</span>';
+  html += '<span style="padding:6px 14px;background:linear-gradient(135deg,#f093fb,#f5576c);color:#fff;border-radius:20px;font-size:0.82rem;font-weight:700;">🧭 霍兰德: ' + fc.hollandDesc + '</span>';
+  html += '</div>';
+
+  // Abilities
+  html += '<div class="flash-section"><div class="label">🔮 能力标签</div><div class="tags">';
+  (fc.abilities || []).forEach(function(a) { html += '<span class="flash-tag ability">' + a + '</span>'; });
+  html += '</div></div>';
+
+  // Passions
+  html += '<div class="flash-section"><div class="label">💖 热情领域</div><div class="tags">';
+  (fc.passions || []).forEach(function(p) { html += '<span class="flash-tag passion">' + p + '</span>'; });
+  html += '</div></div>';
+
+  // Interests
+  html += '<div class="flash-section"><div class="label">🌱 兴趣方向</div><div class="tags">';
+  (fc.interests || []).forEach(function(i) { html += '<span class="flash-tag style">' + i + '</span>'; });
+  html += '</div></div>';
+
+  // Work style
+  html += '<div class="flash-section"><div class="label">🧘 工作风格</div><div class="tags">';
+  html += '<span class="flash-tag ability">' + fc.workStyle + '</span>';
+  html += '<span class="flash-tag passion">🏢 ' + (fc.envLabel || '灵活适应') + ' 环境</span>';
+  html += '</div></div>';
+
+  // Innovation
+  html += '<div class="flash-section"><div class="label">🌟 创新倾向</div><div class="tags">';
+  html += '<span class="flash-tag drive">' + (fc.innovationStyle || '平衡开放型') + '</span>';
+  html += '</div></div>';
+
+  // Core drive
+  html += '<div class="flash-section"><div class="label">❤️‍🔥 核心驱动力</div><div class="tags">';
+  html += '<span class="flash-tag drive">' + fc.coreDrive + '</span>';
+  html += '</div></div>';
+
+  // Feedback box
+  html += '<div style="margin-top:20px;padding:16px;background:var(--color-bg-alt);border-radius:var(--radius-md);" id="flashFeedbackBox">';
+  html += '<p style="font-weight:700;font-size:0.9rem;margin-bottom:6px;">💬 这张闪光点卡准不准？</p>';
+  html += '<p style="font-size:0.78rem;color:var(--color-text-secondary);margin-bottom:8px;">点击上方任意标签修改它，或在下方补充连连漏掉的优势～</p>';
+  html += '<textarea class="text-input" id="flashFeedbackInput" placeholder="比如：我觉得你还漏掉了「快速学习新工具」这个优势..." rows="2" style="font-size:0.85rem;min-height:50px;"></textarea>';
+  html += '<button class="btn btn-small btn-outline mt-8" onclick="submitFlashFeedback()">💾 更新闪光点</button>';
+  html += '<span style="font-size:0.78rem;color:var(--color-teal);margin-left:8px;display:none;" id="feedbackSaved">✅ 已记录！</span>';
+  html += '</div></div></div>';
+
+  html += '<button class="btn btn-primary mt-16" onclick="startPhase2()">继续调配职业配方 → 🌟</button>';
+
+  mainContent.innerHTML = html;
+
+  // Make tags clickable for editing
   setTimeout(function() {
     document.querySelectorAll('.flash-tag').forEach(function(tag) {
       tag.style.cursor = 'pointer'; tag.title = '点击修改或删除';
@@ -2300,12 +2237,13 @@ function submitFlashFeedback() {
   if (fb) {
     var words = fb.split(/[，,。、；;]/);
     words.forEach(function(w) { w = w.trim(); if (w && w.length >= 2 && profile.flashCard.abilities.indexOf(w) === -1) profile.flashCard.abilities.push(w); });
-    if (profile.flashCard.abilities.length > 8) profile.flashCard.abilities = profile.flashCard.abilities.slice(-8);
+    if (profile.flashCard.abilities.length > 10) profile.flashCard.abilities = profile.flashCard.abilities.slice(-10);
     input.value = '';
     document.getElementById('feedbackSaved').style.display = 'inline';
-    // Re-render flash tags
+    // Re-render flash ability tags
     var fc = profile.flashCard;
-    document.querySelectorAll('.flash-section .tags')[0].innerHTML = fc.abilities.map(function(a) { return '<span class="flash-tag ability">' + a + '</span>'; }).join('');
+    var tagsEl = document.querySelectorAll('.flash-section .tags')[0];
+    if (tagsEl) tagsEl.innerHTML = fc.abilities.map(function(a) { return '<span class="flash-tag ability">' + a + '</span>'; }).join('');
   }
 }
 
@@ -2754,17 +2692,26 @@ function matchCareers() {
       if (userAbilities.some(ua => a.includes(ua) || ua.includes(a))) score += 3;
     });
 
-    // Value match
-    if (profile.values) {
-      career.matchValues.forEach(v => {
-        if (profile.values.includes(v)) score += 3;
+    // Value match (from new coreValues)
+    var userCoreValues = profile.coreValues || [];
+    var valueToCareerMap = {
+      'security': ['稳定安全'], 'achievement': ['经济回报','学习成长'],
+      'autonomy': ['自主独立'], 'purpose': ['社会影响'],
+      'connection': ['人际关系'], 'growth': ['学习成长','创新创造']
+    };
+    userCoreValues.forEach(function(cv) {
+      var mapped = valueToCareerMap[cv] || [];
+      mapped.forEach(function(mv) {
+        if (career.matchValues.indexOf(mv) >= 0) score += 3;
       });
-    }
+    });
 
-    // Interest match (from passions)
-    const userPassions = profile.flashCard?.passions || [];
-    career.matchInterests.forEach(i => {
-      if (userPassions.some(up => up.includes(i) || i.includes(up))) score += 2;
+    // Interest match (from hollandCode + passions)
+    var userPassions = profile.flashCard?.passions || [];
+    var userInterests = profile.flashCard?.interests || [];
+    var allUserInterests = userPassions.concat(userInterests).join(' ');
+    career.matchInterests.forEach(function(i) {
+      if (allUserInterests.indexOf(i) >= 0 || i.split(/[、，]/).some(function(p) { return allUserInterests.indexOf(p) >= 0; })) score += 2;
     });
 
     // Money direction match
@@ -3313,19 +3260,16 @@ function restartApp() {
   state.coins = 0;
 
   // Reset profile
-  Object.keys(profile).forEach(k => {
-    if (Array.isArray(profile[k])) profile[k] = [];
-    else if (typeof profile[k] === 'object' && profile[k] !== null) {
-      if (k === 'ratioCustom') profile[k] = { want: 0, good: 0, money: 0 };
-      else profile[k] = null;
-    } else {
-      profile[k] = '';
-    }
-  });
+  profile.mbti_ei = ''; profile.mbti_sn = ''; profile.mbti_tf = ''; profile.mbti_jp = '';
+  profile.hollandCode = []; profile.openness = ''; profile.coreValues = [];
+  profile.dominantSkills = []; profile.workEnvPref = '';
+  profile.major = ''; profile.workYears = ''; profile.currentCity = ''; profile.targetCity = '';
+  profile.flashCard = null;
+  profile.wantToDo = ''; profile.goodAt = ''; profile.moneyDirections = [];
+  profile.ratioPreset = ''; profile.ratioCustom = { want: 0, good: 0, money: 0 };
+  profile.employmentType = ''; profile.orgTypes = [];
   profile.recommendedJobs = [];
-  profile.moneyDirections = [];
-  profile.employmentType = '';
-  profile.orgTypes = [];
+  profile.selectedIndustries = [];
 
   // Reset temp state
   state._multiTemp = [];
