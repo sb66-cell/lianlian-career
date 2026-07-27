@@ -3452,12 +3452,17 @@ var JOB_QADATA = {
 function renderJobQA(job) {
   var qa = JOB_QADATA[job.id];
   if (!qa || !qa.length) return '';
-  var h = '<div style="margin-top:12px;border-top:1px solid var(--color-border);padding-top:12px;"><div class="dd-section-title">💬 ' + job.name + ' · 社区热议（点击展开）</div>';
+  var h = '<div style="margin-top:12px;border-top:1px solid var(--color-border);padding-top:12px;"><div class="dd-section-title">💬 ' + job.name + ' · 社区热议（点击问题查看回答）</div>';
   qa.forEach(function(item, i) {
     var qid = 'q_' + job.id + '_' + i;
-    h += '<div style="font-size:0.82rem;"><div style="padding:8px 0;cursor:pointer;color:var(--color-primary);font-weight:600;" onclick="var e=document.getElementById(\'' + qid + '\');e.classList.toggle(\'hidden\');">▼ ' + item.q + '</div><div id="' + qid + '" class="hidden" style="padding:4px 12px 8px;color:var(--color-text-secondary);font-size:0.8rem;line-height:1.7;">' + item.a + '</div></div>';
+    h += '<div style="font-size:0.82rem;margin-top:6px;border:1px solid var(--color-border);border-radius:var(--radius-md);overflow:hidden;">' +
+      '<div style="padding:10px 14px;cursor:pointer;background:var(--color-bg-alt);font-weight:600;color:var(--color-text);display:flex;align-items:center;gap:8px;user-select:none;" ' +
+      'onclick="event.stopPropagation();var a=document.getElementById(\'' + qid + '\');var arrow=this.querySelector(\'.qa-arrow\');if(a.classList.toggle(\'hidden\')){arrow.textContent=\'▶\';this.style.background=\'var(--color-bg-alt)\'}else{arrow.textContent=\'▼\';this.style.background=\'var(--color-primary-light)\'}">' +
+      '<span class="qa-arrow" style="font-size:0.7rem;flex-shrink:0;">▶</span> ' + item.q + '</div>' +
+      '<div id="' + qid + '" class="hidden" style="padding:12px 14px;color:var(--color-text-secondary);font-size:0.82rem;line-height:1.75;background:var(--color-card);border-top:1px solid var(--color-border);">' + item.a + '</div>' +
+      '</div>';
   });
-  h += '<p style="font-size:0.7rem;color:var(--color-text-muted);margin-top:6px;">📌 以上问答整理自脉脉、知乎、小红书、牛客网等平台该岗位从业者真实讨论</p></div>';
+  h += '<p style="font-size:0.7rem;color:var(--color-text-muted);margin-top:8px;">📌 以上问答整理自脉脉、知乎、小红书、牛客网等平台从业者真实讨论</p></div>';
   return h;
 }
 
