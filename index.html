@@ -62,7 +62,7 @@
 /* --- CSS Custom Properties --- */
 :root {
   /* Primary palette — 深邃宇宙蓝紫 */
-  --color-primary: #818CF8;
+  --color-primary: #A5B4FC;
   --color-primary-hover: #6366F1;
   --color-primary-light: rgba(129,140,248,0.12);
   --color-primary-glow: rgba(129,140,248,0.2);
@@ -80,15 +80,15 @@
   /* Surfaces & Backgrounds — 深空色系 */
   --color-bg: #080D1A;
   --color-bg-alt: #111827;
-  --color-card: rgba(22,33,55,0.88);
-  --color-card-hover: rgba(30,41,62,0.95);
-  --color-border: rgba(129,140,248,0.2);
+  --color-card: rgba(18,28,48,0.94);
+  --color-card-hover: rgba(25,38,58,0.97);
+  --color-border: rgba(129,140,248,0.25);
   --color-border-active: #818CF8;
 
   /* Text hierarchy — 高对比度 light on dark */
   --color-text: #F1F5F9;
-  --color-text-secondary: #CBD5E1;
-  --color-text-muted: #94A3B8;
+  --color-text-secondary: #E2E8F0;
+  --color-text-muted: #B0BEC5;
   --color-text-on-primary: #FFFFFF;
 
   /* Shadows — cosmic glow */
@@ -136,7 +136,7 @@ body {
   position: relative;
 }
 
-/* Cosmic starfield background */
+/* Realistic cosmic background with planets */
 body::before {
   content: '';
   position: fixed;
@@ -144,14 +144,26 @@ body::before {
   z-index: 0;
   pointer-events: none;
   background:
-    /* Nebula glows — 星云光晕 */
-    radial-gradient(ellipse 600px 400px at 15% 20%, rgba(99,102,241,0.08) 0%, transparent 70%),
-    radial-gradient(ellipse 500px 350px at 80% 60%, rgba(34,211,238,0.05) 0%, transparent 70%),
-    radial-gradient(ellipse 400px 300px at 50% 85%, rgba(167,139,250,0.06) 0%, transparent 70%),
-    radial-gradient(circle 300px at 10% 80%, rgba(251,191,36,0.03) 0%, transparent 60%);
+    /* Deep space gradient — realistic dark cosmos */
+    radial-gradient(ellipse 80% 60% at 50% 30%, #131E3D 0%, transparent 60%),
+    radial-gradient(ellipse 60% 50% at 20% 70%, #1A1050 0%, transparent 55%),
+    radial-gradient(ellipse 50% 40% at 75% 40%, #0C2040 0%, transparent 50%),
+    radial-gradient(ellipse 70% 50% at 40% 80%, #0D1525 0%, transparent 70%),
+    /* Large planet silhouette — top right */
+    radial-gradient(circle 180px at 85% 15%, rgba(99,120,180,0.12) 0%, rgba(99,120,180,0.04) 40%, transparent 55%),
+    /* Ringed planet — bottom left */
+    radial-gradient(ellipse 120px 30px at 15% 82%, rgba(160,140,200,0.08) 0%, transparent 60%),
+    radial-gradient(circle 50px at 15% 80%, rgba(180,160,140,0.1) 0%, rgba(180,160,140,0.03) 40%, transparent 55%),
+    /* Small distant planet — middle right */
+    radial-gradient(circle 25px at 78% 55%, rgba(140,180,220,0.08) 0%, transparent 60%),
+    /* Nebula wisps */
+    radial-gradient(ellipse 300px 150px at 60% 60%, rgba(80,60,180,0.06) 0%, transparent 70%),
+    radial-gradient(ellipse 250px 120px at 30% 20%, rgba(40,80,160,0.05) 0%, transparent 60%),
+    /* Base deep space */
+    linear-gradient(180deg, #070B18 0%, #0C1428 40%, #0A1020 70%, #070B18 100%);
 }
 
-/* Starfield dots */
+/* Stars — scattered realistic starfield */
 body::after {
   content: '';
   position: fixed;
@@ -159,63 +171,56 @@ body::after {
   z-index: 0;
   pointer-events: none;
   background-image:
-    /* Layer 1: bright stars */
-    radial-gradient(1.5px 1.5px at 10% 15%, rgba(255,255,255,0.8), transparent),
-    radial-gradient(1px 1px at 25% 8%, rgba(255,255,255,0.6), transparent),
-    radial-gradient(2px 2px at 40% 25%, rgba(255,255,255,0.7), transparent),
-    radial-gradient(1px 1px at 55% 12%, rgba(255,255,255,0.5), transparent),
-    radial-gradient(1.5px 1.5px at 70% 20%, rgba(255,255,255,0.6), transparent),
-    radial-gradient(1px 1px at 85% 10%, rgba(255,255,255,0.7), transparent),
-    radial-gradient(2px 2px at 15% 35%, rgba(255,255,255,0.5), transparent),
-    radial-gradient(1px 1px at 33% 42%, rgba(255,255,255,0.4), transparent),
-    radial-gradient(1.5px 1.5px at 60% 38%, rgba(255,255,255,0.6), transparent),
-    radial-gradient(1px 1px at 78% 45%, rgba(255,255,255,0.5), transparent),
-    radial-gradient(2px 2px at 92% 33%, rgba(255,255,255,0.7), transparent),
-    radial-gradient(1px 1px at 8% 55%, rgba(255,255,255,0.4), transparent),
-    radial-gradient(1.5px 1.5px at 20% 62%, rgba(255,255,255,0.5), transparent),
-    radial-gradient(1px 1px at 45% 58%, rgba(255,255,255,0.6), transparent),
-    radial-gradient(2px 2px at 65% 65%, rgba(255,255,255,0.4), transparent),
-    radial-gradient(1px 1px at 88% 60%, rgba(255,255,255,0.5), transparent),
-    radial-gradient(1.5px 1.5px at 5% 78%, rgba(255,255,255,0.6), transparent),
-    radial-gradient(1px 1px at 30% 82%, rgba(255,255,255,0.4), transparent),
-    radial-gradient(2px 2px at 52% 75%, rgba(255,255,255,0.7), transparent),
-    radial-gradient(1px 1px at 72% 85%, rgba(255,255,255,0.5), transparent),
-    radial-gradient(1.5px 1.5px at 90% 78%, rgba(255,255,255,0.4), transparent),
-    /* Layer 2: medium stars */
-    radial-gradient(1px 1px at 18% 18%, rgba(255,255,255,0.35), transparent),
-    radial-gradient(1px 1px at 35% 28%, rgba(255,255,255,0.3), transparent),
-    radial-gradient(1px 1px at 50% 18%, rgba(255,255,255,0.4), transparent),
-    radial-gradient(1px 1px at 68% 25%, rgba(255,255,255,0.3), transparent),
-    radial-gradient(1px 1px at 82% 15%, rgba(255,255,255,0.35), transparent),
-    radial-gradient(1px 1px at 12% 45%, rgba(255,255,255,0.3), transparent),
-    radial-gradient(1px 1px at 42% 50%, rgba(255,255,255,0.35), transparent),
-    radial-gradient(1px 1px at 58% 48%, rgba(255,255,255,0.3), transparent),
-    radial-gradient(1px 1px at 75% 55%, rgba(255,255,255,0.35), transparent),
-    radial-gradient(1px 1px at 22% 70%, rgba(255,255,255,0.3), transparent),
-    radial-gradient(1px 1px at 48% 68%, rgba(255,255,255,0.35), transparent),
-    radial-gradient(1px 1px at 70% 72%, rgba(255,255,255,0.3), transparent),
-    radial-gradient(1px 1px at 85% 68%, rgba(255,255,255,0.35), transparent),
-    radial-gradient(1px 1px at 15% 88%, rgba(255,255,255,0.3), transparent),
-    radial-gradient(1px 1px at 38% 90%, rgba(255,255,255,0.35), transparent),
-    radial-gradient(1px 1px at 62% 88%, rgba(255,255,255,0.3), transparent),
-    radial-gradient(1px 1px at 80% 92%, rgba(255,255,255,0.35), transparent);
+    /* Bright stars */
+    radial-gradient(2px 2px at 12% 8%, rgba(220,230,255,0.9), transparent),
+    radial-gradient(1.5px 1.5px at 28% 14%, rgba(200,210,240,0.7), transparent),
+    radial-gradient(2.5px 2.5px at 45% 6%, rgba(230,240,255,0.85), transparent),
+    radial-gradient(1px 1px at 62% 11%, rgba(180,200,230,0.6), transparent),
+    radial-gradient(2px 2px at 78% 18%, rgba(210,225,250,0.75), transparent),
+    radial-gradient(1.5px 1.5px at 90% 7%, rgba(190,210,240,0.65), transparent),
+    radial-gradient(2px 2px at 8% 28%, rgba(200,220,250,0.7), transparent),
+    radial-gradient(1px 1px at 35% 22%, rgba(170,190,220,0.55), transparent),
+    radial-gradient(1.5px 1.5px at 55% 32%, rgba(195,215,245,0.65), transparent),
+    radial-gradient(2.5px 2.5px at 72% 26%, rgba(225,235,255,0.8), transparent),
+    radial-gradient(1px 1px at 85% 35%, rgba(160,185,215,0.5), transparent),
+    radial-gradient(1.5px 1.5px at 18% 42%, rgba(185,205,235,0.6), transparent),
+    radial-gradient(2px 2px at 42% 48%, rgba(215,230,255,0.75), transparent),
+    radial-gradient(1px 1px at 58% 45%, rgba(175,195,225,0.55), transparent),
+    radial-gradient(1.5px 1.5px at 68% 52%, rgba(190,210,240,0.6), transparent),
+    radial-gradient(2px 2px at 80% 58%, rgba(205,220,250,0.7), transparent),
+    radial-gradient(1px 1px at 5% 62%, rgba(165,185,215,0.5), transparent),
+    radial-gradient(1.5px 1.5px at 25% 55%, rgba(180,200,230,0.55), transparent),
+    radial-gradient(2.5px 2.5px at 48% 68%, rgba(220,235,255,0.8), transparent),
+    radial-gradient(1px 1px at 65% 72%, rgba(170,190,220,0.5), transparent),
+    radial-gradient(1.5px 1.5px at 82% 65%, rgba(185,205,235,0.55), transparent),
+    radial-gradient(2px 2px at 88% 78%, rgba(210,225,250,0.7), transparent),
+    radial-gradient(1px 1px at 15% 75%, rgba(160,180,210,0.45), transparent),
+    radial-gradient(1.5px 1.5px at 38% 80%, rgba(175,195,225,0.5), transparent),
+    radial-gradient(2px 2px at 55% 85%, rgba(200,220,248,0.65), transparent),
+    radial-gradient(1px 1px at 70% 82%, rgba(155,180,210,0.45), transparent),
+    /* Dimmer background stars */
+    radial-gradient(1px 1px at 8% 18%, rgba(255,255,255,0.35), transparent),
+    radial-gradient(1px 1px at 22% 35%, rgba(255,255,255,0.3), transparent),
+    radial-gradient(1px 1px at 33% 12%, rgba(255,255,255,0.25), transparent),
+    radial-gradient(1px 1px at 48% 25%, rgba(255,255,255,0.35), transparent),
+    radial-gradient(1px 1px at 52% 38%, rgba(255,255,255,0.3), transparent),
+    radial-gradient(1px 1px at 63% 18%, rgba(255,255,255,0.28), transparent),
+    radial-gradient(1px 1px at 75% 42%, rgba(255,255,255,0.32), transparent),
+    radial-gradient(1px 1px at 88% 28%, rgba(255,255,255,0.25), transparent),
+    radial-gradient(1px 1px at 10% 52%, rgba(255,255,255,0.3), transparent),
+    radial-gradient(1px 1px at 28% 62%, rgba(255,255,255,0.28), transparent),
+    radial-gradient(1px 1px at 40% 58%, rgba(255,255,255,0.32), transparent),
+    radial-gradient(1px 1px at 58% 65%, rgba(255,255,255,0.25), transparent),
+    radial-gradient(1px 1px at 72% 55%, rgba(255,255,255,0.3), transparent),
+    radial-gradient(1px 1px at 85% 48%, rgba(255,255,255,0.28), transparent),
+    radial-gradient(1px 1px at 18% 78%, rgba(255,255,255,0.32), transparent),
+    radial-gradient(1px 1px at 32% 88%, rgba(255,255,255,0.25), transparent),
+    radial-gradient(1px 1px at 50% 78%, rgba(255,255,255,0.3), transparent),
+    radial-gradient(1px 1px at 62% 90%, rgba(255,255,255,0.28), transparent),
+    radial-gradient(1px 1px at 78% 85%, rgba(255,255,255,0.32), transparent),
+    radial-gradient(1px 1px at 92% 72%, rgba(255,255,255,0.25), transparent);
 }
 
-/* --- Typography --- */
-h1, h2, h3, h4 {
-  font-family: 'Quicksand', 'PingFang SC', 'Noto Sans SC', sans-serif;
-  font-weight: 700;
-  line-height: 1.3;
-}
-h1 { font-size: 2rem; }
-h2 { font-size: 1.5rem; }
-h3 { font-size: 1.2rem; }
-h4 { font-size: 1rem; }
-
-p { margin-bottom: 0.6em; }
-.text-secondary { color: var(--color-text-secondary); font-size: 0.875rem; font-weight: 400; }
-
-/* --- App Shell --- */
 .app-container {
   max-width: 720px;
   margin: 0 auto;
@@ -1183,7 +1188,7 @@ const state = {
 };
 
 const profile = {
-  // Phase 1 — 科学测评 (MBTI + 霍兰德 + 大五人格)
+  // Phase 1 — 科学测评（融合多维度心理学模型）
   mbti_ei: '',            // 'E' or 'I' (Q1)
   mbti_sn: '',            // 'S' or 'N' (Q2)
   mbti_tf: '',            // 'T' or 'F' (Q3)
@@ -1218,49 +1223,49 @@ const profile = {
   recommendedJobs: [],
 };
 
-// ============ PHASE 1 QUESTIONS — 霍兰德 RIASEC + MBTI + 大五人格 ============
+// ============ PHASE 1 QUESTIONS — 科学测评 ============
 const PHASE1_QUESTIONS = [
-  // Q1: MBTI E/I — 能量来源
+  // Q1: 能量来源
   {
     id: 'mbti_ei', type: 'singleChoice', number: 1, emoji: '🔋',
     title: '忙碌一周后，哪种方式最让你恢复能量？',
-    subtitle: '基于 MBTI 外向/内向维度 · 反映你的能量流动方向',
+    subtitle: '了解你的能量恢复方式',
     options: [
       { id:'I', icon:'🏠', label:'独处恢复', desc:'一个人阅读、散步、思考或沉浸在自己的世界里，享受安静时光让我重新充满电' },
       { id:'E', icon:'🎉', label:'社交恢复', desc:'约朋友聚会、聊天、参加活动或热闹的场合，和他人互动让我重获能量' }
-    ], coinLabel:'MBTI·能量倾向' },
-  // Q2: MBTI S/N — 信息感知方式
+    ], coinLabel:'能量倾向' },
+  // Q2: 信息感知方式
   {
     id: 'mbti_sn', type: 'singleChoice', number: 2, emoji: '🔍',
     title: '接触一个新领域时，你更关注什么？',
-    subtitle: '基于 MBTI 感觉/直觉维度 · 反映你如何感知和处理信息',
+    subtitle: '了解你的信息处理偏好',
     options: [
       { id:'S', icon:'📋', label:'具体事实与细节', desc:'关注实际数据、操作步骤和已验证的经验，相信"眼见为实"，喜欢具体明确的指导' },
       { id:'N', icon:'🔮', label:'整体模式与可能性', desc:'关注背后的规律、未来趋势和抽象概念，喜欢探索"为什么"和"如果…会怎样"，享受头脑风暴' }
-    ], coinLabel:'MBTI·感知方式' },
-  // Q3: MBTI T/F — 决策判断依据
+    ], coinLabel:'感知偏好' },
+  // Q3: 决策判断依据
   {
     id: 'mbti_tf', type: 'singleChoice', number: 3, emoji: '⚖️',
     title: '做重要决定时，你更依赖什么？',
-    subtitle: '基于 MBTI 思维/情感维度 · 反映你的决策判断逻辑',
+    subtitle: '了解决策时的思考习惯',
     options: [
       { id:'T', icon:'🧠', label:'逻辑与客观分析', desc:'收集数据、权衡利弊、分析因果关系，追求公平一致的原则，认为决策应该基于理性而非情绪' },
       { id:'F', icon:'💛', label:'价值观与人际影响', desc:'考虑对他人的影响、是否符合自己的价值观，关注和谐与共情，认为好的决策应该兼顾人的感受' }
-    ], coinLabel:'MBTI·决策方式' },
-  // Q4: MBTI J/P + 大五尽责性 — 组织与计划风格
+    ], coinLabel:'决策风格' },
+  // Q4: 组织与计划风格
   {
     id: 'mbti_jp', type: 'singleChoice', number: 4, emoji: '📅',
     title: '以下哪种描述更符合你的日常风格？',
-    subtitle: '基于 MBTI 判断/感知维度 + 大五人格尽责性 · 反映你的工作组织方式',
+    subtitle: '了解你的工作组织风格',
     options: [
       { id:'J', icon:'✅', label:'计划有序型', desc:'喜欢提前规划、列清单、设定 deadline，完成一件事再开始下一件。桌面整洁，讨厌临时变卦。对我来说"确定性"本身就是一种生产力' },
       { id:'P', icon:'🔄', label:'灵活随性型', desc:'保持多种可能性、随遇而安，享受即兴发挥。桌面可能有点乱但我知道东西在哪。deadline 前效率最高，变化带来新鲜感而非压力' }
-    ], coinLabel:'MBTI·组织风格' },
-  // Q5: 霍兰德 RIASEC — 核心兴趣方向 (选2)
+    ], coinLabel:'组织风格' },
+  // Q5: 核心兴趣方向 (选2)
   {
     id: 'hollandCode', type: 'multiPick2', number: 5, emoji: '🧭',
     title: '不考虑薪资和现实约束，哪两类活动最吸引你？',
-    subtitle: '基于霍兰德 RIASEC 职业兴趣理论 · 选择最让你有热情的 2 个方向',
+    subtitle: '选择最让你有热情的 2 个方向（可多选）',
     maxSelect: 2,
     options: [
       { id:'R', icon:'🔧', label:'实做型 (R)', desc:'动手操作工具、机器或材料；户外工作；建造或修理东西；看到有形的成果' },
@@ -1269,22 +1274,22 @@ const PHASE1_QUESTIONS = [
       { id:'S', icon:'🤝', label:'社会型 (S)', desc:'帮助他人、教学培训、咨询辅导；促进理解与成长；用共情和沟通建立连接' },
       { id:'E', icon:'🚀', label:'企业型 (E)', desc:'领导团队、说服影响、经营商业；追求成就与影响力；在竞争和挑战中获得动力' },
       { id:'C', icon:'📊', label:'常规型 (C)', desc:'组织管理数据、按流程执行、注重准确和效率；在有序环境中持续稳定地产出' }
-    ], coinLabel:'霍兰德·兴趣倾向' },
-  // Q6: 大五人格 O — 开放性/创新意愿
+    ], coinLabel:'兴趣方向' },
+  // Q6: 开放性/创新意愿
   {
     id: 'openness', type: 'singleChoice', number: 6, emoji: '🌟',
     title: '面对新体验和变化，你的态度更接近？',
-    subtitle: '基于大五人格开放性维度 · 反映创新意愿与变革容忍度',
+    subtitle: '了解你面对变化的舒适程度',
     options: [
       { id:'low', icon:'⚓', label:'稳健务实型', desc:'我偏好熟悉的环境和经过验证的方法，稳定的节奏比频繁变化更能让我发挥。对于全新事物会先观望再决定是否尝试' },
       { id:'mid', icon:'🌿', label:'平衡开放型', desc:'我乐于在稳定基础上适度尝试新事物，对新趋势保持关注但不会盲目追逐。变与不变之间我寻求最适合当下情况的选择' },
       { id:'high', icon:'🚀', label:'探索创新型', desc:'我天生好奇、喜欢尝试没做过的事，愿意走出舒适区。变化的行业、新奇的挑战对我来说是吸引力而非阻力，甚至会觉得"太稳定"有点无聊' }
-    ], coinLabel:'大五·开放性' },
+    ], coinLabel:'创新倾向' },
   // Q7: 核心驱动力/价值观 (选2)
   {
     id: 'coreValues', type: 'multiPick2', number: 7, emoji: '💎',
     title: '工作中你最看重的两个因素是什么？',
-    subtitle: '基于职业锚理论 + 大五人格宜人性 · 选择最驱动你的 2 个内在动机',
+    subtitle: '选择最驱动你的 2 个内在动机（可多选）',
     maxSelect: 2,
     options: [
       { id:'security', icon:'🏰', label:'安全与稳定', desc:'可靠的收入、清晰的晋升路径、不用担心朝不保夕' },
@@ -1293,7 +1298,7 @@ const PHASE1_QUESTIONS = [
       { id:'purpose', icon:'🌍', label:'意义与影响', desc:'做对社会/他人有积极影响的事，工作本身就是目的' },
       { id:'connection', icon:'🤗', label:'关系与归属', desc:'和喜欢的人一起工作、团队氛围好、有归属感和被需要感' },
       { id:'growth', icon:'📈', label:'成长与学习', desc:'持续获得新技能、新视野，不断突破自己的能力边界' }
-    ], coinLabel:'职业锚·价值观' },
+    ], coinLabel:'核心价值观' },
   // Q8: 优势技能自评 (选2)
   {
     id: 'dominantSkills', type: 'multiPick2', number: 8, emoji: '⭐',
@@ -2463,7 +2468,7 @@ function renderWelcome() {
   var html = '<div class="welcome-hero"><div class="welcome-mascot">🤑</div>';
   html += '<div class="welcome-badge">✨ 你必发财 ✨</div>';
   html += '<h2 style="margin:8px 0;font-size:1.5rem;">星途职引</h2>';
-  html += '<p class="welcome-subtitle">基于<strong>MBTI + 霍兰德 + 大五人格</strong>的科学测评<br>帮你把闪光点连向理想工作 💫</p>';
+  html += '<p class="welcome-subtitle">基于<strong>权威心理学模型</strong>的科学测评<br>发现你的职业基因，匹配理想工作 💫</p>';
   html += '<div class="welcome-features">';
   html += '<div class="welcome-feat"><div class="feat-emoji">🧩</div><div class="feat-text">科学测评<br>10题认识自己</div></div>';
   html += '<div class="welcome-feat"><div class="feat-emoji">⚗️</div><div class="feat-text">三圈配方<br>定制职业方向</div></div>';
