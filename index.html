@@ -5,30 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>星途职引 · 发现你的职业新可能</title>
 
-<script>
-(function(){
-  var c=document.getElementById("starfieldCanvas");if(!c)return;
-  var ctx=c.getContext("2d"),stars=[],STARS=250,mx=0,my=0,tmx=0,tmy=0;
-  function rs(){c.width=window.innerWidth;c.height=window.innerHeight;}
-  window.addEventListener("resize",rs);
-  document.addEventListener("mousemove",function(e){tmx=(e.clientX/window.innerWidth-0.5)*2;tmy=(e.clientY/window.innerHeight-0.5)*2});
-  document.addEventListener("touchmove",function(e){var t=e.touches[0];tmx=(t.clientX/window.innerWidth-0.5)*2;tmy=(t.clientY/window.innerHeight-0.5)*2},{passive:true});
-  rs();
-  for(var i=0;i<STARS;i++)stars.push({x:Math.random()*c.width,y:Math.random()*c.height,z:Math.random()*100+1,r:Math.random()*2+0.5,b:Math.random()*0.5+0.5,ts:Math.random()*0.02+0.005});
-  (function A(){requestAnimationFrame(A);
-    mx+=(tmx-mx)*0.03;my+=(tmy-my)*0.03;ctx.clearRect(0,0,c.width,c.height);
-    for(var i=0;i<stars.length;i++){
-      var s=stars[i],p=(101-s.z)/100,sx=s.x+mx*30*p,sy=s.y+my*30*p;
-      if(sx<-10)sx+=c.width+20;if(sx>c.width+10)sx-=c.width+20;
-      if(sy<-10)sy+=c.height+20;if(sy>c.height+10)sy-=c.height+20;
-      var a=Math.max(0.15,Math.min(1,s.b+Math.sin(Date.now()*s.ts+i)*0.2));
-      var sz=s.r*(s.z/60);
-      ctx.beginPath();ctx.arc(sx,sy,sz,0,Math.PI*2);ctx.fillStyle="rgba(200,220,255,"+a+")";ctx.fill();
-      if(sz>1.2){ctx.beginPath();ctx.arc(sx,sy,sz*2.5,0,Math.PI*2);ctx.fillStyle="rgba(180,200,255,"+(a*0.3)+")";ctx.fill();}
-    }
-  })();
-})();
-</script>
 
 <style>
 /* ============================================================
@@ -959,7 +935,6 @@ body {
 </style>
 </head>
 <body>
-<canvas id="starfieldCanvas" style="position:fixed;inset:0;z-index:0;pointer-events:none;display:none!important;"></canvas>
 
 <div class="app-container">
   <!-- Header -->
@@ -2134,9 +2109,6 @@ function render() {
     if (state.phase === 'phase1') { header.classList.add('quiz-mode'); }
     else { header.classList.remove('quiz-mode'); }
   }
-  var c = document.getElementById('starfieldCanvas');
-  if (c) c.style.display = (state.phase === 'welcome') ? 'block' : 'none';
-
   // Smooth scroll to latest content
   setTimeout(() => {
     mainContent.scrollTop = mainContent.scrollHeight;
@@ -2214,8 +2186,6 @@ function renderWelcome() {
 }
 
 function startPhase1() {
-  var c = document.getElementById('starfieldCanvas');
-  if (c) c.style.display = 'none';
   state.phase = 'phase1';
   state.questionIndex = 0;
   state._answerHistory = [];
