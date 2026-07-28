@@ -47,6 +47,30 @@
   };
 })();
 </script>
+<script>
+(function(){
+  var c=document.getElementById("starfieldCanvas");if(!c)return;
+  var ctx=c.getContext("2d"),stars=[],STARS=250,mx=0,my=0,tmx=0,tmy=0;
+  function rs(){c.width=window.innerWidth;c.height=window.innerHeight;}
+  window.addEventListener("resize",rs);
+  document.addEventListener("mousemove",function(e){tmx=(e.clientX/window.innerWidth-0.5)*2;tmy=(e.clientY/window.innerHeight-0.5)*2});
+  document.addEventListener("touchmove",function(e){var t=e.touches[0];tmx=(t.clientX/window.innerWidth-0.5)*2;tmy=(t.clientY/window.innerHeight-0.5)*2},{passive:true});
+  rs();
+  for(var i=0;i<STARS;i++)stars.push({x:Math.random()*c.width,y:Math.random()*c.height,z:Math.random()*100+1,r:Math.random()*2+0.5,b:Math.random()*0.5+0.5,ts:Math.random()*0.02+0.005});
+  (function A(){requestAnimationFrame(A);
+    mx+=(tmx-mx)*0.03;my+=(tmy-my)*0.03;ctx.clearRect(0,0,c.width,c.height);
+    for(var i=0;i<stars.length;i++){
+      var s=stars[i],p=(101-s.z)/100,sx=s.x+mx*30*p,sy=s.y+my*30*p;
+      if(sx<-10)sx+=c.width+20;if(sx>c.width+10)sx-=c.width+20;
+      if(sy<-10)sy+=c.height+20;if(sy>c.height+10)sy-=c.height+20;
+      var a=Math.max(0.15,Math.min(1,s.b+Math.sin(Date.now()*s.ts+i)*0.2));
+      var sz=s.r*(s.z/60);
+      ctx.beginPath();ctx.arc(sx,sy,sz,0,Math.PI*2);ctx.fillStyle="rgba(200,220,255,"+a+")";ctx.fill();
+      if(sz>1.2){ctx.beginPath();ctx.arc(sx,sy,sz*2.5,0,Math.PI*2);ctx.fillStyle="rgba(180,200,255,"+(a*0.3)+")";ctx.fill();}
+    }
+  })();
+})();
+</script>
 <style>
 @keyframes cfBurst {
   0% { opacity: 1; transform: translate(0, 0) rotate(0deg); }
@@ -1129,6 +1153,7 @@ body::after {
 </style>
 </head>
 <body>
+<canvas id="starfieldCanvas" style="position:fixed;inset:0;z-index:0;pointer-events:none;"></canvas>
 
 <div class="app-container">
   <!-- Header -->
@@ -1220,114 +1245,26 @@ const profile = {
 
 // ============ PHASE 1 QUESTIONS — 科学测评 ============
 const PHASE1_QUESTIONS = [
-  // Q1: 能量来源
-  {
-    id: 'mbti_ei', type: 'singleChoice', number: 1, emoji: '🔋',
-    title: '忙碌一周后，哪种方式最让你恢复能量？',
-    subtitle: '了解你的能量恢复方式',
-    options: [
-      { id:'I', icon:'🏠', label:'独处恢复', desc:'一个人阅读、散步、思考或沉浸在自己的世界里，享受安静时光让我重新充满电' },
-      { id:'E', icon:'🎉', label:'社交恢复', desc:'约朋友聚会、聊天、参加活动或热闹的场合，和他人互动让我重获能量' }
-    ], coinLabel:'能量倾向' },
-  // Q2: 信息感知方式
-  {
-    id: 'mbti_sn', type: 'singleChoice', number: 2, emoji: '🔍',
-    title: '接触一个新领域时，你更关注什么？',
-    subtitle: '了解你的信息处理偏好',
-    options: [
-      { id:'S', icon:'📋', label:'具体事实与细节', desc:'关注实际数据、操作步骤和已验证的经验，相信"眼见为实"，喜欢具体明确的指导' },
-      { id:'N', icon:'🔮', label:'整体模式与可能性', desc:'关注背后的规律、未来趋势和抽象概念，喜欢探索"为什么"和"如果…会怎样"，享受头脑风暴' }
-    ], coinLabel:'感知偏好' },
-  // Q3: 决策判断依据
-  {
-    id: 'mbti_tf', type: 'singleChoice', number: 3, emoji: '⚖️',
-    title: '做重要决定时，你更依赖什么？',
-    subtitle: '了解决策时的思考习惯',
-    options: [
-      { id:'T', icon:'🧠', label:'逻辑与客观分析', desc:'收集数据、权衡利弊、分析因果关系，追求公平一致的原则，认为决策应该基于理性而非情绪' },
-      { id:'F', icon:'💛', label:'价值观与人际影响', desc:'考虑对他人的影响、是否符合自己的价值观，关注和谐与共情，认为好的决策应该兼顾人的感受' }
-    ], coinLabel:'决策风格' },
-  // Q4: 组织与计划风格
-  {
-    id: 'mbti_jp', type: 'singleChoice', number: 4, emoji: '📅',
-    title: '以下哪种描述更符合你的日常风格？',
-    subtitle: '了解你的工作组织风格',
-    options: [
-      { id:'J', icon:'✅', label:'计划有序型', desc:'喜欢提前规划、列清单、设定 deadline，完成一件事再开始下一件。桌面整洁，讨厌临时变卦。对我来说"确定性"本身就是一种生产力' },
-      { id:'P', icon:'🔄', label:'灵活随性型', desc:'保持多种可能性、随遇而安，享受即兴发挥。桌面可能有点乱但我知道东西在哪。deadline 前效率最高，变化带来新鲜感而非压力' }
-    ], coinLabel:'组织风格' },
-  // Q5: 核心兴趣方向 (选2)
-  {
-    id: 'hollandCode', type: 'multiPick2', number: 5, emoji: '🧭',
-    title: '不考虑薪资和现实约束，哪两类活动最吸引你？',
-    subtitle: '选择最让你有热情的 2 个方向（可多选）',
-    maxSelect: 2,
-    options: [
-      { id:'R', icon:'🔧', label:'实做型 (R)', desc:'动手操作工具、机器或材料；户外工作；建造或修理东西；看到有形的成果' },
-      { id:'I', icon:'🔬', label:'研究型 (I)', desc:'分析数据、研究复杂问题；探索科学或理论；独立深入思考；追求知识和真相' },
-      { id:'A', icon:'🎨', label:'艺术型 (A)', desc:'创意表达、设计、写作或表演；追求美感与独特性；在非结构化环境中自由创作' },
-      { id:'S', icon:'🤝', label:'社会型 (S)', desc:'帮助他人、教学培训、咨询辅导；促进理解与成长；用共情和沟通建立连接' },
-      { id:'E', icon:'🚀', label:'企业型 (E)', desc:'领导团队、说服影响、经营商业；追求成就与影响力；在竞争和挑战中获得动力' },
-      { id:'C', icon:'📊', label:'常规型 (C)', desc:'组织管理数据、按流程执行、注重准确和效率；在有序环境中持续稳定地产出' }
-    ], coinLabel:'兴趣方向' },
-  // Q6: 开放性/创新意愿
-  {
-    id: 'openness', type: 'singleChoice', number: 6, emoji: '🌟',
-    title: '面对新体验和变化，你的态度更接近？',
-    subtitle: '了解你面对变化的舒适程度',
-    options: [
-      { id:'low', icon:'⚓', label:'稳健务实型', desc:'我偏好熟悉的环境和经过验证的方法，稳定的节奏比频繁变化更能让我发挥。对于全新事物会先观望再决定是否尝试' },
-      { id:'mid', icon:'🌿', label:'平衡开放型', desc:'我乐于在稳定基础上适度尝试新事物，对新趋势保持关注但不会盲目追逐。变与不变之间我寻求最适合当下情况的选择' },
-      { id:'high', icon:'🚀', label:'探索创新型', desc:'我天生好奇、喜欢尝试没做过的事，愿意走出舒适区。变化的行业、新奇的挑战对我来说是吸引力而非阻力，甚至会觉得"太稳定"有点无聊' }
-    ], coinLabel:'创新倾向' },
-  // Q7: 核心驱动力/价值观 (选2)
-  {
-    id: 'coreValues', type: 'multiPick2', number: 7, emoji: '💎',
-    title: '工作中你最看重的两个因素是什么？',
-    subtitle: '选择最驱动你的 2 个内在动机（可多选）',
-    maxSelect: 2,
-    options: [
-      { id:'security', icon:'🏰', label:'安全与稳定', desc:'可靠的收入、清晰的晋升路径、不用担心朝不保夕' },
-      { id:'achievement', icon:'🏆', label:'成就与卓越', desc:'成为领域顶尖高手、攻克难题、获得专业认可与尊重' },
-      { id:'autonomy', icon:'🕊️', label:'自主与自由', desc:'掌控自己的时间、工作方式和决策权，不被微观管理' },
-      { id:'purpose', icon:'🌍', label:'意义与影响', desc:'做对社会/他人有积极影响的事，工作本身就是目的' },
-      { id:'connection', icon:'🤗', label:'关系与归属', desc:'和喜欢的人一起工作、团队氛围好、有归属感和被需要感' },
-      { id:'growth', icon:'📈', label:'成长与学习', desc:'持续获得新技能、新视野，不断突破自己的能力边界' }
-    ], coinLabel:'核心价值观' },
-  // Q8: 优势技能自评 (选2)
-  {
-    id: 'dominantSkills', type: 'multiPick2', number: 8, emoji: '⭐',
-    title: '以下哪两项能力是你最突出的优势？',
-    subtitle: '基于盖洛普优势识别思路 · 选择你被高频夸赞或最自信的 2 项',
-    maxSelect: 2,
-    options: [
-      { id:'analytical', icon:'🧩', label:'分析与逻辑', desc:'数据分析、逻辑推理、问题拆解、从复杂信息中提炼规律' },
-      { id:'creative', icon:'🎨', label:'创意与表达', desc:'写作策划、设计审美、内容创作、把一个想法变成生动作品' },
-      { id:'interpersonal', icon:'💬', label:'沟通与共情', desc:'倾听理解、说服协调、建立信任、读懂他人的情绪和需求' },
-      { id:'technical', icon:'💻', label:'技术与动手', desc:'编程开发、工具操作、动手搭建、用技术手段实现解决方案' },
-      { id:'organizational', icon:'📋', label:'组织与统筹', desc:'项目管理、资源协调、流程优化、把混乱梳理成有序推进' },
-      { id:'resilience', icon:'💪', label:'执行与韧性', desc:'说到做到、在压力下保持稳定、持续推动直到目标达成' }
-    ], coinLabel:'优势·技能评估' },
-  // Q9: 理想工作环境
-  {
-    id: 'workEnvPref', type: 'singleChoice', number: 9, emoji: '🏢',
-    title: '以下哪种工作环境最让你感到舒适和高效？',
-    subtitle: '基于组织文化匹配理论 · 环境与人格的契合度直接影响工作满意度',
-    options: [
-      { id:'structured', icon:'🏛️', label:'规范有序型', desc:'清晰的规则流程、明确的层级分工、稳定的节奏、可预期的晋升' },
-      { id:'collaborative', icon:'👥', label:'协作共生型', desc:'开放沟通、团队作战、互相支持、公司像大家庭一样有归属感' },
-      { id:'autonomous', icon:'🏡', label:'自主灵活型', desc:'弹性工作、信任文化、结果导向而不是过程管控、包容个性化' },
-      { id:'fast-paced', icon:'⚡', label:'快节奏挑战型', desc:'高目标高回报、快速迭代、竞争激励、每天都面临新挑战' },
-      { id:'creative', icon:'🌈', label:'创意自由型', desc:'扁平结构、鼓励试错、包容非常规想法、不拘一格的文化氛围' }
-    ], coinLabel:'环境·文化匹配' },
+  // Q1: 能量恢复 (性格)
+  {id:"mbti_ei",type:"singleChoice",number:1,emoji:"🔋",title:"忙碌一周后，哪种方式最让你恢复能量？",subtitle:"了解你的能量恢复方式",options:[{id:"I",icon:"🏠",label:"独处恢复",desc:"一个人阅读、散步、思考或沉浸在自己的世界里"},{id:"E",icon:"🎉",label:"社交恢复",desc:"约朋友聚会、聊天、参加活动，和他人互动让我重获能量"}],coinLabel:"能量倾向"},
+  // Q2: 信息处理 (性格)
+  {id:"mbti_sn",type:"singleChoice",number:2,emoji:"🔍",title:"接触一个新领域时，你更关注什么？",subtitle:"了解你的信息处理偏好",options:[{id:"S",icon:"📋",label:"具体事实与细节",desc:"关注实际数据、操作步骤和已验证的经验，喜欢具体明确的指导"},{id:"N",icon:"🔮",label:"整体模式与可能性",desc:"关注背后的规律、未来趋势和抽象概念，喜欢探索为什么和如果会怎样"}],coinLabel:"感知偏好"},
+  // Q3: 核心兴趣 — 霍兰德 (选2)
+  {id:"hollandCode",type:"multiPick2",number:3,emoji:"🧭",title:"不考虑薪资和现实约束，哪两类活动最吸引你？",subtitle:"选择最让你有热情的 2 个方向",maxSelect:2,options:[{id:"R",icon:"🔧",label:"实做型",desc:"动手操作工具机器、户外工作、建造修理、看到有形成果"},{id:"I",icon:"🔬",label:"研究型",desc:"分析数据、研究复杂问题、独立深入思考、追求知识和真相"},{id:"A",icon:"🎨",label:"艺术型",desc:"创意表达、设计写作表演、追求美感和独特性"},{id:"S",icon:"🤝",label:"社会型",desc:"帮助他人、教学培训、咨询辅导、用共情和沟通建立连接"},{id:"E",icon:"🚀",label:"企业型",desc:"领导团队、说服影响、经营商业、追求成就和影响力"},{id:"C",icon:"📊",label:"常规型",desc:"组织管理数据、按流程执行、注重准确和效率"}],coinLabel:"兴趣方向"},
+  // Q4: 硬技能自评 (选2) — NEW
+  {id:"skillsSelfAssess",type:"multiPick2",number:4,emoji:"🛠️",title:"以下哪两项硬技能是你最擅长的？",subtitle:"选择你真正掌握、能独立运用的技能",maxSelect:2,options:[{id:"data_analysis",icon:"📊",label:"数据分析处理",desc:"SQL/Python/Excel建模、统计分析、数据可视化"},{id:"writing_comm",icon:"✍️",label:"写作与内容创作",desc:"撰写报告、文案、深度文章，用文字清晰有力地表达"},{id:"coding_dev",icon:"💻",label:"编程与开发",desc:"至少掌握一门编程语言，能独立完成功能开发"},{id:"design_creative",icon:"🎨",label:"设计与创意工具",desc:"熟练使用PS/AI/Figma等设计或视频音频制作工具"},{id:"project_mgmt",icon:"📋",label:"项目与运营管理",desc:"管理项目进度资源预算，使用甘特图/Jira等工具"},{id:"biz_sales",icon:"💼",label:"商务与销售能力",desc:"客户沟通、谈判、销售转化、商务拓展"},{id:"people_mgmt",icon:"👥",label:"人员管理与领导力",desc:"管理团队、激励成员、跨部门协调"},{id:"research_academic",icon:"🔬",label:"研究与学术能力",desc:"文献综述、实验设计、学术写作"},{id:"language",icon:"🌐",label:"外语能力",desc:"英语或其他外语达工作水平，能独立进行商务沟通"},{id:"mechanical_tech",icon:"🔧",label:"机械技术动手能力",desc:"操作专业设备、维修、安装、施工等动手技能"}],coinLabel:"硬技能"},
+  // Q5: 软技能自评 (选2) — NEW
+  {id:"softSkills",type:"multiPick2",number:5,emoji:"🧠",title:"以下哪两项软技能是你最突出的？",subtitle:"选择你最擅长的软技能",maxSelect:2,options:[{id:"communication",icon:"🗣️",label:"沟通与表达",desc:"清楚有条理地表达想法，善于倾听，能调整沟通方式"},{id:"critical_thinking",icon:"🧩",label:"批判性思维",desc:"独立分析复杂问题、识别逻辑漏洞、做出有理有据的判断"},{id:"adaptability",icon:"🔄",label:"适应与抗压",desc:"在变化和压力下保持稳定输出，快速学习新领域"},{id:"teamwork",icon:"🤝",label:"团队协作",desc:"善于和不同背景的人合作，主动分担、推动团队目标"},{id:"self_mgmt",icon:"⏰",label:"自我管理与执行力",desc:"不需外部监督就能高效完成任务，擅长时间管理"},{id:"creativity",icon:"💡",label:"创造力与创新",desc:"能提出新颖的解决方案，喜欢从零到一的构建"},{id:"empathy",icon:"💛",label:"共情与人际敏感度",desc:"敏锐感知他人情绪和需求，善于建立信任、化解冲突"},{id:"leadership",icon:"🚩",label:"领导与影响力",desc:"能激励他人、推动决策、在团队中自然承担引领角色"}],coinLabel:"软技能"},
+  // Q6: 解决问题方式 (能力倾向) — NEW
+  {id:"problemSolving",type:"singleChoice",number:6,emoji:"⚡",title:"遇到一个复杂挑战时，你的第一反应是？",subtitle:"了解你解决问题的典型方式",options:[{id:"analytical",icon:"📐",label:"分析拆解",desc:"先收集数据和信息，把问题分解成小块，逐一分析攻克"},{id:"collaborative",icon:"👥",label:"拉人讨论",desc:"找相关的人一起头脑风暴，在讨论中碰撞出方案"},{id:"intuitive",icon:"💡",label:"直觉先行",desc:"先凭经验和直觉快速尝试一个方向，在实践中迭代调整"},{id:"structured",icon:"📝",label:"流程驱动",desc:"梳理问题的流程和环节，按步骤推进，确保每个环节到位"}],coinLabel:"问题解决"},
+  // Q7: 决策风格 (性格)
+  {id:"mbti_tf",type:"singleChoice",number:7,emoji:"⚖️",title:"做重要决定时，你更依赖什么？",subtitle:"了解决策时的思考习惯",options:[{id:"T",icon:"🧠",label:"逻辑与客观分析",desc:"收集数据、权衡利弊、分析因果关系，追求公平一致"},{id:"F",icon:"💛",label:"价值观与人际影响",desc:"考虑对他人的影响、是否符合自己的价值观，关注和谐"}],coinLabel:"决策风格"},
+  // Q8: 组织风格 (性格)
+  {id:"mbti_jp",type:"singleChoice",number:8,emoji:"📅",title:"以下哪种描述更符合你的日常风格？",subtitle:"了解你的工作组织风格",options:[{id:"J",icon:"✅",label:"计划有序型",desc:"喜欢提前规划、列清单、设定deadline，确定性就是生产力"},{id:"P",icon:"🔄",label:"灵活随性型",desc:"保持多种可能性、享受即兴发挥，deadline前效率最高"}],coinLabel:"组织风格"},
+  // Q9: 核心价值观 (选2)
+  {id:"coreValues",type:"multiPick2",number:9,emoji:"💎",title:"工作中你最看重的两个因素是什么？",subtitle:"选择最驱动你的 2 个内在动机",maxSelect:2,options:[{id:"security",icon:"🏰",label:"安全与稳定",desc:"可靠的收入、清晰的晋升路径"},{id:"achievement",icon:"🏆",label:"成就与卓越",desc:"成为领域顶尖高手、获得专业认可"},{id:"autonomy",icon:"🕊️",label:"自主与自由",desc:"掌控自己的时间、工作方式和决策权"},{id:"purpose",icon:"🌍",label:"意义与影响",desc:"做对社会他人有积极影响的事"},{id:"connection",icon:"🤗",label:"关系与归属",desc:"和喜欢的人一起工作、有归属感"},{id:"growth",icon:"📈",label:"成长与学习",desc:"持续获得新技能、不断突破自己的能力边界"}],coinLabel:"核心价值观"},
   // Q10: 背景信息
-  {
-    id: 'background', type: 'backgroundForm', number: 10, emoji: '📋',
-    title: '最后，完善你的基本信息',
-    subtitle: '这些信息帮我更精准地为你连线',
-    fields: ['major', 'workYears', 'currentCity', 'targetCity'],
-    coinLabel: '背景金币',
-  },
+  {id:"background",type:"backgroundForm",number:10,emoji:"📝",title:"完善你的基本信息",subtitle:"让星途更精准地为你匹配职业方向",coinLabel:"背景信息"}
 ];
 
 const RATIO_PRESETS = [
@@ -2337,6 +2274,46 @@ const CAREER_ORG_TYPES = {
   quality_engineer: ['private', 'foreign', 'soe']
 };
 
+
+// ============ CAREER TO INDUSTRY MAP ============
+const CAREER_INDUSTRY_MAP = {
+  ai_product:"internet",data_analyst:"internet",ux_designer:"internet",
+  content_creator:"media_entertain",esg_analyst:"esg_green",
+  tech_sales:"internet",hr_od:"internet",bio_medical:"biomed",
+  finance_analyst:"finance",accountant:"finance",project_manager:"internet",
+  operations:"internet",consultant:"legal_consult",brand_marketing:"internet",
+  psychologist:"edu_research",game_designer:"game_meta",
+  crossborder_ecom:"consumer_retail",new_energy_ve:"auto_mobility",
+  semiconductor:"semiconductor_hw",c_pm:"internet",b_pm:"internet",
+  growth_pm:"internet",frontend_dev:"internet",backend_dev:"internet",
+  qa_engineer:"internet",devops_sre:"internet",tpm:"internet",
+  live_streamer:"livestream_mcn",logistics_ops:"logistics",
+  ride_hailing_mgr:"auto_mobility",community_ecom:"consumer_retail",
+  pet_service:"pet_economy",fitness_pro:"sports_fitness",
+  medical_doctor:"biomed",nurse_care:"biomed",
+  lawyer:"legal_consult",architect:"realestate",
+  civil_engineer:"realestate",electrical_eng:"energy_chem",
+  graphic_designer:"design_creative",chef_culinary:"tourism_hotel",
+  electrician_tech:"manufacturing",journalist:"media_entertain",
+  environmental_eng:"esg_green",hotel_management:"tourism_hotel",
+  actuary:"finance",agritech:"agri_food",
+  social_worker:"gov_public",quality_engineer:"manufacturing"
+};
+
+const INDUSTRY_NAMES = {
+  internet:"互联网/信息技术",finance:"金融/保险/投资",biomed:"生物医药/医疗健康",
+  semiconductor_hw:"半导体/电子/硬件",auto_mobility:"汽车/交通出行",
+  new_energy:"新能源/节能环保",edu_research:"教育/培训/科研",
+  media_entertain:"文化传媒/娱乐",consumer_retail:"消费品/零售/电商",
+  realestate:"房地产/建筑",manufacturing:"先进制造/工业",
+  agri_food:"农业/食品科技",energy_chem:"能源/化工/材料",
+  logistics:"物流/供应链/贸易",gov_public:"政府/公共事业",
+  legal_consult:"法律/咨询/专业服务",game_meta:"游戏/元宇宙",
+  tourism_hotel:"旅游/酒店/餐饮",design_creative:"设计/艺术/创意",
+  telecom:"电信/新基建",livestream_mcn:"直播/MCN/短视频",
+  pet_economy:"宠物经济",sports_fitness:"体育/健身",
+  esg_green:"碳中和/绿色经济",elderly_care:"银发经济/养老"
+};
 // ============ DOM REFS ============
 const mainContent = document.getElementById('mainContent');
 const coinCount = document.getElementById('coinCount');
@@ -2678,6 +2655,12 @@ function finishPhase1() {
 
   // --- 7. Assemble final flash card ---
   var uniqueArr = function(arr) { var seen = {}; return arr.filter(function(x) { return seen[x] ? false : (seen[x] = true); }); };
+  
+  // --- NEW: Skills from Q4 (skillsSelfAssess) + Q5 (softSkills) -> ability tags ---
+  var hardSkillMap = {data_analysis:"数据分析",writing_comm:"写作表达",coding_dev:"编程开发",design_creative:"创意设计",project_mgmt:"项目管理",biz_sales:"商务销售",people_mgmt:"人员管理",research_academic:"学术研究",language:"外语能力",mechanical_tech:"动手技术"};
+  var softSkillMap = {communication:"沟通表达",critical_thinking:"批判思维",adaptability:"适应抗压",teamwork:"团队协作",self_mgmt:"自我管理",creativity:"创造力",empathy:"共情力",leadership:"领导力"};
+  (profile.skillsSelfAssess||[]).forEach(function(s){if(hardSkillMap[s])abilities.push(hardSkillMap[s]);});
+  (profile.softSkills||[]).forEach(function(s){if(softSkillMap[s])abilities.push(softSkillMap[s]);});
   var finalAbilities = uniqueArr(abilities).slice(0, 6);
   var finalPassions = uniqueArr(passions).slice(0, 5);
   var finalInterests = uniqueArr(interests).slice(0, 4);
@@ -3131,25 +3114,69 @@ function startPhase3() {
 
 // ============ PHASE 3: MATCHING ============
 function matchCareers() {
-  var userOrgTypes = profile.orgTypes || [];
-  // Score each career against user profile
-  const scored = CAREER_DB.map(career => {
-    let score = 0;
+  // Get user selected industry IDs for hard filter
+  var selectedIndustryIds = (profile.selectedIndustries || []).map(function(s) { return s.cat; });
+  var selectedSubNames = (profile.selectedIndustries || []).map(function(s) { return s.sub; });
 
-    // Org type scoring — neutral by default (no user preference = no bias)
+  // HARD FILTER: only show careers in selected industries
+  var candidates = CAREER_DB.filter(function(career) {
+    if (selectedIndustryIds.length === 0) return true;
+    var careerIndustry = CAREER_INDUSTRY_MAP[career.id];
+    if (!careerIndustry) return true; // unknown industry = include
+    return selectedIndustryIds.indexOf(careerIndustry) >= 0;
+  });
 
-    // Ability match
-    const userAbilities = profile.flashCard?.abilities || [];
-    career.matchAbilities.forEach(a => {
-      if (userAbilities.some(ua => a.includes(ua) || ua.includes(a))) score += 3;
+  // Fallback: if no careers match, include all
+  if (candidates.length === 0) candidates = CAREER_DB;
+
+  var scored = candidates.map(function(career) {
+    var score = 0;
+    var matchReasons = [];
+
+    // === ABILITY MATCH (weight: high) ===
+    var userAbilities = (profile.flashCard && profile.flashCard.abilities) || [];
+    var selfAssessed = profile.skillsSelfAssess || [];
+    var softSkills = profile.softSkills || [];
+    var allAbilities = userAbilities.concat(selfAssessed).concat(softSkills);
+    var abilityHits = 0;
+    career.matchAbilities.forEach(function(a) {
+      var matched = allAbilities.some(function(ua) {
+        if (typeof ua !== "string") return false;
+        return a.indexOf(ua) >= 0 || ua.indexOf(a) >= 0;
+      });
+      if (matched) { score += 4; abilityHits++; }
+    });
+    if (abilityHits >= 3) matchReasons.push("能力高度匹配");
+    else if (abilityHits >= 1) matchReasons.push("能力部分匹配");
+
+    // === PERSONALITY TRAIT MATCH (from MBTI) ===
+    var traitCareerMap = {
+      "E": ["社交","沟通","表达","团队","领导","协作"],
+      "I": ["独立","专注","深度","分析","研究","思考"],
+      "S": ["务实","操作","细节","执行","数据","具体"],
+      "N": ["创新","抽象","战略","概念","趋势","探索"],
+      "T": ["逻辑","分析","理性","规则","系统","客观"],
+      "F": ["共情","助人","关系","和谐","服务","价值"],
+      "J": ["计划","组织","管理","流程","效率","有序"],
+      "P": ["灵活","适应","创意","探索","变化","开放"]
+    };
+    var userTraits = [];
+    if (profile.mbti_ei) userTraits.push(profile.mbti_ei);
+    if (profile.mbti_sn) userTraits.push(profile.mbti_sn);
+    if (profile.mbti_tf) userTraits.push(profile.mbti_tf);
+    if (profile.mbti_jp) userTraits.push(profile.mbti_jp);
+    var careerText = career.matchInterests.join(" ") + " " + career.matchValues.join(" ") + " " + career.name;
+    userTraits.forEach(function(t) {
+      var keywords = traitCareerMap[t] || [];
+      keywords.forEach(function(kw) { if (careerText.indexOf(kw) >= 0) score += 1; });
     });
 
-    // Value match (from new coreValues)
+    // === VALUES MATCH ===
     var userCoreValues = profile.coreValues || [];
     var valueToCareerMap = {
-      'security': ['稳定安全'], 'achievement': ['经济回报','学习成长'],
-      'autonomy': ['自主独立'], 'purpose': ['社会影响'],
-      'connection': ['人际关系'], 'growth': ['学习成长','创新创造']
+      "security": ["稳定安全"],"achievement": ["经济回报","学习成长"],
+      "autonomy": ["自主独立"],"purpose": ["社会价值"],
+      "connection": ["人际关系"],"growth": ["学习成长","创造创新"]
     };
     userCoreValues.forEach(function(cv) {
       var mapped = valueToCareerMap[cv] || [];
@@ -3158,44 +3185,37 @@ function matchCareers() {
       });
     });
 
-    // Interest match (from hollandCode + passions)
-    var userPassions = profile.flashCard?.passions || [];
-    var userInterests = profile.flashCard?.interests || [];
-    var allUserInterests = userPassions.concat(userInterests).join(' ');
+    // === INTEREST MATCH (from Holland) ===
+    var userPassions = (profile.flashCard && profile.flashCard.passions) || [];
+    var userInterests = (profile.flashCard && profile.flashCard.interests) || [];
+    var allUserInterests = userPassions.concat(userInterests).join(" ");
     career.matchInterests.forEach(function(i) {
-      if (allUserInterests.indexOf(i) >= 0 || i.split(/[、，]/).some(function(p) { return allUserInterests.indexOf(p) >= 0; })) score += 2;
+      if (allUserInterests.indexOf(i) >= 0) score += 2;
     });
 
-    // Money direction match
-    const moneyDirs = profile.moneyDirections || [];
-    const careerKeywords = [career.name, ...career.aliases].join(' ');
-    moneyDirs.forEach(d => {
-      if (careerKeywords.includes(d.split('/')[0]) || d.includes(careerKeywords.split(' ')[0])) {
-        score += 4;
-      }
-    });
-
-    // Industry match (user's selected industries → boost related careers)
-    const userInds = (profile.selectedIndustries || []).map(function(s) { return s.sub + s.cat; }).join(' ');
-    const careerText = [career.name].concat(career.aliases||[]).join(' ') + ' ' + career.trend + ' ' + career.cities;
-    if (userInds) {
-      var indWords = userInds.split(/[\/ 、，]+/);
-      indWords.forEach(function(w) { if (w.length >= 2 && careerText.indexOf(w) >= 0) score += 3; });
+    // === PROBLEM SOLVING STYLE BONUS ===
+    if (profile.problemSolving) {
+      var psMap = {
+        "analytical": ["逻辑","分析","数据","系统","研究"],
+        "collaborative": ["团队","协调","沟通","跨部门","协作"],
+        "intuitive": ["创造","创新","设计","灵活","探索"],
+        "structured": ["流程","规范","标准","质量","有序"]
+      };
+      var psKeywords = psMap[profile.problemSolving] || [];
+      var careerFull = career.matchAbilities.join(" ") + " " + career.matchInterests.join(" ");
+      psKeywords.forEach(function(kw) { if (careerFull.indexOf(kw) >= 0) score += 2; });
     }
 
-    // Ratio alignment — directly scales the score based on user's priority
+    // === RATIO ALIGNMENT ===
     var r = profile.ratioCustom || {want:33,good:34,money:33};
-    var highMoney = ['tech_sales','data_analyst','finance_analyst','consultant','semiconductor','crossborder_ecom','backend_dev','devops_sre','b_pm'];
-    var highWant = ['content_creator','esg_analyst','ux_designer','psychologist','game_designer','brand_marketing','c_pm','frontend_dev'];
-    var highGood = ['ai_product','data_analyst','consultant','new_energy_ve','bio_medical','backend_dev','growth_pm','tpm','accountant'];
-    var versatile = ['hr_od','brand_marketing','crossborder_ecom','ai_product','project_manager','operations','qa_engineer'];
+    var highMoney = ["tech_sales","data_analyst","finance_analyst","consultant","semiconductor","crossborder_ecom","backend_dev","devops_sre","b_pm","actuary"];
+    var highWant = ["content_creator","esg_analyst","ux_designer","psychologist","game_designer","brand_marketing","c_pm","frontend_dev","graphic_designer","journalist","architect"];
+    var highGood = ["ai_product","data_analyst","consultant","new_energy_ve","bio_medical","backend_dev","growth_pm","tpm","accountant","medical_doctor","civil_engineer","electrical_eng"];
+    if (r.money >= 45 && highMoney.indexOf(career.id) >= 0) score += Math.round(r.money / 15);
+    if (r.want >= 40 && highWant.indexOf(career.id) >= 0) score += Math.round(r.want / 15);
+    if (r.good >= 40 && highGood.indexOf(career.id) >= 0) score += Math.round(r.good / 15);
 
-    if (r.money >= 45 && highMoney.indexOf(career.id) >= 0) score += Math.round(r.money / 20);
-    if (r.want >= 40 && highWant.indexOf(career.id) >= 0) score += Math.round(r.want / 20);
-    if (r.good >= 40 && highGood.indexOf(career.id) >= 0) score += Math.round(r.good / 20);
-    if (r.want >= 25 && r.good >= 25 && r.money >= 25 && versatile.indexOf(career.id) >= 0) score += 2;
-
-    return { ...career, score };
+    return { ...career, score: score, matchReasons: matchReasons };
   });
 
   scored.sort(function(a, b) { return b.score - a.score; });
@@ -3259,7 +3279,8 @@ function renderPhase3Cards() {
     html += '<div style="width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,#EEF2FF,#E0E7FF);display:flex;align-items:center;justify-content:center;font-size:1.2rem;font-weight:700;color:#4F46E5;flex-shrink:0;">' + (idx+1) + '</div>';
     html += '<div style="flex:1;min-width:0;">';
     html += '<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">';
-    html += '<strong style="font-size:1rem;">' + job.name + '</strong>';
+    html += '<strong style="font-size:1rem;">' + job.name + '</strong>' +
+'<span style="font-size:0.7rem;background:var(--color-primary-light);color:var(--color-primary);padding:2px 8px;border-radius:10px;margin-left:8px;font-weight:500;white-space:nowrap;">' + (INDUSTRY_NAMES[CAREER_INDUSTRY_MAP[job.id]] || '') + '</span>';
     html += '<span style="font-size:0.75rem;color:var(--color-text-muted);">' + (job.aliases||[]).slice(0,2).join(' / ') + '</span>';
     html += '</div>';
     // Match reason line
@@ -3646,7 +3667,8 @@ function renderPhase3SimpleCards() {
     html += '<div class="job-card mt-12" style="animation-delay:' + (idx * 0.1) + 's;cursor:pointer;" onclick="toggleSimpleDetail(\'sd_' + job.id + '\', this)">';
     html += '<div style="display:flex;align-items:center;gap:12px;">';
     html += '<div style="width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--color-primary-light),var(--color-amber-light));display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0;">' + (idx+1) + '</div>';
-    html += '<div style="flex:1;"><strong style="font-size:1rem;">' + job.name + '</strong>';
+    html += '<div style="flex:1;"><strong style="font-size:1rem;">' + job.name + '</strong>' +
+'<span style="font-size:0.7rem;background:var(--color-primary-light);color:var(--color-primary);padding:2px 8px;border-radius:10px;margin-left:8px;font-weight:500;white-space:nowrap;">' + (INDUSTRY_NAMES[CAREER_INDUSTRY_MAP[job.id]] || '') + '</span>';
     html += '<p style="font-size:0.82rem;color:var(--color-text-secondary);margin:2px 0 0;">' + s.oneLiner + '</p>';
     html += '<div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:4px;">';
     html += '<span style="font-size:0.7rem;background:#E8F5E9;color:#2E7D32;padding:2px 8px;border-radius:10px;">💰 ' + s.money + '</span>';
@@ -4004,6 +4026,7 @@ function restartApp() {
   profile.dominantSkills = []; profile.workEnvPref = '';
   profile.major = ''; profile.workYears = ''; profile.currentCity = ''; profile.targetCity = '';
   profile.flashCard = null;
+  profile.skillsSelfAssess = []; profile.softSkills = []; profile.problemSolving = '';
   profile.wantToDo = ''; profile.goodAt = ''; profile.moneyDirections = [];
   profile.ratioPreset = ''; profile.ratioCustom = { want: 0, good: 0, money: 0 };
   profile.orgTypes = [];
