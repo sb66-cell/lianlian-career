@@ -113,51 +113,6 @@ body {
   position: relative;
 }
 
-/* Subtle cosmic accent background */
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  opacity: 0.3;
-  background:
-    /* Very subtle constellation lines pattern */
-    radial-gradient(1px 1px at 12% 8%, rgba(79,70,229,0.15), transparent),
-    radial-gradient(1px 1px at 28% 14%, rgba(79,70,229,0.1), transparent),
-    radial-gradient(1px 1px at 45% 6%, rgba(79,70,229,0.12), transparent),
-    radial-gradient(1px 1px at 62% 20%, rgba(79,70,229,0.08), transparent),
-    radial-gradient(1px 1px at 78% 12%, rgba(79,70,229,0.1), transparent),
-    radial-gradient(1px 1px at 90% 8%, rgba(79,70,229,0.07), transparent),
-    radial-gradient(1px 1px at 15% 30%, rgba(79,70,229,0.09), transparent),
-    radial-gradient(1px 1px at 35% 25%, rgba(79,70,229,0.06), transparent),
-    radial-gradient(1px 1px at 55% 35%, rgba(79,70,229,0.08), transparent),
-    radial-gradient(1px 1px at 72% 28%, rgba(79,70,229,0.07), transparent),
-    radial-gradient(1px 1px at 85% 40%, rgba(79,70,229,0.05), transparent),
-    radial-gradient(1px 1px at 20% 50%, rgba(79,70,229,0.06), transparent),
-    radial-gradient(1px 1px at 40% 55%, rgba(79,70,229,0.08), transparent),
-    radial-gradient(1px 1px at 60% 48%, rgba(79,70,229,0.07), transparent),
-    radial-gradient(1px 1px at 75% 60%, rgba(79,70,229,0.05), transparent),
-    radial-gradient(1px 1px at 10% 70%, rgba(79,70,229,0.06), transparent),
-    radial-gradient(1px 1px at 30% 75%, rgba(79,70,229,0.07), transparent),
-    radial-gradient(1px 1px at 50% 70%, rgba(79,70,229,0.05), transparent),
-    radial-gradient(1px 1px at 68% 80%, rgba(79,70,229,0.06), transparent),
-    radial-gradient(1px 1px at 88% 72%, rgba(79,70,229,0.04), transparent);
-}
-
-body::after {
-  content: '';
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  opacity: 0.2;
-  background:
-    /* Subtle nebula hint */
-    radial-gradient(ellipse 400px 200px at 20% 25%, rgba(79,70,229,0.04) 0%, transparent 60%),
-    radial-gradient(ellipse 300px 150px at 75% 65%, rgba(14,165,233,0.03) 0%, transparent 55%);
-}
-
 .app-container {
   max-width: 720px;
   margin: 0 auto;
@@ -3566,13 +3521,13 @@ function renderPhase3Timeline() {
         </div>
 
         <div class="timeline-item">
-          <div class="timeline-period">📅 D14 · 庆祝与决策</div>
-          <p style="font-size:0.85rem;">无论进展如何，你已经完成了14天的职业探索——这本身就是一件了不起的事！写下你的关键收获，决定下一步是继续深入还是切换方向。记住，职业生涯是一场奥德赛，不是一次考试 🚀</p>
+          <div class="timeline-period">📅 D14 · 总结与决策</div>
+          <p style="font-size:0.85rem;">回顾这两周的探索，记录你的关键发现：哪些方向让你更有动力？哪些与预期不同？基于实际体验调整下一步计划，持续迭代你的职业方向。</p>
         </div>
       </div>
     </div>
     <button class="btn btn-primary mt-16" onclick="finishAll()">
-      🎊 完成探索 →
+      查看完整报告 →
     </button>
   `;
 
@@ -3591,7 +3546,7 @@ function renderFinal() {
   var topJob = profile.recommendedJobs[0];
   var topJobName = topJob ? topJob.name : '你的目标岗位';
 
-  var html = '<div class="flash-card" style="border-color:var(--color-teal);text-align:center;"><div style="position:relative;z-index:1;"><div style="font-size:4rem;margin-bottom:12px;">🎊</div><h3 style="color:var(--color-teal);">🚀 职业探索完成！</h3><p style="font-size:1.1rem;margin:16px 0;">你已经拥有了职业探索的<strong>导航仪</strong>和<strong>种子资金</strong>（知识金币 🪙 × ' + state.coins + '），现在就出发去创造属于你的奥德赛吧！</p>';
+  var html = '<div class="flash-card" style="border-color:var(--color-teal);text-align:center;"><div style="position:relative;z-index:1;"><h3 style="color:var(--color-teal);">职业探索报告</h3><p style="font-size:1rem;margin:16px 0;">基于你的测评结果，以下是你的个人职业画像和推荐发展路径。建议保存或导出这份报告，作为后续职业决策的参考。</p>';
 
   html += '<div style="display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin:20px 0;">';
   (fc.abilities || []).forEach(function(a) { html += '<span class="flash-tag ability">' + a + '</span>'; });
