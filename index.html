@@ -959,7 +959,7 @@ body {
 </style>
 </head>
 <body>
-<canvas id="starfieldCanvas" style="position:fixed;inset:0;z-index:0;pointer-events:none;display:none;"></canvas>
+<canvas id="starfieldCanvas" style="position:fixed;inset:0;z-index:0;pointer-events:none;display:none!important;"></canvas>
 
 <div class="app-container">
   <!-- Header -->
@@ -2219,6 +2219,9 @@ function startPhase1() {
   state.phase = 'phase1';
   state.questionIndex = 0;
   state._answerHistory = [];
+  // Force hide canvas when leaving welcome
+  var c = document.getElementById('starfieldCanvas');
+  if (c) { c.style.setProperty('display', 'none', 'important'); }
   render();
 }
 
