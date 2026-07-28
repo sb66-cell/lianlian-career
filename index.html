@@ -2090,13 +2090,18 @@ function renderWelcome() {
   var saved = checkSavedProgress();
   var resumeHTML = '';
   if (saved) {
-    resumeHTML = '<div class="card mt-16" style="text-align:center;border:2px dashed var(--color-primary);background:#FFFDF5;"><p style="font-weight:700;">💾 检测到未完成的探索记录</p><p class="text-secondary" style="font-size:0.85rem;">上次进度：' + saved.phaseLabel + '（' + saved.time + '）</p><div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:8px;"><button class="btn btn-primary btn-small" onclick="resumeProgress()">📂 继续上次探索</button><button class="btn btn-ghost btn-small" onclick="clearSavedProgress()">🗑 重新开始</button></div></div>';
+    resumeHTML = '<div class="card mt-16" style="text-align:center;border:2px dashed var(--color-border);"><p style="font-weight:600;">检测到未完成的记录</p><p class="text-secondary" style="font-size:0.85rem;">' + saved.phaseLabel + '（' + saved.time + '）</p><div style="display:flex;gap:8px;justify-content:center;margin-top:8px;"><button class="btn btn-primary btn-small" onclick="resumeProgress()">继续</button><button class="btn btn-ghost btn-small" onclick="clearSavedProgress()">重新开始</button></div></div>';
   }
-  var html = '<div class="welcome-hero">';
-  html += '<h2 style="margin:0 0 8px;font-size:1.5rem;">星途职引</h2>';
-  html += '<p class="welcome-subtitle">科学测评 · 精准匹配 · 找到适合你的职业方向</p>';
+  var html = '<div style="text-align:center;padding:60px 20px 40px;">';
+  html += '<div style="font-size:2rem;font-weight:700;color:var(--color-text);margin-bottom:8px;">星途职引</div>';
+  html += '<p style="font-size:0.95rem;color:var(--color-text-secondary);max-width:360px;margin:0 auto 32px;line-height:1.7;">10 道科学测评，发现你的职业方向<br>匹配 60+ 岗位，获取个性化发展路径</p>';
+  html += '<div style="display:flex;gap:24px;justify-content:center;margin-bottom:32px;font-size:0.85rem;color:var(--color-text-muted);">';
+  html += '<div>测评<br><span style="font-weight:600;color:var(--color-text);">10题</span></div>';
+  html += '<div>行业<br><span style="font-weight:600;color:var(--color-text);">27类</span></div>';
+  html += '<div>岗位<br><span style="font-weight:600;color:var(--color-text);">60+</span></div>';
   html += '</div>';
-  html += '<button class="btn btn-primary mt-16" onclick="startPhase1()" style="display:block;margin:0 auto;font-size:1rem;padding:12px 32px;">开始测评</button>';
+  html += '<button class="btn btn-primary" onclick="startPhase1()" style="font-size:1rem;padding:12px 40px;">开始测评</button>';
+  html += '</div>';
 
   if (saved) html += resumeHTML;
   mainContent.innerHTML = html;
