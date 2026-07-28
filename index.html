@@ -851,6 +851,16 @@ body::after {
 
 /* --- Celebration Overlay --- */
 
+@media (max-width: 600px) {
+  .job-card > div:first-child { flex-direction: column !important; align-items: flex-start !important; }
+  .job-card .tag-pill { font-size: 0.68rem !important; padding: 3px 8px !important; }
+  .job-card strong { font-size: 0.9rem !important; }
+  .job-section { padding: 10px !important; }
+  .job-section-title { font-size: 0.85rem !important; }
+  .odyssey-grid { grid-template-columns: 1fr !important; }
+  .city-cluster-grid { grid-template-columns: 1fr !important; }
+}
+
 @media print{body{background:#fff!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}.app-header,.btn,.score-stars,.deep-dive,.celebration-toast,.progress-bar-wrapper,.stepped-progress{display:none!important}.main-content{padding:0!important}.card,.job-card,.flash-card{box-shadow:none!important;border:1px solid #ddd!important;break-inside:avoid}.flash-card{border-color:#F8716B!important}h3{font-size:1.1rem!important}.tag-pill,.flash-tag{border:1px solid #ddd!important}}
 
 /* --- Employment Type Selection --- */
@@ -1497,24 +1507,24 @@ const CAREER_DB = [
     skillTransferNote: '逻辑分析、问题解决为通用能力，但半导体专业知识壁垒高，需系统投入学习',
     prototype: '搜索"半导体行业观察"或"芯东西"公众号，选一个你感兴趣的芯片方向（如AI芯片/汽车芯片/存储芯片），了解该方向中国前3家企业及其核心产品',
   },
-  { id:'c_pm', name:'C端产品经理', aliases:['用户产品经理','移动端PM','消费者PM'], matchAbilities:['用户洞察','数据分析','逻辑思维','共情能力'], matchInterests:['用户体验','消费心理','数据驱动','创造'], matchValues:['创新创造','人际关系','学习成长'], workContent:['通过用户研究与数据分析发现产品机会','设计产品功能与交互流程，撰写PRD','推动设计、研发、测试团队完成产品迭代并追踪效果'], salary:'应届12-22K·14薪，初级18-35K，高级30-60K（一线互联网）', skillGap:'需掌握用户研究方法论、原型设计(Figma)、数据分析(SQL)。路径：摹客/墨刀原型练习→拆解3个热门APP的核心功能逻辑→写一份产品体验报告', trend:'⭐ 互联网核心岗位，全行业数字化转型带来持续需求，AI+产品为新增长方向', cities:'北京(字节/快手/百度总部)⭐|深圳(腾讯/Shopee) |杭州(阿里/网易) |成都(腾讯/字节西南)', special:'部分AI应用层企业获专精特新', community:'👍 用户导向思维培养好、转创业/VC路径成熟|⚠️ 竞争激烈(应届生海投)、天花板看公司。牛客:作品集+产品sense>一切', beginnerStars:4, beginnerNote:'大厂校招体系成熟，产品助理/专员入门', skillTransferStars:5, skillTransferNote:'用户洞察、数据分析、项目管理能力高度通用', prototype:'选1个你常用的APP，写一份产品体验报告：它解决的核心问题是什么？你觉得它最该优化的1个功能是什么？' },
-  { id:'b_pm', name:'B端产品经理 / SaaS PM', aliases:['企业产品经理','SaaS产品经理','后台PM'], matchAbilities:['逻辑思维','系统设计','业务理解','沟通协调'], matchInterests:['企业效率','商业模式','系统架构','解决问题'], matchValues:['学习成长','经济回报','创新创造'], workContent:['深入理解企业客户的业务场景与痛点','设计后台管理系统/SaaS产品的功能架构与交互逻辑','协调技术团队推进产品交付，管理客户需求与版本迭代'], salary:'应届14-25K·14薪，初级20-40K，高级35-70K（一线城市）', skillGap:'需了解SaaS商业模式、B端交互规范、基础技术架构。路径：学习Salesforce/飞书等标杆产品→参与一个内部工具项目→学习SQL+基础API理解', trend:'⭐ 企业数字化转型/十五五数字经济推动SaaS市场增长，B端PM人才缺口大', cities:'北京(飞书/钉钉/企业微信生态)⭐|深圳(金蝶/明源云) |上海(外企SaaS/Salesforce生态) |杭州(有赞/光云)', special:'大量垂直SaaS企业为专精特新小巨人', community:'👍 薪资天花板高、跳甲方/咨询/VC路径广|⚠️ 产品反馈周期长、客户需求复杂。脉脉:B端PM是越老越值钱的典型', beginnerStars:3, beginnerNote:'对业务理解力要求较高，建议从产品助理或CSM岗切入', skillTransferStars:5, skillTransferNote:'系统设计、业务抽象、项目管理能力跨行业通用', prototype:'选飞书/钉钉/企业微信任一产品，研究它最新上线的1个B端功能，分析它解决的客户场景和商业逻辑' },
-  { id:'growth_pm', name:'增长产品经理', aliases:['增长黑客','Growth PM','用户增长'], matchAbilities:['数据分析','实验设计','用户心理','快速迭代'], matchInterests:['增长','数据','实验','心理学'], matchValues:['经济回报','创新创造','学习成长'], workContent:['通过数据分析与A/B实验驱动用户增长(拉新/激活/留存)','设计增长策略与增长模型，协调跨职能团队落地','搭建增长指标体系与实验平台'], salary:'应届15-25K·14薪，初级20-40K，高级35-70K+项目奖金', skillGap:'需掌握A/B测试方法论、SQL、用户行为分析工具。路径：学习增长黑客经典书籍→自己做一个增长实验(哪怕是个人公众号)→用数据复盘', trend:'⭐ 互联网精细化运营时代标配，增长能力是产品/运营/市场通用底层能力', cities:'北京(字节跳动总部)⭐|深圳(腾讯/虾皮) |上海(拼多多/得物) |广州(微信/唯品会)', special:'—', community:'👍 数据+创意结合、结果立竿见影|⚠️ KPI压力大、实验频繁失败是常态。脉脉:最好的增长PM都是半个数据科学家', beginnerStars:3, beginnerNote:'需较强数据分析能力，适合有数据分析/运营背景者转行', skillTransferStars:5, skillTransferNote:'数据分析、实验设计、用户心理洞察为全行业通用能力', prototype:'选一个你常用的APP，分析它的新用户注册-激活流程，找出你认为最影响转化率的1个环节，提出改进方案' },
-  { id:'frontend_dev', name:'前端开发工程师', aliases:['Web前端','前端工程师','React/Vue开发'], matchAbilities:['逻辑思维','视觉敏感','问题解决','持续学习'], matchInterests:['编程','交互','视觉','技术'], matchValues:['学习成长','经济回报','创新创造'], workContent:['将UI设计稿转化为高质量的前端代码','优化页面性能与用户体验(加载速度/交互流畅度)','与后端工程师协作完成接口联调与功能实现'], salary:'应届12-22K·14薪，初级18-35K，高级30-60K（一线互联网）', skillGap:'需掌握HTML/CSS/JavaScript基础→React或Vue框架→Node.js基础。路径：freeCodeCamp前端课程→做3个完整项目(个人网站+Todo App+复杂项目)→LeetCode刷题', trend:'⭐ 全行业数字化前端需求稳定，Web3/可视化/AI前端为新增长点', cities:'北京(大厂总部集中)⭐|深圳(腾讯/硬件跨界) |杭州(阿里生态) |成都(腾讯/字节西南·高性价比)', special:'—', community:'👍 入行门槛清晰、远程工作机会多|⚠️ 技术更新快需持续学习、AI编程工具对初级岗冲击大。牛客:打好JS基础的框架只是工具', beginnerStars:4, beginnerNote:'培训资源海量，3-6个月可系统入门，但找到好工作需要项目深度', skillTransferStars:4, skillTransferNote:'编程思维、问题拆解、工程化能力可迁移到后端/全栈/技术管理', prototype:'用HTML/CSS/JS做一个个人主页(含响应式设计)，部署到GitHub Pages，作为你的第一个在线作品集' },
-  { id:'backend_dev', name:'后端开发工程师', aliases:['服务端开发','后端工程师','Java/Go/Python开发'], matchAbilities:['逻辑思维','系统设计','抽象能力','问题解决'], matchInterests:['系统架构','算法','数据处理','技术深度'], matchValues:['学习成长','经济回报','稳定安全'], workContent:['设计并实现服务端API接口与业务逻辑','管理数据库设计与性能优化','保障系统稳定性、安全性及高并发下的服务质量'], salary:'应届14-25K·14薪，初级20-40K，高级35-80K（一线互联网）', skillGap:'需掌握一门后端语言(Java/Go/Python选一)→数据库(MySQL+Redis)→系统设计基础。路径：选一门语言做3个CRUD项目→学习分布式基础→LeetCode刷题', trend:'⭐ AI/大数据/云原生推动后端技术持续演进，全行业数字化转型带来稳定需求', cities:'北京(交易所/金融云)⭐|上海(支付宝/陆金所) |深圳(微众银行/平安科技) |杭州(蚂蚁集团)', special:'—', community:'👍 技术壁垒高(越老越值钱)、薪资天花板高|⚠️ on-call压力、技术快速迭代。脉脉:好的后端工程师是稀缺资源', beginnerStars:3, beginnerNote:'学习曲线比前端陡峭，但系统学习6-12个月可达到初级水平', skillTransferStars:5, skillTransferNote:'系统设计、抽象建模、工程化能力为技术领域最具迁移性的能力', prototype:'用你选择的语言搭建一个RESTful API服务(如一个简单的博客系统后端)，学习基本的CRUD操作和数据库设计' },
-  { id:'qa_engineer', name:'软件测试工程师 / QA', aliases:['测试开发','质量保障','自动化测试'], matchAbilities:['细致认真','逻辑思维','问题定位','文档能力'], matchInterests:['质量','细节','技术','系统思维'], matchValues:['稳定安全','学习成长','人际关系'], workContent:['设计测试用例并执行功能/性能/安全测试','开发自动化测试框架与脚本提升测试效率','与开发团队协作定位缺陷，建立质量保障流程'], salary:'应届10-18K·14薪，初级15-28K，测开20-40K（一线互联网）', skillGap:'需掌握测试方法论、至少一门脚本语言(Python优先)、自动化测试工具(Selenium/Appium)。路径：ISTQB基础认证→学习Python→做一个自动化测试项目', trend:'⭐ 质量保障为软件工程核心环节，AI辅助测试/DevOps一体化推动测开需求增长', cities:'北京(大厂总部)⭐|深圳(腾讯/百度国际) |杭州(阿里/网易) |成都(腾讯/字节·成本优势) |武汉(小米/斗鱼)', special:'—', community:'👍 工作节奏比研发稍好、转开发/PM/技术管理路径清晰|⚠️ 传统手工测试天花板低、需主动转型测开。脉脉:只会点点的QA没有未来', beginnerStars:5, beginnerNote:'入门门槛最低的技术岗，培训2-3个月即可找初级岗', skillTransferStars:3, skillTransferNote:'问题定位、系统理解、质量意识可迁移，但需主动补充开发能力', prototype:'选一个你常用的APP，为它的登录功能设计一套完整的测试用例(正常+异常+边界)，用Excel或脑图整理' },
-  { id:'devops_sre', name:'DevOps / SRE 工程师', aliases:['运维开发','站点可靠性工程师','云原生工程师'], matchAbilities:['系统思维','问题定位','自动化意识','抗压能力'], matchInterests:['系统','自动化','稳定性','技术深度'], matchValues:['学习成长','经济回报','稳定安全'], workContent:['设计并维护CI/CD流水线与基础设施即代码','监控系统稳定性，快速响应并解决线上故障','推动容器化、微服务化等云原生架构落地'], salary:'应届14-25K·14薪，初级20-40K，高级35-80K（一线互联网）', skillGap:'需掌握Linux系统管理、Docker/K8s、至少一门脚本语言、CI/CD工具链。路径：AWS/Azure基础认证→搭建个人K8s集群→参与开源项目', trend:'⭐ 云原生/微服务为十五五数字基础设施重点，DevOps/SRE全球人才缺口Top5', cities:'北京(金山云/光环新网)⭐|上海(微软Azure/亚马逊AWS) |深圳(华为云) |杭州(阿里云总部) |贵阳(数据中心集群)', special:'云原生/DevOps工具类企业大量为专精特新', community:'👍 技术壁垒极高(极度稀缺)、远程工作友好|⚠️ on-call压力大(半夜被叫醒)。知乎:SRE是技术界特种兵', beginnerStars:2, beginnerNote:'需要较全面的技术基础，建议从运维/后端转岗，纯新手难度大', skillTransferStars:4, skillTransferNote:'系统架构、自动化思维、故障处理经验对架构师/技术管理极具价值', prototype:'在AWS/阿里云上免费创建一台云服务器，学习基本的Linux命令和Docker操作，部署一个简单的Web应用' },
-  { id:'tpm', name:'技术项目经理 / TPM', aliases:['TPM','研发项目经理','技术PMO'], matchAbilities:['技术理解','沟通协调','风险管理','组织能力'], matchInterests:['技术','管理','交付','效率'], matchValues:['学习成长','人际关系','经济回报'], workContent:['管理技术项目的范围、进度、资源与风险','协调工程、产品、设计等多团队推进项目交付','建立并优化研发流程(敏捷/Scrum)与项目管理体系'], salary:'应届15-25K·14薪，初级22-40K，高级35-70K（一线互联网）', skillGap:'需了解软件开发流程、敏捷/Scrum方法、Jira等工具。路径：PMP/CAPM认证→学习敏捷→在当前岗位主动承担项目协调角色', trend:'⭐ 技术团队规模化后TPM为刚需，AI项目管理为新兴方向', cities:'北京(京东/阿里/字节)⭐|上海(拼多多/美团点评) |深圳(腾讯/百度) |杭州(阿里/网易/快手) |成都(字节/腾讯·房价友好)', special:'—', community:'👍 技术+管理复合型(稀缺)、职业出口广(转PM/技术管理/咨询)|⚠️ 夹在产品和技术中间压力大。脉脉:好的TPM是团队润滑剂+加速器', beginnerStars:3, beginnerNote:'有技术背景最好，但优秀的项目管理者可跨行业迁移', skillTransferStars:5, skillTransferNote:'项目管理、跨团队协调、流程优化为所有行业通用管理能力', prototype:'为你参与过的任何一个团队项目(哪怕是学校小组作业)用甘特图/看板做一次复盘，分析哪个环节最影响进度' },
+  { id:'c_pm', name:'C端产品经理', aliases:['用户产品经理','移动端PM','消费者PM'], matchAbilities:['用户洞察','数据分析','逻辑思维','共情能力'], matchInterests:['用户体验','消费心理','数据驱动','创造'], matchValues:['创新创造','人际关系','学习成长'], workContent:['通过用户研究与数据分析发现产品机会','设计产品功能与交互流程，撰写PRD','推动设计、研发、测试团队完成产品迭代并追踪效果'], salary:'应届12-22K·14薪，初级18-35K，高级30-60K（一线互联网）（2025年参考）', skillGap:'需掌握用户研究方法论、原型设计(Figma)、数据分析(SQL)。路径：摹客/墨刀原型练习→拆解3个热门APP的核心功能逻辑→写一份产品体验报告', trend:'⭐ 互联网核心岗位，全行业数字化转型带来持续需求，AI+产品为新增长方向', cities:'北京(字节/快手/百度总部)⭐|深圳(腾讯/Shopee) |杭州(阿里/网易) |成都(腾讯/字节西南)', special:'部分AI应用层企业获专精特新', community:'👍 用户导向思维培养好、转创业/VC路径成熟|⚠️ 竞争激烈(应届生海投)、天花板看公司。牛客:作品集+产品sense>一切', beginnerStars:4, beginnerNote:'大厂校招体系成熟，产品助理/专员入门', skillTransferStars:5, skillTransferNote:'用户洞察、数据分析、项目管理能力高度通用', prototype:'选1个你常用的APP，写一份产品体验报告：它解决的核心问题是什么？你觉得它最该优化的1个功能是什么？' },
+  { id:'b_pm', name:'B端产品经理 / SaaS PM', aliases:['企业产品经理','SaaS产品经理','后台PM'], matchAbilities:['逻辑思维','系统设计','业务理解','沟通协调'], matchInterests:['企业效率','商业模式','系统架构','解决问题'], matchValues:['学习成长','经济回报','创新创造'], workContent:['深入理解企业客户的业务场景与痛点','设计后台管理系统/SaaS产品的功能架构与交互逻辑','协调技术团队推进产品交付，管理客户需求与版本迭代'], salary:'应届14-25K·14薪，初级20-40K，高级35-70K（一线城市）（2025年参考）', skillGap:'需了解SaaS商业模式、B端交互规范、基础技术架构。路径：学习Salesforce/飞书等标杆产品→参与一个内部工具项目→学习SQL+基础API理解', trend:'⭐ 企业数字化转型/十五五数字经济推动SaaS市场增长，B端PM人才缺口大', cities:'北京(飞书/钉钉/销售易·企业服务第一极)⭐|深圳(金蝶/明源云/ONES·华南SaaS中心) |上海(SAP/Salesforce中国·外企SaaS生态) |杭州(有赞/光云/聚水潭·电商SaaS集群)', special:'大量垂直SaaS企业为专精特新小巨人', community:'👍 薪资天花板高、跳甲方/咨询/VC路径广|⚠️ 产品反馈周期长、客户需求复杂。脉脉:B端PM是越老越值钱的典型', beginnerStars:3, beginnerNote:'对业务理解力要求较高，建议从产品助理或CSM岗切入', skillTransferStars:5, skillTransferNote:'系统设计、业务抽象、项目管理能力跨行业通用', prototype:'选飞书/钉钉/企业微信任一产品，研究它最新上线的1个B端功能，分析它解决的客户场景和商业逻辑' },
+  { id:'growth_pm', name:'增长产品经理', aliases:['增长黑客','Growth PM','用户增长'], matchAbilities:['数据分析','实验设计','用户心理','快速迭代'], matchInterests:['增长','数据','实验','心理学'], matchValues:['经济回报','创新创造','学习成长'], workContent:['通过数据分析与A/B实验驱动用户增长(拉新/激活/留存)','设计增长策略与增长模型，协调跨职能团队落地','搭建增长指标体系与实验平台'], salary:'应届15-25K·14薪，初级20-40K，高级35-70K+项目奖金（2025年参考）', skillGap:'需掌握A/B测试方法论、SQL、用户行为分析工具。路径：学习增长黑客经典书籍→自己做一个增长实验(哪怕是个人公众号)→用数据复盘', trend:'⭐ 互联网精细化运营时代标配，增长能力是产品/运营/市场通用底层能力', cities:'北京(字节/快手·数据驱动型公司集中)⭐|深圳(腾讯/微众·数据+金融) |杭州(阿里/蚂蚁·数据中台发源地) |上海(拼多多/小红书·增长+推荐算法) |成都(腾讯数据部·成本优势)', special:'—', community:'👍 数据+创意结合、结果立竿见影|⚠️ KPI压力大、实验频繁失败是常态。脉脉:最好的增长PM都是半个数据科学家', beginnerStars:3, beginnerNote:'需较强数据分析能力，适合有数据分析/运营背景者转行', skillTransferStars:5, skillTransferNote:'数据分析、实验设计、用户心理洞察为全行业通用能力', prototype:'选一个你常用的APP，分析它的新用户注册-激活流程，找出你认为最影响转化率的1个环节，提出改进方案' },
+  { id:'frontend_dev', name:'前端开发工程师', aliases:['Web前端','前端工程师','React/Vue开发'], matchAbilities:['逻辑思维','视觉敏感','问题解决','持续学习'], matchInterests:['编程','交互','视觉','技术'], matchValues:['学习成长','经济回报','创新创造'], workContent:['将UI设计稿转化为高质量的前端代码','优化页面性能与用户体验(加载速度/交互流畅度)','与后端工程师协作完成接口联调与功能实现'], salary:'应届12-22K·14薪，初级18-35K，高级30-60K（一线互联网）（2025年参考）', skillGap:'需掌握HTML/CSS/JavaScript基础→React或Vue框架→Node.js基础。路径：freeCodeCamp前端课程→做3个完整项目(个人网站+Todo App+复杂项目)→LeetCode刷题', trend:'⭐ 全行业数字化前端需求稳定，Web3/可视化/AI前端为新增长点', cities:'北京(字节/百度/美团·大厂总部)⭐|深圳(腾讯/华为·硬件+软件跨界) |杭州(阿里/蚂蚁·电商+金融生态) |成都(腾讯/字节西南总部·房价收入比最优) |上海(拼多多/小红书·新消费互联网)', special:'—', community:'👍 入行门槛清晰、远程工作机会多|⚠️ 技术更新快需持续学习、AI编程工具对初级岗冲击大。牛客:打好JS基础的框架只是工具', beginnerStars:4, beginnerNote:'培训资源海量，3-6个月可系统入门，但找到好工作需要项目深度', skillTransferStars:4, skillTransferNote:'编程思维、问题拆解、工程化能力可迁移到后端/全栈/技术管理', prototype:'用HTML/CSS/JS做一个个人主页(含响应式设计)，部署到GitHub Pages，作为你的第一个在线作品集' },
+  { id:'backend_dev', name:'后端开发工程师', aliases:['服务端开发','后端工程师','Java/Go/Python开发'], matchAbilities:['逻辑思维','系统设计','抽象能力','问题解决'], matchInterests:['系统架构','算法','数据处理','技术深度'], matchValues:['学习成长','经济回报','稳定安全'], workContent:['设计并实现服务端API接口与业务逻辑','管理数据库设计与性能优化','保障系统稳定性、安全性及高并发下的服务质量'], salary:'应届14-25K·14薪，初级20-40K，高级35-80K（一线互联网）（2025年参考）', skillGap:'需掌握一门后端语言(Java/Go/Python选一)→数据库(MySQL+Redis)→系统设计基础。路径：选一门语言做3个CRUD项目→学习分布式基础→LeetCode刷题', trend:'⭐ AI/大数据/云原生推动后端技术持续演进，全行业数字化转型带来稳定需求', cities:'北京(金融街/丽泽·一行两会+五大行总部)⭐|上海(陆家嘴·外资金融中国总部) |深圳(福田·平安/微众/招商系·金融科技) |杭州(西溪·蚂蚁集团·数字金融)', special:'—', community:'👍 技术壁垒高(越老越值钱)、薪资天花板高|⚠️ on-call压力、技术快速迭代。脉脉:好的后端工程师是稀缺资源', beginnerStars:3, beginnerNote:'学习曲线比前端陡峭，但系统学习6-12个月可达到初级水平', skillTransferStars:5, skillTransferNote:'系统设计、抽象建模、工程化能力为技术领域最具迁移性的能力', prototype:'用你选择的语言搭建一个RESTful API服务(如一个简单的博客系统后端)，学习基本的CRUD操作和数据库设计' },
+  { id:'qa_engineer', name:'软件测试工程师 / QA', aliases:['测试开发','质量保障','自动化测试'], matchAbilities:['细致认真','逻辑思维','问题定位','文档能力'], matchInterests:['质量','细节','技术','系统思维'], matchValues:['稳定安全','学习成长','人际关系'], workContent:['设计测试用例并执行功能/性能/安全测试','开发自动化测试框架与脚本提升测试效率','与开发团队协作定位缺陷，建立质量保障流程'], salary:'应届10-18K·14薪，初级15-28K，测开20-40K（一线互联网）（2025年参考）', skillGap:'需掌握测试方法论、至少一门脚本语言(Python优先)、自动化测试工具(Selenium/Appium)。路径：ISTQB基础认证→学习Python→做一个自动化测试项目', trend:'⭐ 质量保障为软件工程核心环节，AI辅助测试/DevOps一体化推动测开需求增长', cities:'北京(中关村/西二旗·大厂密度最高)⭐|深圳(腾讯滨海大厦·国际化/海外业务) |杭州(阿里西溪园区·电商+云计算) |成都(天府软件园·腾讯/字节·生活成本低) |武汉(光谷·小米/金山/斗鱼·中部人才性价比)', special:'—', community:'👍 工作节奏比研发稍好、转开发/PM/技术管理路径清晰|⚠️ 传统手工测试天花板低、需主动转型测开。脉脉:只会点点的QA没有未来', beginnerStars:5, beginnerNote:'入门门槛最低的技术岗，培训2-3个月即可找初级岗', skillTransferStars:3, skillTransferNote:'问题定位、系统理解、质量意识可迁移，但需主动补充开发能力', prototype:'选一个你常用的APP，为它的登录功能设计一套完整的测试用例(正常+异常+边界)，用Excel或脑图整理' },
+  { id:'devops_sre', name:'DevOps / SRE 工程师', aliases:['运维开发','站点可靠性工程师','云原生工程师'], matchAbilities:['系统思维','问题定位','自动化意识','抗压能力'], matchInterests:['系统','自动化','稳定性','技术深度'], matchValues:['学习成长','经济回报','稳定安全'], workContent:['设计并维护CI/CD流水线与基础设施即代码','监控系统稳定性，快速响应并解决线上故障','推动容器化、微服务化等云原生架构落地'], salary:'应届14-25K·14薪，初级20-40K，高级35-80K（一线互联网）（2025年参考）', skillGap:'需掌握Linux系统管理、Docker/K8s、至少一门脚本语言、CI/CD工具链。路径：AWS/Azure基础认证→搭建个人K8s集群→参与开源项目', trend:'⭐ 云原生/微服务为十五五数字基础设施重点，DevOps/SRE全球人才缺口Top5', cities:'北京(金山云/UCloud/光环新网·政企云)⭐|杭州(阿里云总部·全球第三) |上海(AWS/Azure中国·外企云) |深圳(华为云·政企+出海) |贵阳/乌兰察布(数据中心·成本优势)', special:'云原生/DevOps工具类企业大量为专精特新', community:'👍 技术壁垒极高(极度稀缺)、远程工作友好|⚠️ on-call压力大(半夜被叫醒)。知乎:SRE是技术界特种兵', beginnerStars:2, beginnerNote:'需要较全面的技术基础，建议从运维/后端转岗，纯新手难度大', skillTransferStars:4, skillTransferNote:'系统架构、自动化思维、故障处理经验对架构师/技术管理极具价值', prototype:'在AWS/阿里云上免费创建一台云服务器，学习基本的Linux命令和Docker操作，部署一个简单的Web应用' },
+  { id:'tpm', name:'技术项目经理 / TPM', aliases:['TPM','研发项目经理','技术PMO'], matchAbilities:['技术理解','沟通协调','风险管理','组织能力'], matchInterests:['技术','管理','交付','效率'], matchValues:['学习成长','人际关系','经济回报'], workContent:['管理技术项目的范围、进度、资源与风险','协调工程、产品、设计等多团队推进项目交付','建立并优化研发流程(敏捷/Scrum)与项目管理体系'], salary:'应届15-25K·14薪，初级22-40K，高级35-70K（一线互联网）（2025年参考）', skillGap:'需了解软件开发流程、敏捷/Scrum方法、Jira等工具。路径：PMP/CAPM认证→学习敏捷→在当前岗位主动承担项目协调角色', trend:'⭐ 技术团队规模化后TPM为刚需，AI项目管理为新兴方向', cities:'北京(京东/美团·总部/电商物流中心)⭐|上海(拼多多/得物/小红书·新消费电商) |杭州(阿里/淘宝/天猫·电商生态核心) |广州(微信/唯品会·华南电商重镇) |深圳(Shopee/跨境·出海电商)', special:'—', community:'👍 技术+管理复合型(稀缺)、职业出口广(转PM/技术管理/咨询)|⚠️ 夹在产品和技术中间压力大。脉脉:好的TPM是团队润滑剂+加速器', beginnerStars:3, beginnerNote:'有技术背景最好，但优秀的项目管理者可跨行业迁移', skillTransferStars:5, skillTransferNote:'项目管理、跨团队协调、流程优化为所有行业通用管理能力', prototype:'为你参与过的任何一个团队项目(哪怕是学校小组作业)用甘特图/看板做一次复盘，分析哪个环节最影响进度' },
   { id:'live_streamer', name:'直播主播 / 电商达人',
 aliases:['带货主播','直播运营','达人','自媒体博主'],
 matchAbilities:['沟通表达','即兴发挥','镜头表现力','网感'],
 matchInterests:['表达','社交','创意','销售'],
 matchValues:['自主独立','经济回报','人际关系'],
 workContent:['策划直播内容与选品策略，制定排期与脚本','在直播间完成产品讲解、互动答疑与促单转化','分析直播数据(观看/互动/GMV)，持续优化直播效果'],
-salary:'新手 5-15K+提成，腰部主播 15-50K+佣金，头部主播收入上不封顶',
-skillGap:'需培养镜头感与口播能力、了解平台规则(抖音/快手/淘宝)、基础选品与供应链知识',
+salary:'新手 5-15K+提成，腰部主播 15-50K+佣金，头部主播收入上不封顶（2025年参考）',
+skillGap:'平台官方培训(抖音电商大学/快手电商学院·免费)→巨量千川/巨量百应工具→选品工具(飞瓜/蝉妈妈)。建议：先兼职试播1个月积累感觉，同时考取互联网营销师证书(人社部认证)',
 trend:'⭐ 直播电商列入十五五数字经济重点方向，人社部认定互联网营销师新职业',
-cities:'杭州(直播电商之都)⭐|广州(档口直播) |深圳(3C数码直播)',
+cities:'杭州(九堡/滨江·直播电商第一城·淘宝/抖音基地)⭐|广州(白云/番禺·服装档口直播·辛选总部) |深圳(南山·3C数码+跨境直播) |上海(小红书/B站·内容+品牌直播) |成都(生活/美食/文旅直播特色)',
 special:'人社部认定新职业(互联网营销师)，可考取职业技能等级证书',
 community:'👍 门槛低、潜力大、灵活自由 | ⚠️ 竞争激烈、收入不稳定',
 beginnerStars:5,
@@ -1528,8 +1538,8 @@ matchAbilities:['组织管理','抗压能力','沟通协调','执行力'],
 matchInterests:['物流','运营','效率','管理'],
 matchValues:['稳定安全','经济回报','学习成长'],
 workContent:['管理快递/物流网点日常运营','优化配送路线、降低运营成本','对接总部KPI考核，落实标准化流程'],
-salary:'基层操作5-8K，网点主管8-15K，区域经理15-30K',
-skillGap:'从基层做起积累实操经验→学习仓储管理系统(WMS/TMS)→管理能力提升',
+salary:'基层操作5-8K，网点主管8-15K，区域经理15-30K（2025年参考）',
+skillGap:'基层实操(网点操作/分拣)→WMS/TMS系统(推荐：富勒/唯智·有免费试用版)→物流师国家职业资格(人社部·初级到高级)。加速路径：顺丰/京东管培生项目(校招/社招均有)，2年培养期直通站长',
 trend:'⭐⭐ 快递/即时配送为十五五现代物流体系核心',
 cities:'义乌(快递量全国第一)⭐|广州(华南物流枢纽) |上海(国际物流中心)',
 special:'快递/物流企业大量为专精特新方向',
@@ -1545,7 +1555,7 @@ matchAbilities:['组织协调','数据分析','沟通能力','成本意识'],
 matchInterests:['交通','运营','服务','管理'],
 matchValues:['稳定安全','自主独立','经济回报'],
 workContent:['招募和管理网约车司机团队','分析订单数据优化运营策略','协调车辆租赁、保险、维修等后勤支持'],
-salary:'司管 6-12K，车队经理 12-25K，城市运营总监 25-45K',
+salary:'司管 6-12K，车队经理 12-25K，城市运营总监 25-45K（2025年参考）',
 skillGap:'了解网约车行业法规→积累司机管理与调度经验→学习数据分析与运营优化',
 trend:'⭐ 出行即服务(MaaS)列入交通强国建设方向',
 cities:'北京/上海/广州(出行平台总部)⭐|成都/杭州',
@@ -1562,7 +1572,7 @@ matchAbilities:['社群运营','销售转化','供应链意识','服务意识'],
 matchInterests:['社区','消费','社交电商','服务'],
 matchValues:['人际关系','自主独立','经济回报'],
 workContent:['拓展社区团长/合伙人网络','选品定价、策划团购活动','对接供应商与物流配送'],
-salary:'运营专员 6-12K，BD经理 12-25K+绩效，区域负责人 20-40K',
+salary:'运营专员 6-12K，BD经理 12-25K+绩效，区域负责人 20-40K（2025年参考）',
 skillGap:'了解社区团购商业模式→学习社群运营与私域转化技巧',
 trend:'⭐ 本地生活/即时零售列入十五五数字经济新业态',
 cities:'长沙(兴盛优选总部)⭐|广州/深圳(多多买菜华南中心)',
@@ -1579,7 +1589,7 @@ matchAbilities:['动手操作','耐心细致','共情能力','服务意识'],
 matchInterests:['动物','美学','手工','服务'],
 matchValues:['自主独立','人际关系','学习成长'],
 workContent:['为宠物提供美容造型','训练宠物行为','管理宠物门店日常运营'],
-salary:'学徒 3-5K，独立美容师 6-15K+提成，店长 15-30K+',
+salary:'学徒 3-5K，独立美容师 6-15K+提成，店长 15-30K+（2025年参考）',
 skillGap:'考取CKU/NGKC宠物美容师等级证书(A/B/C级)→积累实操',
 trend:'⭐⭐ 宠物经济年增速超20%，市场规模突破3000亿',
 cities:'上海/北京(宠物消费第一梯队)⭐|成都(宠物友好城市)',
@@ -1596,7 +1606,7 @@ matchAbilities:['沟通激励','共情能力','专业学习','身体力行'],
 matchInterests:['运动','健康','助人','科学'],
 matchValues:['人际关系','学习成长','自主独立'],
 workContent:['为会员制定个性化健身/饮食计划','跟踪会员身体数据与训练进展','维护客户关系、开发私教课程销售'],
-salary:'新手 5-10K+课时费，资深教练 15-30K+提成',
+salary:'新手 5-10K+课时费，资深教练 15-30K+提成（2025年参考）',
 skillGap:'考取国家健身教练职业资格证→积累100+课时实操→选择一个专项深入',
 trend:'⭐ 全民健身/健康中国2030国家战略',
 cities:'上海/北京(高端健身工作室集中)⭐|深圳/广州',
@@ -1613,7 +1623,7 @@ matchAbilities:['专业知识','临床判断','共情沟通','抗压能力'],
 matchInterests:['生命科学','助人','诊断推理','持续学习'],
 matchValues:['社会价值','学习成长','稳定安全'],
 workContent:['进行疾病诊断、制定治疗方案与随访管理','与患者及家属沟通病情','参与临床研究、学术交流与继续医学教育'],
-salary:'住院医师8-15K，主治15-25K，副高/主任25-50K+',
+salary:'住院医师8-15K，主治15-25K，副高/主任25-50K+（2025年参考）',
 skillGap:'医学本科5年+规培3年→执业医师资格证→住院医师→主治→副高/主任',
 trend:'⭐⭐ 健康中国2030战略+人口老龄化驱动医疗需求',
 cities:'北京/上海(顶级三甲集中)⭐|广州/成都/武汉',
@@ -1630,7 +1640,7 @@ matchAbilities:['护理技能','细心耐心','沟通共情','应急处理'],
 matchInterests:['助人','健康照护','动手操作','团队协作'],
 matchValues:['社会价值','稳定安全','人际关系'],
 workContent:['执行医嘱、实施护理操作','观察患者病情变化并记录','对患者及家属进行健康教育与康复指导'],
-salary:'基层护士4-8K，三甲护士8-15K，护士长12-20K，护理部主任20-35K',
+salary:'基层护士4-8K，三甲护士8-15K，护士长12-20K，护理部主任20-35K（2025年参考）',
 skillGap:'护理专业专科/本科→护士执业资格证→临床护理2-3年→专科护士或护士长',
 trend:'⭐⭐ 老龄化社会护理需求井喷，人才缺口超百万',
 cities:'各线城市医院均有需求 |北京/上海(高端私立)⭐',
@@ -1647,7 +1657,7 @@ matchAbilities:['逻辑分析','文字表达','辩论说服','细节把控'],
 matchInterests:['法律','辩论','规则','公正'],
 matchValues:['社会价值','经济回报','自主独立'],
 workContent:['为客户提供法律咨询、起草/审查合同','代理诉讼/仲裁案件','研究法律法规与判例'],
-salary:'律所实习3-6K，执业律师8-20K，资深/合伙人20-80K+',
+salary:'律所实习3-6K，执业律师8-20K，资深/合伙人20-80K+（2025年参考）',
 skillGap:'法学本科→通过法考(通过率~10-15%)→律所实习1年→执业律师',
 trend:'⭐ 合规+知识产权为高增长方向',
 cities:'北京(最高法/部委)⭐|上海(外企/金融法务) |深圳(科技/知识产权)',
@@ -1664,7 +1674,7 @@ matchAbilities:['空间想象','审美创意','技术整合','沟通协调'],
 matchInterests:['建筑','设计','城市','美学'],
 matchValues:['创造创新','学习成长','社会价值'],
 workContent:['进行建筑方案设计','协调结构/机电/幕墙等专业','对接甲方需求、参与汇报评审'],
-salary:'设计院应届6-12K，3-5年建筑师12-25K，主创/总监25-50K+',
+salary:'设计院应届6-12K，3-5年建筑师12-25K，主创/总监25-50K+（2025年参考）',
 skillGap:'建筑学本科5年→设计院工作→注册建筑师考试(9门)→一级注册建筑师',
 trend:'⭐ 城市更新/绿色建筑/智慧城市为增长方向',
 cities:'北京(大院/央企设计院)⭐|上海(外企/明星事务所) |深圳/成都',
@@ -1681,7 +1691,7 @@ matchAbilities:['数学物理','空间想象','严谨细致','项目管理'],
 matchInterests:['工程','建造','力学','基础设施'],
 matchValues:['稳定安全','社会价值','学习成长'],
 workContent:['进行建筑/桥梁/隧道等结构计算与设计','参与施工现场技术管理','编制技术方案、参与工程验收'],
-salary:'设计院应届5-10K，3-5年工程师10-20K，项目总工20-40K',
+salary:'设计院应届5-10K，3-5年工程师10-20K，项目总工20-40K（2025年参考）',
 skillGap:'土木工程本科→施工单位/设计院→注册结构/岩土工程师',
 trend:'⭐⭐ 新基建+城市更新+一带一路海外工程需求旺',
 cities:'各线城市均有需求 |武汉/成都(大型设计院) |广州/深圳(大湾区)',
@@ -1698,7 +1708,7 @@ matchAbilities:['数理逻辑','系统思维','安全规范','动手实践'],
 matchInterests:['电力','能源','硬件','系统'],
 matchValues:['稳定安全','社会价值','学习成长'],
 workContent:['设计供配电系统','负责电力设备选型、安装调试','参与新能源电气系统设计'],
-salary:'电力系统应届6-12K，3-5年工程师12-22K，项目经理25-45K',
+salary:'电力系统应届6-12K，3-5年工程师12-22K，项目经理25-45K（2025年参考）',
 skillGap:'电气工程本科→注册电气工程师→中级/高级工程师',
 trend:'⭐⭐ 新型电力系统+新能源并网为十五五能源转型核心',
 cities:'北京(国家电网)⭐|西安(西电集团) |南京(南瑞/智能电网)',
@@ -1715,7 +1725,7 @@ matchAbilities:['审美创意','视觉表达','软件技能','沟通理解'],
 matchInterests:['设计','美学','品牌','潮流'],
 matchValues:['创造创新','自主独立','学习成长'],
 workContent:['进行品牌LOGO/VI系统、包装、海报等视觉设计','理解客户需求，输出设计方案','跟进印刷/制作落地'],
-salary:'应届4-8K，3-5年设计师8-18K，资深15-30K，总监25-50K+',
+salary:'应届4-8K，3-5年设计师8-18K，资深15-30K，总监25-50K+（2025年参考）',
 skillGap:'美术/设计基础→熟练PS/AI/ID→积累作品集→实习→资深',
 trend:'⭐ 品牌出海+国潮为设计需求增长点',
 cities:'北京/上海(4A/品牌咨询)⭐|深圳(科技品牌) |广州(快消包装)',
@@ -1732,7 +1742,7 @@ matchAbilities:['动手能力','味觉敏感','创意研发','团队管理'],
 matchInterests:['美食','烹饪','创意','分享'],
 matchValues:['创造创新','自主独立','人际关系'],
 workContent:['研发菜品/菜单','管理后厨团队','管控食材采购与成本'],
-salary:'学徒/厨工3-5K，独立厨师5-12K，主厨12-25K，总厨20-50K+',
+salary:'学徒/厨工3-5K，独立厨师5-12K，主厨12-25K，总厨20-50K+（2025年参考）',
 skillGap:'烹饪学校/师傅带徒→从打荷/砧板做起→独立上灶→研发新菜→管理后厨',
 trend:'⭐⭐ 餐饮业年收入超5万亿(第一大消费行业)',
 cities:'成都(川菜/火锅·餐饮创业天堂)⭐|广州/顺德(粤菜/早茶·老字号传承) |上海(国际化·米其林密度最高) |长沙(网红餐饮·茶颜悦色/文和友)',
@@ -1749,7 +1759,7 @@ matchAbilities:['动手操作','电路分析','安全规范','故障排查'],
 matchInterests:['动手','电路','维修','技术'],
 matchValues:['稳定安全','自主独立','经济回报'],
 workContent:['安装/维护/检修电气设备与线路','排查电路故障','按电气图纸与规范施工'],
-salary:'初级电工4-7K，中高级7-15K，技师12-20K，PLC技师15-30K+',
+salary:'初级电工4-7K，中高级7-15K，技师12-20K，PLC技师15-30K+（2025年参考）',
 skillGap:'职业学校/培训→考取电工操作证→PLC编程技能→电气技师',
 trend:'⭐⭐ 制造业升级+新能源电工需求缺口巨大',
 cities:'各线城市工厂/工地均有需求 |苏州/东莞(制造业密集)⭐',
@@ -1766,7 +1776,7 @@ matchAbilities:['文字表达','信息挖掘','批判性思维','沟通采访'],
 matchInterests:['写作','真相','社会','表达'],
 matchValues:['社会价值','创造创新','自主独立'],
 workContent:['策划选题、进行采访调研、撰写深度报道','核实信息(事实核查)','运营内容平台'],
-salary:'传统媒体应届4-8K，资深记者8-18K，主编/总监15-35K',
+salary:'传统媒体应届4-8K，资深记者8-18K，主编/总监15-35K（2025年参考）',
 skillGap:'新闻/中文等专业→从实习记者做起→积累作品集+行业人脉',
 trend:'⭐ 深度内容/非虚构写作/播客为内容升级方向',
 cities:'北京(央媒总部)⭐|上海(外媒/财经) |广州(南方系)',
@@ -1783,7 +1793,7 @@ matchAbilities:['数据建模','政策解读','技术方案','合规意识'],
 matchInterests:['环境','可持续发展','政策','技术'],
 matchValues:['社会价值','学习成长','稳定安全'],
 workContent:['进行环境影响评价','制定碳达峰/碳中和方案','对接政府环保审批、编制ESG报告'],
-salary:'应届5-10K，3-5年工程师10-20K，资深/EHS经理20-40K',
+salary:'应届5-10K，3-5年工程师10-20K，资深/EHS经理20-40K（2025年参考）',
 skillGap:'环境工程/化工/能源等本科→注册环保工程师→碳管理师/ESG咨询',
 trend:'⭐⭐ 十五五双碳目标+欧盟碳关税+ESG强制化',
 cities:'北京(生态环境部)⭐|上海(碳交易/ESG金融) |深圳',
@@ -1800,7 +1810,7 @@ matchAbilities:['服务意识','沟通协调','成本把控','危机处理'],
 matchInterests:['服务','旅行','管理','社交'],
 matchValues:['人际关系','自主独立','学习成长'],
 workContent:['管理酒店/民宿日常运营','制定价格策略与收益管理','管理OTA渠道+私域会员体系'],
-salary:'基层/管培生4-8K，部门经理8-18K，总经理15-40K+',
+salary:'基层/管培生4-8K，部门经理8-18K，总经理15-40K+（2025年参考）',
 skillGap:'酒店管理/旅游管理有优势但非必须→从前台/餐饮轮岗做起→OTA运营',
 trend:'⭐ 国内旅游持续增长，精品民宿为消费升级方向',
 cities:'三亚/海口(度假酒店)⭐|大理/丽江(民宿之都) |上海/北京(国际品牌)',
@@ -1817,7 +1827,7 @@ matchAbilities:['数学建模','概率统计','编程能力','商业理解'],
 matchInterests:['数学','风险','金融','建模'],
 matchValues:['经济回报','学习成长','稳定安全'],
 workContent:['建立精算模型','设计保险产品条款、费率厘定','进行风险管理与资产负债匹配分析'],
-salary:'精算应届8-18K，准精算师15-30K，正精算师30-80K+',
+salary:'精算应届8-18K，准精算师15-30K，正精算师30-80K+（2025年参考）',
 skillGap:'数学/统计等本科→精算师考试→准精算师(4-6年)→正精算师(6-10年)',
 trend:'⭐⭐ 保险深度远低于发达国家+老龄化保险需求',
 cities:'北京(保险监管+总部)⭐|上海(再保险) |深圳(平安)',
@@ -1834,7 +1844,7 @@ matchAbilities:['农业知识','数据分析','动手实践','耐心坚持'],
 matchInterests:['农业','科技','自然','可持续发展'],
 matchValues:['社会价值','自主独立','学习成长'],
 workContent:['应用物联网/无人机/AI技术进行精准种植/养殖','进行品种选育/土壤改良','管理智慧农场/植物工厂'],
-salary:'基层农业技术员3-6K，农艺师8-18K，科技工程师10-25K',
+salary:'基层农业技术员3-6K，农艺师8-18K，科技工程师10-25K（2025年参考）',
 skillGap:'农学/园艺等本科→基层实践2-3年→农艺师→农场管理',
 trend:'⭐⭐ 乡村振兴+粮食安全+种业振兴为国家战略',
 cities:'各农业大省 |杨凌(中国农科城)⭐|三亚(南繁育种基地)',
@@ -1851,7 +1861,7 @@ matchAbilities:['共情倾听','资源链接','项目执行','跨文化沟通'],
 matchInterests:['助人','社区','公平','社会议题'],
 matchValues:['社会价值','人际关系','学习成长'],
 workContent:['为困境群体提供个案服务与资源链接','设计并执行公益项目','对接政府购买服务、基金会资助'],
-salary:'基层社工3-6K，项目主管6-12K，机构负责人12-25K',
+salary:'基层社工3-6K，项目主管6-12K，机构负责人12-25K（2025年参考）',
 skillGap:'社会工作/社会学等本科→考取社工证→一线社工→项目主管→机构管理',
 trend:'⭐ 社工部成立(2023)+政府购买服务扩大',
 cities:'北京(基金会/国际NGO)⭐|上海(社区治理) |深圳(社工先行区)',
@@ -1868,7 +1878,7 @@ matchAbilities:['数据驱动','流程思维','严谨细致','沟通推动'],
 matchInterests:['品质','流程','制造','改进'],
 matchValues:['稳定安全','学习成长','经济回报'],
 workContent:['建立和维护质量管理体系','运用SPC/FMEA/8D等工具解决质量问题','对接供应商质量管理(SQE)'],
-salary:'质量技术员4-8K，QE工程师8-18K，质量经理15-35K，总监25-60K+',
+salary:'质量技术员4-8K，QE工程师8-18K，质量经理15-35K，总监25-60K+（2025年参考）',
 skillGap:'工科本科→从QC/QE做起→考取六西格玛绿带/黑带→质量经理',
 trend:'⭐⭐ 中国制造向中国质造转型',
 cities:'苏州/无锡(先进制造)⭐|东莞/深圳(电子制造) |长春/上海(汽车)',
@@ -3045,6 +3055,90 @@ function renderPhase3Intro() {
   `;
 }
 
+
+
+function getMajorRequirement(jobId) {
+  var strict = ["medical_doctor","lawyer","actuary","nurse_care","architect","civil_engineer","electrical_eng"];
+  var preferred = ["data_analyst","backend_dev","frontend_dev","qa_engineer","devops_sre","accountant","semiconductor","new_energy_ve","bio_medical","environmental_eng","agritech"];
+  if (strict.indexOf(jobId) >= 0) return {label:"专业门槛高",color:"#FEE2E2",textColor:"#991B1B"};
+  if (preferred.indexOf(jobId) >= 0) return {label:"专业对口优先",color:"#FEF9C3",textColor:"#A16207"};
+  return {label:"专业不限",color:"#DCFCE7",textColor:"#166534"};
+}
+
+
+function renderSalaryChart() {
+  var jobs = profile.recommendedJobs || [];
+  if (!jobs.length) return;
+  var html = '<div class="card mt-16"><h3>💰 Top 6 岗位起薪对比（2025年参考）</h3><p class="text-secondary" style="font-size:0.78rem;">基于应届/初级岗位公开薪酬数据 · 一线城市中位数估算</p>';
+  var maxSalary = 0;
+  var salaryData = jobs.map(function(j) {
+    var nums = j.salary.match(/(\d+)[-~](\d+)/);
+    var low = nums ? parseInt(nums[1]) : 8;
+    var high = nums ? parseInt(nums[2]) : 15;
+    var avg = (low + high) / 2;
+    if (avg > maxSalary) maxSalary = avg;
+    return {name: j.name, low: low, high: high, avg: avg, industry: INDUSTRY_NAMES[CAREER_INDUSTRY_MAP[j.id]] || ''};
+  });
+  var colors = ['#818CF8','#34D399','#FBBF24','#F472B4','#38BDF8','#A78BFA'];
+  html += '<div style="margin-top:12px;">';
+  salaryData.forEach(function(d, i) {
+    var pct = Math.round((d.avg / maxSalary) * 100);
+    html += '<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">' +
+      '<span style="width:120px;font-size:0.78rem;font-weight:500;text-align:right;flex-shrink:0;">' + d.name.substring(0,10) + '</span>' +
+      '<div style="flex:1;height:22px;background:var(--color-bg-alt);border-radius:4px;overflow:hidden;">' +
+      '<div style="width:' + pct + '%;height:100%;background:' + colors[i] + ';border-radius:4px;display:flex;align-items:center;padding-left:8px;font-size:0.7rem;color:#fff;font-weight:600;min-width:60px;">' + d.low + 'K-' + d.high + 'K</div>' +
+      '</div></div>';
+  });
+  html += '</div><p class="text-secondary mt-8" style="font-size:0.7rem;">⚠️ 数据来源：Boss直聘/猎聘/脉脉公开薪资 + 各公司招聘官网校招薪资，仅供参考</p></div>';
+  mainContent.innerHTML += html;
+}
+
+
+function generateShareCard() {
+  var fc = profile.flashCard || {};
+  var jobs = (profile.recommendedJobs || []).slice(0, 3);
+  var lines = [
+    '═══════════════════════',
+    '  🌌 星途职引 · 职业测评报告',
+    '═══════════════════════',
+    '',
+    '【我的职业DNA】',
+    '🧩 MBTI 类型: ' + (fc.mbtiType || '--'),
+    '🧭 霍兰德兴趣: ' + (fc.hollandDesc || '--'),
+    '⭐ 核心能力: ' + ((fc.abilities || []).slice(0,4).join('、') || '--'),
+    '💎 驱动力: ' + (fc.coreDrive || '--'),
+    '',
+    '【Top 3 推荐岗位】',
+  ];
+  jobs.forEach(function(j, i) {
+    lines.push((i+1) + '. ' + j.name + ' — ' + (INDUSTRY_NAMES[CAREER_INDUSTRY_MAP[j.id]] || ''));
+    lines.push('   薪资: ' + (j.salary || '--').split('（')[0]);
+    lines.push('   城市: ' + (j.cities || '').split('|')[0]);
+    lines.push('');
+  });
+  lines.push('🌐 在线体验: ' + window.location.href);
+  lines.push('═══════════════════════');
+
+  var text = lines.join('\n');
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(text).then(function() {
+      var t = document.createElement('div');
+      t.textContent = '✓ 分享卡片已复制，可直接粘贴到微信/朋友圈';
+      t.style.cssText = 'position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#333;color:#fff;padding:8px 20px;border-radius:20px;font-size:0.85rem;z-index:9999;';
+      document.body.appendChild(t);
+      setTimeout(function(){ t.remove(); }, 2500);
+    });
+  }
+}
+
+function filterByIndustry(ind) {
+  document.querySelectorAll('.job-card').forEach(function(c) {
+    if (!ind) { c.style.display = "block"; return; }
+    var label = c.querySelector('[data-industry]');
+    c.style.display = (label && label.textContent === ind) ? "block" : "none";
+  });
+}
+
 function renderPhase3Cards() {
   var jobs = profile.recommendedJobs;
   var scored = profile._scored || jobs;
@@ -3056,8 +3150,8 @@ function renderPhase3Cards() {
 
   var uniqueIndustries = []; jobs.forEach(function(j) { var ind = INDUSTRY_NAMES[CAREER_INDUSTRY_MAP[j.id]]; if (ind && uniqueIndustries.indexOf(ind) < 0) uniqueIndustries.push(ind); });
   html += '<div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:8px;"><span style="font-size:0.75rem;color:var(--color-text-muted);padding:2px 6px;">筛选：</span>' +
-    '<span class="tag-pill tag-mode" style="cursor:pointer;font-size:0.7rem;" onclick="document.querySelectorAll(\x27.job-card\x27).forEach(function(c){c.style.display=\x27block\x27});">全部</span>' +
-    uniqueIndustries.map(function(ind) { return '<span class="tag-pill tag-mode" style="cursor:pointer;font-size:0.7rem;" onclick="var ind=this.textContent;document.querySelectorAll(\x27.job-card\x27).forEach(function(c){var label=c.querySelector(\x27[data-industry]\x27);c.style.display=(label&&label.textContent===ind)?\x27block\x27:\x27none\x27});">' + ind + '</span>'; }).join('') +
+    '<span class="tag-pill tag-mode" style="cursor:pointer;font-size:0.7rem;" onclick="filterByIndustry(null)">全部</span>' +
+    uniqueIndustries.map(function(ind) { return '<span class="tag-pill tag-mode" style="cursor:pointer;font-size:0.7rem;" onclick="filterByIndustry(\'' + ind + '\')">' + ind + '</span>'; }).join('') +
   '</div>';
   jobs.forEach(function(job, idx) {
     // Compact card header
@@ -3075,6 +3169,8 @@ function renderPhase3Cards() {
     html += '<p style="font-size:0.82rem;color:var(--color-text-secondary);margin:4px 0 0;"><span style="color:#4F46E5;font-weight:600;">' + topAbility + '</span> → ' + job.matchAbilities.slice(0,2).join('、') + '</p>';
     // Key tags
     html += '<div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:6px;">';
+    var majorReq = getMajorRequirement(job.id);
+    html += '<span style="font-size:0.7rem;padding:3px 8px;border-radius:10px;background:' + majorReq.color + ';color:' + majorReq.textColor + ';font-weight:500;">' + majorReq.label + '</span>';
     html += '<span class="tag-pill tag-trend" style="font-size:0.7rem;padding:3px 8px;">📈 ' + (job.trend.indexOf('⭐⭐') >= 0 ? '双风口' : '风口') + '</span>';
     html += '<span class="tag-pill tag-city" style="font-size:0.7rem;padding:3px 8px;cursor:pointer;" onclick="event.stopPropagation();showCityMap(\'' + job.id + '\')" title="点击查看产业集群地图">🏙 ' + job.cities.split('|')[0].split('（')[0].trim() + ' <span style="font-size:0.6rem;opacity:0.7;">🔍点击看产业地图</span></span>';
     html += '<span class="tag-pill tag-beginner" style="font-size:0.7rem;padding:3px 8px;">🌱 ' + '⭐'.repeat(job.beginnerStars) + '</span>';
@@ -3096,7 +3192,7 @@ function renderPhase3Cards() {
     html += '</div></div>';
   });
 
-  html += '<button class="btn btn-outline mt-16" onclick="state.phase3Step=\'table\';render();">📊 查看备选方向对照表 →</button>';
+  html += '<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:16px;justify-content:center;"><button class="btn btn-primary" onclick="state.phase3Step=\'table\';render();">📊 查看备选方向对照表</button><button class="btn btn-outline" onclick="renderSalaryChart()">💰 薪资对比图</button></div>';
   mainContent.innerHTML = html;
 }
 
@@ -3451,8 +3547,8 @@ function renderPhase3SimpleCards() {
 
   var uniqueIndustries = []; jobs.forEach(function(j) { var ind = INDUSTRY_NAMES[CAREER_INDUSTRY_MAP[j.id]]; if (ind && uniqueIndustries.indexOf(ind) < 0) uniqueIndustries.push(ind); });
   html += '<div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:8px;"><span style="font-size:0.75rem;color:var(--color-text-muted);padding:2px 6px;">筛选：</span>' +
-    '<span class="tag-pill tag-mode" style="cursor:pointer;font-size:0.7rem;" onclick="document.querySelectorAll(\x27.job-card\x27).forEach(function(c){c.style.display=\x27block\x27});">全部</span>' +
-    uniqueIndustries.map(function(ind) { return '<span class="tag-pill tag-mode" style="cursor:pointer;font-size:0.7rem;" onclick="var ind=this.textContent;document.querySelectorAll(\x27.job-card\x27).forEach(function(c){var label=c.querySelector(\x27[data-industry]\x27);c.style.display=(label&&label.textContent===ind)?\x27block\x27:\x27none\x27});">' + ind + '</span>'; }).join('') +
+    '<span class="tag-pill tag-mode" style="cursor:pointer;font-size:0.7rem;" onclick="filterByIndustry(null)">全部</span>' +
+    uniqueIndustries.map(function(ind) { return '<span class="tag-pill tag-mode" style="cursor:pointer;font-size:0.7rem;" onclick="filterByIndustry(\'' + ind + '\')">' + ind + '</span>'; }).join('') +
   '</div>';
   jobs.forEach(function(job, idx) {
     var s = simplifyJobData(job);
@@ -3474,7 +3570,7 @@ function renderPhase3SimpleCards() {
     html += '</div>';
   });
 
-  html += '<button class="btn btn-outline mt-16" onclick="state.phase3Step=\'table\';render();">📊 查看备选方向对照表 →</button>';
+  html += '<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:16px;justify-content:center;"><button class="btn btn-primary" onclick="state.phase3Step=\'table\';render();">📊 查看备选方向对照表</button><button class="btn btn-outline" onclick="renderSalaryChart()">💰 薪资对比图</button></div>';
   mainContent.innerHTML = html;
 }
 
@@ -3602,6 +3698,7 @@ function renderFinal() {
   html += '<button class="btn btn-small btn-primary" onclick="exportReportText()">📋 复制完整报告</button>';
   html += '<button class="btn btn-small btn-outline" onclick="window.print()">🖨 打印/导出PDF</button>';
   html += '<button class="btn btn-small btn-outline" onclick="exportChecklist()">✅ 导出学习清单</button>';
+  html += '<button class="btn btn-small btn-outline" onclick="generateShareCard()" style="background:linear-gradient(135deg,#8B5CF6,#6366F1);color:#fff;border:none;">📤 复制分享卡片</button>';
   html += '<button class="btn btn-small btn-outline" onclick="shareSite()" style="background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;border:none;">📤 分享给朋友</button>';
     html += '</div></div></div>';
 
