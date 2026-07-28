@@ -176,7 +176,15 @@ body::after {
   background: rgba(255,255,255,0.85); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
   padding: 12px 20px;
   border-bottom: 1px solid rgba(15,23,42,0.06);
+  transition: padding 0.3s var(--ease-smooth);
 }
+.app-header.quiz-mode {
+  padding: 6px 20px;
+}
+.app-header.quiz-mode .header-inner { display: none; }
+.app-header.quiz-mode .stepped-progress { display: none; }
+.app-header.quiz-mode #progressMascot { display: none; }
+.app-header.quiz-mode #progressBarArea { margin-top: 0 !important; }
 
 .header-inner {
   display: flex;
@@ -987,14 +995,14 @@ body::after {
 
 <div class="app-container">
   <!-- Header -->
-  <header class="app-header">
-    <div class="header-inner">
+  <header class="app-header" id="appHeader">
+    <div class="header-inner" id="headerInner">
       <div class="logo">
         <div class="logo-icon">🔗</div>
         <span>星途职引</span>
       </div>
       <div class="stepped-progress" id="steppedProgress"><div class="step-node" data-step="1"><div class="step-dot active">1</div><div class="step-label active">✨ 闪光挖掘</div></div><div class="step-connector"></div><div class="step-node" data-step="2"><div class="step-dot">2</div><div class="step-label">🌳 行业探索</div></div><div class="step-connector"></div><div class="step-node" data-step="3"><div class="step-dot">3</div><div class="step-label">⚗️ 三圈配方</div></div><div class="step-connector"></div><div class="step-node" data-step="4"><div class="step-dot">4</div><div class="step-label">🚀 智能匹配</div></div></div>
-    <div style="max-width:540px;margin:6px auto 0;position:relative;">
+    <div style="max-width:540px;margin:6px auto 0;position:relative;" id="progressBarArea">
       <div class="progress-bar-wrapper" style="margin:0;"><div class="progress-bar-fill" id="globalProgress" style="width:0%"></div></div>
       <span id="progressMascot" style="position:absolute;top:-18px;font-size:1.1rem;transition:left 0.3s var(--ease-smooth);left:0%;">🌌</span>
       <span id="progressPct" style="display:block;text-align:right;font-size:0.7rem;font-weight:700;color:var(--color-primary);margin-top:2px;">0%</span>
@@ -2153,6 +2161,14 @@ function render() {
   }
   updateProgress();
   saveProgress();
+
+  // Collapse header during Phase 1 questions for focused experience
+  var header = document.getElementById('appHeader');
+  if (header) {
+    if (state.phase === 'phase1') { header.classList.add('quiz-mode'); }
+    else { header.classList.remove('quiz-mode'); }
+  }
+
   // Smooth scroll to latest content
   setTimeout(() => {
     mainContent.scrollTop = mainContent.scrollHeight;
