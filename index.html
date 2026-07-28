@@ -2134,10 +2134,8 @@ function render() {
     if (state.phase === 'phase1') { header.classList.add('quiz-mode'); }
     else { header.classList.remove('quiz-mode'); }
   }
-  var canvas = document.getElementById('starfieldCanvas');
-  if (canvas) {
-    canvas.style.display = (state.phase === 'welcome') ? 'block' : 'none';
-  }
+  var c = document.getElementById('starfieldCanvas');
+  if (c) c.style.display = (state.phase === 'welcome') ? 'block' : 'none';
 
   // Smooth scroll to latest content
   setTimeout(() => {
@@ -2216,12 +2214,11 @@ function renderWelcome() {
 }
 
 function startPhase1() {
+  var c = document.getElementById('starfieldCanvas');
+  if (c) c.style.display = 'none';
   state.phase = 'phase1';
   state.questionIndex = 0;
   state._answerHistory = [];
-  // Force hide canvas when leaving welcome
-  var c = document.getElementById('starfieldCanvas');
-  if (c) { c.style.setProperty('display', 'none', 'important'); }
   render();
 }
 
@@ -3752,7 +3749,6 @@ function clearSavedProgress() {
 }
 
 function restartApp() {
-  // Reset state
   state.phase = 'welcome';
   state.questionIndex = 0;
   state.phase2Step = 'fill';
