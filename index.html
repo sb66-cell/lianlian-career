@@ -3594,20 +3594,29 @@ function finishAll() {
 // ============ AI-DRIVEN CAREER INTERPRETATION ============
 function renderAIInterpretation() {
   var html = '<div class="card" style="border:1px dashed var(--color-primary);">';
-  html += '<h3 style="display:flex;align-items:center;gap:8px;">🤖 AI 职业解读 <span style="font-size:0.7rem;background:var(--color-primary-light);color:var(--color-primary);padding:2px 8px;border-radius:10px;">Beta</span></h3>';
-  html += '<p class="text-secondary">基于你的测评结果和岗位匹配，AI 将为你生成个性化的职业发展解读。请配置你的 API 密钥后使用。</p>';
+  html += '<h3 style="display:flex;align-items:center;gap:8px;">🤖 AI 职业解读 <span style="font-size:0.7rem;background:#DCFCE7;color:#166534;padding:2px 8px;border-radius:10px;">免费可用</span></h3>';
+  html += '<p class="text-secondary">基于你的测评结果和岗位匹配，AI 将为你生成个性化的职业发展解读。</p>';
+
+  // Free model info
+  html += '<div style="margin:12px 0;padding:12px;background:#F0FDF4;border:1px solid #BBF7D0;border-radius:var(--radius-md);">';
+  html += '<p style="font-weight:600;font-size:0.85rem;margin-bottom:4px;color:#166534;">🆓 DeepSeek 免费方案</p>';
+  html += '<p style="font-size:0.8rem;color:#15803D;">DeepSeek 新用户赠送 <strong>500万 tokens</strong> 免费额度，足够生成数百次解读。';
+  html += '访问 <a href="https://platform.deepseek.com" target="_blank" style="color:var(--color-primary);">platform.deepseek.com</a> 注册并获取 API Key，填入下方即可使用。</p>';
+  html += '</div>';
 
   // Config section
   html += '<div style="margin:12px 0;padding:12px;background:var(--color-bg-alt);border-radius:var(--radius-md);">';
-  html += '<p style="font-weight:600;font-size:0.85rem;margin-bottom:8px;">⚙️ API 配置</p>';
+  html += '<p style="font-weight:600;font-size:0.85rem;margin-bottom:8px;">⚙️ API 配置（已预填 DeepSeek 免费方案）</p>';
   html += '<div style="display:flex;gap:8px;flex-wrap:wrap;">';
-  html += '<input id="aiApiKey" type="password" placeholder="API Key" style="flex:1;min-width:180px;padding:8px 12px;border:1px solid var(--color-border);border-radius:var(--radius-sm);font-size:0.85rem;background:var(--color-card);color:var(--color-text);">';
-  html += '<input id="aiApiUrl" type="text" value="https://api.openai.com/v1/chat/completions" placeholder="API Endpoint URL" style="flex:2;min-width:250px;padding:8px 12px;border:1px solid var(--color-border);border-radius:var(--radius-sm);font-size:0.85rem;background:var(--color-card);color:var(--color-text);">';
-  html += '<input id="aiModel" type="text" value="gpt-4o-mini" placeholder="Model name" style="flex:0;min-width:120px;padding:8px 12px;border:1px solid var(--color-border);border-radius:var(--radius-sm);font-size:0.85rem;background:var(--color-card);color:var(--color-text);">';
-  html += '</div></div>';
+  html += '<input id="aiApiKey" type="password" placeholder="输入 DeepSeek API Key" style="flex:1;min-width:180px;padding:8px 12px;border:1px solid var(--color-border);border-radius:var(--radius-sm);font-size:0.85rem;background:var(--color-card);color:var(--color-text);">';
+  html += '<input id="aiApiUrl" type="text" value="https://api.deepseek.com/v1/chat/completions" placeholder="API Endpoint URL" style="flex:2;min-width:250px;padding:8px 12px;border:1px solid var(--color-border);border-radius:var(--radius-sm);font-size:0.85rem;background:var(--color-card);color:var(--color-text);">';
+  html += '<input id="aiModel" type="text" value="deepseek-chat" placeholder="Model name" style="flex:0;min-width:130px;padding:8px 12px;border:1px solid var(--color-border);border-radius:var(--radius-sm);font-size:0.85rem;background:var(--color-card);color:var(--color-text);">';
+  html += '</div>';
+  html += '<p style="font-size:0.72rem;color:var(--color-text-muted);margin-top:6px;">也支持其他兼容 OpenAI 格式的 API（如通义千问、智谱 GLM、Moonshot 等），修改上方地址和模型名即可。</p>';
+  html += '</div>';
 
   // Generate button
-  html += '<button class="btn btn-primary" onclick="generateAIInterpretation()" id="aiGenerateBtn" style="margin-top:8px;">生成 AI 解读</button>';
+  html += '<button class="btn btn-primary" onclick="generateAIInterpretation()" id="aiGenerateBtn" style="margin-top:8px;">🆓 生成免费 AI 解读</button>';
 
   // Loading
   html += '<div id="aiLoading" style="display:none;text-align:center;padding:20px;"><p class="text-secondary">正在生成 AI 解读...</p></div>';
@@ -3674,7 +3683,7 @@ async function generateAIInterpretation() {
 
   if (!apiKey) {
     error.style.display = "block";
-    error.textContent = "请输入 API Key";
+    error.innerHTML = "请先输入 API Key。<br>👉 访问 <a href=\"https://platform.deepseek.com\" target=\"_blank\" style=\"color:#991B1B;\">platform.deepseek.com</a> 注册即可免费获取（新用户送500万tokens）";
     loading.style.display = "none";
     btn.disabled = false;
     return;
@@ -3690,7 +3699,7 @@ async function generateAIInterpretation() {
       body: JSON.stringify({
         model: model,
         messages: [
-          { role: "system", content: "你是一位资深的中国职业规划师，擅长MBTI、霍兰德等测评工具的解读。你的回答专业、具体、有可操作性。" },
+          { role: "system", content: "你是一位资深的中国职业规划师，擅长MBTI、霍兰德等测评工具的解读。请用中文回答，专业、具体、有可操作性。避免空洞的套话，给出真正能落地的建议。" },
           { role: "user", content: buildAIPrompt() }
         ],
         temperature: 0.7,
