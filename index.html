@@ -2162,11 +2162,15 @@ function render() {
   updateProgress();
   saveProgress();
 
-  // Collapse header during Phase 1 questions for focused experience
+  // Collapse header + hide canvas during Phase 1 for focused experience
   var header = document.getElementById('appHeader');
   if (header) {
     if (state.phase === 'phase1') { header.classList.add('quiz-mode'); }
     else { header.classList.remove('quiz-mode'); }
+  }
+  var canvas = document.getElementById('starfieldCanvas');
+  if (canvas) {
+    canvas.style.display = (state.phase === 'phase1') ? 'none' : 'block';
   }
 
   // Smooth scroll to latest content
@@ -3208,7 +3212,7 @@ function renderPhase3Cards() {
     html += '</div></div>';
   });
 
-  html += '<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:16px;justify-content:center;"><button class="btn btn-primary" onclick="state.phase3Step=\'table\';render();">📊 查看备选方向对照表</button><button class="btn btn-outline" onclick="renderSalaryChart()">💰 薪资对比图</button></div>';
+  html += '<button class="btn btn-primary mt-16" onclick="state.phase3Step=\'table\';render();">📊 查看备选方向对照表 →</button>';
   mainContent.innerHTML = html;
 }
 
@@ -3586,7 +3590,7 @@ function renderPhase3SimpleCards() {
     html += '</div>';
   });
 
-  html += '<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:16px;justify-content:center;"><button class="btn btn-primary" onclick="state.phase3Step=\'table\';render();">📊 查看备选方向对照表</button><button class="btn btn-outline" onclick="renderSalaryChart()">💰 薪资对比图</button></div>';
+  html += '<button class="btn btn-primary mt-16" onclick="state.phase3Step=\'table\';render();">📊 查看备选方向对照表 →</button>';
   mainContent.innerHTML = html;
 }
 
@@ -3638,9 +3642,10 @@ function renderPhase3Table() {
         </table>
       </div>
     </div>
-    <button class="btn btn-primary mt-16" onclick="state.phase3Step='timeline';render();">
-      🗓 查看14天行动地图 →
-    </button>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:16px;justify-content:center;">
+      <button class="btn btn-primary" onclick="state.phase3Step='timeline';render();">🗓 查看14天行动地图 →</button>
+      <button class="btn btn-outline" onclick="renderSalaryChart()">💰 薪资对比图</button>
+    </div>
   `;
 
   mainContent.innerHTML = html;
