@@ -1005,7 +1005,7 @@ body::after {
 </style>
 </head>
 <body>
-<canvas id="starfieldCanvas" style="position:fixed;inset:0;z-index:0;pointer-events:none;"></canvas>
+<canvas id="starfieldCanvas" style="position:fixed;inset:0;z-index:0;pointer-events:none;display:none;"></canvas>
 
 <div class="app-container">
   <!-- Header -->
@@ -3000,34 +3000,6 @@ function getMajorRequirement(jobId) {
 }
 
 
-function renderSalaryChart() {
-  var jobs = profile.recommendedJobs || [];
-  if (!jobs.length) return;
-  var html = '<div class="card mt-16"><h3>💰 Top 6 岗位起薪对比（2025年参考）</h3><p class="text-secondary" style="font-size:0.78rem;">基于应届/初级岗位公开薪酬数据 · 一线城市中位数估算</p>';
-  var maxSalary = 0;
-  var salaryData = jobs.map(function(j) {
-    var nums = j.salary.match(/(\d+)[-~](\d+)/);
-    var low = nums ? parseInt(nums[1]) : 8;
-    var high = nums ? parseInt(nums[2]) : 15;
-    var avg = (low + high) / 2;
-    if (avg > maxSalary) maxSalary = avg;
-    return {name: j.name, low: low, high: high, avg: avg, industry: INDUSTRY_NAMES[CAREER_INDUSTRY_MAP[j.id]] || ''};
-  });
-  var colors = ['#818CF8','#34D399','#FBBF24','#F472B4','#38BDF8','#A78BFA'];
-  html += '<div style="margin-top:12px;">';
-  salaryData.forEach(function(d, i) {
-    var pct = Math.round((d.avg / maxSalary) * 100);
-    html += '<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">' +
-      '<span style="width:120px;font-size:0.78rem;font-weight:500;text-align:right;flex-shrink:0;">' + d.name.substring(0,10) + '</span>' +
-      '<div style="flex:1;height:22px;background:var(--color-bg-alt);border-radius:4px;overflow:hidden;">' +
-      '<div style="width:' + pct + '%;height:100%;background:' + colors[i] + ';border-radius:4px;display:flex;align-items:center;padding-left:8px;font-size:0.7rem;color:#fff;font-weight:600;min-width:60px;">' + d.low + 'K-' + d.high + 'K</div>' +
-      '</div></div>';
-  });
-  html += '</div><p class="text-secondary mt-8" style="font-size:0.7rem;">⚠️ 数据来源：Boss直聘/猎聘/脉脉公开薪资 + 各公司招聘官网校招薪资，仅供参考</p></div>';
-  mainContent.innerHTML += html;
-}
-
-
 function generateShareCard() {
   var fc = profile.flashCard || {};
   var jobs = (profile.recommendedJobs || []).slice(0, 3);
@@ -3556,10 +3528,7 @@ function renderPhase3Table() {
         </table>
       </div>
     </div>
-    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:16px;justify-content:center;">
-      <button class="btn btn-primary" onclick="state.phase3Step='timeline';render();">🗓 查看14天行动地图 →</button>
-      <button class="btn btn-outline" onclick="renderSalaryChart()">💰 薪资对比图</button>
-    </div>
+    <button class="btn btn-primary mt-16" onclick="state.phase3Step='timeline';render();">🗓 查看14天行动地图 →</button>
   `;
 
   mainContent.innerHTML = html;
