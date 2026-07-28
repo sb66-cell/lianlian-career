@@ -233,7 +233,6 @@ body::after {
   background: var(--color-teal);
 }
 
-
 /* --- Main Content --- */
 .main-content {
   flex: 1;
@@ -990,11 +989,7 @@ body::after {
       <span id="progressMascot" style="position:absolute;top:-18px;font-size:1.1rem;transition:left 0.3s var(--ease-smooth);left:0%;">🌌</span>
       <span id="progressPct" style="display:block;text-align:right;font-size:0.7rem;font-weight:700;color:var(--color-primary);margin-top:2px;">0%</span>
     </div>
-    <div class="phase-indicator" id="phaseIndicator" style="display:none;">
-      <div class="coin-counter">
-        <span>🪙</span>
-        <span id="coinCount">0</span>
-      </div>
+    <div class="phase-indicator" id="phaseIndicator" style="display:none;"></div>
     </div>
     </header>
 
@@ -3590,152 +3585,6 @@ function finishAll() {
   render();
 }
 
-
-// ============ AI-DRIVEN CAREER INTERPRETATION ============
-function renderAIInterpretation() {
-  var html = '<div class="card" style="border:1px dashed var(--color-primary);">';
-  html += '<h3 style="display:flex;align-items:center;gap:8px;">🤖 AI 职业解读 <span style="font-size:0.7rem;background:#DCFCE7;color:#166534;padding:2px 8px;border-radius:10px;">免费可用</span></h3>';
-  html += '<p class="text-secondary">基于你的测评结果和岗位匹配，AI 将为你生成个性化的职业发展解读。</p>';
-
-  // Free model info
-  html += '<div style="margin:12px 0;padding:12px;background:#F0FDF4;border:1px solid #BBF7D0;border-radius:var(--radius-md);">';
-  html += '<p style="font-weight:600;font-size:0.85rem;margin-bottom:4px;color:#166534;">🆓 DeepSeek 免费方案</p>';
-  html += '<p style="font-size:0.8rem;color:#15803D;">DeepSeek 新用户赠送 <strong>500万 tokens</strong> 免费额度，足够生成数百次解读。';
-  html += '访问 <a href="https://platform.deepseek.com" target="_blank" style="color:var(--color-primary);">platform.deepseek.com</a> 注册并获取 API Key，填入下方即可使用。</p>';
-  html += '</div>';
-
-  // Config section
-  html += '<div style="margin:12px 0;padding:12px;background:var(--color-bg-alt);border-radius:var(--radius-md);">';
-  html += '<p style="font-weight:600;font-size:0.85rem;margin-bottom:8px;">⚙️ API 配置（已预填 DeepSeek 免费方案）</p>';
-  html += '<div style="display:flex;gap:8px;flex-wrap:wrap;">';
-  html += '<input id="aiApiKey" type="password" placeholder="输入 DeepSeek API Key" style="flex:1;min-width:180px;padding:8px 12px;border:1px solid var(--color-border);border-radius:var(--radius-sm);font-size:0.85rem;background:var(--color-card);color:var(--color-text);">';
-  html += '<input id="aiApiUrl" type="text" value="https://api.deepseek.com/v1/chat/completions" placeholder="API Endpoint URL" style="flex:2;min-width:250px;padding:8px 12px;border:1px solid var(--color-border);border-radius:var(--radius-sm);font-size:0.85rem;background:var(--color-card);color:var(--color-text);">';
-  html += '<input id="aiModel" type="text" value="deepseek-chat" placeholder="Model name" style="flex:0;min-width:130px;padding:8px 12px;border:1px solid var(--color-border);border-radius:var(--radius-sm);font-size:0.85rem;background:var(--color-card);color:var(--color-text);">';
-  html += '</div>';
-  html += '<p style="font-size:0.72rem;color:var(--color-text-muted);margin-top:6px;">也支持其他兼容 OpenAI 格式的 API（如通义千问、智谱 GLM、Moonshot 等），修改上方地址和模型名即可。</p>';
-  html += '</div>';
-
-  // Generate button
-  html += '<button class="btn btn-primary" onclick="generateAIInterpretation()" id="aiGenerateBtn" style="margin-top:8px;">🆓 生成免费 AI 解读</button>';
-
-  // Loading
-  html += '<div id="aiLoading" style="display:none;text-align:center;padding:20px;"><p class="text-secondary">正在生成 AI 解读...</p></div>';
-
-  // Result
-  html += '<div id="aiResult" style="display:none;margin-top:16px;padding:16px;background:var(--color-bg-alt);border-radius:var(--radius-md);font-size:0.9rem;line-height:1.8;white-space:pre-wrap;"></div>';
-
-  // Error
-  html += '<div id="aiError" style="display:none;margin-top:12px;padding:12px;background:#FEE2E2;color:#991B1B;border-radius:var(--radius-md);font-size:0.85rem;"></div>';
-
-  html += '</div>';
-  mainContent.innerHTML += html;
-}
-
-function buildAIPrompt() {
-  var fc = profile.flashCard || {};
-  var jobs = (profile.recommendedJobs || []).slice(0, 3);
-  var prompt = [
-    "你是一位资深的职业规划师。请基于以下用户的测评结果，提供个性化的职业发展解读和建议。",
-    "",
-    "【用户测评数据】",
-    "MBTI 类型: " + (fc.mbtiType || "未知"),
-    "霍兰德兴趣: " + (fc.hollandDesc || "未知"),
-    "核心能力: " + ((fc.abilities || []).join("、") || "未知"),
-    "热情领域: " + ((fc.passions || []).join("、") || "未知"),
-    "工作风格: " + (fc.workStyle || "未知"),
-    "核心驱动力: " + (fc.coreDrive || "未知"),
-    "问题解决风格: " + (profile.problemSolving || "未知"),
-    "硬技能: " + ((profile.skillsSelfAssess || []).join("、") || "未填写"),
-    "软技能: " + ((profile.softSkills || []).join("、") || "未填写"),
-    "价值观: " + ((profile.coreValues || []).join("、") || "未填写"),
-    "",
-    "【匹配岗位 Top 3】",
-  ];
-  jobs.forEach(function(j, i) {
-    prompt.push((i+1) + ". " + j.name + " — 匹配度 " + (j.score || 0) + "分");
-    prompt.push("   工作内容: " + (j.workContent || []).slice(0,2).join("; "));
-    prompt.push("   行业趋势: " + (j.trend || ""));
-    prompt.push("   技能要求: " + (j.matchAbilities || []).join("、"));
-  });
-  prompt.push("");
-  prompt.push("请从以下角度给出解读（用中文，约500字）：");
-  prompt.push("1. 你的职业DNA画像 — 综合MBTI、能力和兴趣的核心定位");
-  prompt.push("2. 推荐岗位为什么适合你 — 从能力、性格、价值观三个维度的匹配分析");
-  prompt.push("3. 发展建议 — 未来1-3年的具体行动方向和技能补充优先级");
-  prompt.push("4. 风险提示 — 需要注意的潜在挑战和应对策略");
-  return prompt.join("\n");
-}
-
-async function generateAIInterpretation() {
-  var apiKey = document.getElementById("aiApiKey").value.trim();
-  var apiUrl = document.getElementById("aiApiUrl").value.trim();
-  var model = document.getElementById("aiModel").value.trim();
-
-  var loading = document.getElementById("aiLoading");
-  var result = document.getElementById("aiResult");
-  var error = document.getElementById("aiError");
-  var btn = document.getElementById("aiGenerateBtn");
-
-  loading.style.display = "block";
-  result.style.display = "none";
-  error.style.display = "none";
-  btn.disabled = true;
-
-  if (!apiKey) {
-    error.style.display = "block";
-    error.innerHTML = "请先输入 API Key。<br>👉 访问 <a href=\"https://platform.deepseek.com\" target=\"_blank\" style=\"color:#991B1B;\">platform.deepseek.com</a> 注册即可免费获取（新用户送500万tokens）";
-    loading.style.display = "none";
-    btn.disabled = false;
-    return;
-  }
-
-  try {
-    var response = await fetch(apiUrl, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": "Bearer " + apiKey
-      },
-      body: JSON.stringify({
-        model: model,
-        messages: [
-          { role: "system", content: "你是一位资深的中国职业规划师，擅长MBTI、霍兰德等测评工具的解读。请用中文回答，专业、具体、有可操作性。避免空洞的套话，给出真正能落地的建议。" },
-          { role: "user", content: buildAIPrompt() }
-        ],
-        temperature: 0.7,
-        max_tokens: 2000
-      })
-    });
-
-    if (!response.ok) {
-      var errData = await response.json().catch(function() { return {}; });
-      throw new Error(errData.error?.message || "HTTP " + response.status + " " + response.statusText);
-    }
-
-    var data = await response.json();
-    var text = data.choices?.[0]?.message?.content || "";
-    if (!text) throw new Error("API 返回为空");
-
-    result.style.display = "block";
-    result.textContent = text;
-
-    // Save to localStorage
-    try {
-      localStorage.setItem("xingtu_ai_interpretation", JSON.stringify({
-        text: text,
-        timestamp: new Date().toISOString()
-      }));
-    } catch(e) {}
-  } catch(err) {
-    error.style.display = "block";
-    error.textContent = "生成失败: " + err.message;
-  }
-
-  loading.style.display = "none";
-  btn.disabled = false;
-}
-
-
 function renderFinal() {
   var fc = profile.flashCard || {};
   var r = profile.ratioCustom || {};
@@ -3754,8 +3603,7 @@ function renderFinal() {
   html += '<button class="btn btn-small btn-outline" onclick="window.print()">🖨 打印/导出PDF</button>';
   html += '<button class="btn btn-small btn-outline" onclick="exportChecklist()">✅ 导出学习清单</button>';
   html += '<button class="btn btn-small btn-outline" onclick="shareSite()" style="background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;border:none;">📤 分享给朋友</button>';
-  html += '<button class="btn btn-small btn-outline" onclick="renderAIInterpretation()" style="background:linear-gradient(135deg,#10B981,#059669);color:#fff;border:none;">🤖 AI 智能解读</button>';
-  html += '</div></div></div>';
+    html += '</div></div></div>';
 
   // Odyssey Plan
   var odyssey = buildOdysseyPlan();
