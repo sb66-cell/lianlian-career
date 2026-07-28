@@ -4,49 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>星途职引 · 发现你的职业新可能</title>
-<!-- Self-contained confetti (no CDN dependency) -->
-<script>
-(function() {
-  window.confetti = function(opts) {
-    var defaults = { particleCount: 80, spread: 50, origin: { x: 0.5, y: 0.5 },
-      colors: ['#4F46E5','#6366F1','#10B981','#0EA5E9','#8B5CF6','#F59E0B'] };
-    var o = Object.assign({}, defaults, opts || {});
-    var container = document.createElement('div');
-    container.style.cssText = 'position:fixed;inset:0;pointer-events:none;z-index:9999;overflow:hidden;';
-    document.body.appendChild(container);
-    var cx = (o.origin.x || 0.5) * window.innerWidth;
-    var cy = (o.origin.y || 0.5) * window.innerHeight;
-    for (var i = 0; i < o.particleCount; i++) {
-      var p = document.createElement('div');
-      var angle = Math.random() * Math.PI * 2;
-      var distance = (0.3 + Math.random() * 0.7) * (o.spread || 50) * 10;
-      var dx = Math.cos(angle) * distance;
-      var dy = Math.sin(angle) * distance - Math.random() * 400;
-      var size = Math.random() * 10 + 4;
-      var duration = 1 + Math.random() * 2;
-      var delay = Math.random() * 0.4;
-      var color = o.colors[Math.floor(Math.random() * o.colors.length)];
-      var shape = Math.random() > 0.5 ? '50%' : '2px';
-      p.style.cssText = [
-        'position:absolute',
-        'left:' + cx + 'px',
-        'top:' + cy + 'px',
-        'width:' + size + 'px',
-        'height:' + (Math.random() > 0.5 ? size : size * 0.5) + 'px',
-        'background:' + color,
-        'border-radius:' + shape,
-        'opacity:0',
-        'animation:cfBurst ' + duration + 's ease-out ' + delay + 's forwards',
-        '--cf-dx:' + dx + 'px',
-        '--cf-dy:' + dy + 'px',
-        '--cf-rot:' + (Math.random() - 0.5) * 720 + 'deg'
-      ].join(';');
-      container.appendChild(p);
-    }
-    setTimeout(function() { container.remove(); }, 3500);
-  };
-})();
-</script>
+
 <script>
 (function(){
   var c=document.getElementById("starfieldCanvas");if(!c)return;
@@ -71,12 +29,7 @@
   })();
 })();
 </script>
-<style>
-@keyframes cfBurst {
-  0% { opacity: 1; transform: translate(0, 0) rotate(0deg); }
-  100% { opacity: 0; transform: translate(var(--cf-dx, 50px), var(--cf-dy, -200px)) rotate(var(--cf-rot, 360deg)); }
-}
-</style>
+
 <style>
 /* ============================================================
    CSS DESIGN SYSTEM — 求职宇宙 · Career Universe
@@ -280,18 +233,6 @@ body::after {
   background: var(--color-teal);
 }
 
-/* Coin counter */
-.coin-counter {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  font-weight: 700;
-  font-size: 0.9rem;
-  color: var(--color-primary);
-}
-.coin-counter .coin-icon {
-  font-size: 1.2rem;
-}
 
 /* --- Main Content --- */
 .main-content {
@@ -910,144 +851,7 @@ body::after {
 }
 
 /* --- Celebration Overlay --- */
-.celebration-toast {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%) scale(0);
-  background: white;
-  border-radius: var(--radius-xl);
-  padding: 32px 40px;
-  text-align: center;
-  box-shadow: 0 16px 48px rgba(44,62,80,0.2);
-  z-index: 1000;
-  animation: toastPopIn 0.3s var(--ease-smooth) forwards;
-  pointer-events: none;
-}
-@keyframes toastPopIn {
-  0% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
-  70% { transform: translate(-50%, -50%) scale(1.08); opacity: 1; }
-  100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
-}
-.celebration-toast.dismiss {
-  animation: toastPopOut 0.25s var(--ease-smooth) forwards;
-}
-@keyframes toastPopOut {
-  to { transform: translate(-50%, -50%) scale(0); opacity: 0; }
-}
-.celebration-emoji {
-  font-size: 3rem;
-  margin-bottom: 12px;
-  animation: coinBounce 0.5s var(--ease-smooth) infinite;
-}
-.celebration-text {
-  font-weight: 700;
-  font-size: 1.1rem;
-  color: var(--color-text);
-}
 
-/* --- Utility --- */
-.text-center { text-align: center; }
-.mt-8 { margin-top: 8px; }
-.mt-12 { margin-top: 12px; }
-.mt-16 { margin-top: 16px; }
-.mt-20 { margin-top: 20px; }
-.mt-24 { margin-top: 24px; }
-.mb-8 { margin-bottom: 8px; }
-.mb-16 { margin-bottom: 16px; }
-.gap-8 { gap: 8px; }
-.flex-center { display: flex; align-items: center; justify-content: center; }
-.flex-between { display: flex; align-items: center; justify-content: space-between; }
-.flex-wrap { flex-wrap: wrap; }
-.hidden { display: none !important; }
-
-/* --- Responsive --- */
-@media (max-width: 600px) {
-  .app-container { max-width: 100%; }
-  .main-content { padding: 16px 12px 24px; }
-  .card, .question-card, .job-card { padding: 18px 16px; border-radius: var(--radius-lg); }
-  .flash-card { padding: 20px 16px; }
-  h1 { font-size: 1.5rem; }
-  h2 { font-size: 1.25rem; }
-  .preset-group { grid-template-columns: 1fr; }
-  .bubble-content { max-width: 90%; font-size: 0.9rem; }
-  .option-card { padding: 12px 14px; font-size: 0.88rem; }
-  .tag-option { padding: 8px 14px; font-size: 0.82rem; }
-}
-
-/* Scrollbar */
-::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: #D0C8C0; border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: #B0A8A0; }
-
-/* --- v2 Components --- */
-.stepped-progress{display:flex;align-items:center;justify-content:center;gap:0;max-width:540px;margin:8px auto 0;padding:0 8px}
-.step-node{display:flex;flex-direction:column;align-items:center;gap:3px}
-.step-dot{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700;background:#F0EAE0;color:var(--color-text-muted);transition:all var(--transition-normal) var(--ease-smooth);z-index:2}
-.step-dot.active{background:var(--color-primary);color:#fff;box-shadow:0 0 0 4px var(--color-primary-glow);transform:scale(1.1)}
-.step-dot.done{background:var(--color-teal);color:#fff}
-.step-label{font-size:.62rem;font-weight:600;color:var(--color-text-muted);white-space:nowrap;transition:color var(--transition-normal)}
-.step-label.active{color:var(--color-primary);font-weight:700}
-.step-label.done{color:var(--color-teal)}
-.step-connector{flex:0 1 36px;height:3px;background:#F0EAE0;margin:0 1px 17px;border-radius:2px;transition:background var(--transition-normal);min-width:12px}
-.step-connector.done{background:var(--color-teal)}
-.step-connector.active{background:linear-gradient(90deg,var(--color-teal),var(--color-primary))}
-.progress-bar-wrapper{width:100%;max-width:540px;margin:4px auto 0;height:3px;background:#F0EAE0;border-radius:var(--radius-full);overflow:hidden}
-.progress-bar-fill{height:100%;border-radius:var(--radius-full);background:linear-gradient(90deg,var(--color-primary),var(--color-primary),var(--color-violet));background-size:200% 100%;animation:progressShimmer 1.5s linear infinite;transition:width .35s var(--ease-smooth)}
-@keyframes progressShimmer{0%{background-position:100% 0}100%{background-position:-100% 0}}
-.phase-indicator{display:none}
-.industry-tree{display:flex;flex-direction:column;gap:6px}
-.tree-category{border:1px solid var(--color-border);border-radius:var(--radius-lg);overflow:hidden;transition:all var(--transition-fast);background:var(--color-card)}
-.tree-category.expanded{border-color:var(--color-primary);box-shadow:var(--shadow-sm)}
-.tree-cat-header{display:flex;align-items:center;gap:10px;padding:12px 16px;cursor:pointer;user-select:none}
-.tree-cat-header:hover{background:var(--color-bg-alt)}
-.tree-cat-icon{font-size:1.3rem;flex-shrink:0}
-.tree-cat-name{font-weight:700;font-size:.95rem;flex:1}
-.tree-cat-count{font-size:.75rem;color:var(--color-text-muted)}
-.tree-cat-arrow{transition:transform var(--transition-normal);font-size:.7rem;color:var(--color-text-muted)}
-.tree-category.expanded .tree-cat-arrow{transform:rotate(180deg)}
-.tree-sub-list{display:none;padding:4px 12px 12px 44px;flex-wrap:wrap;gap:6px}
-.tree-category.expanded .tree-sub-list{display:flex}
-.tree-sub-tag{padding:6px 14px;border:1.5px solid var(--color-border);border-radius:var(--radius-full);font-size:.82rem;cursor:pointer;transition:all var(--transition-fast) var(--ease-smooth);background:var(--color-card);user-select:none}
-.tree-sub-tag:hover{border-color:var(--color-primary);background:var(--color-primary-light)}
-.tree-sub-tag.selected{background:var(--color-primary);color:#fff;border-color:var(--color-primary);box-shadow:0 2px 8px var(--color-primary-glow)}
-.tag-option.tag-rec{border-color:var(--color-primary);background:#FFFBF0;border-style:dashed}
-.score-stars{display:inline-flex;gap:2px;cursor:pointer}
-.score-stars .star{font-size:1.3rem;transition:transform var(--transition-fast) var(--ease-smooth);color:#E0D8CC}
-.score-stars .star.active{color:var(--color-primary)}
-.score-stars .star:hover{transform:scale(1.2)}
-.deep-dive{margin-top:16px;border:2px dashed var(--color-border);border-radius:var(--radius-lg);overflow:hidden;animation:cardSlideUp .4s var(--ease-smooth);background:var(--color-bg-alt)}
-.deep-dive-header{padding:14px 18px;background:linear-gradient(135deg,var(--color-primary-light),var(--color-amber-light));font-weight:700;font-size:.9rem;display:flex;align-items:center;gap:6px}
-.deep-dive-body{padding:16px 18px;display:flex;flex-direction:column;gap:14px}
-.dd-section-title{font-weight:700;font-size:.82rem;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;display:flex;align-items:center;gap:4px}
-.dd-table{width:100%;border-collapse:collapse;font-size:.8rem;border-radius:var(--radius-md);overflow:hidden;box-shadow:var(--shadow-sm)}
-.dd-table th{background:var(--color-bg-alt);padding:8px 10px;text-align:left;font-weight:700;font-size:.75rem;color:var(--color-text-secondary)}
-.dd-table td{padding:8px 10px;border-top:1px solid var(--color-border);background:var(--color-card)}
-.dd-table tr:hover td{background:var(--color-bg-alt)}
-.dd-cert-tag{padding:5px 10px;border-radius:var(--radius-full);font-size:.78rem;font-weight:600}
-.dd-cert-tag.must{background:#FEF3C7;color:#92400E}
-.dd-cert-tag.optional{background:#F0FDFA;color:#0F766E}
-.dd-path-step{display:flex;align-items:flex-start;gap:10px;padding:8px 0}
-.dd-path-num{width:26px;height:26px;border-radius:50%;background:var(--color-primary);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.78rem;flex-shrink:0}
-.star-rating{display:inline-flex;gap:2px;font-size:1.1rem}
-.star-rating .star-filled{color:var(--color-primary)}
-.star-rating .star-empty{color:#E0D8CC}
-.compare-modal-overlay{display:none;position:fixed;inset:0;background:rgba(30,41,59,.5);z-index:1000;align-items:center;justify-content:center;padding:20px}
-.compare-modal-overlay.show{display:flex}
-.compare-modal{background:var(--color-card);border-radius:var(--radius-2xl);max-width:900px;width:100%;max-height:85vh;overflow-y:auto;padding:28px 24px;box-shadow:var(--shadow-lg);animation:cardPopIn .4s var(--ease-smooth)}
-.compare-table-wide{width:100%;border-collapse:collapse;font-size:.82rem}
-.compare-table-wide th{background:var(--color-bg-alt);padding:10px 12px;text-align:left;font-weight:700;font-size:.78rem;color:var(--color-text-secondary);position:sticky;top:0}
-.compare-table-wide td{padding:10px 12px;border-top:1px solid var(--color-border);vertical-align:top}
-.compare-table-wide tr:hover td{background:var(--color-bg-alt)}
-.compare-checkbox{display:inline-flex;align-items:center;gap:4px;padding:6px 12px;border-radius:var(--radius-full);border:2px solid var(--color-border);cursor:pointer;font-size:.82rem;transition:all var(--transition-fast) var(--ease-smooth)}
-.compare-checkbox.checked{border-color:var(--color-violet);background:var(--color-violet-light);color:var(--color-violet);font-weight:600}
-.odyssey-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
-.odyssey-card{padding:20px 16px;border-radius:var(--radius-xl);text-align:center;transition:transform var(--transition-fast) var(--ease-smooth);border:2px solid var(--color-border)}
-.odyssey-card:hover{transform:translateY(-3px)}
-.odyssey-card.path-a{border-color:var(--color-primary);background:var(--color-primary-light)}
-.odyssey-card.path-b{border-color:var(--color-teal);background:var(--color-teal-light)}
-.odyssey-card.path-c{border-color:var(--color-violet);background:var(--color-violet-light)}
 @media print{body{background:#fff!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}.app-header,.btn,.score-stars,.deep-dive,.celebration-toast,.progress-bar-wrapper,.stepped-progress{display:none!important}.main-content{padding:0!important}.card,.job-card,.flash-card{box-shadow:none!important;border:1px solid #ddd!important;break-inside:avoid}.flash-card{border-color:#F8716B!important}h3{font-size:1.1rem!important}.tag-pill,.flash-tag{border:1px solid #ddd!important}}
 
 /* --- Employment Type Selection --- */
@@ -1201,10 +1005,6 @@ body::after {
 </div>
 
 <!-- Celebration Toast -->
-<div class="celebration-toast hidden" id="celebrationToast">
-  <div class="celebration-emoji" id="toastEmoji">🎉</div>
-  <div class="celebration-text" id="toastText"></div>
-</div>
 
 <div class="compare-modal-overlay" id="compareModalOverlay" onclick="closeCompareModal(event)"><div class="compare-modal" id="compareModal" onclick="event.stopPropagation()"><div class="flex-between mb-16"><h3>🔍 岗位对比</h3><button class="btn btn-small btn-ghost" onclick="closeCompareModal()">✕ 关闭</button></div><div id="compareModalBody"></div></div></div>
 
@@ -2332,12 +2132,8 @@ const INDUSTRY_NAMES = {
 };
 // ============ DOM REFS ============
 const mainContent = document.getElementById('mainContent');
-const coinCount = document.getElementById('coinCount');
 const globalProgress = document.getElementById('globalProgress');
 const phaseIndicator = document.getElementById('phaseIndicator');
-const celebrationToast = document.getElementById('celebrationToast');
-const toastEmoji = document.getElementById('toastEmoji');
-const toastText = document.getElementById('toastText');
 
 // ============ RENDER ENGINE ============
 function render() {
@@ -2407,46 +2203,9 @@ function updateProgress() {
     if (j + 1 < activeStep) conns[j].classList.add('done');
     else if (j + 1 === activeStep) conns[j].classList.add('active');
   }
-  coinCount.textContent = state.coins;
 }
 
 // ============ CELEBRATION ============
-function showToast(emoji, text, duration = 2500) {
-  toastEmoji.textContent = emoji;
-  toastText.textContent = text;
-  celebrationToast.classList.remove('hidden', 'dismiss');
-  celebrationToast.style.animation = 'none';
-  celebrationToast.offsetHeight;
-  celebrationToast.style.animation = 'toastPopIn 0.5s cubic-bezier(0.68,-0.55,0.265,1.55) forwards';
-  setTimeout(() => {
-    celebrationToast.classList.add('dismiss');
-    setTimeout(() => celebrationToast.classList.add('hidden'), 400);
-  }, duration);
-}
-
-function celebrate(emoji = '🎉', text = '') {
-  showToast(emoji, text);
-  if (typeof confetti !== 'undefined') {
-    confetti({
-      particleCount: 100,
-      spread: 70,
-      origin: { y: 0.6 },
-      colors: ['#4F46E5', '#6366F1', '#10B981', '#0EA5E9', '#8B5CF6', '#06B6D4'],
-    });
-  }
-}
-
-function addCoins(n) {
-  state.coins += n;
-  coinCount.textContent = state.coins;
-  // Animate coin icon
-  const icon = coinCount.previousElementSibling;
-  icon.style.animation = 'none';
-  icon.offsetHeight;
-  icon.style.animation = 'coinBounce 0.5s cubic-bezier(0.68,-0.55,0.265,1.55)';
-}
-
-// ============ PHASE: WELCOME ============
 function renderWelcome() {
   var saved = checkSavedProgress();
   var resumeHTML = '';
@@ -2714,8 +2473,7 @@ function finishPhase1() {
   state.phase = 'phase1_flash';
   state.coins = 10;
   render();
-  setTimeout(function() { celebrate('🎉', '测评完成！你的专属闪光点卡已生成。'); }, 600);
-}
+  }
 
 function renderFlashCard() {
   var fc = profile.flashCard;
@@ -3078,7 +2836,7 @@ function submitPhase2Ratio() {
   state.phase2Step = 'result';
   state.phase = 'phase2_result';
   render();
-  setTimeout(() => celebrate('🌟', '职业配方完成！接下来查看为你匹配的具体岗位。'), 500);
+
 }
 
 function renderPhase2Result() {
@@ -3830,18 +3588,144 @@ function finishAll() {
   state.phase = 'final';
   state.coins = 25;
   render();
-  setTimeout(() => {
-    if (typeof confetti !== 'undefined') {
-      confetti({
-        particleCount: 200,
-        spread: 100,
-        origin: { y: 0.5 },
-        colors: ['#4F46E5', '#6366F1', '#10B981', '#0EA5E9', '#8B5CF6', '#06B6D4'],
-      });
-    }
-    showToast('🎊', '职业探索完成！你已拥有职业导航和知识金币（），现在就出发去创造属于你的奥德赛吧！', 4000);
-  }, 300);
 }
+
+
+// ============ AI-DRIVEN CAREER INTERPRETATION ============
+function renderAIInterpretation() {
+  var html = '<div class="card" style="border:1px dashed var(--color-primary);">';
+  html += '<h3 style="display:flex;align-items:center;gap:8px;">🤖 AI 职业解读 <span style="font-size:0.7rem;background:var(--color-primary-light);color:var(--color-primary);padding:2px 8px;border-radius:10px;">Beta</span></h3>';
+  html += '<p class="text-secondary">基于你的测评结果和岗位匹配，AI 将为你生成个性化的职业发展解读。请配置你的 API 密钥后使用。</p>';
+
+  // Config section
+  html += '<div style="margin:12px 0;padding:12px;background:var(--color-bg-alt);border-radius:var(--radius-md);">';
+  html += '<p style="font-weight:600;font-size:0.85rem;margin-bottom:8px;">⚙️ API 配置</p>';
+  html += '<div style="display:flex;gap:8px;flex-wrap:wrap;">';
+  html += '<input id="aiApiKey" type="password" placeholder="API Key" style="flex:1;min-width:180px;padding:8px 12px;border:1px solid var(--color-border);border-radius:var(--radius-sm);font-size:0.85rem;background:var(--color-card);color:var(--color-text);">';
+  html += '<input id="aiApiUrl" type="text" value="https://api.openai.com/v1/chat/completions" placeholder="API Endpoint URL" style="flex:2;min-width:250px;padding:8px 12px;border:1px solid var(--color-border);border-radius:var(--radius-sm);font-size:0.85rem;background:var(--color-card);color:var(--color-text);">';
+  html += '<input id="aiModel" type="text" value="gpt-4o-mini" placeholder="Model name" style="flex:0;min-width:120px;padding:8px 12px;border:1px solid var(--color-border);border-radius:var(--radius-sm);font-size:0.85rem;background:var(--color-card);color:var(--color-text);">';
+  html += '</div></div>';
+
+  // Generate button
+  html += '<button class="btn btn-primary" onclick="generateAIInterpretation()" id="aiGenerateBtn" style="margin-top:8px;">生成 AI 解读</button>';
+
+  // Loading
+  html += '<div id="aiLoading" style="display:none;text-align:center;padding:20px;"><p class="text-secondary">正在生成 AI 解读...</p></div>';
+
+  // Result
+  html += '<div id="aiResult" style="display:none;margin-top:16px;padding:16px;background:var(--color-bg-alt);border-radius:var(--radius-md);font-size:0.9rem;line-height:1.8;white-space:pre-wrap;"></div>';
+
+  // Error
+  html += '<div id="aiError" style="display:none;margin-top:12px;padding:12px;background:#FEE2E2;color:#991B1B;border-radius:var(--radius-md);font-size:0.85rem;"></div>';
+
+  html += '</div>';
+  mainContent.innerHTML += html;
+}
+
+function buildAIPrompt() {
+  var fc = profile.flashCard || {};
+  var jobs = (profile.recommendedJobs || []).slice(0, 3);
+  var prompt = [
+    "你是一位资深的职业规划师。请基于以下用户的测评结果，提供个性化的职业发展解读和建议。",
+    "",
+    "【用户测评数据】",
+    "MBTI 类型: " + (fc.mbtiType || "未知"),
+    "霍兰德兴趣: " + (fc.hollandDesc || "未知"),
+    "核心能力: " + ((fc.abilities || []).join("、") || "未知"),
+    "热情领域: " + ((fc.passions || []).join("、") || "未知"),
+    "工作风格: " + (fc.workStyle || "未知"),
+    "核心驱动力: " + (fc.coreDrive || "未知"),
+    "问题解决风格: " + (profile.problemSolving || "未知"),
+    "硬技能: " + ((profile.skillsSelfAssess || []).join("、") || "未填写"),
+    "软技能: " + ((profile.softSkills || []).join("、") || "未填写"),
+    "价值观: " + ((profile.coreValues || []).join("、") || "未填写"),
+    "",
+    "【匹配岗位 Top 3】",
+  ];
+  jobs.forEach(function(j, i) {
+    prompt.push((i+1) + ". " + j.name + " — 匹配度 " + (j.score || 0) + "分");
+    prompt.push("   工作内容: " + (j.workContent || []).slice(0,2).join("; "));
+    prompt.push("   行业趋势: " + (j.trend || ""));
+    prompt.push("   技能要求: " + (j.matchAbilities || []).join("、"));
+  });
+  prompt.push("");
+  prompt.push("请从以下角度给出解读（用中文，约500字）：");
+  prompt.push("1. 你的职业DNA画像 — 综合MBTI、能力和兴趣的核心定位");
+  prompt.push("2. 推荐岗位为什么适合你 — 从能力、性格、价值观三个维度的匹配分析");
+  prompt.push("3. 发展建议 — 未来1-3年的具体行动方向和技能补充优先级");
+  prompt.push("4. 风险提示 — 需要注意的潜在挑战和应对策略");
+  return prompt.join("\n");
+}
+
+async function generateAIInterpretation() {
+  var apiKey = document.getElementById("aiApiKey").value.trim();
+  var apiUrl = document.getElementById("aiApiUrl").value.trim();
+  var model = document.getElementById("aiModel").value.trim();
+
+  var loading = document.getElementById("aiLoading");
+  var result = document.getElementById("aiResult");
+  var error = document.getElementById("aiError");
+  var btn = document.getElementById("aiGenerateBtn");
+
+  loading.style.display = "block";
+  result.style.display = "none";
+  error.style.display = "none";
+  btn.disabled = true;
+
+  if (!apiKey) {
+    error.style.display = "block";
+    error.textContent = "请输入 API Key";
+    loading.style.display = "none";
+    btn.disabled = false;
+    return;
+  }
+
+  try {
+    var response = await fetch(apiUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + apiKey
+      },
+      body: JSON.stringify({
+        model: model,
+        messages: [
+          { role: "system", content: "你是一位资深的中国职业规划师，擅长MBTI、霍兰德等测评工具的解读。你的回答专业、具体、有可操作性。" },
+          { role: "user", content: buildAIPrompt() }
+        ],
+        temperature: 0.7,
+        max_tokens: 2000
+      })
+    });
+
+    if (!response.ok) {
+      var errData = await response.json().catch(function() { return {}; });
+      throw new Error(errData.error?.message || "HTTP " + response.status + " " + response.statusText);
+    }
+
+    var data = await response.json();
+    var text = data.choices?.[0]?.message?.content || "";
+    if (!text) throw new Error("API 返回为空");
+
+    result.style.display = "block";
+    result.textContent = text;
+
+    // Save to localStorage
+    try {
+      localStorage.setItem("xingtu_ai_interpretation", JSON.stringify({
+        text: text,
+        timestamp: new Date().toISOString()
+      }));
+    } catch(e) {}
+  } catch(err) {
+    error.style.display = "block";
+    error.textContent = "生成失败: " + err.message;
+  }
+
+  loading.style.display = "none";
+  btn.disabled = false;
+}
+
 
 function renderFinal() {
   var fc = profile.flashCard || {};
@@ -3861,6 +3745,7 @@ function renderFinal() {
   html += '<button class="btn btn-small btn-outline" onclick="window.print()">🖨 打印/导出PDF</button>';
   html += '<button class="btn btn-small btn-outline" onclick="exportChecklist()">✅ 导出学习清单</button>';
   html += '<button class="btn btn-small btn-outline" onclick="shareSite()" style="background:linear-gradient(135deg,#667eea,#764ba2);color:#fff;border:none;">📤 分享给朋友</button>';
+  html += '<button class="btn btn-small btn-outline" onclick="renderAIInterpretation()" style="background:linear-gradient(135deg,#10B981,#059669);color:#fff;border:none;">🤖 AI 智能解读</button>';
   html += '</div></div></div>';
 
   // Odyssey Plan
@@ -3937,8 +3822,8 @@ function exportReportText() {
     t += '   薪资：' + j.salary + '\n   新手友好：' + '⭐'.repeat(j.beginnerStars) + '\n\n';
   });
   t += '──────────────\n报告生成：' + new Date().toLocaleDateString('zh-CN') + '\n══════════════════════';
-  if (navigator.clipboard) { navigator.clipboard.writeText(t).then(function(){ showToast('📋','报告已复制到剪贴板！'); }); }
-  else { var ta=document.createElement('textarea'); ta.value=t; ta.style.cssText='position:fixed;top:10%;left:10%;width:80%;height:60%;z-index:9999;'; document.body.appendChild(ta); ta.select(); showToast('📋','请手动复制（Ctrl+A→Ctrl+C）'); setTimeout(function(){ta.remove();},10000); }
+  if (navigator.clipboard) { navigator.clipboard.writeText(t).then(function(){ (function(){var t=document.createElement('div');t.textContent='✓ 已复制';t.style.cssText='position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#333;color:#fff;padding:8px 20px;border-radius:20px;font-size:0.85rem;z-index:9999;';document.body.appendChild(t);setTimeout(function(){t.remove()},2000)})(); }); }
+  else { var ta=document.createElement('textarea'); ta.value=t; ta.style.cssText='position:fixed;top:10%;left:10%;width:80%;height:60%;z-index:9999;'; document.body.appendChild(ta); ta.select(); (function(){var t=document.createElement('div');t.textContent='请手动复制 Ctrl+A → Ctrl+C';t.style.cssText='position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#333;color:#fff;padding:8px 20px;border-radius:20px;font-size:0.85rem;z-index:9999;';document.body.appendChild(t);setTimeout(function(){t.remove()},3000)})(); setTimeout(function(){ta.remove();},10000); }
 }
 
 function shareSite() {
@@ -3948,9 +3833,9 @@ function shareSite() {
     navigator.share({title:'星途职引 · 科学职业测评',text:text,url:url}).catch(function(){});
   } else {
     if (navigator.clipboard) {
-      navigator.clipboard.writeText(text).then(function(){ showToast('📤','分享文案已复制！直接粘贴发给朋友即可。'); });
+      navigator.clipboard.writeText(text).then(function(){ (function(){var t=document.createElement('div');t.textContent='✓ 已复制，直接粘贴发送即可';t.style.cssText='position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#333;color:#fff;padding:8px 20px;border-radius:20px;font-size:0.85rem;z-index:9999;';document.body.appendChild(t);setTimeout(function(){t.remove()},2000)})(); });
     } else {
-      var ta = document.createElement('textarea'); ta.value = text; ta.style.cssText = 'position:fixed;top:10%;left:10%;width:80%;height:40%;z-index:9999;'; document.body.appendChild(ta); ta.select(); showToast('📤','请手动复制文案分享。'); setTimeout(function(){ta.remove();},10000);
+      var ta = document.createElement('textarea'); ta.value = text; ta.style.cssText = 'position:fixed;top:10%;left:10%;width:80%;height:40%;z-index:9999;'; document.body.appendChild(ta); ta.select(); (function(){var t=document.createElement('div');t.textContent='请手动复制文案分享';t.style.cssText='position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#333;color:#fff;padding:8px 20px;border-radius:20px;font-size:0.85rem;z-index:9999;';document.body.appendChild(t);setTimeout(function(){t.remove()},3000)})(); setTimeout(function(){ta.remove();},10000);
     }
   }
 }
@@ -3964,8 +3849,8 @@ function exportChecklist() {
     t += '\n';
   });
   t += '══════════════════════\n💡 建议：先完成原型体验，再根据体验结果选1-2个主攻方向开始备考证书。\n';
-  if (navigator.clipboard) { navigator.clipboard.writeText(t).then(function(){ showToast('✅','学习清单已复制！'); }); }
-  else { var ta=document.createElement('textarea'); ta.value=t; ta.style.cssText='position:fixed;top:10%;left:10%;width:80%;height:60%;z-index:9999;'; document.body.appendChild(ta); ta.select(); showToast('📋','请手动复制'); setTimeout(function(){ta.remove();},10000); }
+  if (navigator.clipboard) { navigator.clipboard.writeText(t).then(function(){ (function(){var t=document.createElement('div');t.textContent='✓ 学习清单已复制';t.style.cssText='position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#333;color:#fff;padding:8px 20px;border-radius:20px;font-size:0.85rem;z-index:9999;';document.body.appendChild(t);setTimeout(function(){t.remove()},2000)})(); }); }
+  else { var ta=document.createElement('textarea'); ta.value=t; ta.style.cssText='position:fixed;top:10%;left:10%;width:80%;height:60%;z-index:9999;'; document.body.appendChild(ta); ta.select(); (function(){var t=document.createElement('div');t.textContent='请手动复制';t.style.cssText='position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#333;color:#fff;padding:8px 20px;border-radius:20px;font-size:0.85rem;z-index:9999;';document.body.appendChild(t);setTimeout(function(){t.remove()},3000)})(); setTimeout(function(){ta.remove();},10000); }
 }
 
 function showCityMap(jobId) {
