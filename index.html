@@ -5,30 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>星途职引 · 发现你的职业新可能</title>
 
-<script>
-(function(){
-  var c=document.getElementById("starfieldCanvas");if(!c)return;
-  var ctx=c.getContext("2d"),stars=[],STARS=250,mx=0,my=0,tmx=0,tmy=0;
-  function rs(){c.width=window.innerWidth;c.height=window.innerHeight;}
-  window.addEventListener("resize",rs);
-  document.addEventListener("mousemove",function(e){tmx=(e.clientX/window.innerWidth-0.5)*2;tmy=(e.clientY/window.innerHeight-0.5)*2});
-  document.addEventListener("touchmove",function(e){var t=e.touches[0];tmx=(t.clientX/window.innerWidth-0.5)*2;tmy=(t.clientY/window.innerHeight-0.5)*2},{passive:true});
-  rs();
-  for(var i=0;i<STARS;i++)stars.push({x:Math.random()*c.width,y:Math.random()*c.height,z:Math.random()*100+1,r:Math.random()*2+0.5,b:Math.random()*0.5+0.5,ts:Math.random()*0.02+0.005});
-  (function A(){requestAnimationFrame(A);
-    mx+=(tmx-mx)*0.03;my+=(tmy-my)*0.03;ctx.clearRect(0,0,c.width,c.height);
-    for(var i=0;i<stars.length;i++){
-      var s=stars[i],p=(101-s.z)/100,sx=s.x+mx*30*p,sy=s.y+my*30*p;
-      if(sx<-10)sx+=c.width+20;if(sx>c.width+10)sx-=c.width+20;
-      if(sy<-10)sy+=c.height+20;if(sy>c.height+10)sy-=c.height+20;
-      var a=Math.max(0.15,Math.min(1,s.b+Math.sin(Date.now()*s.ts+i)*0.2));
-      var sz=s.r*(s.z/60);
-      ctx.beginPath();ctx.arc(sx,sy,sz,0,Math.PI*2);ctx.fillStyle="rgba(200,220,255,"+a+")";ctx.fill();
-      if(sz>1.2){ctx.beginPath();ctx.arc(sx,sy,sz*2.5,0,Math.PI*2);ctx.fillStyle="rgba(180,200,255,"+(a*0.3)+")";ctx.fill();}
-    }
-  })();
-})();
-</script>
 
 <style>
 /* ============================================================
@@ -890,7 +866,6 @@ body {
 .welcome-hero h1 {color:var(--color-text);font-size:1.8rem;font-weight:700;}
 .welcome-hero .welcome-subtitle {color:var(--color-text-secondary);font-size:0.9rem;}
 .welcome-mascot{font-size:5rem;display:inline-block;opacity:0.9}
-@keyframes floatUpDown{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
 
 .welcome-subtitle{color:var(--color-text-secondary);font-size:0.95rem;max-width:420px;margin:0 auto;line-height:1.7}
 
@@ -911,7 +886,6 @@ body {
 </style>
 </head>
 <body>
-<canvas id="starfieldCanvas" style="position:fixed;inset:0;z-index:0;pointer-events:none;display:none!important;"></canvas>
 
 <div class="app-container">
   <!-- Header -->
@@ -950,7 +924,7 @@ body {
 
 // ============ STATE MANAGEMENT ============
 const state = {
-  phase: 'phase1',       // phase1 | phase1_flash | phase2 | phase2_result | phase3 | final
+  phase: 'welcome',       // welcome | phase1 | phase1_flash | phase2 | phase2_result | phase3 | final
   questionIndex: 0,        // 0-7 for Phase 1
   phase2Step: 'fill',      // fill | ratio | result
   phase3Step: 'intro',     // intro | cards | table | timeline
@@ -2069,6 +2043,7 @@ const phaseIndicator = document.getElementById('phaseIndicator');
 // ============ RENDER ENGINE ============
 function render() {
   switch (state.phase) {
+    case 'welcome': renderWelcome(); break;
     case 'phase1': renderPhase1Question(); break;
     case 'phase1_flash': renderFlashCard(); break;
     case 'phase2': renderPhase2(); break;
@@ -2085,9 +2060,6 @@ function render() {
     if (state.phase === 'phase1') { header.classList.add('quiz-mode'); }
     else { header.classList.remove('quiz-mode'); }
   }
-  var c = document.getElementById('starfieldCanvas');
-  if (c) c.style.display = (state.phase === 'welcome') ? 'block' : 'none';
-
   // Smooth scroll to latest content
   setTimeout(() => {
     mainContent.scrollTop = mainContent.scrollHeight;
@@ -2151,13 +2123,10 @@ function renderWelcome() {
   if (saved) {
     resumeHTML = '<div class="card mt-16" style="text-align:center;border:2px dashed var(--color-primary);background:#FFFDF5;"><p style="font-weight:700;">💾 检测到未完成的探索记录</p><p class="text-secondary" style="font-size:0.85rem;">上次进度：' + saved.phaseLabel + '（' + saved.time + '）</p><div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:8px;"><button class="btn btn-primary btn-small" onclick="resumeProgress()">📂 继续上次探索</button><button class="btn btn-ghost btn-small" onclick="clearSavedProgress()">🗑 重新开始</button></div></div>';
   }
-  var html = '<div class="welcome-hero"><div class="welcome-mascot">🌌</div>';
-  html += '<h2 style="margin:8px 0;font-size:1.5rem;">星途职引</h2>';
-  html += '<p class="welcome-subtitle">科学测评 · 精准匹配 · 发现你的职业星辰大海</p>';
+  var html = '<div class="welcome-hero">';
+  html += '<h2 style="margin:0 0 8px;font-size:1.5rem;">星途职引</h2>';
+  html += '<p class="welcome-subtitle">科学测评 · 精准匹配 · 找到适合你的职业方向</p>';
   html += '</div>';
-
-  html += '<div class="chat-bubble coach mt-16"><div class="bubble-avatar">◈</div><div class="bubble-content"><p>你好，我是<strong>星途助手</strong>。基于科学测评模型，帮你精准定位职业方向。</p></div></div>';
-
   html += '<button class="btn btn-primary mt-16" onclick="startPhase1()" style="display:block;margin:0 auto;font-size:1rem;padding:12px 32px;">开始测评</button>';
 
   if (saved) html += resumeHTML;
@@ -2165,8 +2134,6 @@ function renderWelcome() {
 }
 
 function startPhase1() {
-  var c = document.getElementById('starfieldCanvas');
-  if (c) c.style.display = 'none';
   state.phase = 'phase1';
   state.questionIndex = 0;
   state._answerHistory = [];
@@ -2224,29 +2191,13 @@ function renderPhase1Question() {
 // ---- Phase 1 Handlers ----
 function submitSingleChoice(qid, value) {
   profile[qid] = value;
-
-  // Highlight selected, disable others, show confirmation
   var cards = document.querySelectorAll('.option-card');
   cards.forEach(function(c) {
     c.style.pointerEvents = 'none';
-    if (c.getAttribute('data-id') === value) {
-      c.classList.add('selected');
-    } else {
-      c.style.opacity = '0.4';
-    }
+    if (c.getAttribute('data-id') === value) { c.classList.add('selected'); }
+    else { c.style.opacity = '0.3'; }
   });
-
-  // Show brief confirmation
-  var qcard = document.querySelector('.question-card');
-  var confirm = document.createElement('div');
-  confirm.style.cssText = 'text-align:center;margin-top:14px;padding:10px;background:var(--color-primary-light);border-radius:var(--radius-md);color:var(--color-primary);font-weight:600;font-size:0.9rem;animation:cardPopIn 0.3s var(--ease-smooth);';
-  confirm.textContent = '✓ 已记录，即将进入下一题...';
-  qcard.appendChild(confirm);
-
-  // Auto-advance after brief pause
-  setTimeout(function() {
-    advanceQuestion();
-  }, 700);
+  setTimeout(function() { advanceQuestion(); }, 300);
 }
 
 function toggleMultiPick(qid, value, max) {
