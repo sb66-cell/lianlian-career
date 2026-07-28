@@ -99,22 +99,7 @@ body {
 }
 
 /* --- Header / Nav --- */
-.app-header {
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  background: #fff;
-  padding: 10px 20px;
-  border-bottom: 1px solid #E5E5E5;
-  transition: padding 0.3s var(--ease-smooth);
-}
-.app-header.quiz-mode {
-  padding: 6px 20px;
-}
-.app-header.quiz-mode .header-inner { display: none; }
-.app-header.quiz-mode .stepped-progress { display: none; }
-.app-header.quiz-mode #progressMascot { display: none; }
-.app-header.quiz-mode #progressBarArea { margin-top: 0 !important; }
+.app-header { display: none; }
 
 .header-inner {
   display: flex;
@@ -2043,11 +2028,7 @@ function render() {
   saveProgress();
 
   // Collapse header + hide canvas during Phase 1 for focused experience
-  var header = document.getElementById('appHeader');
-  if (header) {
-    if (state.phase === 'phase1') { header.classList.add('quiz-mode'); }
-    else { header.classList.remove('quiz-mode'); }
-  }
+
   // Smooth scroll to latest content
   setTimeout(() => {
     mainContent.scrollTop = mainContent.scrollHeight;
