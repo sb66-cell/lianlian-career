@@ -106,7 +106,7 @@
   --color-bg-alt: #F1F5F9;
   --color-card: #FFFFFF;
   --color-card-hover: #F8FAFC;
-  --color-border: #E2E8F0;
+  --color-border: #E8ECF0;
   --color-border-active: #4F46E5;
 
   /* Text hierarchy — 高对比度 dark on light */
@@ -117,8 +117,8 @@
 
   /* Shadows — 干净专业 */
   --shadow-sm: 0 1px 2px rgba(15,23,42,0.04);
-  --shadow-card: 0 1px 3px rgba(15,23,42,0.06), 0 1px 2px rgba(15,23,42,0.04);
-  --shadow-card-hover: 0 4px 12px rgba(15,23,42,0.08);
+  --shadow-card: 0 1px 2px rgba(15,23,42,0.04);
+  --shadow-card-hover: 0 2px 8px rgba(15,23,42,0.06);
   --shadow-button: 0 2px 8px rgba(79,70,229,0.25);
   --shadow-lg: 0 10px 40px rgba(15,23,42,0.08);
 
@@ -318,12 +318,9 @@ body::after {
   border-color: rgba(129,140,248,0.3);
 }
 .card.color-top {
-  border-top: 4px solid var(--color-primary);
+  border-top: 3px solid var(--color-border);
   padding-top: 20px;
 }
-.card.color-top.green { border-top-color: var(--color-teal); }
-.card.color-top.blue { border-top-color: var(--color-teal); }
-.card.color-top.purple { border-top-color: var(--color-violet); }
 .card.color-top.yellow { border-top-color: var(--color-primary); }
 
 @keyframes cardSlideUp {
@@ -984,7 +981,6 @@ body::after {
 ::-webkit-scrollbar-thumb { background: #D0C8C0; border-radius: 3px; }
 ::-webkit-scrollbar-thumb:hover { background: #B0A8A0; }
 
-
 /* --- v2 Components --- */
 .stepped-progress{display:flex;align-items:center;justify-content:center;gap:0;max-width:540px;margin:8px auto 0;padding:0 8px}
 .step-node{display:flex;flex-direction:column;align-items:center;gap:3px}
@@ -1104,52 +1100,73 @@ body::after {
 /* --- Welcome Page --- */
 .welcome-hero{
   text-align:center;
-  padding:40px 20px 32px;
+  padding:48px 20px 40px;
   margin:-24px -20px 0;
   animation:cardSlideUp .4s var(--ease-smooth);
   position:relative;
   overflow:hidden;
   background:
-    radial-gradient(ellipse 80% 50% at 50% 30%, #0F172A 0%, #1E293B 50%, #0F172A 100%),
-    radial-gradient(2px 2px at 15% 20%, rgba(255,255,255,0.3), transparent),
-    radial-gradient(1.5px 1.5px at 25% 45%, rgba(255,255,255,0.25), transparent),
-    radial-gradient(2px 2px at 40% 15%, rgba(255,255,255,0.35), transparent),
-    radial-gradient(1px 1px at 55% 35%, rgba(255,255,255,0.2), transparent),
-    radial-gradient(2.5px 2.5px at 70% 22%, rgba(255,255,255,0.3), transparent),
-    radial-gradient(1.5px 1.5px at 82% 40%, rgba(255,255,255,0.2), transparent),
-    radial-gradient(1px 1px at 88% 12%, rgba(255,255,255,0.25), transparent),
-    radial-gradient(2px 2px at 10% 55%, rgba(255,255,255,0.3), transparent),
-    radial-gradient(1px 1px at 32% 65%, rgba(255,255,255,0.2), transparent),
-    radial-gradient(1.5px 1.5px at 58% 60%, rgba(255,255,255,0.25), transparent),
-    radial-gradient(2px 2px at 75% 55%, rgba(255,255,255,0.3), transparent),
-    radial-gradient(1px 1px at 92% 65%, rgba(255,255,255,0.2), transparent),
-    radial-gradient(ellipse 200px 150px at 25% 30%, rgba(99,102,241,0.15), transparent 60%),
-    radial-gradient(ellipse 180px 120px at 70% 50%, rgba(14,165,233,0.1), transparent 55%);
+    /* Deep space base */
+    radial-gradient(ellipse 90% 60% at 50% 30%, #0A0E1A 0%, #0C1428 40%, #070B18 100%),
+    /* Large purple nebula */
+    radial-gradient(ellipse 500px 300px at 30% 25%, rgba(88,50,140,0.25) 0%, transparent 60%),
+    radial-gradient(ellipse 400px 250px at 65% 50%, rgba(30,60,120,0.2) 0%, transparent 55%),
+    radial-gradient(ellipse 350px 200px at 50% 70%, rgba(20,40,80,0.15) 0%, transparent 50%),
+    /* Bright central cluster */
+    radial-gradient(3px 3px at 48% 28%, rgba(255,255,255,0.9), transparent),
+    radial-gradient(2px 2px at 52% 32%, rgba(200,220,255,0.8), transparent),
+    radial-gradient(1.5px 1.5px at 45% 25%, rgba(220,230,255,0.7), transparent),
+    radial-gradient(2.5px 2.5px at 55% 35%, rgba(180,200,240,0.6), transparent),
+    /* Scattered bright stars */
+    radial-gradient(2px 2px at 15% 18%, rgba(255,255,255,0.85), transparent),
+    radial-gradient(1.5px 1.5px at 25% 42%, rgba(230,240,255,0.7), transparent),
+    radial-gradient(2px 2px at 40% 12%, rgba(255,255,255,0.75), transparent),
+    radial-gradient(1px 1px at 60% 22%, rgba(200,220,255,0.6), transparent),
+    radial-gradient(2.5px 2.5px at 75% 15%, rgba(240,245,255,0.8), transparent),
+    radial-gradient(1.5px 1.5px at 85% 35%, rgba(210,225,250,0.65), transparent),
+    radial-gradient(2px 2px at 92% 8%, rgba(255,255,255,0.7), transparent),
+    radial-gradient(1px 1px at 8% 55%, rgba(190,210,240,0.5), transparent),
+    radial-gradient(1.5px 1.5px at 22% 68%, rgba(200,220,250,0.55), transparent),
+    radial-gradient(2px 2px at 48% 58%, rgba(220,235,255,0.65), transparent),
+    radial-gradient(1px 1px at 68% 62%, rgba(180,200,230,0.5), transparent),
+    radial-gradient(1.5px 1.5px at 82% 55%, rgba(195,215,245,0.55), transparent),
+    radial-gradient(2.5px 2.5px at 35% 78%, rgba(210,225,250,0.6), transparent),
+    radial-gradient(1px 1px at 55% 80%, rgba(170,195,225,0.45), transparent),
+    radial-gradient(1.5px 1.5px at 72% 75%, rgba(185,210,240,0.5), transparent),
+    /* Planet glow — upper right */
+    radial-gradient(circle 120px at 80% 18%, rgba(140,160,200,0.15) 0%, rgba(140,160,200,0.05) 40%, transparent 55%),
+    /* Dim distant stars for depth */
+    radial-gradient(1px 1px at 12% 30%, rgba(255,255,255,0.4), transparent),
+    radial-gradient(1px 1px at 32% 48%, rgba(255,255,255,0.35), transparent),
+    radial-gradient(1px 1px at 58% 42%, rgba(255,255,255,0.3), transparent),
+    radial-gradient(1px 1px at 78% 50%, rgba(255,255,255,0.35), transparent),
+    radial-gradient(1px 1px at 90% 45%, rgba(255,255,255,0.3), transparent),
+    radial-gradient(1px 1px at 18% 72%, rgba(255,255,255,0.35), transparent),
+    radial-gradient(1px 1px at 42% 68%, rgba(255,255,255,0.3), transparent),
+    radial-gradient(1px 1px at 65% 72%, rgba(255,255,255,0.35), transparent);
   border-radius:var(--radius-xl);
   color:#F1F5F9;
 }
 .welcome-hero * {position:relative;z-index:1;}
 .welcome-hero .welcome-badge {
-  background:linear-gradient(135deg, #6366F1, #818CF8);
-  color:#FFF;
+  background:rgba(255,255,255,0.1);
+  color:rgba(255,255,255,0.9);
+  border:1px solid rgba(255,255,255,0.15);
   display:inline-block;
-  padding:8px 24px;
+  padding:6px 20px;
   border-radius:var(--radius-full);
-  font-weight:700;
-  font-size:1.1rem;
+  font-weight:500;
+  font-size:0.9rem;
   margin-bottom:16px;
+  letter-spacing:1px;
 }
-.welcome-hero h1 {color:#FFF;font-size:2rem;}
-.welcome-hero .welcome-subtitle {color:#CBD5E1;}
-.welcome-mascot{font-size:6rem;animation:floatUpDown 2s ease-in-out infinite;display:inline-block;filter:drop-shadow(0 8px 30px rgba(99,102,241,0.4))}
+.welcome-hero h1 {color:#FFF;font-size:1.8rem;font-weight:700;}
+.welcome-hero .welcome-subtitle {color:rgba(255,255,255,0.65);font-size:0.9rem;}
+.welcome-mascot{font-size:5rem;display:inline-block;opacity:0.9}
 @keyframes floatUpDown{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
-.welcome-badge{display:inline-block;padding:8px 24px;background:linear-gradient(135deg,#FF6B6B,#FFB347);color:#fff;border-radius:30px;font-weight:900;font-size:1.2rem;letter-spacing:2px;animation:cardPopIn .8s var(--ease-smooth);margin:12px 0;box-shadow:0 6px 20px rgba(255,107,107,0.35)}
+
 .welcome-subtitle{color:var(--color-text-secondary);font-size:0.95rem;max-width:420px;margin:0 auto;line-height:1.7}
-.welcome-features{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;max-width:500px;margin:16px auto 0}
-.welcome-feat{padding:14px 10px;background:var(--color-card);border-radius:var(--radius-lg);text-align:center;box-shadow:var(--shadow-sm);transition:all var(--transition-fast)}
-.welcome-feat:hover{transform:translateY(-3px);box-shadow:var(--shadow-card)}
-.welcome-feat .feat-emoji{font-size:2rem;margin-bottom:4px}
-.welcome-feat .feat-text{font-size:0.78rem;font-weight:600;color:var(--color-text)}
+
 </style>
 </head>
 <body>
@@ -2274,7 +2291,6 @@ const CAREER_ORG_TYPES = {
   quality_engineer: ['private', 'foreign', 'soe']
 };
 
-
 // ============ CAREER TO INDUSTRY MAP ============
 const CAREER_INDUSTRY_MAP = {
   ai_product:"internet",data_analyst:"internet",ux_designer:"internet",
@@ -2368,7 +2384,7 @@ function updateProgress() {
   if (mascot) { mascot.style.left = Math.min(pct, 95) + '%'; }
   if (pctEl) { pctEl.textContent = pct + '%'; }
   // Change mascot based on phase
-  var mascots = {1:'⭐', 2:'🌐', 3:'⚗️', 4:'🎯', 100:'🚀'};
+
   if (mascot) {
     if (pct >= 100) mascot.textContent = '🎊';
     else if (pct >= 50) mascot.textContent = '🔗';
@@ -2438,18 +2454,13 @@ function renderWelcome() {
     resumeHTML = '<div class="card mt-16" style="text-align:center;border:2px dashed var(--color-primary);background:#FFFDF5;"><p style="font-weight:700;">💾 检测到未完成的探索记录</p><p class="text-secondary" style="font-size:0.85rem;">上次进度：' + saved.phaseLabel + '（' + saved.time + '）</p><div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:8px;"><button class="btn btn-primary btn-small" onclick="resumeProgress()">📂 继续上次探索</button><button class="btn btn-ghost btn-small" onclick="clearSavedProgress()">🗑 重新开始</button></div></div>';
   }
   var html = '<div class="welcome-hero"><div class="welcome-mascot">🌌</div>';
-  html += '<div class="welcome-badge">🚀 开启职业探索</div>';
   html += '<h2 style="margin:8px 0;font-size:1.5rem;">星途职引</h2>';
-  html += '<p class="welcome-subtitle">基于<strong>权威心理学模型</strong>的科学测评<br>发现你的职业基因，精准匹配理想工作</p>';
-  html += '<div class="welcome-features">';
-  html += '<div class="welcome-feat"><div class="feat-emoji">🧩</div><div class="feat-text">科学测评<br>10题认识自己</div></div>';
-  html += '<div class="welcome-feat"><div class="feat-emoji">⚗️</div><div class="feat-text">三圈配方<br>定制职业方向</div></div>';
-  html += '<div class="welcome-feat"><div class="feat-emoji">🔗</div><div class="feat-text">智能匹配<br>60+精选岗位</div></div>';
-  html += '</div></div>';
+  html += '<p class="welcome-subtitle">科学测评 · 精准匹配 · 发现你的职业星辰大海</p>';
+  html += '</div>';
 
-  html += '<div class="chat-bubble coach mt-16"><div class="bubble-avatar">🌌</div><div class="bubble-content"><p>你好，我是<strong>星途助手</strong>，你的职业探索教练。</p><p>基于科学测评模型，帮你精准定位职业方向。</p></div></div>';
+  html += '<div class="chat-bubble coach mt-16"><div class="bubble-avatar">◈</div><div class="bubble-content"><p>你好，我是<strong>星途助手</strong>。基于科学测评模型，帮你精准定位职业方向。</p></div></div>';
 
-  html += '<button class="btn btn-primary mt-16" onclick="startPhase1()" style="display:block;margin:0 auto;font-size:1.05rem;padding:14px 36px;">🚀 开始测评 →</button>';
+  html += '<button class="btn btn-primary mt-16" onclick="startPhase1()" style="display:block;margin:0 auto;font-size:1rem;padding:12px 32px;">开始测评</button>';
 
   if (saved) html += resumeHTML;
   mainContent.innerHTML = html;
@@ -2458,6 +2469,7 @@ function renderWelcome() {
 function startPhase1() {
   state.phase = 'phase1';
   state.questionIndex = 0;
+  state._answerHistory = [];
   render();
 }
 
@@ -2505,6 +2517,7 @@ function renderPhase1Question() {
     '<div class="question-text">' + q.title + '</div>' +
     (q.subtitle ? '<p class="text-secondary mb-16">' + q.subtitle + '</p>' : '') +
     inputHTML +
+    (state.questionIndex > 0 ? '<button class="btn btn-ghost btn-small mt-12" onclick="goBackQuestion()" style="font-size:0.85rem;">← 返回上一题</button>' : '') +
     '</div>';
 }
 
@@ -2569,12 +2582,28 @@ function submitBackground() {
 
 function advanceQuestion() {
   addCoins(1);
+  // Save current answer for back-navigation
+  if (!state._answerHistory) state._answerHistory = [];
+  var q = PHASE1_QUESTIONS[state.questionIndex];
+  var answer = null;
+  if (q.type === 'singleChoice') answer = profile[q.id];
+  else if (q.type === 'multiPick2') answer = profile[q.id] ? profile[q.id].slice() : null;
+  state._answerHistory.push({qid: q.id, answer: answer});
   state.questionIndex++;
   if (state.questionIndex >= PHASE1_QUESTIONS.length) {
     finishPhase1();
   } else {
     render();
   }
+}
+
+function goBackQuestion() {
+  if (!state._answerHistory || state._answerHistory.length === 0) return;
+  var prev = state._answerHistory.pop();
+  state.questionIndex--;
+  // Restore previous answer
+  if (prev.qid) profile[prev.qid] = prev.answer;
+  render();
 }
 
 function finishPhase1() {
@@ -3334,7 +3363,6 @@ function toggleProDetail(id, card) {
 // ============ STUB (old detailed cards - kept for reference) ============
 
 // ============ SCORING + DEEP DIVE ============
-
 
 // ============ JOB-SPECIFIC Q&A (社群热议问题，每岗位3个独特问题) ============
 var JOB_QADATA = {
