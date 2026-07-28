@@ -989,8 +989,8 @@ body::after {
 .welcome-subtitle{color:var(--color-text-secondary);font-size:0.95rem;max-width:420px;margin:0 auto;line-height:1.7}
 
 
-.tree-sub-list { display: none; }
-.tree-category.expanded .tree-sub-list { display: block; }
+.tree-sub-list { display: none !important; padding: 6px 0 6px 6px; }
+.tree-category.expanded .tree-sub-list { display: flex !important; flex-wrap: wrap; gap: 4px; }
 .tree-category.expanded .tree-cat-arrow { transform: rotate(180deg); }
 .tree-cat-arrow { transition: transform 0.2s var(--ease-smooth); display: inline-block; }
 .tree-cat-header { cursor: pointer; user-select: none; display: flex; align-items: center; gap: 8px; padding: 8px 10px; background: var(--color-bg-alt); border-radius: var(--radius-md); margin-bottom: 4px; font-weight: 600; font-size: 0.9rem; }
@@ -998,6 +998,9 @@ body::after {
 .tree-cat-count { font-size: 0.7rem; color: var(--color-text-muted); margin-left: auto; }
 .tree-cat-arrow { font-size: 0.7rem; color: var(--color-text-muted); }
 .tree-category { margin-bottom: 4px; }
+.tree-sub-tag { display: inline-block; padding: 4px 10px; border: 1px solid var(--color-border); border-radius: 16px; font-size: 0.78rem; cursor: pointer; transition: all var(--transition-fast); background: var(--color-card); color: var(--color-text-secondary); }
+.tree-sub-tag:hover { border-color: var(--color-primary); color: var(--color-primary); }
+.tree-sub-tag.selected { background: var(--color-primary); color: #fff; border-color: var(--color-primary); }
 
 </style>
 </head>
@@ -2621,7 +2624,7 @@ function renderIndustryTree() {
   h += '</div><div class="mt-16 flex-between flex-wrap gap-8"><span class="text-secondary" style="font-size:0.85rem;" id="industryCount">已选 0 个细分行业</span><button class="btn btn-primary" onclick="submitIndustries()" id="industrySubmit" disabled>确认行业选择 →</button></div></div>';
   mainContent.innerHTML = h;
 }
-function toggleTreeCat(id) { document.querySelector('.tree-category[data-cat="' + id + '"]').classList.toggle('expanded'); }
+function toggleTreeCat(id) { var el=document.querySelector('.tree-category[data-cat="'+id+'"]'); el.classList.toggle('expanded'); var arrow=el.querySelector('.tree-cat-arrow'); arrow.textContent=el.classList.contains('expanded')?'▲':'▼'; }
 function toggleSubTag(el) {
   el.classList.toggle('selected');
   var sub = el.dataset.sub, catId = el.dataset.cat;
