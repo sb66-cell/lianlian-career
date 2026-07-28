@@ -988,6 +988,17 @@ body::after {
 
 .welcome-subtitle{color:var(--color-text-secondary);font-size:0.95rem;max-width:420px;margin:0 auto;line-height:1.7}
 
+
+.tree-sub-list { display: none; }
+.tree-category.expanded .tree-sub-list { display: block; }
+.tree-category.expanded .tree-cat-arrow { transform: rotate(180deg); }
+.tree-cat-arrow { transition: transform 0.2s var(--ease-smooth); display: inline-block; }
+.tree-cat-header { cursor: pointer; user-select: none; display: flex; align-items: center; gap: 8px; padding: 8px 10px; background: var(--color-bg-alt); border-radius: var(--radius-md); margin-bottom: 4px; font-weight: 600; font-size: 0.9rem; }
+.tree-cat-header:hover { background: var(--color-primary-light); }
+.tree-cat-count { font-size: 0.7rem; color: var(--color-text-muted); margin-left: auto; }
+.tree-cat-arrow { font-size: 0.7rem; color: var(--color-text-muted); }
+.tree-category { margin-bottom: 4px; }
+
 </style>
 </head>
 <body>
@@ -1057,8 +1068,6 @@ const profile = {
   flashCard: null,
 
   // Phase 2
-  wantToDo: '',
-  goodAt: '',
   moneyDirections: [],
   ratioPreset: '',
   ratioCustom: { want: 0, good: 0, money: 0 },
@@ -2170,7 +2179,7 @@ function render() {
   }
   var canvas = document.getElementById('starfieldCanvas');
   if (canvas) {
-    canvas.style.display = (state.phase === 'phase1') ? 'none' : 'block';
+    canvas.style.display = (state.phase === 'welcome') ? 'block' : 'none';
   }
 
   // Smooth scroll to latest content
@@ -2188,8 +2197,7 @@ function updateProgress() {
   else if (state.phase === 'phase1_flash') { pct = 20; activeStep = 1; }
   else if (state.phase === 'phase2') {
     if (state.phase2Step === 'tree') { pct = 22; activeStep = 2; }
-    else if (state.phase2Step === 'fill') { pct = 28; activeStep = 2; }
-    else if (state.phase2Step === 'ratio') { pct = 44; activeStep = 3; }
+else if (state.phase2Step === 'ratio') { pct = 44; activeStep = 3; }
   } else if (state.phase === 'phase2_result') { pct = 50; activeStep = 3; }
   else if (state.phase === 'phase3') {
     if (state.phase3Step === 'intro') pct = 55;
@@ -2596,7 +2604,6 @@ function startPhase2() {
 // ============ PHASE 2: THREE CIRCLES ============
 function renderPhase2() {
   if (state.phase2Step === 'tree') { renderIndustryTree(); }
-  else if (state.phase2Step === 'fill') { renderPhase2Fill(); }
   else if (state.phase2Step === 'ratio') { renderPhase2Ratio(); }
 }
 
@@ -2627,116 +2634,20 @@ function toggleSubTag(el) {
   document.getElementById('industryCount').textContent = '已选 ' + c + ' 个细分行业';
   document.getElementById('industrySubmit').disabled = c === 0;
 }
-function submitIndustries() { state.phase2Step = 'fill'; render(); }
-
-function renderPhase2Fill() {
-  mainContent.innerHTML = `
-    <div class="card color-top">
-      <h3>⚗️ 三圈配方实验室</h3>
-      <p class="text-secondary mt-8">基于你的闪光点，填充职业三圈配方</p>
-
-      <div style="display:flex;justify-content:center;margin:12px 0;">
-        <svg width="280" height="200" viewBox="0 0 280 200" class="venn-svg">
-          <circle cx="105" cy="100" r="72" fill="rgba(107,203,119,0.25)" stroke="#6BCB77" stroke-width="2.5" stroke-dasharray="6,3"/>
-          <text x="105" y="50" text-anchor="middle" font-size="12" font-weight="700" fill="#2E7D32">💚 想做的事</text>
-          <circle cx="175" cy="100" r="72" fill="rgba(78,205,196,0.25)" stroke="#4ECDC4" stroke-width="2.5" stroke-dasharray="6,3"/>
-          <text x="175" y="50" text-anchor="middle" font-size="12" font-weight="700" fill="#00695C">💙 擅长的事</text>
-          <circle cx="140" cy="145" r="72" fill="rgba(255,179,71,0.25)" stroke="#FFB347" stroke-width="2.5" stroke-dasharray="6,3"/>
-          <text x="140" y="192" text-anchor="middle" font-size="12" font-weight="700" fill="#E65100">💛 能赚钱的事</text>
-        </svg>
-      </div>
-
-      <div class="mt-16">
-        <label style="font-weight:700;">💚 你想做什么？</label>
-        <textarea class="text-input mt-8" id="wantToDo" placeholder="源于你的热情领域与价值观，比如：帮助他人心理健康、创造美的产品..." rows="2"></textarea>
-      </div>
-      <div class="mt-12">
-        <label style="font-weight:700;">💙 你擅长什么？</label>
-        <textarea class="text-input mt-8" id="goodAt" placeholder="源于你的能力标签与成就事件，比如：共情沟通、结构化思维..." rows="2"></textarea>
-      </div>
-      <div class="mt-12">
-        <label style="font-weight:700;">💛 感兴趣的变现方向（勾选你感兴趣的变现方向）</label>
-        <p class="text-secondary" style="font-size:0.8rem;" id="moneyHint">星途已根据你的闪光点标记了推荐方向，也可自由选择</p>
-        <div class="tag-group mt-8" id="moneyTags">
-          ${(() => {
-            const allDirs = [
-              'AI / 科技产品', '内容创作 / 自媒体', '用户体验设计', '数据分析 / 商业智能',
-              '教育培训 / 知识付费', 'ESG / 碳中和', '医疗健康 / 生物医药', '人力资源 / 组织发展',
-              '销售 / 商务拓展', '创业 / 自由职业', '金融科技 / 投资分析', '新能源汽车 / 智能制造',
-              '半导体 / 电子硬件', '游戏 / 互动娱乐', '电商 / 跨境电商', '法律 / 合规 / 风控',
-              '心理咨询 / 社会工作', '文化传媒 / 影视制作', '管理咨询 / 商业策略', '低空经济 / 无人机',
-              '机器人 / 自动化', '快消 / 品牌管理', '公务员 / 公共事业', '旅游 / 酒店管理',
-              '区块链 / Web3',
-            ];
-            // Figure out recommended tags based on flash card
-            const fc = profile.flashCard || {};
-            const abs = (fc.abilities || []).join(' ');
-            const pas = (fc.passions || []).join(' ');
-            const profile2 = abs + pas;
-            const recMap = {
-              '内容创作 / 自媒体': /表达|创造|写|审美|创意|艺术/i,
-              'AI / 科技产品': /逻辑|分析|技术|科技|创造/i,
-              '用户体验设计': /审美|设计|共情|用户|创造|洞察/i,
-              '数据分析 / 商业智能': /逻辑|分析|数据|思维|推理/i,
-              '教育培训 / 知识付费': /沟通|表达|帮|教|助人|共情/i,
-              'ESG / 碳中和': /社会|影响|环境|可持续|研究/i,
-              '人力资源 / 组织发展': /沟通|共情|助人|组织|协调/i,
-              '心理咨询 / 社会工作': /共情|助人|倾听|帮|沟通/i,
-              '金融科技 / 投资分析': /分析|逻辑|数据|研究|思维/i,
-              '管理咨询 / 商业策略': /分析|逻辑|沟通|思维|表达/i,
-              '游戏 / 互动娱乐': /创造|创意|设计|艺术|表达/i,
-              '品牌管理': /创意|审美|表达|策划|沟通/i,
-              '医疗健康 / 生物医药': /研究|分析|助人|帮|社会/i,
-              '新能源汽车 / 智能制造': /系统|逻辑|分析|创造|协调/i,
-            };
-            const recommended = [];
-            const normal = [];
-            allDirs.forEach(d => {
-              const dirKey = d.replace(/ .*/, '').trim();
-              let matched = false;
-              for (const [key, regex] of Object.entries(recMap)) {
-                if (d === key && regex.test(profile2)) {
-                  recommended.push(d);
-                  matched = true;
-                  break;
-                }
-              }
-              if (!matched) normal.push(d);
-            });
-            // Sort: recommended first, but keep variety
-            const sorted = [...recommended.slice(0, 6), ...normal];
-            return sorted.map(d => {
-              const isRec = recommended.includes(d);
-              return '<div class="tag-option' + (isRec ? ' tag-rec' : '') + '" data-value="' + d + '" onclick="toggleMoneyTag(this)">' + (isRec ? '✨ ' : '') + d + '</div>';
-            }).join('');
-          })()}
-        </div>
-      </div>
-      <button class="btn btn-primary mt-20" onclick="submitPhase2Fill()">
-        填充完成，继续调配比重 →
-      </button>
-    </div>
-  `;
-  state._moneyTemp = [];
-}
-
-function toggleMoneyTag(el) {
-  el.classList.toggle('selected');
-  const v = el.dataset.value;
-  if (el.classList.contains('selected')) {
-    if (!state._moneyTemp.includes(v)) state._moneyTemp.push(v);
-  } else {
-    state._moneyTemp = state._moneyTemp.filter(x => x !== v);
-  }
-}
-
-function submitPhase2Fill() {
-  profile.wantToDo = document.getElementById('wantToDo').value.trim();
-  profile.goodAt = document.getElementById('goodAt').value.trim();
-  profile.moneyDirections = [...state._moneyTemp];
+function submitIndustries() {
+  // Set default money directions based on selected industries
+  var defaultMoney = [];
+  var indNames = (profile.selectedIndustries || []).map(function(s) { return s.sub; });
+  // Extract money directions from industry names
+  indNames.forEach(function(name) {
+    var parts = name.split(/[\/ 、]/);
+    parts.forEach(function(p) { if (p.length >= 2 && defaultMoney.indexOf(p) < 0) defaultMoney.push(p); });
+  });
+  profile.moneyDirections = defaultMoney.slice(0, 10);
   state.phase2Step = 'ratio';
   render();
 }
+
 
 function renderPhase2Ratio() {
   // Default ratio
@@ -3926,7 +3837,7 @@ function restartApp() {
   profile.major = ''; profile.workYears = ''; profile.currentCity = ''; profile.targetCity = '';
   profile.flashCard = null;
   profile.skillsSelfAssess = []; profile.softSkills = []; profile.problemSolving = '';
-  profile.wantToDo = ''; profile.goodAt = ''; profile.moneyDirections = [];
+  profile.moneyDirections = [];
   profile.ratioPreset = ''; profile.ratioCustom = { want: 0, good: 0, money: 0 };
   profile.orgTypes = [];
   profile.careerMode = '';
