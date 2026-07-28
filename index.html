@@ -2930,7 +2930,17 @@ function renderPhase3Cards() {
     html += '<div id="pd_' + job.id + '" style="display:none;margin-top:16px;padding-top:16px;border-top:1px solid var(--color-border);">';
     html += '<div class="job-section"><div class="job-section-title">📋 工作内容</div><ul style="padding-left:18px;font-size:0.88rem;">' + job.workContent.map(function(w){return '<li>'+w+'</li>';}).join('') + '</ul></div>';
     html += '<div class="job-section"><div class="job-section-title">💰 薪资结构</div><p style="font-size:0.85rem;">' + job.salary + '</p><p class="text-secondary" style="font-size:0.72rem;">⚠️ 基于公开数据及典型情况，请以实时官方渠道核实为准</p></div>';
-    html += '<div class="job-section"><div class="job-section-title">🛠 技能要求与补充路径</div><p style="font-size:0.85rem;">' + job.skillGap + '</p></div>';
+    var skillSteps = job.skillGap.split(' · ');
+    html += '<div class="job-section"><div class="job-section-title">🛠 学习路径</div>';
+    html += '<div style="display:flex;flex-direction:column;gap:6px;">';
+    skillSteps.forEach(function(step, si) {
+      if (!step.trim()) return;
+      html += '<div style="display:flex;align-items:flex-start;gap:10px;font-size:0.82rem;padding:6px 0;border-bottom:1px solid var(--color-border);">';
+      html += '<span style="flex-shrink:0;width:24px;height:24px;border-radius:50%;background:var(--color-primary-light);color:var(--color-primary);display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:700;">' + (si+1) + '</span>';
+      html += '<span style="color:var(--color-text-secondary);line-height:1.6;">' + step.trim() + '</span>';
+      html += '</div>';
+    });
+    html += '</div></div>';
     html += '<div class="job-section"><div class="job-section-title">🏷 必备标签</div><div class="tag-row"><span class="tag-pill tag-trend">📈 ' + job.trend.substring(0,40) + '...</span><span class="tag-pill tag-city" onclick="event.stopPropagation();showCityMap(\'' + job.id + '\')" title="👆 点击查看产业集群地图">🏙 ' + job.cities + '</span>' + (job.special ? '<span class="tag-pill tag-special">🛡️ ' + job.special.substring(0,25) + '...</span>' : '') + '</div></div>';
     html += '<div class="tag-row mt-8"><span class="tag-pill tag-beginner">🌱 新手友好 ' + renderStars(job.beginnerStars) + ' ' + job.beginnerNote.substring(0,20) + '...</span><span class="tag-pill tag-skill">🧩 技能迁移 ' + renderStars(job.skillTransferStars) + ' ' + job.skillTransferNote.substring(0,20) + '...</span></div>';
     html += '<div class="job-section"><div class="job-section-title" style="cursor:pointer;" onclick="var n=this.nextElementSibling;n.style.display=n.style.display===\'none\'?\'block\':\'none\';this.textContent=this.textContent.replace(\'▶\',\'▼\').replace(\'▼\',\'▶\');">▼ 社群口碑速读</div><p style="font-size:0.85rem;">' + job.community + '</p></div>';
@@ -3105,17 +3115,19 @@ var JOB_QADATA = {
 function renderJobQA(job) {
   var qa = JOB_QADATA[job.id];
   if (!qa || !qa.length) return '';
-  var h = '<div style="margin-top:12px;border-top:1px solid var(--color-border);padding-top:12px;"><div class="dd-section-title">💬 ' + job.name + ' · 社区热议（点击问题查看回答）</div>';
-  qa.forEach(function(item, i) {
+  var items = qa.slice(0, 3);
+  var h = '<div style="margin-top:12px;border-top:1px solid var(--color-border);padding-top:12px;">';
+  h += '<div class="job-section-title">💬 社区热议</div>';
+  items.forEach(function(item, i) {
     var qid = 'q_' + job.id + '_' + i;
-    h += '<div style="font-size:0.82rem;margin-top:6px;border:1px solid var(--color-border);border-radius:var(--radius-md);overflow:hidden;">' +
-      '<div style="padding:10px 14px;cursor:pointer;background:var(--color-bg-alt);font-weight:600;color:var(--color-text);display:flex;align-items:center;gap:8px;user-select:none;" ' +
-      'onclick="event.stopPropagation();var a=document.getElementById(\'' + qid + '\');var arrow=this.querySelector(\'.qa-arrow\');if(a.classList.toggle(\'hidden\')){arrow.textContent=\'▶\';this.style.background=\'var(--color-bg-alt)\'}else{arrow.textContent=\'▼\';this.style.background=\'var(--color-primary-light)\'}">' +
-      '<span class="qa-arrow" style="font-size:0.7rem;flex-shrink:0;">▶</span> ' + item.q + '</div>' +
-      '<div id="' + qid + '" class="hidden" style="padding:12px 14px;color:var(--color-text-secondary);font-size:0.82rem;line-height:1.75;background:var(--color-card);border-top:1px solid var(--color-border);">' + item.a + '</div>' +
+    h += '<div style="margin-top:6px;border:1px solid var(--color-border);border-radius:6px;overflow:hidden;">' +
+      '<div style="padding:8px 12px;cursor:pointer;font-weight:500;font-size:0.85rem;display:flex;align-items:center;gap:8px;user-select:none;" ' +
+      'onclick="event.stopPropagation();var a=document.getElementById(\'' + qid + '\');var ar=this.querySelector(\'.qa-arrow\');if(a.classList.toggle(\'hidden\')){ar.textContent=\'+\'}else{ar.textContent=\'-\'}">' +
+      '<span class="qa-arrow" style="font-size:0.9rem;flex-shrink:0;width:18px;text-align:center;">+</span> ' + item.q + '</div>' +
+      '<div id="' + qid + '" class="hidden" style="padding:10px 14px;color:var(--color-text-secondary);font-size:0.82rem;line-height:1.7;border-top:1px solid var(--color-border);">' + item.a + '</div>' +
       '</div>';
   });
-  h += '<p style="font-size:0.7rem;color:var(--color-text-muted);margin-top:8px;">📌 以上问答整理自脉脉、知乎、小红书、牛客网等平台从业者真实讨论</p></div>';
+  h += '</div>';
   return h;
 }
 
