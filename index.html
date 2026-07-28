@@ -467,20 +467,8 @@ body {
 .flash-card {
   background: #FFFFFF;
   border: 1px solid var(--color-border);
-  border-radius: var(--radius-xl);
+  border-radius: var(--radius-lg);
   padding: 28px 24px;
-  box-shadow: var(--shadow-lg);
-  animation: cardPopIn 0.3s var(--ease-smooth);
-  position: relative;
-  overflow: hidden;
-}
-.flash-card::before {
-  content: '';
-  position: absolute;
-  top: -40px; right: -40px;
-  width: 120px; height: 120px;
-  background: radial-gradient(circle, rgba(79,70,229,0.08), transparent);
-  border-radius: 50%;
 }
 .flash-card h3 {
   color: var(--color-primary);
