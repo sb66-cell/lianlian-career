@@ -882,6 +882,7 @@ body {
   <main class="main-content" id="mainContent">
     <!-- Dynamically rendered -->
   </main>
+<div style="text-align:center;padding:16px 20px;font-size:0.7rem;color:var(--color-text-muted);border-top:1px solid var(--color-border);margin-top:24px;">⚠ 本工具为AI辅助职业规划，不构成专业职业咨询建议。数据仅保存在浏览器本地。</div>
 </div>
 
 <!-- Celebration Toast -->
@@ -2344,7 +2345,19 @@ function finishPhase1() {
 function renderFlashCard() {
   var fc = profile.flashCard;
   var html = '<div class="flash-card"><div style="position:relative;z-index:1;">';
-  html += '<h3>🔬 我的闪光点卡</h3>';
+  var oneliner = '你的职场画像：';
+  if (fc.mbtiType) {
+    var t = fc.mbtiType, traits = [];
+    if (t[0]==='E') traits.push('外向协作'); else traits.push('独立专注');
+    if (t[1]==='S') traits.push('务实细致'); else traits.push('抽象思考');
+    if (t[2]==='T') traits.push('逻辑驱动'); else traits.push('价值导向');
+    if (t[3]==='J') traits.push('计划有序'); else traits.push('灵活适应');
+    oneliner += traits.join('、');
+  }
+  if (fc.coreDrive) oneliner += ' · ' + fc.coreDrive;
+  if (fc.workStyle) oneliner += ' · ' + fc.workStyle;
+  html += '<h3>职业性格画像</h3>';
+  html += '<p style="font-size:0.9rem;color:var(--color-text-secondary);margin-bottom:12px;padding:10px 14px;background:var(--color-bg-alt);border-radius:6px;border-left:3px solid var(--color-primary);">' + oneliner + '</p>';
 
   // MBTI + Holland summary row
   html += '<div style="display:flex;flex-wrap:wrap;gap:10px;margin-bottom:16px;align-items:center;">';
@@ -2442,7 +2455,10 @@ function renderPhase2() {
 
 // === Industry Tree UI ===
 function renderIndustryTree() {
-  var h = '<div class="card color-top" style="border-top-color:var(--color-teal);"><h3>🌳 选择你感兴趣的行业</h3><p class="text-secondary mt-8">请勾选你感兴趣的细分行业（建议选 3-8 个），星途会在这些行业里帮你匹配合适的岗位。</p><div class="industry-tree mt-16" id="industryTree">';
+  var h = '<div class="card color-top" style="border-top-color:var(--color-teal);"><h3>选择你感兴趣的行业</h3><p class="text-secondary mt-8">勾选感兴趣的细分行业（建议 3-8 个），系统据此匹配岗位。如果完全不了解行业，请勾选下方选项。</p>' +
+    '<div style="margin:12px 0;padding:10px 14px;border:1px solid var(--color-border);border-radius:6px;cursor:pointer;" onclick="this.classList.toggle(\'selected\');var tree=document.getElementById(\'industryTree\');tree.style.display=this.classList.contains(\'selected\')?\'none\':\'block\';profile.selectedIndustries=[];updateIndustryCount();document.getElementById(\'industrySubmit\').disabled=false;" id="zeroKnowledgeBtn">' +
+    '<span style="font-size:1.2rem;">🤷</span> <strong>我对行业完全不了解</strong> <span style="font-size:0.78rem;color:var(--color-text-muted);">— 优先推荐低门槛、适合零基础应届生的岗位</span></div>' +
+    '<div class="industry-tree mt-16" id="industryTree">';
   for (var i = 0; i < INDUSTRY_TREE.length; i++) {
     var cat = INDUSTRY_TREE[i];
     h += '<div class="tree-category" data-cat="' + cat.id + '"><div class="tree-cat-header" onclick="toggleTreeCat(\'' + cat.id + '\')"><span class="tree-cat-icon">' + cat.icon + '</span><span class="tree-cat-name">' + cat.name + '</span><span class="tree-cat-count">' + cat.subs.length + '个方向</span><span class="tree-cat-arrow">▼</span></div><div class="tree-sub-list" id="subList_' + cat.id + '">';
